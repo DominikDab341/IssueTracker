@@ -1,0 +1,62 @@
+[
+  {
+    "id": "1",
+    "text": "Application crashes on login when password contains special characters",
+    "category": "bug",
+    "priority": "high"
+  },
+  {
+    "id": "2",
+    "text": "Add ability to export reports to PDF format",
+    "category": "feature",
+    "priority": "medium"
+  },
+  {
+    "id": "3",
+    "text": "Page loads very slowly on mobile devices",
+    "category": "performance",
+    "priority": "high"
+  },
+  {
+    "id": "4",
+    "text": "Save button does not work in the profile edit form",
+    "category": "bug",
+    "priority": "critical"
+  },
+  {
+    "id": "5",
+    "text": "Add dark mode to the user interface",
+    "category": "feature",
+    "priority": "low"
+  },
+  {
+    "id": "6",
+    "text": "Email notifications are not sent after ticket status change",
+    "category": "bug",
+    "priority": "high"
+  },
+  {
+    "id": "7",
+    "text": "Optimize database queries on the dashboard page",
+    "category": "performance",
+    "priority": "medium"
+  },
+  {
+    "id": "8",
+    "text": "User cannot change their email address in account settings",
+    "category": "bug",
+    "priority": "medium"
+  },
+  {
+    "id": "9",
+    "text": "Add ticket filtering by creation date and priority",
+    "category": "feature",
+    "priority": "medium"
+  },
+  {
+    "id": "10",
+    "text": "User session expires too quickly after 5 minutes of inactivity",
+    "category": "bug",
+    "priority": "low"
+  }
+]
