@@ -7,7 +7,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.database.database import get_db
 from app.models.models import Ticket
-from app.services.classifier import classify
+from app.celery_app import classify_ticket_task
 
 
 class TicketCreate(BaseModel):
@@ -43,17 +43,16 @@ async def get_ticket(ticket_id: int):
 
 @app.post("/tickets/", response_model=TicketResponse, status_code=201)
 async def create_ticket(body: TicketCreate, db: AsyncSession = Depends(get_db)):
-    prediction = await classify(body.text, db)
-
     ticket = Ticket(
         text=body.text,
-        category=prediction["category"],
-        priority=prediction["priority"],
-        embedding_vector=prediction["vector"],
+        category="unknown",
+        priority="unknown",
     )
     db.add(ticket)
     await db.commit()
     await db.refresh(ticket)
+
+    classify_ticket_task.delay(ticket.id, body.text)
     return ticket
 
 

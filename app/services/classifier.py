@@ -25,7 +25,7 @@ async def classify(text: str, db: AsyncSession) -> dict:
     neighbors = result.all()
 
     if not neighbors:
-        return {"category": "unknown", "priority": "medium", "vector": vector}
+        return {"category": "unknown", "priority": "unknown", "vector": vector}
 
     category = Counter(n.category for n in neighbors).most_common(1)[0][0]
     priority = Counter(n.priority for n in neighbors).most_common(1)[0][0]
