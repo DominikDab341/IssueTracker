@@ -1,10 +1,8 @@
 services:
   postgres:
     image: pgvector/pgvector:pg16
-    environment:
-      POSTGRES_USER: issuetracker
-      POSTGRES_PASSWORD: issuetracker
-      POSTGRES_DB: issuetracker
+    env_file:
+      - .env.docker
     ports:
       - "5433:5432"
     volumes:
@@ -17,7 +15,7 @@ services:
 
   api:
     build: .
-    command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+    command: uvicorn app.api.main:app --host 0.0.0.0 --port 8000 --reload
     volumes:
       - .:/app
     ports:
@@ -26,7 +24,7 @@ services:
       - postgres
       - redis
     env_file:
-      - .env
+      - .env.docker
 
   worker:
     build: .
@@ -37,7 +35,7 @@ services:
       - postgres
       - redis
     env_file:
-      - .env
+      - .env.docker
 
 volumes:
   pgdata:
