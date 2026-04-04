@@ -1,36 +1,35 @@
+import asyncio
 import json
 import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
-from dotenv import load_dotenv
 from sentence_transformers import SentenceTransformer
-from sqlalchemy import create_engine, text
-from sqlalchemy.orm import Session
-
-load_dotenv()
+from sqlalchemy import text
+from sqlalchemy.ext.asyncio import create_async_engine
+from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.settings import settings
 from app.database.database import Base
 from app.models.models import Ticket
 
-engine = create_engine(settings.sync_database_url)
+engine = create_async_engine(settings.DATABASE_URL)
 model = SentenceTransformer(settings.MODEL_NAME)
 
 
-def init_db():
-    with engine.begin() as conn:
-        conn.execute(text("CREATE EXTENSION IF NOT EXISTS vector"))
-    Base.metadata.create_all(engine)
+async def init_db():
+    async with engine.begin() as conn:
+        await conn.execute(text("CREATE EXTENSION IF NOT EXISTS vector"))
+        await conn.run_sync(Base.metadata.create_all)
 
 
-def seed_tickets():
+async def seed_tickets():
     with open("data/sample_tickets.json", "r", encoding="utf-8") as f:
         tickets = json.load(f)
 
-    with Session(engine) as session:
-        existing = session.query(Ticket).count()
+    async with AsyncSession(engine) as session:
+        existing = await session.scalar(text("SELECT count(*) FROM tickets"))
         if existing > 0:
             print(f"Database already has {existing} tickets, skipping seed.")
             return
@@ -46,10 +45,14 @@ def seed_tickets():
             )
             session.add(ticket)
 
-        session.commit()
+        await session.commit()
+
+
+async def main():
+    await init_db()
+    await seed_tickets()
+    print("IssueTracker database is ready.")
 
 
 if __name__ == "__main__":
-    init_db()
-    seed_tickets()
-    print("IssueTracker database is ready. ")
+    asyncio.run(main())
