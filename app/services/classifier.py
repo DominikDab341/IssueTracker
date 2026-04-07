@@ -14,11 +14,13 @@ SIMILARITY_THRESHOLD = 0.4
 PRIORITY_SCALE = ["low", "medium", "high", "critical"]
 ESCALATION_CATEGORIES = {"bug", "performance"}
 
+DUPLICATE_THRESHOLD = 0.25  
+MAX_SUGGESTIONS = 5
 
 async def classify(text: str, db: AsyncSession) -> dict:
     vector = model.encode(text).tolist()
     distance = Ticket.embedding_vector.cosine_distance(vector)
-
+    
     knn_query = (
         select(Ticket.category, Ticket.priority)
         .order_by(distance)
@@ -45,11 +47,13 @@ async def escalate_priority(base_priority: str, category: str, distance, db: Asy
         select(func.count()).select_from(Ticket).where(
             distance < SIMILARITY_THRESHOLD,
             Ticket.category == category,
+            Ticket.status == "open",
         )
     )
     total_count = await db.scalar(
         select(func.count()).select_from(Ticket).where(
             Ticket.category == category,
+            Ticket.status == "open",
         )
     )
 
@@ -72,3 +76,27 @@ async def escalate_priority(base_priority: str, category: str, distance, db: Asy
         idx += 1
 
     return PRIORITY_SCALE[min(idx, len(PRIORITY_SCALE) - 1)]
+
+
+
+async def find_similar_open_tickets(
+    ticket_id: int, embedding: list[float], category: str, db: AsyncSession
+) -> list[dict]:
+    distance = Ticket.embedding_vector.cosine_distance(embedding)
+    
+    result = await db.execute(
+        select(Ticket.id, Ticket.text, distance.label("distance"))
+        .where(
+            Ticket.status == "open",
+            Ticket.category == category,
+            Ticket.id != ticket_id,
+            distance < DUPLICATE_THRESHOLD,
+        )
+        .order_by(distance)
+        .limit(MAX_SUGGESTIONS)
+    )
+    
+    return [
+        {"id": row.id, "text": row.text, "similarity": round(1 - row.distance, 3)}
+        for row in result.all()
+    ]
