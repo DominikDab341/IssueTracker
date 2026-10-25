@@ -5,12 +5,12 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
-from sqlalchemy import text
+from sqlalchemy import func, select
 from sqlalchemy.ext.asyncio import create_async_engine
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.settings import settings
-from app.models.models import Ticket
+from app.models.models import ClassificationReference, Ticket
 from app.services.classifier import get_model
 from app.services.text_validation import validate_ticket_text
 
@@ -20,24 +20,35 @@ async def seed_tickets():
         tickets = json.load(f)
 
     async with AsyncSession(engine) as session:
-        existing = await session.scalar(text("SELECT count(*) FROM tickets"))
-        if existing > 0:
-            print(f"Database already has {existing} tickets, skipping seed.")
+        existing = await session.scalar(select(func.count()).select_from(Ticket))
+        reference_keys = set((await session.scalars(
+            select(ClassificationReference.source_key).where(ClassificationReference.source == "sample_tickets")
+        )).all())
+        missing = [t for t in tickets if t["id"] not in reference_keys]
+        if existing > 0 and not missing:
+            print(f"Database already has {existing} tickets and the demo references, skipping seed.")
             return
 
         for t in tickets:
+            if existing > 0 and t["id"] in reference_keys:
+                continue
             description = validate_ticket_text(t["text"])
             vector = get_model().encode(description).tolist()
 
-            ticket = Ticket(
-                text=description,
-                category=t["category"],
-                priority=t["priority"],
-                automatic_priority=t["priority"],
-                embedding_vector=vector,
-                embedding_version=1,
-            )
-            session.add(ticket)
+            if t["id"] not in reference_keys:
+                session.add(ClassificationReference(
+                    text=description, category=t["category"], base_priority=t["priority"],
+                    embedding_vector=vector, source="sample_tickets", source_key=t["id"],
+                ))
+            if existing == 0:
+                session.add(Ticket(
+                    text=description,
+                    category=t["category"],
+                    priority=t["priority"],
+                    automatic_priority=t["priority"],
+                    embedding_vector=vector,
+                    embedding_version=1,
+                ))
 
         await session.commit()
 

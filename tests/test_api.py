@@ -2,7 +2,8 @@ import asyncio
 from datetime import datetime, timezone
 from types import SimpleNamespace
 import unittest
-from unittest.mock import patch
+from unittest.mock import AsyncMock, patch
+from uuid import uuid4
 
 from tests.support import TEST_URL, migration_config
 from alembic import command
@@ -10,10 +11,11 @@ from httpx import ASGITransport, AsyncClient
 from sqlalchemy import text
 from sqlalchemy.ext.asyncio import async_sessionmaker, create_async_engine
 
-from app.api.main import app, get_processing_runtime
+from app.api.main import app
+from app.api.dependencies import get_processing_runtime
 from app.database.database import get_db
-from app.models.models import Ticket
-from app.services.classifier import find_similar_open_tickets
+from app.models.models import ClassificationReference, Ticket
+from app.services.classifier import classify, find_similar_open_tickets
 from app.services.text_validation import TokenizerUnavailableError, get_tokenizer
 from app.ticket_status import ALLOWED_TRANSITIONS, TicketStatus
 from app.services.processing import ProcessingRuntime
@@ -28,14 +30,15 @@ class ApiTestCase(unittest.IsolatedAsyncioTestCase):
         self.engine = create_async_engine(TEST_URL)
         self.sessions = async_sessionmaker(self.engine, expire_on_commit=False)
         async with self.engine.begin() as connection:
-            await connection.execute(text("TRUNCATE classification_tasks, tickets RESTART IDENTITY"))
+            await connection.execute(text("TRUNCATE classification_references, classification_tasks, tickets RESTART IDENTITY"))
 
         async def database_override():
             async with self.sessions() as session:
                 yield session
 
         app.dependency_overrides[get_db] = database_override
-        self.runtime = ProcessingRuntime(self.sessions)
+        self.classifier = AsyncMock(wraps=classify)
+        self.runtime = ProcessingRuntime(self.sessions, classifier=self.classifier)
         self.process = self.runtime.process
         app.dependency_overrides[get_processing_runtime] = lambda: self.runtime
         self.delay = patch.object(self.runtime, "process")
@@ -63,6 +66,17 @@ class ApiTestCase(unittest.IsolatedAsyncioTestCase):
             await session.commit()
             await session.refresh(ticket)
             return ticket.id
+
+    async def add_reference(self, category="bug", base_priority="low", embedding=None):
+        async with self.sessions() as session:
+            reference = ClassificationReference(
+                text="Sprawdzony przykład.", category=category, base_priority=base_priority,
+                embedding_vector=embedding if embedding is not None else [1.0] + [0.0] * 383,
+                source="test", source_key=str(uuid4()),
+            )
+            session.add(reference)
+            await session.commit()
+            return reference.id
 
 class TicketApiTests(ApiTestCase):
     async def test_create_get_list_and_no_vector(self):
@@ -195,6 +209,9 @@ class TicketApiTests(ApiTestCase):
             self.assertEqual(len(first), 10)
             self.assertTrue(all(ticket["status"] == "reported" for ticket in first))
             self.assertTrue(all(ticket["classification_current"] for ticket in first))
+            async with self.sessions() as session:
+                references = await session.scalar(text("SELECT count(*) FROM classification_references"))
+                self.assertEqual(references, 10)
             seeded = first[0]
             await self.client.patch(f"/tickets/{seeded['id']}", json={"work_blocked": True})
             restored = await self.client.patch(f"/tickets/{seeded['id']}", json={"work_blocked": False})
@@ -204,6 +221,18 @@ class TicketApiTests(ApiTestCase):
             await seed_db.seed_tickets()
             load.assert_not_called()
             self.assertEqual((await self.client.get("/tickets/?limit=100")).json(), first)
+
+    async def test_seed_adds_references_without_modifying_existing_tickets(self):
+        from scripts import seed_db
+        await self.add_ticket(priority="critical", embedding=[1.0] + [0.0] * 383)
+        before = (await self.client.get("/tickets/")).json()
+        model = SimpleNamespace(encode=lambda value: SimpleNamespace(tolist=lambda: [1.0] + [0.0] * 383))
+        with patch.object(seed_db, "engine", self.engine), patch.object(seed_db, "get_model", return_value=model):
+            await seed_db.seed_tickets()
+        self.assertEqual((await self.client.get("/tickets/")).json(), before)
+        async with self.sessions() as session:
+            self.assertEqual(await session.scalar(text("SELECT count(*) FROM classification_references")), 10)
+            self.assertEqual(await session.scalar(text("SELECT count(*) FROM classification_references WHERE source='sample_tickets'")), 10)
 
 
 if __name__ == "__main__":

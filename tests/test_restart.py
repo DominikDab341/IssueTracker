@@ -21,7 +21,7 @@ class ProcessRestartTests(unittest.TestCase):
         async def clear():
             engine = create_async_engine(TEST_URL)
             async with engine.begin() as connection:
-                await connection.execute(text("TRUNCATE classification_tasks, tickets RESTART IDENTITY"))
+                await connection.execute(text("TRUNCATE classification_references, classification_tasks, tickets RESTART IDENTITY"))
             await engine.dispose()
 
         asyncio.run(clear())

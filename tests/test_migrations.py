@@ -19,7 +19,7 @@ class MigrationTests(unittest.TestCase):
         try:
             command.upgrade(config, "head")
             with engine.begin() as connection:
-                connection.execute(text("TRUNCATE classification_tasks, tickets"))
+                connection.execute(text("TRUNCATE classification_references, classification_tasks, tickets"))
             command.downgrade(config, "base")
             command.upgrade(config, "93aaf01f792a")
             with engine.begin() as connection:
@@ -36,11 +36,12 @@ class MigrationTests(unittest.TestCase):
                 self.assertEqual(connection.scalar(text("SELECT count(*) FROM tickets WHERE text='Stary opis' AND category='bug' AND priority='high'")), 3)
                 self.assertEqual(connection.scalar(text("SELECT count(*) FROM tickets WHERE work_blocked=false AND content_version=1 AND embedding_version IS NULL AND current_task_id IS NULL AND automatic_priority='high' AND base_priority IS NULL AND manual_priority IS NULL AND priority_source='legacy'")), 3)
                 self.assertEqual(connection.scalar(text("SELECT count(*) FROM classification_tasks")), 0)
+                self.assertEqual(connection.scalar(text("SELECT count(*) FROM classification_references")), 0)
                 self.assertEqual(compare_metadata(MigrationContext.configure(connection), Base.metadata), [])
             with self.assertRaisesRegex(RuntimeError, "Cofanie migracji"):
                 command.downgrade(config, "93aaf01f792a")
             with engine.connect() as connection:
-                self.assertEqual(connection.scalar(text("SELECT version_num FROM alembic_version")), "e2a000000001")
+                self.assertEqual(connection.scalar(text("SELECT version_num FROM alembic_version")), "e5a000000001")
         finally:
             engine.dispose()
 

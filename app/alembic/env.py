@@ -3,7 +3,7 @@ from pathlib import Path
 from logging.config import fileConfig
 
 from dotenv import load_dotenv
-from sqlalchemy import engine_from_config, pool
+from sqlalchemy import engine_from_config, pool, text
 from alembic import context
 
 
@@ -19,7 +19,8 @@ from app.settings import settings
 config = context.config
 
 
-config.set_main_option("sqlalchemy.url", settings.sync_database_url.replace("%", "%%"))
+database_url = config.attributes.get("database_url", settings.sync_database_url)
+config.set_main_option("sqlalchemy.url", database_url.replace("%", "%%"))
 
 if config.config_file_name is not None:
     fileConfig(config.config_file_name)
@@ -45,6 +46,12 @@ def run_migrations_online() -> None:
         poolclass=pool.NullPool,
     )
     with connectable.connect() as connection:
+        expected_database = config.attributes.get("expected_database")
+        if expected_database is not None:
+            actual_database = connection.scalar(text("SELECT current_database()"))
+            connection.rollback()  # Zakończ transakcję odczytu przed transakcją Alembic.
+            if actual_database != expected_database:
+                raise RuntimeError("Migracje testowe odmówiły działania na bazie innej niż issuetracker_test.")
         context.configure(
             connection=connection, target_metadata=target_metadata
         )

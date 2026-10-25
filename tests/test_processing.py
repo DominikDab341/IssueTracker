@@ -1,17 +1,20 @@
 import asyncio
+from dataclasses import replace
 from threading import Event, Lock
 import time
 from unittest.mock import patch
 
 from sqlalchemy import select, text
 
+from tests.test_api import ApiTestCase, setUpModule
+from app.domain import ClassificationPrediction, Priority
 from app.models.models import ClassificationTask, Ticket
 from app.services.processing import ProcessingRuntime
-from tests.test_api import ApiTestCase, setUpModule
 
 
 VECTOR = [1.0] + [0.0] * 383
-PREDICTION = {"category": "feature", "base_priority": "low", "priority": "high", "vector": VECTOR}
+PREDICTION = ClassificationPrediction(category="feature", base_priority=Priority.LOW,
+                                      automatic_priority=Priority.HIGH, vector=VECTOR)
 
 
 class ProcessingTests(ApiTestCase):
@@ -38,7 +41,7 @@ class ProcessingTests(ApiTestCase):
 
         self.mock_delay.side_effect = observe
         await self.new()
-        with patch("app.api.main.create_task", side_effect=RuntimeError("Test rollback")):
+        with patch("app.services.tickets.create_task", side_effect=RuntimeError("Test rollback")):
             with self.assertRaises(RuntimeError):
                 await self.new()
         async with self.sessions() as db:
@@ -51,7 +54,7 @@ class ProcessingTests(ApiTestCase):
             ticket = await self.new(blocked)
             self.assertEqual(ticket["priority"], "critical" if blocked else "medium")
             self.assertEqual((await self.status(ticket))["state"], "pending")
-            with patch("app.services.processing.classify", return_value=PREDICTION):
+            with patch.object(self.runtime, "classifier", return_value=PREDICTION):
                 await self.process(ticket["current_task_id"])
             state = await self.status(ticket)
             result = await self.detail(ticket)
@@ -75,7 +78,7 @@ class ProcessingTests(ApiTestCase):
 
     async def test_model_failure_safe_error_and_concurrent_retry(self):
         ticket = await self.new(True)
-        with patch("app.services.processing.classify", side_effect=RuntimeError("SECRET model path and credentials")):
+        with patch.object(self.runtime, "classifier", side_effect=RuntimeError("SECRET model path and credentials")):
             await self.process(ticket["current_task_id"])
         state = await self.status(ticket)
         self.assertEqual(state["state"], "failed")
@@ -85,7 +88,7 @@ class ProcessingTests(ApiTestCase):
         self.assertEqual(sorted(r.status_code for r in responses), [202, 409])
         retried = next(r.json()["ticket"] for r in responses if r.status_code == 202)
         self.assertNotEqual(retried["current_task_id"], ticket["current_task_id"])
-        with patch("app.services.processing.classify", return_value=PREDICTION):
+        with patch.object(self.runtime, "classifier", return_value=PREDICTION):
             await self.process(retried["current_task_id"])
         self.assertEqual((await self.status(retried))["state"], "succeeded")
         self.assertEqual((await self.detail(retried))["priority"], "critical")
@@ -94,7 +97,7 @@ class ProcessingTests(ApiTestCase):
     async def test_failed_database_write_rolls_back_prediction(self):
         ticket = await self.new()
         # pgvector rejects a bad dimension at flush: neither category nor success may persist.
-        with patch("app.services.processing.classify", return_value={**PREDICTION, "vector": [1.0]}):
+        with patch.object(self.runtime, "classifier", return_value=replace(PREDICTION, vector=[1.0])):
             await self.process(ticket["current_task_id"])
         state = await self.status(ticket)
         detail = await self.detail(ticket)
@@ -113,7 +116,7 @@ class ProcessingTests(ApiTestCase):
             await release.wait()
             return PREDICTION
 
-        with patch("app.services.processing.classify", side_effect=delayed):
+        with patch.object(self.runtime, "classifier", side_effect=delayed):
             processing = asyncio.create_task(self.process(ticket["current_task_id"]))
             await asyncio.wait_for(entered.wait(), 5)
             self.assertEqual((await self.status(ticket))["state"], "running")
@@ -127,13 +130,13 @@ class ProcessingTests(ApiTestCase):
         self.assertEqual((await self.status(ticket))["error_code"], "superseded")
         self.assertFalse((await self.status(ticket))["current"])
         self.assertEqual((await self.detail(ticket))["category"], "unknown")
-        with patch("app.services.processing.classify", return_value=PREDICTION):
+        with patch.object(self.runtime, "classifier", return_value=PREDICTION):
             await self.process(changed["current_task_id"])
         self.assertEqual((await self.detail(ticket))["embedding_version"], 2)
 
     async def test_checkbox_only_keeps_embedding_and_manual_decision(self):
         ticket = await self.new()
-        with patch("app.services.processing.classify", return_value=PREDICTION):
+        with patch.object(self.runtime, "classifier", return_value=PREDICTION):
             await self.process(ticket["current_task_id"])
         calls = self.mock_delay.call_count
         response = await self.client.patch(f"/tickets/{ticket['id']}", json={"work_blocked": True})
@@ -148,7 +151,7 @@ class ProcessingTests(ApiTestCase):
             await db.commit()
         response = await self.client.patch(f"/tickets/{ticket['id']}", json={"text": "Nowy opis problemu.", "work_blocked": True})
         changed = response.json()["ticket"]
-        with patch("app.services.processing.classify", return_value=PREDICTION):
+        with patch.object(self.runtime, "classifier", return_value=PREDICTION):
             await self.process(changed["current_task_id"])
         result = await self.detail(ticket)
         self.assertEqual(result["priority"], "low")
@@ -194,7 +197,7 @@ class ProcessingTests(ApiTestCase):
         self.assertEqual((await self.client.post(f"/tickets/{ticket['id']}/classification/retry")).status_code, 409)
 
     async def test_thread_responsiveness_serial_computation_and_sequential_tickets(self):
-        await self.add_ticket(category="feature", priority="low", embedding=VECTOR)
+        await self.add_reference(category="feature", base_priority="low", embedding=VECTOR)
         first, second = await self.new(), await self.new()
         entered, release = Event(), Event()
         lock = Lock()
@@ -235,8 +238,8 @@ class ProcessingTests(ApiTestCase):
 
     async def test_second_process_refused_restart_recovers_orphans(self):
         await self.runtime.start(self.engine)
-        other = ProcessingRuntime(self.sessions)
-        replacement = ProcessingRuntime(self.sessions)
+        other = ProcessingRuntime(self.sessions, classifier=self.classifier)
+        replacement = ProcessingRuntime(self.sessions, classifier=self.classifier)
         try:
             first, second = await self.new(), await self.new()
             await self.runtime._claim(first["current_task_id"])

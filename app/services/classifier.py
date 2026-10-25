@@ -4,10 +4,11 @@ from threading import Lock
 import anyio
 
 from sentence_transformers import SentenceTransformer
-from sqlalchemy import func, select
+from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.models.models import Ticket
+from app.domain import ClassificationPrediction, Priority
+from app.models.models import ClassificationReference, Ticket
 from app.settings import settings
 from app.ticket_status import ACTIVE_STATUSES
 
@@ -30,78 +31,30 @@ def encode_text(text: str) -> list[float]:
         return model.encode(text).tolist()
 
 K_NEIGHBORS = 3
-SIMILARITY_THRESHOLD = 0.4
-PRIORITY_SCALE = ["low", "medium", "high", "critical"]
-ESCALATION_CATEGORIES = {"bug", "performance"}
 
 DUPLICATE_THRESHOLD = 0.25  
 MAX_SUGGESTIONS = 5
 
-async def classify(text: str, db: AsyncSession, ticket_id: int | None = None) -> dict:
+async def classify(text: str, db: AsyncSession) -> ClassificationPrediction:
     vector = await anyio.to_thread.run_sync(encode_text, text)
-    distance = Ticket.embedding_vector.cosine_distance(vector)
+    distance = ClassificationReference.embedding_vector.cosine_distance(vector)
     
     knn_query = (
-        select(Ticket.category, Ticket.priority)
-        .where(Ticket.embedding_vector.is_not(None), Ticket.embedding_version == Ticket.content_version)
-        .order_by(distance)
+        select(ClassificationReference.category, ClassificationReference.base_priority)
+        .order_by(distance, ClassificationReference.id)
         .limit(K_NEIGHBORS)
     )
-    if ticket_id is not None:
-        knn_query = knn_query.where(Ticket.id != ticket_id)
     
     knn_result = await db.execute(knn_query)
     neighbors = knn_result.all()
 
     if not neighbors:
-        return {"category": "unknown", "base_priority": None, "priority": "unknown", "vector": vector}
+        return ClassificationPrediction(category="unknown", base_priority=None, automatic_priority=None, vector=vector)
 
     category = Counter(n.category for n in neighbors).most_common(1)[0][0]
-    priority = Counter(n.priority for n in neighbors).most_common(1)[0][0]
-    base_priority = priority if priority in PRIORITY_SCALE else None
+    base_priority = Priority(Counter(n.base_priority for n in neighbors).most_common(1)[0][0])
 
-    if category in ESCALATION_CATEGORIES:
-        priority = await escalate_priority(priority, category, distance, db)
-
-    return {"category": category, "base_priority": base_priority, "priority": priority, "vector": vector}
-
-
-async def escalate_priority(base_priority: str, category: str, distance, db: AsyncSession) -> str:
-    similar_count = await db.scalar(
-        select(func.count()).select_from(Ticket).where(
-            distance < SIMILARITY_THRESHOLD,
-            Ticket.category == category,
-            Ticket.status.in_(ACTIVE_STATUSES),
-            Ticket.embedding_version == Ticket.content_version,
-        )
-    )
-    total_count = await db.scalar(
-        select(func.count()).select_from(Ticket).where(
-            Ticket.category == category,
-            Ticket.status.in_(ACTIVE_STATUSES),
-            Ticket.embedding_version == Ticket.content_version,
-        )
-    )
-
-    if total_count == 0:
-        return base_priority
-
-    percent = similar_count / total_count * 100
-
-    if percent >= 35:
-        return "critical"
-
-    if base_priority in PRIORITY_SCALE:
-        idx = PRIORITY_SCALE.index(base_priority)
-    else:
-        idx = 0
-
-    if percent >= 25:
-        idx += 2
-    elif percent >= 10:
-        idx += 1
-
-    return PRIORITY_SCALE[min(idx, len(PRIORITY_SCALE) - 1)]
+    return ClassificationPrediction(category=category, base_priority=base_priority, automatic_priority=base_priority, vector=vector)
 
 
 

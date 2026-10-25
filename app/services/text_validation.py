@@ -26,12 +26,17 @@ def get_tokenizer():
         raise TokenizerUnavailableError("Tokenizer modelu jest niedostępny. Spróbuj ponownie później.") from exc
 
 
-def validate_ticket_text(value: str) -> str:
+def normalize_ticket_text(value: str) -> str:
     value = value.strip()
     if not value:
         raise ValueError("Opis zgłoszenia nie może być pusty.")
     if len(value) > MAX_TEXT_CHARACTERS:
         raise ValueError(f"Opis zgłoszenia może mieć najwyżej {MAX_TEXT_CHARACTERS} znaków.")
+    return value
+
+
+def validate_ticket_text(value: str) -> str:
+    value = normalize_ticket_text(value)
     tokens = get_tokenizer().encode(value, add_special_tokens=True, truncation=False)
     if len(tokens) > MAX_INPUT_TOKENS:
         raise ValueError(

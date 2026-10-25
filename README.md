@@ -33,8 +33,9 @@ docker compose up -d api --remove-orphans
 ```
 
 Migracje Alembic są jedynym sposobem tworzenia i zmiany schematu.
-Seed dodaje 10 dawnych angielskich przykładów tylko do pustej tabeli;
-nie tworzy schematu i nie nadpisuje istniejących danych. Kategorie
+Seed dodaje 10 dawnych angielskich przykładów do pustej tabeli zgłoszeń
+oraz uzupełnia osobną tabelę referencji KNN z `data/sample_tickets.json`.
+Nie tworzy schematu i nie nadpisuje istniejących zgłoszeń ani referencji. Kategorie
 `bug`, `performance`, `feature` pozostają na tym etapie; polski zbiór
 helpdesku IT powstanie później. Pierwsze pobranie tokenizera i modelu
 wymaga dostępu do Hugging Face. Model jest ładowany leniwie w wątku procesu API.
@@ -69,6 +70,14 @@ nie tworzymy fikcyjnych dawnych zadań ani bazowego przewidywania KNN.
 Dotychczasowy priorytet ma źródło `legacy`. Zachowanie wszystkich starych
 pól 10 rekordów, w tym dat i wektorów, zweryfikowano sumą kontrolną.
 Cofnięcie tej migracji z niepustą tabelą również wymaga osobnego planu danych.
+
+Migracja `e5a000000001` tworzy osobną tabelę `classification_references`.
+Nie kopiuje do niej istniejących spraw ani ich końcowych priorytetów.
+Po migracji uruchom ponownie `scripts/seed_db.py`: uzupełni demonstracyjną
+referencję bez zmiany dotychczasowych zgłoszeń. Każdy przykład zachowuje
+tekst, kategorię, priorytet bazowy, embedding oraz źródło i klucz w zbiorze.
+Bez referencji klasyfikacja kończy się poprawnie wynikiem `unknown` i
+tymczasowym priorytetem `medium`, z zachowaniem checkboxa i decyzji ręcznej.
 
 ## Uruchomienie lokalne i testy
 
@@ -111,13 +120,24 @@ Remove-Item Env:TEST_DATABASE_URL
 Testy odmawiają uruchomienia bez `TEST_DATABASE_URL` lub przy nazwie bazy
 innej niż `issuetracker_test`. Czyszczą wyłącznie jawnie wskazaną bazę
 testową. Sprawdzają API na prawdziwym PostgreSQL/pgvector oraz tokenizer
-modelu. 26 testów obejmuje także pełny potok zadania z kontrolowanym wynikiem
+modelu. Testy obejmują także pełny potok zadania z kontrolowanym wynikiem
 modelu, rzeczywiste zapytania pgvector, błędy obliczeń i zapisu, ponowienia,
 wyścigi edycji/statusu, wersjonowanie i brak blokowania pętli API. Test procesu
 uruchamia prawdziwy Uvicorn z powolnym testowym encoderem, odbiera HTTP przed
 ukończeniem obliczeń, zabija proces, uruchamia go ponownie i ponawia zadanie.
 Oddzielnie sprawdzono dwa kolejne zadania z rzeczywistym MiniLM i embeddingami
 384. To weryfikacja integracji, bez oceny jakości klasyfikatora.
+
+Osobne testy regresji nie wymagają PostgreSQL ani pobierania modelu:
+
+```powershell
+.venv/Scripts/python.exe -m unittest tests.test_migration_isolation tests.test_request_validation tests.test_processing_diagnostics -v
+```
+
+Sprawdzają cel migracji niezależnie od kolejności importów, brak blokowania
+API podczas tokenizacji oraz diagnostykę błędów bez ujawniania danych.
+Migracje testowe otrzymują jawny adres bazy i przed zmianą schematu
+potwierdzają przez PostgreSQL, że połączono się z `issuetracker_test`.
 
 ## Kontrakt API po etapach 1–2
 
@@ -157,7 +177,7 @@ Oddzielnie sprawdzono dwa kolejne zadania z rzeczywistym MiniLM i embeddingami
   zwiększa `content_version` i tworzy nowe zadanie; taki sam opis nie uruchamia
   klasyfikacji. Poprzedni wektor pozostaje historycznie, ale `classification_current`
   jest `false`, dopóki embedding nie odpowiada bieżącej wersji. Nieaktualne
-  wektory są wykluczone z KNN, duplikatów i prototypowej eskalacji. Sam checkbox
+  wektory są wykluczone z duplikatów. KNN korzysta z osobnej referencji. Sam checkbox
   przelicza priorytet bez nowego zadania i embeddingu. Puste żądanie i `null` dają 422.
 
 Priorytet końcowy respektuje kolejność: zapisane `manual_priority`, checkbox,
@@ -166,6 +186,14 @@ Priorytet końcowy respektuje kolejność: zapisane `manual_priority`, checkbox,
 decyzji jest przygotowane i chronione przed zadaniem, ale endpoint administratora,
 historia decyzji i korekta kategorii należą do etapu 5. Kontrola ról i własności
 edycji/ponowień pozostaje blockerem etapu 3; obecnie API nie ma autoryzacji.
+
+KNN przewiduje kategorię i priorytet bazowy wyłącznie z `classification_references`.
+Nowe zgłoszenia, wyniki klasyfikacji, checkbox, zmiany priorytetu i statusu
+nie rozszerzają ani nie zmieniają referencji. Priorytet bazowy `critical`
+pozostaje prawidłową etykietą; końcowe `critical` nadane checkboxem innej
+sprawy nie staje się etykietą bazową kolejnych zgłoszeń. Zbiór demonstracyjny
+nie ma jeszcze oceny jakości; docelowe zatwierdzanie etykiet rozwiązanego
+zgłoszenia przez uprawnioną osobę pozostaje w etapie 5.
 
 | Wartość API | Nazwa polska | Dozwolone następne statusy |
 |---|---|---|
@@ -180,8 +208,10 @@ Blokada wiersza w transakcji zabezpiecza równoległe zmiany statusu.
 Końcowe zgłoszenia pozostają w historii; powrót problemu wymaga nowego
 zgłoszenia. Reguły ról i przypisań będą egzekwowane w etapie 3, także
 przez przestarzały alias DELETE. Zmiana statusu nie uruchamia klasyfikacji.
-Duplikaty i dotychczasowa eskalacja uwzględniają trzy nowe aktywne statusy;
-algorytm KNN i docelowa eskalacja nadal wymagają etapu 5.
+Duplikaty uwzględniają trzy aktywne statusy. Stara eskalacja procentowa
+została usunięta. Eskalację podobnych aktywnych zgłoszeń w oknie czasowym
+dołączymy po wdrożeniu kont, aby liczyć różne osoby zamiast liczby rekordów.
+Strojenie KNN i docelowa eskalacja nadal wymagają etapu 5.
 
 Opis zgłoszenia nie może być pusty i ma limit **256 tokenów z tokenami
 specjalnymi**, sprawdzany tokenizerem `sentence-transformers/all-MiniLM-L6-v2`
@@ -191,6 +221,28 @@ znaki są usuwane. Techniczna granica 10000 znaków ogranicza rozmiar wejścia.
 Operacje na zgłoszeniach nie zwracają embeddingów. Błędy: 404 — brak
 zgłoszenia, 409 — niedozwolone przejście, 422 — walidacja danych,
 503 — niedostępny tokenizer. Komunikaty są po polsku.
+Ładowanie tokenizera i sprawdzanie limitu tokenów odbywają się w wątku,
+przed operacjami zapisu; nie blokują pętli obsługującej żądania API.
+
+## Organizacja kodu
+
+- `app/api/main.py` składa aplikację, zarządza jej cyklem życia i tłumaczy błędy na HTTP.
+- `app/api/schemas.py` definiuje kontrakt żądań i odpowiedzi, a `app/api/tickets.py` endpointy.
+- `app/services/tickets.py` zawiera operacje na zgłoszeniach i granice transakcji; nie zależy od FastAPI ani modeli żądań.
+- `app/services/tasks.py` współdzieli zapis zadań i blokady z wykonawcą `ProcessingRuntime`.
+- `app/domain.py` definiuje priorytety, źródła, stany zadań i typowany wynik klasyfikacji.
+- `determine_priority()` w `app/services/priorities.py` jest czystą funkcją. Osobna funkcja zapisuje jej decyzję na zgłoszeniu.
+
+`ProcessingRuntime` otrzymuje asynchroniczną funkcję klasyfikującą w konstruktorze.
+Pozwala to testować wykonawcę z kontrolowanym klasyfikatorem bez podmieniania
+importów modułu. Testy reguł priorytetu nie wymagają bazy ani modelu:
+
+```powershell
+.venv/Scripts/python.exe -m unittest tests.test_priorities -v
+```
+
+Refaktoryzacja zachowuje reguły biznesowe i format odpowiedzi API; nie wymaga
+nowej migracji schematu. Historyczne migracje zachowują własne, stałe wartości.
 
 ## Proces API i przerwane zadania
 
@@ -199,6 +251,8 @@ do jednego zadania naraz. Model jest ładowany i wykonuje embedding w wątku,
 z blokadą współdzielenia; zadania mają własne sesje bazy. Błędy modelu/zapisu
 zapisują `failed`; wynik i `succeeded` zatwierdzane są razem. Wynik starszej
 wersji, zastąpionego zadania lub zakończonej sprawy nie nadpisuje zgłoszenia.
+Log błędu zawiera identyfikator zadania, etap, typ wyjątku i miejsca wywołań.
+Nie zawiera komunikatu wyjątku, parametrów SQL ani wartości zmiennych lokalnych.
 
 Dedykowane połączenie PostgreSQL utrzymuje sesyjną blokadę doradczą procesu.
 Drugi proces dla tej samej bazy odmawia startu przed zmianą stanów zadań.

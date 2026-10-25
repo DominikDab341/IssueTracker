@@ -1,54 +1,40 @@
 import asyncio
-from datetime import datetime, timezone
+from collections.abc import Awaitable, Callable
 import logging
+from traceback import walk_tb
 from uuid import uuid4
 
 from sqlalchemy import select, text, update
 
-from app.models.models import ClassificationTask, Ticket
-from app.services.classifier import classify
-from app.services.priorities import PRIORITIES, update_effective_priority
+from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker
+
+from app.domain import ACTIVE_TASK_STATES, ClassificationPrediction, TaskErrorCode, TaskState
+from app.models.models import ClassificationTask
+from app.services.priorities import update_effective_priority
+from app.services.tasks import fail_task, lock_task, lock_ticket, now
 from app.ticket_status import ACTIVE_STATUSES
 
 logger = logging.getLogger(__name__)
 PROCESS_LOCK = 49011202
-RETRYABLE_ERRORS = {"processing_failed", "interrupted"}
+Classifier = Callable[[str, AsyncSession], Awaitable[ClassificationPrediction]]
 
 
-def now():
-    return datetime.now(timezone.utc)
-
-
-def fail_task(task, code, message):
-    task.state = "failed"
-    task.error_code = code
-    task.error = message
-    task.finished_at = now()
-
-
-def create_task(ticket, db, run_id):
-    task = ClassificationTask(
-        id=str(uuid4()), ticket_id=ticket.id, content_version=ticket.content_version,
-        run_id=run_id, state="pending",
+def log_task_error(task_id, stage, error):
+    # Bez komunikatu wyjątku, parametrów SQL, kodu źródłowego i wartości lokalnych.
+    stack = " -> ".join(
+        f"{frame.f_code.co_filename}:{line} in {frame.f_code.co_name}"
+        for frame, line in walk_tb(error.__traceback__)
     )
-    db.add(task)
-    ticket.current_task_id = task.id
-    return task
-
-
-async def lock_ticket(db, ticket_id):
-    return await db.scalar(select(Ticket).where(Ticket.id == ticket_id).with_for_update().execution_options(populate_existing=True))
-
-
-async def lock_task(db, task_id):
-    return await db.scalar(select(ClassificationTask).where(ClassificationTask.id == task_id).with_for_update().execution_options(populate_existing=True))
+    logger.error("Błąd zadania %s: stage=%s error_type=%s traceback=%s",
+                 task_id, stage, type(error).__name__, stack)
 
 
 class ProcessingRuntime:
     """Jeden proces API; BackgroundTasks nie stanowi trwałej kolejki."""
 
-    def __init__(self, sessions):
+    def __init__(self, sessions: async_sessionmaker[AsyncSession], classifier: Classifier):
         self.sessions = sessions
+        self.classifier = classifier
         self.run_id = str(uuid4())
         self.limit = asyncio.Semaphore(1)
         self.connection = None
@@ -63,8 +49,8 @@ class ProcessingRuntime:
                 raise RuntimeError("Ta baza ma już działający proces API. Wspierany jest jeden proces bez --workers.")
             async with self.sessions() as db:
                 await db.execute(update(ClassificationTask).where(
-                    ClassificationTask.state.in_(("pending", "running")),
-                ).values(state="failed", error_code="interrupted",
+                    ClassificationTask.state.in_(ACTIVE_TASK_STATES),
+                ).values(state=TaskState.FAILED, error_code=TaskErrorCode.INTERRUPTED,
                          error="Przetwarzanie przerwano podczas poprzedniego uruchomienia. Możesz je ponowić.",
                          finished_at=now()))
                 await db.commit()
@@ -106,39 +92,38 @@ class ProcessingRuntime:
             await self.connection.commit()
         async with self.sessions() as db:
             ticket, task = await self._locked(db, task_id)
-            if task is None or task.state != "pending" or task.run_id != self.run_id:
+            if task is None or task.state != TaskState.PENDING or task.run_id != self.run_id:
                 return None
             if not self.current(ticket, task):
-                fail_task(task, "obsolete", "Zadanie nie dotyczy aktualnej aktywnej wersji zgłoszenia.")
+                fail_task(task, TaskErrorCode.OBSOLETE, "Zadanie nie dotyczy aktualnej aktywnej wersji zgłoszenia.")
                 await db.commit()
                 return None
-            task.state = "running"
+            task.state = TaskState.RUNNING
             task.started_at = now()
             description = ticket.text
-            ticket_id = ticket.id
             await db.commit()
-            return ticket_id, description
+            return description
 
-    async def _save_result(self, task_id, prediction):
+    async def _save_result(self, task_id: str, prediction: ClassificationPrediction):
         async with self.sessions() as db:
             ticket, task = await self._locked(db, task_id)
-            if task is None or task.state != "running" or task.run_id != self.run_id:
+            if task is None or task.state != TaskState.RUNNING or task.run_id != self.run_id:
                 return
             if not self.current(ticket, task):
-                fail_task(task, "obsolete", "Wynik pominięto: zgłoszenie zmieniło treść lub zakończono jego obsługę.")
+                fail_task(task, TaskErrorCode.OBSOLETE, "Wynik pominięto: zgłoszenie zmieniło treść lub zakończono jego obsługę.")
                 await db.commit()
                 return
-            ticket.category = prediction["category"]
-            ticket.base_priority = prediction.get("base_priority")
-            ticket.automatic_priority = prediction["priority"] if prediction["priority"] in PRIORITIES else None
-            ticket.embedding_vector = prediction["vector"]
+            ticket.category = prediction.category
+            ticket.base_priority = prediction.base_priority
+            ticket.automatic_priority = prediction.automatic_priority
+            ticket.embedding_vector = prediction.vector
             ticket.embedding_version = task.content_version
             update_effective_priority(ticket)
             task.result = {
                 "category": ticket.category, "base_priority": ticket.base_priority,
                 "automatic_priority": ticket.automatic_priority,
             }
-            task.state = "succeeded"
+            task.state = TaskState.SUCCEEDED
             task.finished_at = now()
             task.error = None
             task.error_code = None
@@ -149,27 +134,30 @@ class ProcessingRuntime:
         try:
             async with self.sessions() as db:
                 ticket, task = await self._locked(db, task_id)
-                if task is not None and task.run_id == self.run_id and task.state in ("pending", "running"):
-                    fail_task(task, "processing_failed", "Nie udało się sklasyfikować zgłoszenia. Możesz ponowić przetwarzanie.")
+                if task is not None and task.run_id == self.run_id and task.state in ACTIVE_TASK_STATES:
+                    fail_task(task, TaskErrorCode.PROCESSING_FAILED, "Nie udało się sklasyfikować zgłoszenia. Możesz ponowić przetwarzanie.")
                     await db.commit()
-        except Exception:
+        except Exception as exc:
             # Przy całkowitej awarii bazy stan rozpozna następny start API.
+            log_task_error(task_id, "record_failure", exc)
             logger.error("Nie zapisano błędu zadania %s; potrzebna kontrola po restarcie.", task_id)
 
     async def process(self, task_id):
         async with self.limit:
+            stage = "claim"
             try:
-                claimed = await self._claim(task_id)
-                if claimed is None:
+                description = await self._claim(task_id)
+                if description is None:
                     return
-                ticket_id, description = claimed
+                stage = "classify"
                 async with self.sessions() as db:
-                    prediction = await classify(description, db, ticket_id=ticket_id)
+                    prediction = await self.classifier(description, db)
+                stage = "save_result"
                 await self._save_result(task_id, prediction)
             except asyncio.CancelledError:
                 # Pozostawienie pending/running pozwala rozpoznać przerwanie.
                 raise
-            except Exception:
+            except Exception as exc:
                 # Nie zapisujemy tekstu zgłoszenia ani surowego wyjątku w odpowiedzi.
-                logger.error("Klasyfikacja zadania %s zakończyła się błędem.", task_id)
+                log_task_error(task_id, stage, exc)
                 await self._record_failure(task_id)

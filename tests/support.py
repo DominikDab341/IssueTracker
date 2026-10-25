@@ -19,6 +19,9 @@ ROOT = Path(__file__).resolve().parent.parent
 
 def migration_config(mapping=None):
     config = Config(str(ROOT / "app/alembic.ini"))
+    # Jawny cel migracji, niezależny od wcześniej zaimportowanych settings.
+    config.attributes["database_url"] = test_url.set(drivername="postgresql+psycopg").render_as_string(hide_password=False)
+    config.attributes["expected_database"] = "issuetracker_test"
     if mapping is not None:
         import json
         from argparse import Namespace
