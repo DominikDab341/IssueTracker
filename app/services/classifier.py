@@ -11,6 +11,7 @@ from app.domain import ClassificationPrediction, Priority
 from app.models.models import ClassificationReference, Ticket
 from app.settings import settings
 from app.ticket_status import ACTIVE_STATUSES
+from app.services.access import available_tickets
 
 # Model ładowany przy pierwszej klasyfikacji, w wątku poza pętlą żądań API.
 _model: SentenceTransformer | None = None
@@ -59,7 +60,7 @@ async def classify(text: str, db: AsyncSession) -> ClassificationPrediction:
 
 
 async def find_similar_open_tickets(
-    ticket_id: int, embedding: list[float] | None, category: str, db: AsyncSession
+    ticket_id: int, embedding: list[float] | None, category: str, db: AsyncSession, *, actor
 ) -> list[dict]:
     if embedding is None:
         return []
@@ -69,6 +70,7 @@ async def find_similar_open_tickets(
         select(Ticket.id, Ticket.text, distance.label("distance"))
         .where(
             Ticket.status.in_(ACTIVE_STATUSES),
+            available_tickets(actor),
             Ticket.embedding_version == Ticket.content_version,
             Ticket.category == category,
             Ticket.id != ticket_id,

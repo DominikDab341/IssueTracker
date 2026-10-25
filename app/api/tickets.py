@@ -6,6 +6,7 @@ from app.api.dependencies import get_processing_runtime, get_ticket_service
 from app.api.schemas import (
     TaskStatusResponse, TicketCloseResponse, TicketCreate, TicketCreateResponse,
     TicketEdit, TicketEditResponse, TicketResponse, TicketStatusUpdate,
+    AssignmentUpdate, AssignmentResponse, PriorityUpdate,
 )
 from app.domain import Priority
 from app.services.processing import ProcessingRuntime
@@ -14,6 +15,21 @@ from app.ticket_status import TicketStatus
 
 
 router = APIRouter(prefix="/tickets")
+
+
+@router.patch("/{ticket_id}/assignee", response_model=TicketResponse)
+async def assign_ticket(ticket_id: int, body: AssignmentUpdate, service: TicketService = Depends(get_ticket_service)):
+    return await service.assign(ticket_id, body.assignee_id)
+
+
+@router.get("/{ticket_id}/assignments", response_model=list[AssignmentResponse])
+async def assignment_history(ticket_id: int, service: TicketService = Depends(get_ticket_service)):
+    return await service.assignment_history(ticket_id)
+
+
+@router.patch("/{ticket_id}/priority", response_model=TicketResponse)
+async def manual_priority(ticket_id: int, body: PriorityUpdate, service: TicketService = Depends(get_ticket_service)):
+    return await service.set_priority(ticket_id, body.priority)
 
 
 @router.get("/", response_model=list[TicketResponse])

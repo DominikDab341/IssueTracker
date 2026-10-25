@@ -4,11 +4,12 @@ from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.domain import ACTIVE_TASK_STATES, RETRYABLE_ERRORS, Priority, TaskErrorCode, TaskState
-from app.models.models import ClassificationTask, Ticket
+from app.models.models import AssignmentHistory, ClassificationTask, Ticket, User
+from app.services.access import Role, available_tickets, require_active, require_roles
 from app.services.classifier import find_similar_open_tickets
-from app.services.errors import ConflictError, InvalidInputError, NotFoundError
+from app.services.errors import ConflictError, ForbiddenError, InvalidInputError, NotFoundError
 from app.services.priorities import update_effective_priority
-from app.services.tasks import create_task, fail_task, lock_task, lock_ticket, now
+from app.services.tasks import create_task, fail_task, lock_task, now
 from app.services.text_validation import validate_ticket_text
 from app.ticket_status import (
     ACTIVE_STATUSES, ALLOWED_TRANSITIONS, TERMINAL_STATUSES, TicketStatus,
@@ -17,8 +18,10 @@ from app.ticket_status import (
 
 
 class TicketService:
-    def __init__(self, db: AsyncSession):
+    def __init__(self, db: AsyncSession, actor: User):
         self.db = db
+        require_active(actor)
+        self.actor = actor
 
     async def _validate_text(self, value: str) -> str:
         try:
@@ -27,7 +30,10 @@ class TicketService:
             raise InvalidInputError(str(exc), field="text") from exc
 
     async def _get(self, ticket_id: int, *, locked: bool = False) -> Ticket:
-        ticket = await lock_ticket(self.db, ticket_id) if locked else await self.db.get(Ticket, ticket_id)
+        query = select(Ticket).where(Ticket.id == ticket_id, available_tickets(self.actor))
+        if locked:
+            query = query.with_for_update().execution_options(populate_existing=True)
+        ticket = await self.db.scalar(query)
         if ticket is None:
             raise NotFoundError("Nie znaleziono zgłoszenia.")
         return ticket
@@ -41,7 +47,7 @@ class TicketService:
 
     async def list_tickets(self, *, status: TicketStatus | None = None, category: str | None = None,
                    priority: str | None = None, limit: int = 20, offset: int = 0) -> list[Ticket]:
-        query = select(Ticket).order_by(Ticket.created_at.desc(), Ticket.id.desc())
+        query = select(Ticket).where(available_tickets(self.actor)).order_by(Ticket.created_at.desc(), Ticket.id.desc())
         if status is not None:
             query = query.where(Ticket.status == status)
         if category is not None:
@@ -53,7 +59,8 @@ class TicketService:
 
     async def create(self, *, text: str, work_blocked: bool, run_id: str) -> tuple[Ticket, ClassificationTask]:
         text = await self._validate_text(text)
-        ticket = Ticket(text=text, category="unknown", priority=Priority.MEDIUM, work_blocked=work_blocked)
+        ticket = Ticket(text=text, category="unknown", priority=Priority.MEDIUM, work_blocked=work_blocked,
+                        author_id=self.actor.id)
         update_effective_priority(ticket)
         self.db.add(ticket)
         await self.db.flush()
@@ -62,20 +69,28 @@ class TicketService:
         return ticket, task
 
     async def get_task(self, ticket_id: int, task_id: str) -> tuple[ClassificationTask, bool]:
+        ticket = await self.get(ticket_id)
         task = await self.db.scalar(select(ClassificationTask).where(
             ClassificationTask.id == task_id, ClassificationTask.ticket_id == ticket_id,
         ))
         if task is None:
             raise NotFoundError("Nie znaleziono zadania dla tego zgłoszenia.")
-        ticket = await self.get(ticket_id)
         current = task.id == ticket.current_task_id and task.content_version == ticket.content_version
         return task, current
 
     async def retry_classification(self, ticket_id: int, *, run_id: str) -> tuple[Ticket, ClassificationTask]:
         ticket = await self._get(ticket_id, locked=True)
+        if ticket.status not in ACTIVE_STATUSES:
+            raise ConflictError("Nie można ponowić klasyfikacji zakończonego zgłoszenia.")
+        if self.actor.role != Role.ADMIN:
+            own_report = (ticket.author_id == self.actor.id and ticket.status == TicketStatus.REPORTED
+                          and ticket.assignee_id is None)
+            assigned = (self.actor.role == Role.STAFF and ticket.assignee_id == self.actor.id
+                        and ticket.status in (TicketStatus.ACCEPTED, TicketStatus.IN_PROGRESS))
+            if not (own_report or assigned):
+                raise ForbiddenError("Brak uprawnień do ponowienia klasyfikacji tego zgłoszenia.")
         previous = await lock_task(self.db, ticket.current_task_id) if ticket.current_task_id else None
-        if (ticket.status not in ACTIVE_STATUSES or previous is None
-                or previous.state != TaskState.FAILED or previous.error_code not in RETRYABLE_ERRORS
+        if (previous is None or previous.state != TaskState.FAILED or previous.error_code not in RETRYABLE_ERRORS
                 or previous.content_version != ticket.content_version):
             raise ConflictError("Można ponowić tylko nieudaną lub przerwaną klasyfikację aktualnego aktywnego zgłoszenia.")
         task = create_task(ticket, self.db, run_id)
@@ -89,6 +104,8 @@ class TicketService:
         if text is not None:
             text = await self._validate_text(text)
         ticket = await self._get(ticket_id, locked=True)
+        if ticket.author_id != self.actor.id:
+            raise ForbiddenError("Możesz edytować tylko własne zgłoszenie.")
         if ticket.status != TicketStatus.REPORTED:
             raise ConflictError("Opis i blokadę pracy można edytować tylko w statusie Zgłoszony.")
         task = None
@@ -119,13 +136,31 @@ class TicketService:
         ticket = await self._get(ticket_id, locked=True)
         if status not in ALLOWED_TRANSITIONS.get(ticket.status, set()):
             raise ConflictError("Niedozwolone przejście statusu zgłoszenia.")
+        if status == TicketStatus.CANCELLED:
+            if ticket.author_id != self.actor.id or ticket.assignee_id is not None:
+                raise ForbiddenError("Możesz anulować tylko własne nieprzypisane zgłoszenie w statusie Zgłoszony.")
+        elif status == TicketStatus.ACCEPTED:
+            require_roles(self.actor, Role.STAFF)
+            if ticket.assignee_id is not None:
+                raise ConflictError("Zgłoszenie ma już wykonawcę.")
+            await self._assign(ticket, self.actor.id)
+        elif status == TicketStatus.REJECTED:
+            roles = (Role.STAFF, Role.ADMIN) if ticket.status == TicketStatus.REPORTED else (Role.ADMIN,)
+            require_roles(self.actor, *roles)
+        elif status in (TicketStatus.IN_PROGRESS, TicketStatus.RESOLVED):
+            require_roles(self.actor, Role.STAFF, Role.ADMIN)
+            if self.actor.role != Role.ADMIN and ticket.assignee_id != self.actor.id:
+                raise ForbiddenError("Operacja wymaga aktualnego przypisania zgłoszenia.")
         ticket.status = status
+        ticket.status_changed_by_id, ticket.status_changed_at = self.actor.id, now()
         if status == TicketStatus.RESOLVED:
             ticket.resolution_note = resolution_note
             ticket.resolved_at = now()
+            ticket.resolved_by_id = self.actor.id
         if status == TicketStatus.REJECTED:
             ticket.rejection_reason = rejection_reason
             ticket.rejected_at = now()
+            ticket.rejected_by_id = self.actor.id
         await self._commit(ticket)
         return ticket
 
@@ -138,5 +173,44 @@ class TicketService:
         duplicates = await find_similar_open_tickets(
             ticket_id=ticket.id, embedding=ticket.embedding_vector if ticket.classification_current else None,
             category=ticket.category, db=self.db,
+            actor=self.actor,
         )
         return ticket, duplicates
+
+    async def _assign(self, ticket: Ticket, assignee_id: int):
+        assignee = await self.db.scalar(select(User).where(User.id == assignee_id).with_for_update(read=True)
+                                        .execution_options(populate_existing=True))
+        if (assignee is None or not assignee.is_active or not assignee.is_approved or assignee.role != Role.STAFF):
+            raise InvalidInputError("Wykonawcą może być tylko aktywna, zaakceptowana osoba obsługująca.", field="assignee_id")
+        if ticket.assignee_id == assignee_id:
+            raise ConflictError("Zgłoszenie jest już przypisane tej osobie.")
+        self.db.add(AssignmentHistory(ticket_id=ticket.id, previous_assignee_id=ticket.assignee_id,
+                                      assignee_id=assignee_id, changed_by_id=self.actor.id))
+        ticket.assignee_id = assignee_id
+
+    async def assign(self, ticket_id: int, assignee_id: int) -> Ticket:
+        require_roles(self.actor, Role.ADMIN)
+        ticket = await self._get(ticket_id, locked=True)
+        if ticket.status not in ACTIVE_STATUSES:
+            raise ConflictError("Nie można przypisać zakończonego zgłoszenia.")
+        await self._assign(ticket, assignee_id)
+        if ticket.status == TicketStatus.REPORTED:
+            ticket.status = TicketStatus.ACCEPTED
+            ticket.status_changed_by_id, ticket.status_changed_at = self.actor.id, now()
+        await self._commit(ticket)
+        return ticket
+
+    async def assignment_history(self, ticket_id: int):
+        require_roles(self.actor, Role.STAFF, Role.ADMIN)
+        await self.get(ticket_id)
+        return list((await self.db.scalars(select(AssignmentHistory).where(AssignmentHistory.ticket_id == ticket_id)
+                                           .order_by(AssignmentHistory.id))).all())
+
+    async def set_priority(self, ticket_id: int, priority: Priority) -> Ticket:
+        require_roles(self.actor, Role.ADMIN)
+        ticket = await self._get(ticket_id, locked=True)
+        ticket.manual_priority = priority
+        ticket.manual_priority_by_id, ticket.manual_priority_at = self.actor.id, now()
+        update_effective_priority(ticket)
+        await self._commit(ticket)
+        return ticket

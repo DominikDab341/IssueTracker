@@ -15,7 +15,7 @@ VECTOR = [1.0] + [0.0] * 383
 class TicketServiceTests(ApiTestCase):
     async def test_service_can_create_ticket_and_task_without_http_or_dispatch(self):
         async with self.sessions() as session:
-            ticket, task = await TicketService(session).create(
+            ticket, task = await TicketService(session, self.user).create(
                 text="  Nie działa drukarka.  ", work_blocked=True, run_id=self.runtime.run_id,
             )
         async with self.sessions() as session:
@@ -31,7 +31,7 @@ class TicketServiceTests(ApiTestCase):
         ticket_id = await self.add_ticket(status="in_progress")
         async with self.sessions() as session:
             with self.assertRaises(InvalidInputError):
-                await TicketService(session).change_status(ticket_id, status=TicketStatus.RESOLVED)
+                await TicketService(session, self.user).change_status(ticket_id, status=TicketStatus.RESOLVED)
         async with self.sessions() as session:
             ticket = await session.get(Ticket, ticket_id)
             self.assertEqual(ticket.status, "in_progress")
@@ -45,7 +45,7 @@ class TicketServiceTests(ApiTestCase):
         tickets = []
         for runtime in [first_runtime, second_runtime]:
             async with self.sessions() as session:
-                ticket, task = await TicketService(session).create(
+                ticket, task = await TicketService(session, self.user).create(
                     text="Nie działa drukarka.", work_blocked=False, run_id=runtime.run_id,
                 )
             await runtime.process(task.id)

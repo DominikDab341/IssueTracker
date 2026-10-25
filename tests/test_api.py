@@ -14,11 +14,17 @@ from sqlalchemy.ext.asyncio import async_sessionmaker, create_async_engine
 from app.api.main import app
 from app.api.dependencies import get_processing_runtime
 from app.database.database import get_db
-from app.models.models import ClassificationReference, Ticket
+from app.models.models import ClassificationReference, Ticket, User
+from app.services.auth import create_access_token, password_hasher
+from app.services.tasks import now
 from app.services.classifier import classify, find_similar_open_tickets
 from app.services.text_validation import TokenizerUnavailableError, get_tokenizer
 from app.ticket_status import ALLOWED_TRANSITIONS, TicketStatus
 from app.services.processing import ProcessingRuntime
+
+
+TEST_PASSWORD = "test-password-for-users"
+TEST_PASSWORD_HASH = password_hasher.hash(TEST_PASSWORD)
 
 
 def setUpModule():
@@ -30,7 +36,11 @@ class ApiTestCase(unittest.IsolatedAsyncioTestCase):
         self.engine = create_async_engine(TEST_URL)
         self.sessions = async_sessionmaker(self.engine, expire_on_commit=False)
         async with self.engine.begin() as connection:
-            await connection.execute(text("TRUNCATE classification_references, classification_tasks, tickets RESTART IDENTITY"))
+            await connection.execute(text("TRUNCATE assignment_history, classification_references, classification_tasks, tickets, users RESTART IDENTITY"))
+
+        self.user = await self.add_user("staff@mail.com", "staff")
+        self.admin = await self.add_user("admin@mail.com", "admin")
+        self.admin_headers = self.headers(self.admin)
 
         async def database_override():
             async with self.sessions() as session:
@@ -44,6 +54,20 @@ class ApiTestCase(unittest.IsolatedAsyncioTestCase):
         self.delay = patch.object(self.runtime, "process")
         self.mock_delay = self.delay.start()
         self.client = AsyncClient(transport=ASGITransport(app=app), base_url="http://test")
+        self.client.headers.update(self.headers(self.user))
+
+    @staticmethod
+    def headers(user):
+        return {"Authorization": "Bearer " + create_access_token(user.id)}
+
+    async def add_user(self, email, role="reporter", active=True, approved=True):
+        async with self.sessions() as db:
+            user = User(email=email, role=role if approved else None,
+                        password_hash=TEST_PASSWORD_HASH, is_active=active, is_approved=approved,
+                        approved_at=now() if approved else None)
+            db.add(user)
+            await db.commit()
+            return user
 
     async def asyncTearDown(self):
         await self.client.aclose()
@@ -59,6 +83,8 @@ class ApiTestCase(unittest.IsolatedAsyncioTestCase):
     async def add_ticket(self, status="reported", category="bug", priority="medium", embedding=None, created_at=None):
         async with self.sessions() as session:
             ticket = Ticket(text="Problem z aplikacją.", status=status, category=category, priority=priority,
+                            author_id=self.user.id,
+                            assignee_id=self.user.id if status in ("accepted", "in_progress") else None,
                             embedding_vector=embedding, embedding_version=1 if embedding is not None else None)
             if created_at is not None:
                 ticket.created_at = created_at
@@ -143,7 +169,8 @@ class TicketApiTests(ApiTestCase):
                         body["resolution_note"] = "Ponownie zainstalowano sterownik."
                     if target == "rejected":
                         body["rejection_reason"] = "Zgłoszenie dotyczy tej samej awarii."
-                    response = await self.client.patch(f"/tickets/{ticket_id}/status", json=body)
+                    response = await self.client.patch(f"/tickets/{ticket_id}/status", json=body,
+                                                        headers=self.admin_headers if target not in ("accepted", "cancelled") else None)
                     allowed = target in ALLOWED_TRANSITIONS[source]
                     self.assertEqual(response.status_code, 200 if allowed else 409, response.text)
                     actual = (await self.client.get(f"/tickets/{ticket_id}")).json()
@@ -195,7 +222,7 @@ class TicketApiTests(ApiTestCase):
         for status in ["resolved", "rejected", "cancelled"]:
             await self.add_ticket(status=status, embedding=vector)
         async with self.sessions() as session:
-            result = await find_similar_open_tickets(source, vector, "bug", session)
+            result = await find_similar_open_tickets(source, vector, "bug", session, actor=self.user)
             self.assertEqual({row["id"] for row in result}, set(active))
             self.assertTrue(all(row["similarity"] == 1.0 for row in result))
 
@@ -204,7 +231,7 @@ class TicketApiTests(ApiTestCase):
         vector = SimpleNamespace(tolist=lambda: [1.0] + [0.0] * 383)
         model = SimpleNamespace(encode=lambda value: vector)
         with patch.object(seed_db, "engine", self.engine), patch.object(seed_db, "get_model", return_value=model) as load:
-            await seed_db.seed_tickets()
+            await seed_db.seed_tickets(self.user.email)
             first = (await self.client.get("/tickets/?limit=100")).json()
             self.assertEqual(len(first), 10)
             self.assertTrue(all(ticket["status"] == "reported" for ticket in first))
@@ -233,6 +260,15 @@ class TicketApiTests(ApiTestCase):
         async with self.sessions() as session:
             self.assertEqual(await session.scalar(text("SELECT count(*) FROM classification_references")), 10)
             self.assertEqual(await session.scalar(text("SELECT count(*) FROM classification_references WHERE source='sample_tickets'")), 10)
+
+    async def test_seed_default_adds_only_references_and_no_unowned_tickets(self):
+        from scripts import seed_db
+        model = SimpleNamespace(encode=lambda value: SimpleNamespace(tolist=lambda: [1.0] + [0.0] * 383))
+        with patch.object(seed_db, "engine", self.engine), patch.object(seed_db, "get_model", return_value=model):
+            await seed_db.seed_tickets()
+        async with self.sessions() as session:
+            self.assertEqual(await session.scalar(text("SELECT count(*) FROM tickets")), 0)
+            self.assertEqual(await session.scalar(text("SELECT count(*) FROM classification_references")), 10)
 
 
 if __name__ == "__main__":

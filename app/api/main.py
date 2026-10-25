@@ -5,15 +5,18 @@ from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
 
 from app.api.tickets import router
+from app.api.auth import router as auth_router
 from app.database.database import async_session, engine
 from app.services.classifier import classify
-from app.services.errors import ConflictError, InvalidInputError, NotFoundError
+from app.services.errors import AuthenticationError, ForbiddenError, ConflictError, InvalidInputError, NotFoundError
+from app.services.auth import jwt_secret
 from app.services.processing import ProcessingRuntime
 from app.services.text_validation import TokenizerUnavailableError
 
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
+    jwt_secret()
     runtime = ProcessingRuntime(async_session, classifier=classify)
     await runtime.start(engine)
     app.state.processing_runtime = runtime
@@ -26,6 +29,17 @@ async def lifespan(app: FastAPI):
 
 app = FastAPI(lifespan=lifespan)
 app.include_router(router)
+app.include_router(auth_router)
+
+
+@app.exception_handler(AuthenticationError)
+async def authentication_error_handler(request: Request, exc: AuthenticationError):
+    return JSONResponse(status_code=401, content={"detail": str(exc)}, headers={"WWW-Authenticate": "Bearer"})
+
+
+@app.exception_handler(ForbiddenError)
+async def forbidden_error_handler(request: Request, exc: ForbiddenError):
+    return JSONResponse(status_code=403, content={"detail": str(exc)})
 
 
 @app.exception_handler(TokenizerUnavailableError)

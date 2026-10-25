@@ -15,8 +15,18 @@ class Ticket(Base):
             "status IN ('reported', 'accepted', 'in_progress', 'resolved', 'rejected', 'cancelled')",
             name="ck_ticket_status"
         ),
+        CheckConstraint("author_id IS NOT NULL OR legacy_unowned", name="ck_ticket_author"),
     )
     id: Mapped[int] = mapped_column(primary_key=True)
+    author_id: Mapped[int | None] = mapped_column(ForeignKey("users.id"), index=True)
+    legacy_unowned: Mapped[bool] = mapped_column(Boolean, default=False, server_default=sql_text("false"))
+    assignee_id: Mapped[int | None] = mapped_column(ForeignKey("users.id"), index=True)
+    status_changed_by_id: Mapped[int | None] = mapped_column(ForeignKey("users.id"))
+    status_changed_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
+    resolved_by_id: Mapped[int | None] = mapped_column(ForeignKey("users.id"))
+    rejected_by_id: Mapped[int | None] = mapped_column(ForeignKey("users.id"))
+    manual_priority_by_id: Mapped[int | None] = mapped_column(ForeignKey("users.id"))
+    manual_priority_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
     text: Mapped[str] = mapped_column(String, nullable=False)
     category: Mapped[str] = mapped_column(String(50), nullable=False)
     status: Mapped[str] = mapped_column(String(20), nullable=False, default=TicketStatus.REPORTED, server_default="reported")
@@ -31,7 +41,7 @@ class Ticket(Base):
     current_task_id: Mapped[str | None] = mapped_column(String(36), nullable=True)
     base_priority: Mapped[str | None] = mapped_column(String(20), nullable=True)
     automatic_priority: Mapped[str | None] = mapped_column(String(20), nullable=True)
-    # Pole chronione przed zmianą przez formularz; endpoint administratora w E5.9.
+    # Pole chronione przed zmianą przez formularz i klasyfikację.
     manual_priority: Mapped[str | None] = mapped_column(String(20), nullable=True)
     priority_source: Mapped[str] = mapped_column(String(30), default=PrioritySource.LEGACY, server_default="legacy")
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
@@ -41,6 +51,37 @@ class Ticket(Base):
     @property
     def classification_current(self) -> bool:
         return self.embedding_version is not None and self.embedding_version == self.content_version
+
+
+class User(Base):
+    __tablename__ = "users"
+    __table_args__ = (
+        CheckConstraint("role IS NULL OR role IN ('reporter', 'staff', 'admin')", name="ck_user_role"),
+        CheckConstraint("(is_approved AND role IS NOT NULL AND approved_at IS NOT NULL) OR "
+                        "(NOT is_approved AND role IS NULL AND approved_at IS NULL AND approved_by_id IS NULL)",
+                        name="ck_user_approval"),
+        CheckConstraint("email = lower(email)", name="ck_user_email_normalized"),
+    )
+    id: Mapped[int] = mapped_column(primary_key=True)
+    email: Mapped[str] = mapped_column(String(254), unique=True)
+    password_hash: Mapped[str] = mapped_column(Text)
+    role: Mapped[str | None] = mapped_column(String(20))
+    is_approved: Mapped[bool] = mapped_column(Boolean, default=False, server_default=sql_text("false"))
+    is_active: Mapped[bool] = mapped_column(Boolean, default=True, server_default=sql_text("true"))
+    approved_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
+    approved_by_id: Mapped[int | None] = mapped_column(ForeignKey("users.id"))
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
+    updated_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now(), onupdate=func.now())
+
+
+class AssignmentHistory(Base):
+    __tablename__ = "assignment_history"
+    id: Mapped[int] = mapped_column(primary_key=True)
+    ticket_id: Mapped[int] = mapped_column(ForeignKey("tickets.id"), index=True)
+    previous_assignee_id: Mapped[int | None] = mapped_column(ForeignKey("users.id"))
+    assignee_id: Mapped[int] = mapped_column(ForeignKey("users.id"))
+    changed_by_id: Mapped[int] = mapped_column(ForeignKey("users.id"))
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
 
 
 class ClassificationTask(Base):

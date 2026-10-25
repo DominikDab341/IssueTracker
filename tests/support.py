@@ -11,6 +11,7 @@ test_url = make_url(TEST_URL)
 if test_url.database != "issuetracker_test" or test_url.drivername != "postgresql+asyncpg":
     raise RuntimeError("Testy wymagają PostgreSQL/asyncpg i bazy o nazwie issuetracker_test.")
 os.environ["DATABASE_URL"] = TEST_URL
+os.environ["JWT_SECRET_KEY"] = "test-only-signing-key-never-use-in-production-730031"
 
 from alembic.config import Config
 

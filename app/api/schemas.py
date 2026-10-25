@@ -65,6 +65,15 @@ class TicketEdit(BaseModel):
 class TicketResponse(BaseModel):
     model_config = ConfigDict(from_attributes=True)
     id: int
+    author_id: int | None
+    assignee_id: int | None
+    legacy_unowned: bool
+    status_changed_by_id: int | None
+    status_changed_at: datetime | None
+    resolved_by_id: int | None
+    rejected_by_id: int | None
+    manual_priority_by_id: int | None
+    manual_priority_at: datetime | None
     text: str
     category: str
     priority: str
@@ -124,3 +133,23 @@ class TicketCloseResponse(BaseModel):
     ticket: TicketResponse
     status: Literal[TicketStatus.RESOLVED, TicketStatus.REJECTED, TicketStatus.CANCELLED]
     suggested_duplicates: list[SuggestedDuplicate] = Field(default_factory=list)
+
+
+class AssignmentUpdate(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+    assignee_id: int = Field(gt=0, strict=True)
+
+
+class PriorityUpdate(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+    priority: Priority
+
+
+class AssignmentResponse(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+    id: int
+    ticket_id: int
+    previous_assignee_id: int | None
+    assignee_id: int
+    changed_by_id: int
+    created_at: datetime

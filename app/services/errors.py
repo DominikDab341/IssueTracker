@@ -9,6 +9,14 @@ class ConflictError(Exception):
     pass
 
 
+class ForbiddenError(Exception):
+    pass
+
+
+class AuthenticationError(Exception):
+    pass
+
+
 class InvalidInputError(Exception):
     def __init__(self, message: str, *, field: str | None = None):
         super().__init__(message)

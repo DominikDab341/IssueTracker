@@ -8,7 +8,7 @@ from unittest.mock import patch
 from httpx import ASGITransport, AsyncClient
 
 from app.api.main import app
-from app.api.dependencies import get_processing_runtime
+from app.api.dependencies import get_current_user, get_processing_runtime
 from app.database.database import get_db
 from app.services.text_validation import TokenizerUnavailableError
 
@@ -22,6 +22,9 @@ class RequestValidationTests(unittest.IsolatedAsyncioTestCase):
             return SimpleNamespace(run_id="request-validation")
 
         app.dependency_overrides[get_db] = database_override
+        app.dependency_overrides[get_current_user] = lambda: SimpleNamespace(
+            id=1, role="staff", is_active=True, is_approved=True,
+        )
         app.dependency_overrides[get_processing_runtime] = runtime_override
         self.client = AsyncClient(transport=ASGITransport(app=app), base_url="http://test")
 

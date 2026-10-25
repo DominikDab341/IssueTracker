@@ -12,6 +12,10 @@ from sqlalchemy import text
 from sqlalchemy.ext.asyncio import create_async_engine
 
 from tests.support import TEST_URL, ROOT, migration_config
+from app.models.models import User
+from app.services.auth import create_access_token, password_hasher
+from app.services.tasks import now
+from sqlalchemy.ext.asyncio import async_sessionmaker
 
 
 class ProcessRestartTests(unittest.TestCase):
@@ -21,14 +25,20 @@ class ProcessRestartTests(unittest.TestCase):
         async def clear():
             engine = create_async_engine(TEST_URL)
             async with engine.begin() as connection:
-                await connection.execute(text("TRUNCATE classification_references, classification_tasks, tickets RESTART IDENTITY"))
+                await connection.execute(text("TRUNCATE assignment_history, classification_references, classification_tasks, tickets, users RESTART IDENTITY"))
+            async with async_sessionmaker(engine, expire_on_commit=False)() as db:
+                user = User(email="restart@mail.com", password_hash=password_hasher.hash("test-password-for-restart"),
+                            role="reporter", is_approved=True, approved_at=now())
+                db.add(user)
+                await db.commit()
+                self.auth_headers = {"Authorization": "Bearer " + create_access_token(user.id)}
             await engine.dispose()
 
         asyncio.run(clear())
         with socket.socket() as port_socket:
             port_socket.bind(("127.0.0.1", 0))
             port = port_socket.getsockname()[1]
-        client = httpx.Client(base_url=f"http://127.0.0.1:{port}", timeout=3)
+        client = httpx.Client(base_url=f"http://127.0.0.1:{port}", timeout=3, headers=self.auth_headers)
         processes = []
 
         def start(mode):
@@ -73,7 +83,7 @@ class ProcessRestartTests(unittest.TestCase):
             process.kill()
             process.wait(timeout=10)
             client.close()
-            client = httpx.Client(base_url=f"http://127.0.0.1:{port}", timeout=3)
+            client = httpx.Client(base_url=f"http://127.0.0.1:{port}", timeout=3, headers=self.auth_headers)
             start("fast")
             interrupted = wait_state(path, "failed")
             self.assertEqual(interrupted["error_code"], "interrupted")
