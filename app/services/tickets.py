@@ -216,8 +216,10 @@ class TicketService:
         await self._commit(ticket)
         return ticket
 
-    async def correct_category(self, ticket_id: int, category: Category) -> Ticket:
+    async def correct_category(self, ticket_id: int, category: Category, *, expected_content_version: int) -> Ticket:
         require_roles(self.actor, Role.STAFF, Role.ADMIN)
+        if type(expected_content_version) is not int or expected_content_version < 1:
+            raise InvalidInputError("Podaj dodatnią, całkowitą wersję opisu.", field="expected_content_version")
         try:
             category = Category(category)
         except (ValueError, TypeError):
@@ -225,6 +227,8 @@ class TicketService:
         ticket = await self._get(ticket_id, locked=True)
         if self.actor.role != Role.ADMIN and ticket.assignee_id != self.actor.id:
             raise ForbiddenError("Korekta kategorii wymaga aktualnego przypisania zgłoszenia.")
+        if ticket.content_version != expected_content_version:
+            raise ConflictError("Opis zgłoszenia zmienił się. Odczytaj aktualną treść przed korektą kategorii.")
         ticket.category, ticket.manual_category = category, category
         ticket.manual_category_version = ticket.content_version
         ticket.manual_category_by_id, ticket.manual_category_at = self.actor.id, now()

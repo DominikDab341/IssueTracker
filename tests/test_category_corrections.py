@@ -17,7 +17,8 @@ PREDICTION = ClassificationPrediction("bug", Priority.HIGH, Priority.HIGH, VECTO
 
 class CategoryCorrectionTests(ApiTestCase):
     async def correct(self, ticket, category="feature", actor=None):
-        return await self.client.patch(f"/tickets/{ticket['id']}/category", json={"category": category},
+        return await self.client.patch(f"/tickets/{ticket['id']}/category",
+                                        json={"category": category, "expected_content_version": ticket["content_version"]},
                                         headers=self.headers(actor or self.admin))
 
     async def detail(self, ticket):
@@ -35,12 +36,83 @@ class CategoryCorrectionTests(ApiTestCase):
         for body in [{}, {"category": None}, {"category": ""}, {"category": "unknown"}, {"category": "other"},
                      {"category": " bug "}, {"category": 1}, {"category": "bug", "manual_category_by_id": self.user.id},
                      {"category": "bug", "content_version": 99}]:
-            self.assertEqual((await self.client.patch(path, json=body, headers=self.admin_headers)).status_code, 422, str(body))
-        self.assertEqual((await self.client.patch("/tickets/999999/category", json={"category": "bug"}, headers=self.admin_headers)).status_code, 404)
+            payload = {"expected_content_version": ticket["content_version"], **body}
+            self.assertEqual((await self.client.patch(path, json=payload, headers=self.admin_headers)).status_code, 422, str(body))
+        self.assertEqual((await self.client.patch(path, json={"category": "bug"}, headers=self.admin_headers)).status_code, 422)
+        for version in [None, 0, -1, True, "1", 1.0]:
+            payload = {"category": "bug", "expected_content_version": version}
+            self.assertEqual((await self.client.patch(path, json=payload, headers=self.admin_headers)).status_code, 422, str(version))
+        self.assertEqual((await self.client.patch("/tickets/999999/category", json={"category": "bug", "expected_content_version": 1}, headers=self.admin_headers)).status_code, 404)
         async with self.sessions() as db:
             with self.assertRaises(InvalidInputError):
-                await TicketService(db, self.admin).correct_category(ticket["id"], "other")
+                await TicketService(db, self.admin).correct_category(ticket["id"], "other", expected_content_version=1)
+            for version in [None, 0, -1, True, "1", 1.0]:
+                with self.assertRaises(InvalidInputError):
+                    await TicketService(db, self.admin).correct_category(ticket["id"], "bug", expected_content_version=version)
         self.assertIsNone((await self.detail(ticket))["manual_category"])
+
+    async def test_stale_view_cannot_correct_new_text_before_or_after_classification(self):
+        for classify_first in (False, True):
+            with self.subTest(classify_first=classify_first):
+                old_view = await self.create()
+                edit = await self.client.patch(f"/tickets/{old_view['id']}", json={"text": "Potrzebuję nowej funkcji eksportu do CSV."})
+                self.assertEqual(edit.status_code, 200)
+                task_id = edit.json()["task_id"]
+                prediction = replace(PREDICTION, category="feature")
+                if classify_first:
+                    await self.run_classification(task_id, prediction)
+                before = await self.detail(old_view)
+                stale = await self.correct(old_view, "performance")
+                self.assertEqual(stale.status_code, 409, stale.text)
+                self.assertEqual(await self.detail(old_view), before)
+                if not classify_first:
+                    await self.run_classification(task_id, prediction)
+                current = await self.detail(old_view)
+                self.assertEqual(current["content_version"], 2)
+                self.assertEqual(current["category"], "feature")
+                self.assertEqual(current["predicted_category"], "feature")
+                self.assertIsNone(current["manual_category"])
+                self.assertFalse(current["manual_category_current"])
+                valid = await self.correct(current, "performance")
+                self.assertEqual(valid.status_code, 200, valid.text)
+                self.assertEqual(valid.json()["manual_category_version"], 2)
+                self.assertEqual(valid.json()["category"], "performance")
+
+    async def test_version_is_checked_after_waiting_for_concurrent_edit_lock(self):
+        old_view = await self.create()
+        editing, release, correcting = asyncio.Event(), asyncio.Event(), asyncio.Event()
+        original_commit, original_get = TicketService._commit, TicketService._get
+
+        async def commit(service, ticket):
+            if service.actor.id == self.user.id:
+                editing.set()
+                await release.wait()
+            await original_commit(service, ticket)
+
+        async def get(service, ticket_id, *, locked=False):
+            if locked and service.actor.id == self.admin.id:
+                correcting.set()
+            return await original_get(service, ticket_id, locked=locked)
+
+        with patch.object(TicketService, "_commit", commit), patch.object(TicketService, "_get", get):
+            edit = asyncio.create_task(self.client.patch(f"/tickets/{old_view['id']}", json={"text": "Nowy opis awarii."}))
+            correction = None
+            try:
+                await asyncio.wait_for(editing.wait(), 5)
+                correction = asyncio.create_task(self.correct(old_view))
+                await asyncio.wait_for(correcting.wait(), 5)
+                self.assertFalse(correction.done())
+            finally:
+                release.set()
+                edit_response = await edit
+                if correction is not None:
+                    correction_response = await correction
+        self.assertEqual(edit_response.status_code, 200)
+        self.assertEqual(correction_response.status_code, 409, correction_response.text)
+        current = await self.detail(old_view)
+        self.assertEqual(current["content_version"], 2)
+        self.assertIsNone(current["manual_category"])
+        self.assertEqual(current["category"], "unknown")
 
     async def test_permissions_current_and_previous_assignee_and_reporter(self):
         ticket = await self.create()

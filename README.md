@@ -51,7 +51,7 @@ administrator jest nieaktywny. Nowe konta przechodzą rejestrację i akceptację
 | `PATCH /tickets/{id}/assignee` | Administrator wskazuje `assignee_id` aktywnego, zaakceptowanego konta `staff` |
 | `GET /tickets/{id}/assignments` | Historia przypisań dla obsługi i administratora |
 | `PATCH /tickets/{id}/priority` | Administrator podaje `priority`: `low`, `medium`, `high`, `critical` |
-| `PATCH /tickets/{id}/category` | Aktualny wykonawca lub administrator podaje `category` z obecnego słownika: `bug`, `performance`, `feature` |
+| `PATCH /tickets/{id}/category` | Aktualny wykonawca lub administrator podaje `category` (`bug`, `performance`, `feature`) i wymagane `expected_content_version` z odczytanego zgłoszenia |
 
 Adres jest walidowany składniowo i normalizowany do małych liter. Domena
 rejestracji musi być dokładnie zgodna z konfiguracją; subdomeny i nazwy
@@ -114,6 +114,13 @@ ostatnie zapisane przewidywanie modelu i jego wersję treści. Wynik zadania
 `result.category` zawsze zawiera wynik modelu, również gdy kategorią operacyjną
 jest korekta ręczna. Korekta nie zmienia priorytetu, statusu, zadań, embeddingu
 ani referencji KNN. Dla tej samej wersji tekstu zadanie zachowuje korektę.
+
+Żądanie korekty zawiera kategorię i wersję opisu widzianą przez użytkownika,
+np. `{"category":"performance","expected_content_version":1}`. Wersja jest
+wymaganą dodatnią liczbą całkowitą. Serwer porównuje ją z aktualną wersją po
+zablokowaniu zgłoszenia. Niezgodność zwraca 409 bez zapisania korekty; klient
+musi odczytać nowy opis i ponownie ocenić kategorię. Chroni to również przed
+spóźnioną korektą, która czekała na równoległy zapis zmienionej treści.
 
 Inny opis zwiększa wersję treści, ustawia kategorię operacyjną na `unknown`
 i unieważnia dotychczasową korektę (`manual_category_current=false`). Metadane

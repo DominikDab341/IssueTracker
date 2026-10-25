@@ -19,7 +19,7 @@ router = APIRouter(prefix="/tickets")
 
 @router.patch("/{ticket_id}/category", response_model=TicketResponse)
 async def correct_category(ticket_id: int, body: CategoryUpdate, service: TicketService = Depends(get_ticket_service)):
-    return await service.correct_category(ticket_id, body.category)
+    return await service.correct_category(ticket_id, body.category, expected_content_version=body.expected_content_version)
 
 
 @router.patch("/{ticket_id}/assignee", response_model=TicketResponse)

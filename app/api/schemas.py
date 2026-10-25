@@ -155,6 +155,7 @@ class PriorityUpdate(BaseModel):
 class CategoryUpdate(BaseModel):
     model_config = ConfigDict(extra="forbid")
     category: Category
+    expected_content_version: int = Field(gt=0, strict=True)
 
 
 class AssignmentResponse(BaseModel):
