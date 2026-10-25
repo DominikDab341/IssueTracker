@@ -99,6 +99,7 @@ class AuthenticationTests(ApiTestCase):
                                        ("PATCH", "/tickets/1/status", {"status": "cancelled"}),
                                        ("DELETE", "/tickets/1", {"status": "cancelled"}),
                                        ("PATCH", "/tickets/1/priority", {"priority": "low"}),
+                                       ("PATCH", "/tickets/1/category", {"category": "bug"}),
                                        ("PATCH", "/tickets/1/assignee", {"assignee_id": 1}),
                                        ("GET", "/tickets/1/assignments", None),
                                        ("POST", "/tickets/1/classification/retry", None),

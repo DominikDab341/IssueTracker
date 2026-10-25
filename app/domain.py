@@ -3,6 +3,13 @@ from dataclasses import dataclass
 from enum import StrEnum
 
 
+class Category(StrEnum):
+    """Obecny słownik prototypu; docelowe kategorie helpdesku należą do etapu 4."""
+    BUG = "bug"
+    PERFORMANCE = "performance"
+    FEATURE = "feature"
+
+
 class Priority(StrEnum):
     LOW = "low"
     MEDIUM = "medium"

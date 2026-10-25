@@ -3,7 +3,7 @@ import anyio
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.domain import ACTIVE_TASK_STATES, RETRYABLE_ERRORS, Priority, TaskErrorCode, TaskState
+from app.domain import ACTIVE_TASK_STATES, RETRYABLE_ERRORS, Category, Priority, TaskErrorCode, TaskState
 from app.models.models import AssignmentHistory, ClassificationTask, Ticket, User
 from app.services.access import Role, available_tickets, require_active, require_roles
 from app.services.classifier import find_similar_open_tickets
@@ -115,6 +115,7 @@ class TicketService:
                 fail_task(previous, TaskErrorCode.SUPERSEDED, "Treść zgłoszenia zmieniono; zadanie zastąpiono nową wersją.")
             ticket.text = text
             ticket.content_version += 1
+            ticket.category = "unknown"
             ticket.base_priority = None
             ticket.automatic_priority = None
             await self.db.flush()
@@ -212,5 +213,20 @@ class TicketService:
         ticket.manual_priority = priority
         ticket.manual_priority_by_id, ticket.manual_priority_at = self.actor.id, now()
         update_effective_priority(ticket)
+        await self._commit(ticket)
+        return ticket
+
+    async def correct_category(self, ticket_id: int, category: Category) -> Ticket:
+        require_roles(self.actor, Role.STAFF, Role.ADMIN)
+        try:
+            category = Category(category)
+        except (ValueError, TypeError):
+            raise InvalidInputError("Wybierz kategorię ze słownika.", field="category") from None
+        ticket = await self._get(ticket_id, locked=True)
+        if self.actor.role != Role.ADMIN and ticket.assignee_id != self.actor.id:
+            raise ForbiddenError("Korekta kategorii wymaga aktualnego przypisania zgłoszenia.")
+        ticket.category, ticket.manual_category = category, category
+        ticket.manual_category_version = ticket.content_version
+        ticket.manual_category_by_id, ticket.manual_category_at = self.actor.id, now()
         await self._commit(ticket)
         return ticket

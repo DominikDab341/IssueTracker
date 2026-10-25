@@ -3,7 +3,7 @@ from typing import Literal
 
 from pydantic import BaseModel, ConfigDict, Field, StrictBool, field_validator, model_validator
 
-from app.domain import Priority, TaskState
+from app.domain import Category, Priority, TaskState
 from app.services.text_validation import normalize_ticket_text
 from app.ticket_status import (
     MAX_STATUS_NOTE_LENGTH, TicketStatus, normalize_status_note, validate_status_notes,
@@ -76,6 +76,13 @@ class TicketResponse(BaseModel):
     manual_priority_at: datetime | None
     text: str
     category: str
+    predicted_category: str | None
+    predicted_category_version: int | None
+    manual_category: str | None
+    manual_category_version: int | None
+    manual_category_by_id: int | None
+    manual_category_at: datetime | None
+    manual_category_current: bool
     priority: str
     created_at: datetime
     updated_at: datetime
@@ -143,6 +150,11 @@ class AssignmentUpdate(BaseModel):
 class PriorityUpdate(BaseModel):
     model_config = ConfigDict(extra="forbid")
     priority: Priority
+
+
+class CategoryUpdate(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+    category: Category
 
 
 class AssignmentResponse(BaseModel):

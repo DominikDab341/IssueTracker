@@ -69,7 +69,32 @@ class MigrationTests(unittest.TestCase):
             with self.assertRaisesRegex(RuntimeError, "Cofanie migracji"):
                 command.downgrade(config, "93aaf01f792a")
             with engine.connect() as connection:
-                self.assertEqual(connection.scalar(text("SELECT version_num FROM alembic_version")), "e3a000000001")
+                self.assertEqual(connection.scalar(text("SELECT version_num FROM alembic_version")), "e2b000000001")
+        finally:
+            engine.dispose()
+
+    def test_category_migration_preserves_legacy_data_and_guards_downgrade(self):
+        engine = create_engine(make_url(TEST_URL).set(drivername="postgresql+psycopg"))
+        config = migration_config()
+        try:
+            command.upgrade(config, "head")
+            with engine.begin() as connection:
+                connection.execute(text("TRUNCATE assignment_history, classification_references, classification_tasks, tickets, users"))
+            command.downgrade(config, "e3a000000001")
+            with engine.begin() as connection:
+                connection.execute(text("INSERT INTO tickets (text, category, priority, legacy_unowned) "
+                                        "VALUES ('Dawny problem', 'feature', 'high', true)"))
+                before = connection.scalar(text("SELECT row_to_json(tickets) FROM tickets"))
+            command.upgrade(config, "head")
+            with engine.begin() as connection:
+                after = connection.scalar(text("SELECT row_to_json(tickets) FROM tickets"))
+                self.assertEqual({key: after[key] for key in before}, before)
+                self.assertTrue(all(after[key] is None for key in set(after) - set(before)))
+                connection.execute(text("UPDATE tickets SET predicted_category='bug', predicted_category_version=1"))
+            with self.assertRaisesRegex(RuntimeError, "Cofanie migracji"):
+                command.downgrade(config, "e3a000000001")
+            with engine.connect() as connection:
+                self.assertEqual(connection.scalar(text("SELECT version_num FROM alembic_version")), "e2b000000001")
         finally:
             engine.dispose()
 

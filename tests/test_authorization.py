@@ -9,6 +9,8 @@ from app.domain import ClassificationPrediction, Priority
 from app.models.models import ClassificationTask, Ticket
 from app.services.classifier import find_similar_open_tickets
 from app.services.errors import InvalidInputError
+from app.services.tickets import TicketService
+from app.ticket_status import TicketStatus
 from scripts.import_ticket_authors import import_authors
 
 VECTOR = [1.0] + [0.0] * 383
@@ -16,6 +18,124 @@ PREDICTION = ClassificationPrediction("bug", Priority.LOW, Priority.LOW, VECTOR)
 
 
 class AuthorizationTests(ApiTestCase):
+    async def test_terminal_statuses_are_immutable_for_all_roles_and_delete_alias(self):
+        for terminal in ("resolved", "rejected", "cancelled"):
+            ticket = await self.report()
+            if terminal == "resolved":
+                await self.assign(ticket["id"])
+                await self.transition(ticket["id"], "in_progress")
+                finished = await self.transition(ticket["id"], terminal, resolution_note="Naprawiono drukarkę.")
+            elif terminal == "rejected":
+                finished = await self.transition(ticket["id"], terminal, rejection_reason="Ta sama awaria.")
+            else:
+                finished = await self.transition(ticket["id"], terminal, self.reporter)
+            self.assertEqual(finished.status_code, 200)
+            snapshot = finished.json()
+            for actor in (self.reporter, self.user, self.other_staff, self.admin):
+                for target in TicketStatus:
+                    body = {"status": target}
+                    if target == "resolved":
+                        body["resolution_note"] = "Inne rozwiązanie."
+                    if target == "rejected":
+                        body["rejection_reason"] = "Inny powód."
+                    for method in ("PATCH", "DELETE"):
+                        with self.subTest(source=terminal, role=actor.role, actor=actor.id, target=target, method=method):
+                            path = f"/tickets/{ticket['id']}" + ("/status" if method == "PATCH" else "")
+                            result = await self.client.request(method, path, json=body, headers=self.headers(actor))
+                            expected = 422 if method == "DELETE" and target not in ("resolved", "rejected", "cancelled") else 409
+                            self.assertEqual(result.status_code, expected, result.text)
+            detail = await self.client.get(f"/tickets/{ticket['id']}", headers=self.reporter_headers)
+            self.assertEqual(detail.json(), snapshot)
+        self.assertEqual(len((await self.client.get("/tickets/", headers=self.reporter_headers)).json()), 3)
+        self.assertEqual((await self.report())["author_id"], self.reporter.id)
+
+    async def test_full_retry_preserves_manual_priority_and_workflow_for_each_active_status(self):
+        for status in ("reported", "accepted", "in_progress"):
+            ticket = await self.report()
+            path = f"/tickets/{ticket['id']}"
+            await self.client.patch(path, json={"work_blocked": True}, headers=self.reporter_headers)
+            manual = await self.client.patch(path + "/priority", json={"priority": "low"}, headers=self.admin_headers)
+            self.assertEqual(manual.status_code, 200)
+            if status != "reported":
+                await self.assign(ticket["id"])
+            if status == "in_progress":
+                await self.transition(ticket["id"], status)
+            with patch.object(self.runtime, "classifier", side_effect=RuntimeError("Test błędu modelu")):
+                await self.process(ticket["current_task_id"])
+            retry = await self.client.post(path + "/classification/retry",
+                                            headers=self.reporter_headers if status == "reported" else self.headers(self.user))
+            self.assertEqual(retry.status_code, 202, retry.text)
+            task_id = retry.json()["task_id"]
+            self.assertNotEqual(task_id, ticket["current_task_id"])
+            with patch.object(self.runtime, "classifier", return_value=PREDICTION):
+                await self.process(task_id)
+            detail = (await self.client.get(path, headers=self.reporter_headers)).json()
+            self.assertEqual(detail["status"], status)
+            self.assertEqual(detail["priority"], "low")
+            self.assertEqual(detail["priority_source"], "administrator")
+            self.assertTrue(detail["work_blocked"])
+            self.assertEqual(detail["manual_priority_by_id"], self.admin.id)
+            self.assertEqual(detail["manual_priority_at"], manual.json()["manual_priority_at"])
+            result = (await self.client.get(path + f"/task/{task_id}", headers=self.reporter_headers)).json()
+            self.assertEqual(result["state"], "succeeded")
+            self.assertEqual(result["result"]["base_priority"], "low")
+            original = (await self.client.get(path + f"/task/{ticket['current_task_id']}", headers=self.reporter_headers)).json()
+            self.assertEqual(original["state"], "failed")
+            self.assertFalse(original["current"])
+
+    async def test_reporter_edit_and_different_staff_acceptance_both_lock_orders(self):
+        for first in ("accept", "edit"):
+            ticket = await self.report()
+            entered, release, accepting = asyncio.Event(), asyncio.Event(), asyncio.Event()
+            original_validate, original_commit, original_get = TicketService._validate_text, TicketService._commit, TicketService._get
+
+            async def validate(service, value):
+                value = await original_validate(service, value)
+                if first == "accept":
+                    entered.set()
+                    await release.wait()
+                return value
+
+            async def commit(service, stored):
+                if first == "edit" and service.actor.id == self.reporter.id:
+                    entered.set()
+                    await release.wait()
+                await original_commit(service, stored)
+
+            async def get(service, ticket_id, *, locked=False):
+                if locked and service.actor.id == self.user.id:
+                    accepting.set()
+                return await original_get(service, ticket_id, locked=locked)
+
+            with patch.object(TicketService, "_validate_text", validate), patch.object(TicketService, "_commit", commit), \
+                    patch.object(TicketService, "_get", get):
+                editing = asyncio.create_task(self.client.patch(f"/tickets/{ticket['id']}",
+                                              json={"text": "Nowy opis awarii.", "work_blocked": True}, headers=self.reporter_headers))
+                acceptance = None
+                try:
+                    await asyncio.wait_for(entered.wait(), 5)
+                    if first == "accept":
+                        accepted = await self.transition(ticket["id"], "accepted")
+                    else:
+                        acceptance = asyncio.create_task(self.transition(ticket["id"], "accepted"))
+                        await asyncio.wait_for(accepting.wait(), 5)
+                        self.assertFalse(acceptance.done())
+                finally:
+                    release.set()
+                    edited = await editing
+                    if acceptance is not None:
+                        accepted = await acceptance
+            self.assertEqual(accepted.status_code, 200)
+            self.assertEqual(edited.status_code, 409 if first == "accept" else 200)
+            detail = (await self.client.get(f"/tickets/{ticket['id']}", headers=self.reporter_headers)).json()
+            self.assertEqual(detail["author_id"], self.reporter.id)
+            self.assertEqual(detail["assignee_id"], self.user.id)
+            self.assertEqual(detail["status"], "accepted")
+            self.assertEqual(detail["content_version"], 1 if first == "accept" else 2)
+            self.assertEqual(detail["text"], ticket["text"] if first == "accept" else "Nowy opis awarii.")
+            denied = await self.client.patch(f"/tickets/{ticket['id']}", json={"work_blocked": False}, headers=self.reporter_headers)
+            self.assertEqual(denied.status_code, 409)
+
     async def asyncSetUp(self):
         await super().asyncSetUp()
         self.reporter = await self.add_user("reporter@mail.com")

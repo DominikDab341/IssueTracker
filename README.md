@@ -4,7 +4,8 @@ Backend prototypu klasyfikacji zgłoszeń: FastAPI, PostgreSQL/pgvector,
 `all-MiniLM-L6-v2` i FastAPI `BackgroundTasks`. Zaimplementowano fundament API
 etapu 1, przetwarzanie z etapu 2 oraz użytkowników, JWT, role i przypisania
 z etapu 3. E1.5, E1.9, E2.8 i E2.9 obejmują już kontrolę osób i uprawnień.
-E2.5 nadal wymaga ręcznej korekty kategorii i jej testu z E5.13.
+E2.5 domknięto przez rozdzielenie przewidywania KNN i ręcznej korekty kategorii
+oraz testy jej zapisu podczas klasyfikacji.
 Frontend i endpoint LLM powstaną w kolejnych etapach.
 
 ## Konta, logowanie i uprawnienia (etap 3)
@@ -50,6 +51,7 @@ administrator jest nieaktywny. Nowe konta przechodzą rejestrację i akceptację
 | `PATCH /tickets/{id}/assignee` | Administrator wskazuje `assignee_id` aktywnego, zaakceptowanego konta `staff` |
 | `GET /tickets/{id}/assignments` | Historia przypisań dla obsługi i administratora |
 | `PATCH /tickets/{id}/priority` | Administrator podaje `priority`: `low`, `medium`, `high`, `critical` |
+| `PATCH /tickets/{id}/category` | Aktualny wykonawca lub administrator podaje `category` z obecnego słownika: `bug`, `performance`, `feature` |
 
 Adres jest walidowany składniowo i normalizowany do małych liter. Domena
 rejestracji musi być dokładnie zgodna z konfiguracją; subdomeny i nazwy
@@ -86,6 +88,7 @@ z niewygasłego tokenu.
 | Odrzucenie | Brak | Tylko z `reported` | Z każdego aktywnego statusu |
 | Ponowienie błędnej klasyfikacji | Własne `reported`, bez wykonawcy | Jako autor przed przyjęciem lub aktualny wykonawca w `accepted`/`in_progress` | Każde aktywne zgłoszenie |
 | Ręczny priorytet i konta | Brak | Brak | Dozwolone |
+| Korekta kategorii | Brak | Aktualnie przypisany wykonawca | Niezależnie od przypisania |
 | Dostęp do przyszłego asystenta | Brak | Dozwolony | Dozwolony |
 
 Zmiana przypisania w `accepted` i `in_progress` zachowuje status, autora
@@ -100,8 +103,26 @@ Wspólna reguła `available_tickets()` w `app/services/access.py` filtruje list�
 odczyty i sugestie duplikatów, również przez alias DELETE. Przyszłe wyszukiwanie
 i RAG powinny korzystać z tej samej reguły. Dependency `get_assistant_user`
 sprawdza dostęp obsługi i administratora; rzeczywisty endpoint LLM nadal
-pozostaje do implementacji. Priorytet ręczny ma autora i czas ostatniej decyzji;
-pełna historia korekt i korekta kategorii należą do etapu 5.
+pozostaje do implementacji. Priorytet ręczny ma autora i czas ostatniej decyzji.
+Korekta kategorii jest dostępna; jej integracja z zatwierdzaniem rozwiązanego
+zgłoszenia do referencji pozostaje w E5.12–E5.13.
+
+Korekta zapisuje osobno `manual_category`, `manual_category_version`,
+`manual_category_by_id` i `manual_category_at`. Pole `category` jest kategorią
+operacyjną, a `predicted_category` i `predicted_category_version` wskazują
+ostatnie zapisane przewidywanie modelu i jego wersję treści. Wynik zadania
+`result.category` zawsze zawiera wynik modelu, również gdy kategorią operacyjną
+jest korekta ręczna. Korekta nie zmienia priorytetu, statusu, zadań, embeddingu
+ani referencji KNN. Dla tej samej wersji tekstu zadanie zachowuje korektę.
+
+Inny opis zwiększa wersję treści, ustawia kategorię operacyjną na `unknown`
+i unieważnia dotychczasową korektę (`manual_category_current=false`). Metadane
+ostatniej korekty i ostatniego przewidywania pozostają ze starszą wersją;
+nowa klasyfikacja może zapisać nową kategorię. Taki sam opis i zmiana samego
+checkboxa zachowują korektę. Dawne wyniki modelu są też dostępne w zadaniach
+danej wersji. Docelowy polski słownik helpdesku i sprawdzenie zatwierdzonych
+referencji nadal należą do późniejszych prac; dawnych kategorii nie mapujemy
+automatycznie na nowe.
 
 ## Uruchomienie przez Docker Compose
 
@@ -192,6 +213,12 @@ bez autora; sprawdza całe mapowanie przed zapisem w jednej transakcji.
 Nie nadpisuje znanego autora. Bez wiarygodnego mapowania pozostaw dawne dane
 jako `legacy_unowned`. Cofnięcie migracji kont z danymi jest blokowane.
 
+Migracja `e2b000000001` dodaje metadane przewidywania i korekty kategorii.
+Zachowuje istniejące pola bez zmian; nowe pola są puste, ponieważ dawna kategoria
+operacyjna nie dowodzi pochodzenia z KNN. Nie tworzy fikcyjnych korekt ani
+przewidywań. Wymaga standardowego `alembic upgrade head` przed startem API.
+Downgrade odmawia usunięcia zapisanych przewidywań lub korekt.
+
 ## Uruchomienie lokalne i testy
 
 Wymagany Python 3.12 lub 3.13. Utwórz środowisko i zainstaluj zależności:
@@ -237,8 +264,14 @@ modelu. Etap 3 rozszerza je o rejestrację, domeny, hasła, JWT, bieżące role
 i aktywność kont, atomową akceptację, widoczność danych i zadań, macierz
 obsługi zgłoszeń, historię przypisań, wyścigi decyzji i jawny import autorów.
 Komenda administratora ma testy ukrytego wejścia hasła i odmowy bez takiego
-terminala. Pełna regresja etapu 3 przeszła 72/72 testy; następnie przeszedł
-również dodatkowy test odmowy odczytu hasła bez ukrywania wejścia.
+terminala. Po domknięciu zaległości etapów 1–2 pełna regresja przeszła
+85/85 testów na osobnym PostgreSQL/pgvector. Obejmuje wszystkie role przy
+próbach zmiany statusów końcowych przez PATCH i DELETE, oba porządki wyścigu
+edycji zgłaszającego z przyjęciem przez obsługę oraz pełne ponowienie
+klasyfikacji z zachowaniem statusu i decyzji administratora. Korekta kategorii
+ma testy uprawnień, walidacji, zapisu podczas klasyfikacji, wyniku `unknown`,
+ponowienia błędu i unieważnienia po zmianie treści. Migracja zachowuje stare
+dane i odmawia cofnięcia powodującego utratę metadanych kategorii.
 Testy obejmują także pełny potok zadania z kontrolowanym wynikiem
 modelu, rzeczywiste zapytania pgvector, błędy obliczeń i zapisu, ponowienia,
 wyścigi edycji/statusu, wersjonowanie i brak blokowania pętli API. Test procesu
@@ -285,7 +318,8 @@ Wszystkie poniższe operacje wymagają Bearer JWT i podlegają powyższej macier
   Odpowiedź: `task_id`, `state` (`pending`, `running`, `succeeded`, `failed`),
   `content_version`, `current`, `created_at`, `started_at`, `finished_at`,
   `result`, `error`, `error_code`. Brak zadania lub inne zgłoszenie daje 404.
-  `result` zawiera kategorię i priorytety bazowy/automatyczny, bez wektora;
+  `result` zawiera przewidywaną kategorię i priorytety bazowy/automatyczny, bez wektora;
+  kategorię operacyjną po korekcie odczytuj ze szczegółów zgłoszenia;
   końcowy priorytet odczytuj ze szczegółów zgłoszenia (checkbox może się zmienić).
   Błąd jest bezpiecznym polskim komunikatem, bez tekstu zgłoszenia i surowego wyjątku.
 - `POST /tickets/{id}/classification/retry`: 202, `ticket` i nowy `task_id`.
@@ -305,7 +339,8 @@ Priorytet końcowy respektuje kolejność: zapisane `manual_priority`, checkbox,
 `automatic_priority`, tymczasowe `medium`. API ujawnia `priority_source` i
 `base_priority`; formularz nie pozwala zmieniać ręcznej decyzji. Pole ręcznej
 decyzji jest chronione przed zadaniem; endpoint administratora zapisuje autora
-i czas. Pełna historia decyzji i korekta kategorii należą do etapu 5.
+i czas. Korekta kategorii ma osobną wersję treści, autora i czas. Zatwierdzanie
+etykiet rozwiązanego zgłoszenia do referencji nadal należy do etapu 5.
 
 KNN przewiduje kategorię i priorytet bazowy wyłącznie z `classification_references`.
 Nowe zgłoszenia, wyniki klasyfikacji, checkbox, zmiany priorytetu i statusu

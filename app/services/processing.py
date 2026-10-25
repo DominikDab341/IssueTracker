@@ -113,14 +113,17 @@ class ProcessingRuntime:
                 fail_task(task, TaskErrorCode.OBSOLETE, "Wynik pominięto: zgłoszenie zmieniło treść lub zakończono jego obsługę.")
                 await db.commit()
                 return
-            ticket.category = prediction.category
+            ticket.predicted_category = prediction.category
+            ticket.predicted_category_version = task.content_version
+            if not ticket.manual_category_current:
+                ticket.category = prediction.category
             ticket.base_priority = prediction.base_priority
             ticket.automatic_priority = prediction.automatic_priority
             ticket.embedding_vector = prediction.vector
             ticket.embedding_version = task.content_version
             update_effective_priority(ticket)
             task.result = {
-                "category": ticket.category, "base_priority": ticket.base_priority,
+                "category": prediction.category, "base_priority": ticket.base_priority,
                 "automatic_priority": ticket.automatic_priority,
             }
             task.state = TaskState.SUCCEEDED

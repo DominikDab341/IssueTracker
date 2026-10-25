@@ -16,6 +16,14 @@ class Ticket(Base):
             name="ck_ticket_status"
         ),
         CheckConstraint("author_id IS NOT NULL OR legacy_unowned", name="ck_ticket_author"),
+        CheckConstraint("manual_category IS NULL OR manual_category IN ('bug', 'performance', 'feature')",
+                        name="ck_ticket_manual_category"),
+        CheckConstraint("(manual_category IS NULL AND manual_category_version IS NULL AND "
+                        "manual_category_by_id IS NULL AND manual_category_at IS NULL) OR "
+                        "(manual_category IS NOT NULL AND manual_category_version IS NOT NULL AND "
+                        "manual_category_by_id IS NOT NULL AND manual_category_at IS NOT NULL AND "
+                        "manual_category_version > 0 AND manual_category_version <= content_version)",
+                        name="ck_ticket_manual_category_metadata"),
     )
     id: Mapped[int] = mapped_column(primary_key=True)
     author_id: Mapped[int | None] = mapped_column(ForeignKey("users.id"), index=True)
@@ -29,6 +37,12 @@ class Ticket(Base):
     manual_priority_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
     text: Mapped[str] = mapped_column(String, nullable=False)
     category: Mapped[str] = mapped_column(String(50), nullable=False)
+    predicted_category: Mapped[str | None] = mapped_column(String(50))
+    predicted_category_version: Mapped[int | None] = mapped_column(Integer)
+    manual_category: Mapped[str | None] = mapped_column(String(50))
+    manual_category_version: Mapped[int | None] = mapped_column(Integer)
+    manual_category_by_id: Mapped[int | None] = mapped_column(ForeignKey("users.id"))
+    manual_category_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
     status: Mapped[str] = mapped_column(String(20), nullable=False, default=TicketStatus.REPORTED, server_default="reported")
     resolution_note: Mapped[str | None] = mapped_column(Text, nullable=True)
     rejection_reason: Mapped[str | None] = mapped_column(Text, nullable=True)
@@ -51,6 +65,10 @@ class Ticket(Base):
     @property
     def classification_current(self) -> bool:
         return self.embedding_version is not None and self.embedding_version == self.content_version
+
+    @property
+    def manual_category_current(self) -> bool:
+        return self.manual_category is not None and self.manual_category_version == self.content_version
 
 
 class User(Base):

@@ -6,7 +6,7 @@ from app.api.dependencies import get_processing_runtime, get_ticket_service
 from app.api.schemas import (
     TaskStatusResponse, TicketCloseResponse, TicketCreate, TicketCreateResponse,
     TicketEdit, TicketEditResponse, TicketResponse, TicketStatusUpdate,
-    AssignmentUpdate, AssignmentResponse, PriorityUpdate,
+    AssignmentUpdate, AssignmentResponse, CategoryUpdate, PriorityUpdate,
 )
 from app.domain import Priority
 from app.services.processing import ProcessingRuntime
@@ -15,6 +15,11 @@ from app.ticket_status import TicketStatus
 
 
 router = APIRouter(prefix="/tickets")
+
+
+@router.patch("/{ticket_id}/category", response_model=TicketResponse)
+async def correct_category(ticket_id: int, body: CategoryUpdate, service: TicketService = Depends(get_ticket_service)):
+    return await service.correct_category(ticket_id, body.category)
 
 
 @router.patch("/{ticket_id}/assignee", response_model=TicketResponse)

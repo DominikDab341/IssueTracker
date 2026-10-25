@@ -105,6 +105,8 @@ class ProcessingTests(ApiTestCase):
         self.assertEqual(state["error_code"], "processing_failed")
         self.assertIsNone(state["result"])
         self.assertEqual(detail["category"], "unknown")
+        self.assertIsNone(detail["predicted_category"])
+        self.assertIsNone(detail["predicted_category_version"])
         self.assertIsNone(detail["embedding_version"])
 
     async def test_edit_running_version_ignores_late_result(self):
@@ -145,10 +147,8 @@ class ProcessingTests(ApiTestCase):
         self.assertEqual(changed["embedding_version"], 1)
         self.assertEqual(changed["current_task_id"], ticket["current_task_id"])
         self.assertEqual(self.mock_delay.call_count, calls)
-        async with self.sessions() as db:
-            row = await db.get(Ticket, ticket["id"])
-            row.manual_priority = "low"  # Future E5.9 decision, no public endpoint introduced here.
-            await db.commit()
+        manual = await self.client.patch(f"/tickets/{ticket['id']}/priority", json={"priority": "low"}, headers=self.admin_headers)
+        self.assertEqual(manual.status_code, 200)
         response = await self.client.patch(f"/tickets/{ticket['id']}", json={"text": "Nowy opis problemu.", "work_blocked": True})
         changed = response.json()["ticket"]
         with patch.object(self.runtime, "classifier", return_value=PREDICTION):
@@ -160,10 +160,8 @@ class ProcessingTests(ApiTestCase):
     async def test_manual_decision_during_computation_and_terminal_result(self):
         ticket = await self.new(True)
         await self.runtime._claim(ticket["current_task_id"])
-        async with self.sessions() as db:
-            row = await db.get(Ticket, ticket["id"])
-            row.manual_priority = "low"
-            await db.commit()
+        manual = await self.client.patch(f"/tickets/{ticket['id']}/priority", json={"priority": "low"}, headers=self.admin_headers)
+        self.assertEqual(manual.status_code, 200)
         await self.runtime._save_result(ticket["current_task_id"], PREDICTION)
         self.assertEqual((await self.detail(ticket))["priority"], "low")
         another = await self.new()
