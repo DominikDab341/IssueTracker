@@ -1,12 +1,13 @@
 fastapi
 uvicorn
-celery
-redis
+anyio
 sentence-transformers
+transformers
 pydantic
 pydantic-settings
 python-dotenv
 sqlalchemy[asyncio]
 asyncpg
+psycopg
 pgvector
 alembic

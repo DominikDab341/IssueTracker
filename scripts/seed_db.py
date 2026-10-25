@@ -5,27 +5,18 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
-from sentence_transformers import SentenceTransformer
 from sqlalchemy import text
 from sqlalchemy.ext.asyncio import create_async_engine
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.settings import settings
-from app.database.database import Base
 from app.models.models import Ticket
+from app.services.classifier import get_model
+from app.services.text_validation import validate_ticket_text
 
 engine = create_async_engine(settings.DATABASE_URL)
-model = SentenceTransformer(settings.MODEL_NAME)
-
-
-async def init_db():
-    async with engine.begin() as conn:
-        await conn.execute(text("CREATE EXTENSION IF NOT EXISTS vector"))
-        await conn.run_sync(Base.metadata.create_all)
-
-
 async def seed_tickets():
-    with open("data/sample_tickets.json", "r", encoding="utf-8") as f:
+    with open(Path(__file__).resolve().parent.parent / "data/sample_tickets.json", "r", encoding="utf-8") as f:
         tickets = json.load(f)
 
     async with AsyncSession(engine) as session:
@@ -35,13 +26,16 @@ async def seed_tickets():
             return
 
         for t in tickets:
-            vector = model.encode(t["text"]).tolist()
+            description = validate_ticket_text(t["text"])
+            vector = get_model().encode(description).tolist()
 
             ticket = Ticket(
-                text=t["text"],
+                text=description,
                 category=t["category"],
                 priority=t["priority"],
+                automatic_priority=t["priority"],
                 embedding_vector=vector,
+                embedding_version=1,
             )
             session.add(ticket)
 
@@ -49,9 +43,11 @@ async def seed_tickets():
 
 
 async def main():
-    await init_db()
-    await seed_tickets()
-    print("IssueTracker database is ready.")
+    try:
+        await seed_tickets()
+        print("Dane demonstracyjne są gotowe. Skrypt nie tworzy ani nie zmienia schematu.")
+    finally:
+        await engine.dispose()
 
 
 if __name__ == "__main__":
