@@ -40,22 +40,57 @@ class TicketService:
 
     async def _commit(self, ticket: Ticket) -> None:
         await self.db.commit()
-        await self.db.refresh(ticket)
+        await self._task_states([ticket])
 
     async def get(self, ticket_id: int) -> Ticket:
-        return await self._get(ticket_id)
+        row = (await self.db.execute(
+            self._read_query().where(Ticket.id == ticket_id, available_tickets(self.actor))
+        )).first()
+        if row is None:
+            raise NotFoundError("Nie znaleziono zgłoszenia.")
+        ticket, state = row
+        ticket.current_task_state = state
+        return ticket
+
+    @staticmethod
+    def _read_query():
+        # One PostgreSQL snapshot: a finished task must not accompany the old ticket result.
+        return select(Ticket, ClassificationTask.state).outerjoin(
+            ClassificationTask, ClassificationTask.id == Ticket.current_task_id,
+        ).execution_options(populate_existing=True)
+
+    async def _task_states(self, tickets: list[Ticket]) -> None:
+        if tickets:
+            rows = (await self.db.execute(self._read_query().where(Ticket.id.in_([t.id for t in tickets])))).all()
+            for ticket, state in rows:
+                ticket.current_task_state = state
+
+    async def duplicates(self, ticket_id: int) -> list[dict]:
+        ticket = await self._get(ticket_id)
+        return await find_similar_open_tickets(
+            ticket_id=ticket.id, embedding=ticket.embedding_vector if ticket.classification_current else None,
+            category=ticket.category, db=self.db, actor=self.actor,
+        )
 
     async def list_tickets(self, *, status: TicketStatus | None = None, category: str | None = None,
-                   priority: str | None = None, limit: int = 20, offset: int = 0) -> list[Ticket]:
-        query = select(Ticket).where(available_tickets(self.actor)).order_by(Ticket.created_at.desc(), Ticket.id.desc())
+                   priority: str | None = None, needs_review: bool | None = None,
+                   limit: int = 20, offset: int = 0) -> list[Ticket]:
+        query = self._read_query().where(available_tickets(self.actor)).order_by(Ticket.created_at.desc(), Ticket.id.desc())
         if status is not None:
             query = query.where(Ticket.status == status)
         if category is not None:
             query = query.where(Ticket.category == category)
         if priority is not None:
             query = query.where(Ticket.priority == priority)
+        if needs_review is not None:
+            require_roles(self.actor, Role.STAFF, Role.ADMIN)
+            query = query.where((Ticket.category == "unknown") if needs_review else (Ticket.category != "unknown"))
         result = await self.db.execute(query.limit(limit).offset(offset))
-        return list(result.scalars().all())
+        tickets = []
+        for ticket, state in result.all():
+            ticket.current_task_state = state
+            tickets.append(ticket)
+        return tickets
 
     async def create(self, *, text: str, work_blocked: bool, run_id: str) -> tuple[Ticket, ClassificationTask]:
         text = await self._validate_text(text)

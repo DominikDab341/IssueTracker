@@ -1,0 +1,189 @@
+INFO  [alembic.runtime.migration] Context impl PostgresqlImpl.
+INFO  [alembic.runtime.migration] Will assume transactional DDL.
+INFO  [alembic.runtime.migration] Running upgrade  -> 01dc9b5e8ac2, initial_schema
+INFO  [alembic.runtime.migration] Running upgrade 01dc9b5e8ac2 -> 93aaf01f792a, add_status_field
+INFO  [alembic.runtime.migration] Running upgrade 93aaf01f792a -> e1a000000001, Six workflow statuses; require explicit decisions for legacy data.
+INFO  [alembic.runtime.migration] Running upgrade e1a000000001 -> e1a000000002, Align timestamp nullability with ORM and API.
+INFO  [alembic.runtime.migration] Running upgrade e1a000000002 -> e2a000000001, Persist classification jobs, content versions and priority sources.
+INFO  [alembic.runtime.migration] Running upgrade e2a000000001 -> e5a000000001, Separate KNN references from operational tickets and their final priorities.
+INFO  [alembic.runtime.migration] Running upgrade e5a000000001 -> e3a000000001, Users, decision authors and assignment history; preserve unowned legacy rows.
+INFO  [alembic.runtime.migration] Running upgrade e3a000000001 -> e2b000000001, Separate operational category corrections from KNN predictions (E2.5).
+test_all_status_transitions (test_api.TicketApiTests.test_all_status_transitions) ... ok
+test_concurrent_transitions_cannot_reopen_terminal_ticket (test_api.TicketApiTests.test_concurrent_transitions_cannot_reopen_terminal_ticket) ... ok
+test_create_get_list_and_no_vector (test_api.TicketApiTests.test_create_get_list_and_no_vector) ... ok
+test_delete_alias_preserves_history_and_obeys_workflow (test_api.TicketApiTests.test_delete_alias_preserves_history_and_obeys_workflow) ... ok
+test_duplicates_use_pgvector_and_only_active_statuses (test_api.TicketApiTests.test_duplicates_use_pgvector_and_only_active_statuses) ... ok
+test_filters_pagination_and_stable_order (test_api.TicketApiTests.test_filters_pagination_and_stable_order) ... ok
+test_invalid_text_and_payload (test_api.TicketApiTests.test_invalid_text_and_payload) ... ok
+test_missing_tickets (test_api.TicketApiTests.test_missing_tickets) ... ok
+test_notes_required_and_saved_atomically (test_api.TicketApiTests.test_notes_required_and_saved_atomically) ... ok
+test_real_tokenizer_boundary (test_api.TicketApiTests.test_real_tokenizer_boundary) ... ok
+test_seed_adds_references_without_modifying_existing_tickets (test_api.TicketApiTests.test_seed_adds_references_without_modifying_existing_tickets) ... ok
+test_seed_default_adds_only_references_and_no_unowned_tickets (test_api.TicketApiTests.test_seed_default_adds_only_references_and_no_unowned_tickets) ... ok
+test_seed_uses_migrated_schema_and_skips_existing_data (test_api.TicketApiTests.test_seed_uses_migrated_schema_and_skips_existing_data) ... ok
+test_tokenizer_unavailable_does_not_create_ticket (test_api.TicketApiTests.test_tokenizer_unavailable_does_not_create_ticket) ... ok
+INFO  [alembic.runtime.migration] Context impl PostgresqlImpl.
+INFO  [alembic.runtime.migration] Will assume transactional DDL.
+test_administration_forbidden_to_staff_and_reporter (test_auth.AuthenticationTests.test_administration_forbidden_to_staff_and_reporter) ... ok
+test_approval_validation_atomicity_and_race (test_auth.AuthenticationTests.test_approval_validation_atomicity_and_race) ... ok
+test_assistant_guard_all_roles_and_live_role_change (test_auth.AuthenticationTests.test_assistant_guard_all_roles_and_live_role_change) ... ok
+test_bad_password_invalid_expired_and_missing_tokens (test_auth.AuthenticationTests.test_bad_password_invalid_expired_and_missing_tokens) ... ok
+test_bootstrap_is_once_no_overwrite_and_serialized (test_auth.AuthenticationTests.test_bootstrap_is_once_no_overwrite_and_serialized) ... ok
+test_database_rejects_approved_account_without_role (test_auth.AuthenticationTests.test_database_rejects_approved_account_without_role) ... ok
+test_pending_approval_login_deactivation_and_role_are_live (test_auth.AuthenticationTests.test_pending_approval_login_deactivation_and_role_are_live) ... ok
+test_registration_domain_normalization_and_no_role_escalation (test_auth.AuthenticationTests.test_registration_domain_normalization_and_no_role_escalation) ... ok
+test_command_refuses_terminal_without_hidden_password_input (test_auth.BootstrapCommandTests.test_command_refuses_terminal_without_hidden_password_input) ... ok
+test_password_is_prompted_without_command_argument_or_output (test_auth.BootstrapCommandTests.test_password_is_prompted_without_command_argument_or_output) ... ok
+INFO  [alembic.runtime.migration] Context impl PostgresqlImpl.
+INFO  [alembic.runtime.migration] Will assume transactional DDL.
+test_assignment_history_reassignment_and_current_handler (test_authorization.AuthorizationTests.test_assignment_history_reassignment_and_current_handler) ... ok
+test_assignment_targets_and_access (test_authorization.AuthorizationTests.test_assignment_targets_and_access) ... ok
+test_cancellation_own_unassigned_only_and_terminal (test_authorization.AuthorizationTests.test_cancellation_own_unassigned_only_and_terminal) ... ok
+test_concurrent_accept_cancel_assign_reject_and_resolve (test_authorization.AuthorizationTests.test_concurrent_accept_cancel_assign_reject_and_resolve) ... ok
+test_duplicate_query_and_delete_alias_filter_visibility (test_authorization.AuthorizationTests.test_duplicate_query_and_delete_alias_filter_visibility) ... ok
+test_edit_is_owner_only_and_immutable_after_acceptance_for_every_role (test_authorization.AuthorizationTests.test_edit_is_owner_only_and_immutable_after_acceptance_for_every_role) ... ok
+test_full_retry_preserves_manual_priority_and_workflow_for_each_active_status (test_authorization.AuthorizationTests.test_full_retry_preserves_manual_priority_and_workflow_for_each_active_status) ... ok
+test_late_classification_cannot_undo_cancellation (test_authorization.AuthorizationTests.test_late_classification_cannot_undo_cancellation) ... ok
+test_legacy_import_is_explicit_atomic_and_cannot_overwrite (test_authorization.AuthorizationTests.test_legacy_import_is_explicit_atomic_and_cannot_overwrite) ... ok
+test_manual_priority_admin_only_survives_processing_and_checkbox (test_authorization.AuthorizationTests.test_manual_priority_admin_only_survives_processing_and_checkbox) ... ok
+test_rejection_matrix_notes_and_delete_cannot_bypass (test_authorization.AuthorizationTests.test_rejection_matrix_notes_and_delete_cannot_bypass) ... ok
+test_reporter_edit_and_different_staff_acceptance_both_lock_orders (test_authorization.AuthorizationTests.test_reporter_edit_and_different_staff_acceptance_both_lock_orders) ... ok
+test_resolution_requires_sequence_and_current_assignee_including_admin (test_authorization.AuthorizationTests.test_resolution_requires_sequence_and_current_assignee_including_admin) ... ok
+test_retry_matrix_and_previous_handler (test_authorization.AuthorizationTests.test_retry_matrix_and_previous_handler) ... ok
+test_terminal_statuses_are_immutable_for_all_roles_and_delete_alias (test_authorization.AuthorizationTests.test_terminal_statuses_are_immutable_for_all_roles_and_delete_alias) ... ok
+test_visibility_ownership_task_and_payload_spoofing (test_authorization.AuthorizationTests.test_visibility_ownership_task_and_payload_spoofing) ... ok
+INFO  [alembic.runtime.migration] Context impl PostgresqlImpl.
+INFO  [alembic.runtime.migration] Will assume transactional DDL.
+test_category_dictionary_validation_and_no_metadata_spoofing (test_category_corrections.CategoryCorrectionTests.test_category_dictionary_validation_and_no_metadata_spoofing) ... ok
+test_correction_keeps_priority_workflow_tasks_embedding_and_references (test_category_corrections.CategoryCorrectionTests.test_correction_keeps_priority_workflow_tasks_embedding_and_references) ... ok
+test_database_rejects_partial_or_unknown_manual_correction (test_category_corrections.CategoryCorrectionTests.test_database_rejects_partial_or_unknown_manual_correction) ... ok
+test_failed_retry_preserves_category_and_manual_priority (test_category_corrections.CategoryCorrectionTests.test_failed_retry_preserves_category_and_manual_priority) ... ok
+test_permissions_current_and_previous_assignee_and_reporter (test_category_corrections.CategoryCorrectionTests.test_permissions_current_and_previous_assignee_and_reporter) ... ok
+test_running_prediction_and_manual_correction_both_completion_orders (test_category_corrections.CategoryCorrectionTests.test_running_prediction_and_manual_correction_both_completion_orders) ... ok
+test_stale_view_cannot_correct_new_text_before_or_after_classification (test_category_corrections.CategoryCorrectionTests.test_stale_view_cannot_correct_new_text_before_or_after_classification) ... ok
+test_text_edit_invalidates_correction_but_checkbox_keeps_it (test_category_corrections.CategoryCorrectionTests.test_text_edit_invalidates_correction_but_checkbox_keeps_it) ... ok
+test_unknown_prediction_cannot_erase_manual_category (test_category_corrections.CategoryCorrectionTests.test_unknown_prediction_cannot_erase_manual_category) ... ok
+test_version_is_checked_after_waiting_for_concurrent_edit_lock (test_category_corrections.CategoryCorrectionTests.test_version_is_checked_after_waiting_for_concurrent_edit_lock) ... ok
+INFO  [alembic.runtime.migration] Context impl PostgresqlImpl.
+INFO  [alembic.runtime.migration] Will assume transactional DDL.
+test_checkbox_does_not_propagate_critical_to_following_tickets (test_classifier_references.ClassifierReferenceTests.test_checkbox_does_not_propagate_critical_to_following_tickets) ... ok
+test_critical_reference_remains_critical_without_checkbox (test_classifier_references.ClassifierReferenceTests.test_critical_reference_remains_critical_without_checkbox) ... ok
+test_database_rejects_unknown_labels_and_invalid_priorities (test_classifier_references.ClassifierReferenceTests.test_database_rejects_unknown_labels_and_invalid_priorities) ... ok
+test_manual_priority_and_closed_tickets_do_not_change_reference (test_classifier_references.ClassifierReferenceTests.test_manual_priority_and_closed_tickets_do_not_change_reference) ... ok
+test_operational_tickets_cannot_bootstrap_or_pollute_reference (test_classifier_references.ClassifierReferenceTests.test_operational_tickets_cannot_bootstrap_or_pollute_reference) ... ok
+test_reference_is_independent_of_operational_text_edit (test_classifier_references.ClassifierReferenceTests.test_reference_is_independent_of_operational_text_edit) ... ok
+INFO  [alembic.runtime.migration] Context impl PostgresqlImpl.
+INFO  [alembic.runtime.migration] Will assume transactional DDL.
+test_assignee_directory_only_contains_eligible_staff (test_frontend_contract.FrontendContractTests.test_assignee_directory_only_contains_eligible_staff) ... ok
+test_duplicates_require_access_and_current_embeddings (test_frontend_contract.FrontendContractTests.test_duplicates_require_access_and_current_embeddings) ... ok
+test_public_domain_and_explicit_cors (test_frontend_contract.FrontendContractTests.test_public_domain_and_explicit_cors) ... ok
+test_review_filter_and_task_state_do_not_change_visibility (test_frontend_contract.FrontendContractTests.test_review_filter_and_task_state_do_not_change_visibility) ... ok
+test_cli_without_explicit_url_keeps_settings_database (test_migration_isolation.MigrationIsolationTests.test_cli_without_explicit_url_keeps_settings_database) ... ok
+test_explicit_test_url_wins_over_previously_loaded_settings (test_migration_isolation.MigrationIsolationTests.test_explicit_test_url_wins_over_previously_loaded_settings) ... ok
+test_server_database_is_checked_before_migrations (test_migration_isolation.MigrationIsolationTests.test_server_database_is_checked_before_migrations) ... ok
+test_category_migration_preserves_legacy_data_and_guards_downgrade (test_migrations.MigrationTests.test_category_migration_preserves_legacy_data_and_guards_downgrade) ... INFO  [alembic.runtime.migration] Context impl PostgresqlImpl.
+INFO  [alembic.runtime.migration] Will assume transactional DDL.
+INFO  [alembic.runtime.migration] Context impl PostgresqlImpl.
+INFO  [alembic.runtime.migration] Will assume transactional DDL.
+INFO  [alembic.runtime.migration] Running downgrade e2b000000001 -> e3a000000001, Separate operational category corrections from KNN predictions (E2.5).
+INFO  [alembic.runtime.migration] Context impl PostgresqlImpl.
+INFO  [alembic.runtime.migration] Will assume transactional DDL.
+INFO  [alembic.runtime.migration] Running upgrade e3a000000001 -> e2b000000001, Separate operational category corrections from KNN predictions (E2.5).
+INFO  [alembic.runtime.migration] Context impl PostgresqlImpl.
+INFO  [alembic.runtime.migration] Will assume transactional DDL.
+INFO  [alembic.runtime.migration] Running downgrade e2b000000001 -> e3a000000001, Separate operational category corrections from KNN predictions (E2.5).
+ok
+test_empty_schema_legacy_guard_mapping_and_metadata (test_migrations.MigrationTests.test_empty_schema_legacy_guard_mapping_and_metadata) ... INFO  [alembic.runtime.migration] Context impl PostgresqlImpl.
+INFO  [alembic.runtime.migration] Will assume transactional DDL.
+INFO  [alembic.runtime.migration] Context impl PostgresqlImpl.
+INFO  [alembic.runtime.migration] Will assume transactional DDL.
+INFO  [alembic.runtime.migration] Running downgrade e2b000000001 -> e3a000000001, Separate operational category corrections from KNN predictions (E2.5).
+INFO  [alembic.runtime.migration] Running downgrade e3a000000001 -> e5a000000001, Users, decision authors and assignment history; preserve unowned legacy rows.
+INFO  [alembic.runtime.migration] Running downgrade e5a000000001 -> e2a000000001, Separate KNN references from operational tickets and their final priorities.
+INFO  [alembic.runtime.migration] Running downgrade e2a000000001 -> e1a000000002, Persist classification jobs, content versions and priority sources.
+INFO  [alembic.runtime.migration] Running downgrade e1a000000002 -> e1a000000001, Align timestamp nullability with ORM and API.
+INFO  [alembic.runtime.migration] Running downgrade e1a000000001 -> 93aaf01f792a, Six workflow statuses; require explicit decisions for legacy data.
+INFO  [alembic.runtime.migration] Running downgrade 93aaf01f792a -> 01dc9b5e8ac2, add_status_field
+INFO  [alembic.runtime.migration] Running downgrade 01dc9b5e8ac2 -> , initial_schema
+INFO  [alembic.runtime.migration] Context impl PostgresqlImpl.
+INFO  [alembic.runtime.migration] Will assume transactional DDL.
+INFO  [alembic.runtime.migration] Running upgrade  -> 01dc9b5e8ac2, initial_schema
+INFO  [alembic.runtime.migration] Running upgrade 01dc9b5e8ac2 -> 93aaf01f792a, add_status_field
+INFO  [alembic.runtime.migration] Context impl PostgresqlImpl.
+INFO  [alembic.runtime.migration] Will assume transactional DDL.
+INFO  [alembic.runtime.migration] Running upgrade 93aaf01f792a -> e1a000000001, Six workflow statuses; require explicit decisions for legacy data.
+INFO  [alembic.runtime.migration] Context impl PostgresqlImpl.
+INFO  [alembic.runtime.migration] Will assume transactional DDL.
+INFO  [alembic.runtime.migration] Running upgrade 93aaf01f792a -> e1a000000001, Six workflow statuses; require explicit decisions for legacy data.
+INFO  [alembic.runtime.migration] Running upgrade e1a000000001 -> e1a000000002, Align timestamp nullability with ORM and API.
+INFO  [alembic.runtime.migration] Running upgrade e1a000000002 -> e2a000000001, Persist classification jobs, content versions and priority sources.
+INFO  [alembic.runtime.migration] Running upgrade e2a000000001 -> e5a000000001, Separate KNN references from operational tickets and their final priorities.
+INFO  [alembic.runtime.migration] Running upgrade e5a000000001 -> e3a000000001, Users, decision authors and assignment history; preserve unowned legacy rows.
+INFO  [alembic.runtime.migration] Running upgrade e3a000000001 -> e2b000000001, Separate operational category corrections from KNN predictions (E2.5).
+INFO  [alembic.runtime.migration] Context impl PostgresqlImpl.
+INFO  [alembic.runtime.migration] Will assume transactional DDL.
+INFO  [alembic.runtime.plugins] setting up autogenerate plugin alembic.autogenerate.schemas
+INFO  [alembic.runtime.plugins] setting up autogenerate plugin alembic.autogenerate.tables
+INFO  [alembic.runtime.plugins] setting up autogenerate plugin alembic.autogenerate.types
+INFO  [alembic.runtime.plugins] setting up autogenerate plugin alembic.autogenerate.constraints
+INFO  [alembic.runtime.plugins] setting up autogenerate plugin alembic.autogenerate.defaults
+INFO  [alembic.runtime.plugins] setting up autogenerate plugin alembic.autogenerate.comments
+INFO  [alembic.ddl.postgresql] Detected sequence named 'assignment_history_id_seq' as owned by integer column 'assignment_history(id)', assuming SERIAL and omitting
+INFO  [alembic.ddl.postgresql] Detected sequence named 'classification_references_id_seq' as owned by integer column 'classification_references(id)', assuming SERIAL and omitting
+INFO  [alembic.ddl.postgresql] Detected sequence named 'tickets_id_seq' as owned by integer column 'tickets(id)', assuming SERIAL and omitting
+INFO  [alembic.ddl.postgresql] Detected sequence named 'users_id_seq' as owned by integer column 'users(id)', assuming SERIAL and omitting
+INFO  [alembic.runtime.migration] Context impl PostgresqlImpl.
+INFO  [alembic.runtime.migration] Will assume transactional DDL.
+INFO  [alembic.runtime.migration] Running downgrade e2b000000001 -> e3a000000001, Separate operational category corrections from KNN predictions (E2.5).
+INFO  [alembic.runtime.migration] Running downgrade e3a000000001 -> e5a000000001, Users, decision authors and assignment history; preserve unowned legacy rows.
+INFO  [alembic.runtime.migration] Running downgrade e5a000000001 -> e2a000000001, Separate KNN references from operational tickets and their final priorities.
+INFO  [alembic.runtime.migration] Running downgrade e2a000000001 -> e1a000000002, Persist classification jobs, content versions and priority sources.
+ok
+test_users_migration_preserves_existing_data_without_inventing_authors (test_migrations.MigrationTests.test_users_migration_preserves_existing_data_without_inventing_authors) ... INFO  [alembic.runtime.migration] Context impl PostgresqlImpl.
+INFO  [alembic.runtime.migration] Will assume transactional DDL.
+INFO  [alembic.runtime.migration] Context impl PostgresqlImpl.
+INFO  [alembic.runtime.migration] Will assume transactional DDL.
+INFO  [alembic.runtime.migration] Running downgrade e2b000000001 -> e3a000000001, Separate operational category corrections from KNN predictions (E2.5).
+INFO  [alembic.runtime.migration] Running downgrade e3a000000001 -> e5a000000001, Users, decision authors and assignment history; preserve unowned legacy rows.
+INFO  [alembic.runtime.migration] Context impl PostgresqlImpl.
+INFO  [alembic.runtime.migration] Will assume transactional DDL.
+INFO  [alembic.runtime.migration] Running upgrade e5a000000001 -> e3a000000001, Users, decision authors and assignment history; preserve unowned legacy rows.
+INFO  [alembic.runtime.migration] Running upgrade e3a000000001 -> e2b000000001, Separate operational category corrections from KNN predictions (E2.5).
+ok
+test_automatic_priority_is_preserved_without_overrides (test_priorities.PriorityDecisionTests.test_automatic_priority_is_preserved_without_overrides) ... ok
+test_checkbox_is_critical_without_manual_decision (test_priorities.PriorityDecisionTests.test_checkbox_is_critical_without_manual_decision) ... ok
+test_manual_decision_wins_over_checkbox_and_automatic_priority (test_priorities.PriorityDecisionTests.test_manual_decision_wins_over_checkbox_and_automatic_priority) ... ok
+test_missing_or_unknown_predictions_use_explicit_fallback (test_priorities.PriorityDecisionTests.test_missing_or_unknown_predictions_use_explicit_fallback) ... ok
+INFO  [alembic.runtime.migration] Context impl PostgresqlImpl.
+INFO  [alembic.runtime.migration] Will assume transactional DDL.
+test_checkbox_only_keeps_embedding_and_manual_decision (test_processing.ProcessingTests.test_checkbox_only_keeps_embedding_and_manual_decision) ... ok
+test_create_commit_precedes_dispatch_and_failure_is_atomic (test_processing.ProcessingTests.test_create_commit_precedes_dispatch_and_failure_is_atomic) ... ok
+test_edit_accept_race_and_validation (test_processing.ProcessingTests.test_edit_accept_race_and_validation) ... ok
+test_edit_running_version_ignores_late_result (test_processing.ProcessingTests.test_edit_running_version_ignores_late_result) ... ok
+test_failed_database_write_rolls_back_prediction (test_processing.ProcessingTests.test_failed_database_write_rolls_back_prediction) ... ok
+test_manual_decision_during_computation_and_terminal_result (test_processing.ProcessingTests.test_manual_decision_during_computation_and_terminal_result) ... ok
+test_model_failure_safe_error_and_concurrent_retry (test_processing.ProcessingTests.test_model_failure_safe_error_and_concurrent_retry) ... ok
+test_persisted_pending_and_success_priority_precedence (test_processing.ProcessingTests.test_persisted_pending_and_success_priority_precedence) ... ok
+test_second_process_refused_restart_recovers_orphans (test_processing.ProcessingTests.test_second_process_refused_restart_recovers_orphans) ... ok
+test_stale_embeddings_excluded_and_empty_reference_succeeds (test_processing.ProcessingTests.test_stale_embeddings_excluded_and_empty_reference_succeeds) ... ok
+test_task_lookup_checks_ticket_and_missing (test_processing.ProcessingTests.test_task_lookup_checks_ticket_and_missing) ... ok
+test_thread_responsiveness_serial_computation_and_sequential_tickets (test_processing.ProcessingTests.test_thread_responsiveness_serial_computation_and_sequential_tickets) ... ok
+test_failure_stage_and_stack_are_logged_without_exception_payload (test_processing_diagnostics.ProcessingDiagnosticsTests.test_failure_stage_and_stack_are_logged_without_exception_payload) ... ok
+test_failure_to_record_error_also_has_safe_diagnostics (test_processing_diagnostics.ProcessingDiagnosticsTests.test_failure_to_record_error_also_has_safe_diagnostics) ... ok
+test_invalid_text_is_rejected_without_loading_tokenizer (test_request_validation.RequestValidationTests.test_invalid_text_is_rejected_without_loading_tokenizer) ... ok
+test_slow_tokenizer_does_not_block_other_http_requests (test_request_validation.RequestValidationTests.test_slow_tokenizer_does_not_block_other_http_requests) ... ok
+test_tokenizer_unavailable_remains_503_before_database_access (test_request_validation.RequestValidationTests.test_tokenizer_unavailable_remains_503_before_database_access) ... ok
+test_http_response_before_completion_process_kill_restart_and_retry (test_restart.ProcessRestartTests.test_http_response_before_completion_process_kill_restart_and_retry) ... INFO  [alembic.runtime.migration] Context impl PostgresqlImpl.
+INFO  [alembic.runtime.migration] Will assume transactional DDL.
+ok
+INFO  [alembic.runtime.migration] Context impl PostgresqlImpl.
+INFO  [alembic.runtime.migration] Will assume transactional DDL.
+test_each_runtime_uses_its_injected_classifier (test_ticket_service.TicketServiceTests.test_each_runtime_uses_its_injected_classifier) ... ok
+test_service_can_create_ticket_and_task_without_http_or_dispatch (test_ticket_service.TicketServiceTests.test_service_can_create_ticket_and_task_without_http_or_dispatch) ... ok
+test_service_enforces_required_notes_without_pydantic_validation (test_ticket_service.TicketServiceTests.test_service_enforces_required_notes_without_pydantic_validation) ... ok
+
+----------------------------------------------------------------------
+Ran 91 tests in 121.289s
+
+OK
+Database already has 10 tickets and the demo references, skipping seed.

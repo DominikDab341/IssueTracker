@@ -43,6 +43,11 @@ class UserService:
             query = query.where(User.is_approved == (not pending))
         return list((await self.db.scalars(query.limit(limit).offset(offset))).all())
 
+    async def assignees(self, actor: User, *, limit: int, offset: int):
+        require_roles(actor, Role.ADMIN)
+        query = select(User).where(User.role == Role.STAFF, User.is_active, User.is_approved)
+        return list((await self.db.scalars(query.order_by(User.email, User.id).limit(limit).offset(offset))).all())
+
     async def _lock(self, user_id: int) -> User:
         user = await self.db.scalar(select(User).where(User.id == user_id).with_for_update()
                                     .execution_options(populate_existing=True))

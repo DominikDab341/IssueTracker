@@ -3,6 +3,7 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI, Request
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
+from fastapi.middleware.cors import CORSMiddleware
 
 from app.api.tickets import router
 from app.api.auth import router as auth_router
@@ -12,6 +13,7 @@ from app.services.errors import AuthenticationError, ForbiddenError, ConflictErr
 from app.services.auth import jwt_secret
 from app.services.processing import ProcessingRuntime
 from app.services.text_validation import TokenizerUnavailableError
+from app.settings import settings
 
 
 @asynccontextmanager
@@ -28,6 +30,9 @@ async def lifespan(app: FastAPI):
 
 
 app = FastAPI(lifespan=lifespan)
+app.add_middleware(CORSMiddleware, allow_origins=settings.CORS_ORIGINS,
+                   allow_methods=["GET", "POST", "PATCH", "DELETE"],
+                   allow_headers=["Authorization", "Content-Type"])
 app.include_router(router)
 app.include_router(auth_router)
 

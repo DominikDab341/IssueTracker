@@ -17,6 +17,24 @@ from app.settings import settings
 router = APIRouter()
 
 
+@router.get("/auth/config")
+async def registration_config():
+    return {"allowed_email_domain": settings.ALLOWED_EMAIL_DOMAIN.lower()}
+
+
+class AssigneeResponse(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+    id: int
+    email: str
+
+
+@router.get("/admin/assignees", response_model=list[AssigneeResponse])
+async def assignees(limit: Annotated[int, Query(ge=1, le=100)] = 100,
+                    offset: Annotated[int, Query(ge=0)] = 0,
+                    actor: User = Depends(get_current_user), db: AsyncSession = Depends(get_db)):
+    return await UserService(db).assignees(actor, limit=limit, offset=offset)
+
+
 class Registration(BaseModel):
     model_config = ConfigDict(extra="forbid")
     email: str = Field(max_length=254)

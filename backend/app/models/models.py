@@ -70,6 +70,10 @@ class Ticket(Base):
     def manual_category_current(self) -> bool:
         return self.manual_category is not None and self.manual_category_version == self.content_version
 
+    @property
+    def needs_review(self) -> bool:
+        return self.category == "unknown"
+
 
 class User(Base):
     __tablename__ = "users"

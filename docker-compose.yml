@@ -2,7 +2,7 @@ services:
   postgres:
     image: pgvector/pgvector:pg16
     env_file:
-      - .env.docker
+      - ./backend/.env.docker
     ports:
       - "5433:5432"
     volumes:
@@ -14,17 +14,27 @@ services:
       retries: 30
 
   api:
-    build: .
+    build: ./backend
     command: uvicorn app.api.main:app --host 0.0.0.0 --port 8000
     volumes:
-      - .:/app
+      - ./backend:/app
     ports:
       - "8000:8000"
     depends_on:
       postgres:
         condition: service_healthy
     env_file:
-      - .env.docker
+      - ./backend/.env.docker
+
+  frontend:
+    build:
+      context: ./frontend
+      args:
+        VITE_API_URL: /api
+    ports:
+      - "3000:80"
+    depends_on:
+      - api
 
 volumes:
   pgdata:

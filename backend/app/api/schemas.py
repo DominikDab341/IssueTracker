@@ -95,6 +95,8 @@ class TicketResponse(BaseModel):
     content_version: int
     embedding_version: int | None
     classification_current: bool
+    needs_review: bool
+    current_task_state: TaskState | None = None
     current_task_id: str | None
     base_priority: str | None
     priority_source: str

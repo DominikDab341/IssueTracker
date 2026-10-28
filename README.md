@@ -1,16 +1,144 @@
 # IssueTracker
 
-Backend prototypu klasyfikacji zgłoszeń: FastAPI, PostgreSQL/pgvector,
+## Struktura projektu
+
+```text
+IssueTracker/
+├── frontend/                 # React, TypeScript, Vite i Nginx
+├── backend/
+│   ├── app/                  # FastAPI, modele, serwisy i migracje Alembic
+│   ├── data/                 # Dane demonstracyjne
+│   ├── scripts/              # Administrator, import i seed
+│   ├── tests/                # Testy backendu
+│   ├── .env.example          # Wzór konfiguracji lokalnej
+│   ├── .env.docker.example   # Wzór konfiguracji Compose
+│   ├── Dockerfile
+│   └── requirements*.txt
+├── docker-compose.yml
+├── docker-compose.test.yml
+└── README.md
+```
+
+Polecenia poniżej wykonuj z katalogu głównego projektu, chyba że blok
+jawnie zmienia katalog. Lokalne środowisko Pythona `.venv/` pozostaje
+w katalogu głównym; frontend ma własne zależności w `frontend/node_modules/`.
+Konfiguracja backendu znajduje się w `backend/.env` i `backend/.env.docker`.
+Dotychczasowe pliki konfiguracji przeniesiono razem z backendem.
+
+Prototyp klasyfikacji zgłoszeń: React, FastAPI, PostgreSQL/pgvector,
 `all-MiniLM-L6-v2` i FastAPI `BackgroundTasks`. Zaimplementowano fundament API
 etapu 1, przetwarzanie z etapu 2 oraz użytkowników, JWT, role i przypisania
 z etapu 3. E1.5, E1.9, E2.8 i E2.9 obejmują już kontrolę osób i uprawnień.
 E2.5 domknięto przez rozdzielenie przewidywania KNN i ręcznej korekty kategorii
 oraz testy jej zapisu podczas klasyfikacji.
-Frontend i endpoint LLM powstaną w kolejnych etapach.
+Etap 6 dodaje polski frontend React z obsługą kont i procesu zgłoszeń.
+Endpoint LLM powstanie w kolejnych etapach.
+
+## Aplikacja React (etap 6)
+
+Frontend w `frontend/` obejmuje rejestrację, logowanie, listę z filtrami
+i paginacją, tworzenie i edycję, szczegóły, sugestie duplikatów oraz działania
+zależne od roli. Obsługa przyjmuje sprawę, rozpoczyna i kończy realizację
+z notatką, koryguje kategorię; administrator przypisuje wykonawcę i priorytet.
+Panel „Użytkownicy” pozwala akceptować konta z jawną rolą i zarządzać ich
+aktywnością. Autorzy i wykonawcy w szczegółach mają identyfikatory kont;
+wybór wykonawcy przez administratora pokazuje też e-mail.
+
+Po przygotowaniu bazy, migracji i pierwszego administratora zgodnie z dalszą
+instrukcją uruchom API, a w drugim terminalu (Node.js 22.12+):
+
+```powershell
+cd frontend
+npm ci
+npm run dev
+```
+
+Aplikacja: [React lokalnie](http://127.0.0.1:5173). Domyślny adres API to
+`http://localhost:8000`; opcjonalnie ustaw `VITE_API_URL` w `frontend/.env`
+według `frontend/.env.example`, następnie uruchom ponownie Vite.
+Pierwszy administrator nadal powstaje komendą `backend/scripts/create_admin.py`.
+Rejestracja pobiera wymaganą domenę z publicznego `GET /auth/config`;
+nie wymaga osobnej kopii tej konfiguracji we frontendzie.
+
+W Compose, po migracjach i konfiguracji kont:
+
+```powershell
+docker compose up -d --build api frontend
+```
+
+Aplikacja: [React w Compose](http://localhost:3000). Frontend jest zbudowanym
+pakietem statycznym serwowanym przez Nginx. Żądania `/api/` są przekazywane do
+usługi `api:8000`, a bezpośrednie wejście na adres szczegółów obsługuje routing
+SPA. Przeglądarka nie musi rozwiązywać kontenerowej nazwy `api`.
+Dozwolone originy backendu są jawne: localhost i 127.0.0.1 na portach 5173
+oraz 3000. Inne adresy podaj w `CORS_ORIGINS` jako tablicę JSON; konfiguracja
+nie wymaga migracji ani zmiany istniejących danych.
+
+Token i dane sesji są przechowywane wyłącznie w pamięci. Wylogowanie,
+wygaśnięcie i odświeżenie strony wymagają ponownego logowania. Odpowiedź 401
+kończy sesję; 403, 404, 409, walidacja i niedostępność API mają polskie komunikaty.
+Bieżące konto odświeżamy przy powrocie do okna i co 30 sekund. Backend nadal
+sprawdza uprawnienia przy każdym żądaniu. Szczegóły aktywnego zadania są
+odpytywane co 3 sekundy, bez nakładających się żądań. Odpytywanie kończy się
+po zakończeniu, błędzie API lub opuszczeniu widoku; odświeżenie jest jawne.
+
+Rozszerzenia API dla frontendu:
+
+- `GET /tickets/{id}/duplicates`: sugestie bez zmiany sprawy, z dotychczasową
+  polityką widoczności i wykluczeniem nieaktualnych embeddingów.
+- `GET /admin/assignees?limit=100&offset=0`: tylko aktywna, zaakceptowana obsługa;
+  dostęp administratora, odpowiedź zawiera wyłącznie `id` i `email`.
+- `GET /tickets/?needs_review=true|false`: filtr dla obsługi i administratora.
+- Odczyty zgłoszeń zawierają `needs_review` i `current_task_state`. Zgłoszenie
+  i stan zadania są odczytywane jednym zapytaniem, aby zakończone zadanie nie
+  było pokazywane ze starszym wynikiem klasyfikacji.
+
+**Pominięte zależności etapów 4–5:** docelowy słownik kategorii, próg pewności
+KNN, zatwierdzanie referencji, strojenie i eskalacja. Interfejs używa obecnych
+`bug`/`performance`/`feature`, wyświetlanych jako Błąd/Wydajność/Nowa funkcja.
+„Do weryfikacji” oznacza obecnie kategorię `unknown`, również podczas oczekiwania
+na obliczenia. Stan zadania i status sprawy są prezentowane osobno. Nie jest to
+jeszcze ocena pewności oparta na walidacji. Duplikaty zachowują dotychczasowe
+obliczenia i są sugestiami z odnośnikami, bez automatycznej decyzji.
+
+Weryfikacja frontendu:
+
+```powershell
+cd frontend
+npm run build
+npm test
+```
+
+Testy obejmują macierz działań, ochronę sesji i wygasanie, polskie błędy,
+odpytywanie oraz przerwanie żądań po opuszczeniu widoku. Testy integracyjne
+kontraktu React znajdują się w `backend/tests/test_frontend_contract.py` i uruchamiają
+się z pozostałymi testami backendu na `issuetracker_test`.
+Weryfikacja etapu 6: **91/91 testów backendu, 11/11 testów React**, build
+TypeScript/Vite i obrazu Docker frontendu; `npm audit` bez zgłoszonych podatności.
+
+Powtarzalny test w przeglądarce, **wyłącznie na tymczasowej bazie testowej**:
+uruchom kontener z `docker-compose.test.yml` jak w sekcji testów, ustaw
+`TEST_DATABASE_URL`, a następnie:
+
+```powershell
+Push-Location backend
+../.venv/Scripts/python.exe -m tests.frontend_server
+Pop-Location
+# W drugim terminalu uruchom frontend: cd frontend; npm run dev
+```
+
+Ten pomocnik zeruje wyłącznie `issuetracker_test`, zakłada konta
+`reporter@mail.com`, `staff@mail.com`, `admin@mail.com` z testowym hasłem
+`test-password-for-browser` i korzysta z kontrolowanego encodera.
+Nie uruchamiaj go równolegle z unittest ani zwykłym API na porcie 8000.
+W przeglądarce sprawdzono utworzenie, edycję checkboxa, sugestie i odnośniki
+duplikatów, przyjęcie przez obsługę, korektę kategorii, rozpoczęcie i rozwiązanie
+z notatką oraz odczyt rozwiązania przez autora bez możliwości edycji/anulowania.
+Ten test sprawdza integrację aplikacji; nie ocenia jakości MiniLM.
 
 ## Konta, logowanie i uprawnienia (etap 3)
 
-W `.env` (lokalnie) lub `.env.docker` (Compose) dodaj:
+W `backend/.env` (lokalnie) lub `backend/.env.docker` (Compose) dodaj:
 
 ```dotenv
 ALLOWED_EMAIL_DOMAIN=mail.com
@@ -22,13 +150,13 @@ Wygeneruj własny sekret poleceniem
 `python -c "import secrets; print(secrets.token_urlsafe(48))"` i zapisz go
 jako `JWT_SECRET_KEY`. API odmawia startu bez sekretu o długości co najmniej
 32 bajtów. Nie używaj sekretów testowych. Nie nadpisuj istniejących plików
-środowiska. Po zmianie zależności zainstaluj `requirements-dev.txt` albo
+środowiska. Po zmianie zależności zainstaluj `backend/requirements-dev.txt` albo
 przebuduj obraz API.
 
 Po migracjach utwórz pierwszego administratora:
 
 ```powershell
-.venv/Scripts/python.exe scripts/create_admin.py --email admin@mail.com
+.venv/Scripts/python.exe backend/scripts/create_admin.py --email admin@mail.com
 # W Compose (interaktywny terminal):
 docker compose run --rm api python scripts/create_admin.py --email admin@mail.com
 ```
@@ -99,7 +227,7 @@ opis i checkbox są zablokowane dla każdej roli. Notatki pozostają osobno.
 Dezaktywacja/zmiana roli wykonawcy nie przenosi jego aktywnych zgłoszeń;
 administrator może je potem przypisać innej osobie.
 
-Wspólna reguła `available_tickets()` w `app/services/access.py` filtruje listę,
+Wspólna reguła `available_tickets()` w `backend/app/services/access.py` filtruje listę,
 odczyty i sugestie duplikatów, również przez alias DELETE. Przyszłe wyszukiwanie
 i RAG powinny korzystać z tej samej reguły. Dependency `get_assistant_user`
 sprawdza dostęp obsługi i administratora; rzeczywisty endpoint LLM nadal
@@ -134,16 +262,16 @@ automatycznie na nowe.
 ## Uruchomienie przez Docker Compose
 
 Wymagany działający Docker Desktop z kontenerami Linux. Polecenia wykonuj
-z katalogu repozytorium. Nie nadpisuj istniejącego `.env.docker`:
+z katalogu repozytorium. Nie nadpisuj istniejącego `backend/.env.docker`:
 
 ```powershell
-if (-not (Test-Path .env.docker)) { Copy-Item .env.docker.example .env.docker }
+if (-not (Test-Path backend/.env.docker)) { Copy-Item backend/.env.docker.example backend/.env.docker }
 ```
 
 W nowym pliku ustaw własne hasło spójnie w `POSTGRES_PASSWORD` i
 `DATABASE_URL`. Zmienne `POSTGRES_*` inicjalizują tylko pusty wolumen;
 przy istniejącej bazie użyj jej dotychczasowych danych dostępu.
-Dockerfile instaluje PyTorch dla CPU. Celery, Redis i Flower zostały usunięte.
+`backend/Dockerfile` instaluje PyTorch dla CPU. Celery, Redis i Flower zostały usunięte.
 Stare pole `CELERY_BROKER_URL` w lokalnym pliku jest ignorowane i można je usunąć;
 istniejących plików z danymi dostępu nie nadpisujemy.
 
@@ -157,7 +285,7 @@ docker compose up -d api --remove-orphans
 
 Migracje Alembic są jedynym sposobem tworzenia i zmiany schematu.
 Seed uzupełnia osobną tabelę referencji KNN z 10 dawnymi angielskimi przykładami
-z `data/sample_tickets.json`. Opcjonalne `--author-email konto@mail.com` dodaje
+z `backend/data/sample_tickets.json`. Opcjonalne `--author-email konto@mail.com` dodaje
 także zgłoszenia demonstracyjne do pustej tabeli, z jawnym zaakceptowanym autorem.
 Nie tworzy schematu i nie nadpisuje istniejących zgłoszeń ani referencji. Kategorie
 `bug`, `performance`, `feature` pozostają na tym etapie; polski zbiór
@@ -196,7 +324,7 @@ Cofnięcie tej migracji z niepustą tabelą również wymaga osobnego planu dany
 
 Migracja `e5a000000001` tworzy osobną tabelę `classification_references`.
 Nie kopiuje do niej istniejących spraw ani ich końcowych priorytetów.
-Po migracji uruchom ponownie `scripts/seed_db.py`: uzupełni demonstracyjną
+Po migracji uruchom ponownie `backend/scripts/seed_db.py`: uzupełni demonstracyjną
 referencję bez zmiany dotychczasowych zgłoszeń. Każdy przykład zachowuje
 tekst, kategorię, priorytet bazowy, embedding oraz źródło i klucz w zbiorze.
 Bez referencji klasyfikacja kończy się poprawnie wynikiem `unknown` i
@@ -209,12 +337,12 @@ Nowe zgłoszenie musi mieć autora. Jeśli znasz autorów dawnych zgłoszeń,
 przygotuj sprawdzone mapowanie JSON, np. `{"1":"autor@mail.com"}`, i uruchom:
 
 ```powershell
-.venv/Scripts/python.exe scripts/import_ticket_authors.py authors.json
+.venv/Scripts/python.exe backend/scripts/import_ticket_authors.py backend/authors.json
 # Lub w Compose:
 docker compose run --rm api python scripts/import_ticket_authors.py authors.json
 ```
 
-Plik w wariancie Compose musi znajdować się w repozytorium montowanym do `/app`.
+Plik `authors.json` w wariancie Compose umieść w `backend/`, montowanym do `/app`.
 Import wymaga istniejących, zaakceptowanych kont i wyłącznie dawnych rekordów
 bez autora; sprawdza całe mapowanie przed zapisem w jednej transakcji.
 Nie nadpisuje znanego autora. Bez wiarygodnego mapowania pozostaw dawne dane
@@ -232,17 +360,17 @@ Wymagany Python 3.12 lub 3.13. Utwórz środowisko i zainstaluj zależności:
 
 ```powershell
 python -m venv .venv
-.venv/Scripts/python.exe -m pip install -r requirements-dev.txt
-if (-not (Test-Path .env)) { Copy-Item .env.example .env }
+.venv/Scripts/python.exe -m pip install -r backend/requirements-dev.txt
+if (-not (Test-Path backend/.env)) { Copy-Item backend/.env.example backend/.env }
 ```
 
-Ustaw w `.env` dostęp do bazy na `localhost:5433`, zgodny z konfiguracją
+Ustaw w `backend/.env` dostęp do bazy na `localhost:5433`, zgodny z konfiguracją
 kontenera PostgreSQL. Migracje i seed:
 
 ```powershell
-.venv/Scripts/python.exe -m alembic -c app/alembic.ini upgrade head
-.venv/Scripts/python.exe scripts/seed_db.py
-.venv/Scripts/python.exe -m uvicorn app.api.main:app
+.venv/Scripts/python.exe -m alembic -c backend/app/alembic.ini upgrade head
+.venv/Scripts/python.exe backend/scripts/seed_db.py
+.venv/Scripts/python.exe -m uvicorn app.api.main:app --app-dir backend
 ```
 
 Dla starej bazy dodaj zatwierdzone `-x legacy_status_map` jak wyżej.
@@ -256,9 +384,11 @@ bez wolumenu `pgdata`. Dane testowe znikają po zatrzymaniu kontenera:
 ```powershell
 docker compose -p issuetracker-tests -f docker-compose.test.yml up -d --wait
 $env:TEST_DATABASE_URL='postgresql+asyncpg://issuetracker_test:test-only@127.0.0.1:5434/issuetracker_test'
-.venv/Scripts/python.exe -c "from app.services.text_validation import get_tokenizer; get_tokenizer()"
+Push-Location backend
+../.venv/Scripts/python.exe -c "from app.services.text_validation import get_tokenizer; get_tokenizer()"
 $env:HF_HUB_OFFLINE='1'
-.venv/Scripts/python.exe -m unittest discover -s tests -v
+../.venv/Scripts/python.exe -m unittest discover -s tests -v
+Pop-Location
 docker compose -p issuetracker-tests -f docker-compose.test.yml down
 Remove-Item Env:HF_HUB_OFFLINE
 Remove-Item Env:TEST_DATABASE_URL
@@ -290,7 +420,9 @@ Oddzielnie sprawdzono dwa kolejne zadania z rzeczywistym MiniLM i embeddingami
 Osobne testy regresji nie wymagają PostgreSQL ani pobierania modelu:
 
 ```powershell
-.venv/Scripts/python.exe -m unittest tests.test_migration_isolation tests.test_request_validation tests.test_processing_diagnostics -v
+Push-Location backend
+../.venv/Scripts/python.exe -m unittest tests.test_migration_isolation tests.test_request_validation tests.test_processing_diagnostics -v
+Pop-Location
 ```
 
 Sprawdzają cel migracji niezależnie od kolejności importów, brak blokowania
@@ -388,19 +520,21 @@ przed operacjami zapisu; nie blokują pętli obsługującej żądania API.
 
 ## Organizacja kodu
 
-- `app/api/main.py` składa aplikację, zarządza jej cyklem życia i tłumaczy błędy na HTTP.
-- `app/api/schemas.py` definiuje kontrakt żądań i odpowiedzi, a `app/api/tickets.py` endpointy.
-- `app/services/tickets.py` zawiera operacje na zgłoszeniach i granice transakcji; nie zależy od FastAPI ani modeli żądań.
-- `app/services/tasks.py` współdzieli zapis zadań i blokady z wykonawcą `ProcessingRuntime`.
-- `app/domain.py` definiuje priorytety, źródła, stany zadań i typowany wynik klasyfikacji.
-- `determine_priority()` w `app/services/priorities.py` jest czystą funkcją. Osobna funkcja zapisuje jej decyzję na zgłoszeniu.
+- `backend/app/api/main.py` składa aplikację, zarządza jej cyklem życia i tłumaczy błędy na HTTP.
+- `backend/app/api/schemas.py` definiuje kontrakt żądań i odpowiedzi, a `backend/app/api/tickets.py` endpointy.
+- `backend/app/services/tickets.py` zawiera operacje na zgłoszeniach i granice transakcji; nie zależy od FastAPI ani modeli żądań.
+- `backend/app/services/tasks.py` współdzieli zapis zadań i blokady z wykonawcą `ProcessingRuntime`.
+- `backend/app/domain.py` definiuje priorytety, źródła, stany zadań i typowany wynik klasyfikacji.
+- `determine_priority()` w `backend/app/services/priorities.py` jest czystą funkcją. Osobna funkcja zapisuje jej decyzję na zgłoszeniu.
 
 `ProcessingRuntime` otrzymuje asynchroniczną funkcję klasyfikującą w konstruktorze.
 Pozwala to testować wykonawcę z kontrolowanym klasyfikatorem bez podmieniania
 importów modułu. Testy reguł priorytetu nie wymagają bazy ani modelu:
 
 ```powershell
-.venv/Scripts/python.exe -m unittest tests.test_priorities -v
+Push-Location backend
+../.venv/Scripts/python.exe -m unittest tests.test_priorities -v
+Pop-Location
 ```
 
 Refaktoryzacja zachowuje reguły biznesowe i format odpowiedzi API; nie wymaga

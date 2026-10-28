@@ -1,0 +1,79 @@
+#1 [internal] load local bake definitions
+#1 reading from stdin 1.09kB 0.0s done
+#1 DONE 0.0s
+
+#2 [internal] load build definition from Dockerfile
+#2 transferring dockerfile: 327B 0.0s done
+#2 DONE 0.0s
+
+#3 [internal] load metadata for docker.io/library/node:22-alpine
+#3 DONE 0.8s
+
+#4 [internal] load metadata for docker.io/library/nginx:stable-alpine
+#4 DONE 0.8s
+
+#5 [internal] load .dockerignore
+#5 transferring context: 78B done
+#5 DONE 0.0s
+
+#6 [build 1/6] FROM docker.io/library/node:22-alpine@sha256:fe4f6d74e20370acb04ad889077d14d0f64a9c8ea6a42bc60cddf1e844699914
+#6 resolve docker.io/library/node:22-alpine@sha256:fe4f6d74e20370acb04ad889077d14d0f64a9c8ea6a42bc60cddf1e844699914 0.0s done
+#6 DONE 0.0s
+
+#7 [stage-1 1/3] FROM docker.io/library/nginx:stable-alpine@sha256:47928bf67eb62a1863cb08d9ecb52d3e704304ba614eaee17884204677702951
+#7 resolve docker.io/library/nginx:stable-alpine@sha256:47928bf67eb62a1863cb08d9ecb52d3e704304ba614eaee17884204677702951 0.0s done
+#7 DONE 0.0s
+
+#8 [internal] load build context
+#8 transferring context: 23.73kB done
+#8 DONE 0.0s
+
+#9 [build 3/6] COPY package*.json ./
+#9 CACHED
+
+#10 [build 2/6] WORKDIR /app
+#10 CACHED
+
+#11 [build 4/6] RUN npm ci
+#11 CACHED
+
+#12 [build 5/6] COPY . .
+#12 DONE 0.0s
+
+#13 [build 6/6] RUN npm run build
+#13 0.605 
+#13 0.605 > issuetracker-frontend@0.1.0 build
+#13 0.605 > tsc -b && vite build
+#13 0.605 
+#13 3.098 vite v8.3.5 building client environment for production...
+#13 3.114 transforming...
+#13 3.191 ✓ 31 modules transformed.
+#13 3.241 rendering chunks...
+#13 3.281 computing gzip size...
+#13 3.285 dist/index.html                   0.45 kB │ gzip:  0.31 kB
+#13 3.285 dist/assets/index-DS7OZ7-s.css   10.99 kB │ gzip:  3.32 kB
+#13 3.285 dist/assets/index-BmCb4qpF.js   291.15 kB │ gzip: 91.57 kB
+#13 3.285 
+#13 3.286 ✓ built in 185ms
+#13 DONE 3.3s
+
+#14 [stage-1 2/3] COPY nginx.conf /etc/nginx/conf.d/default.conf
+#14 CACHED
+
+#15 [stage-1 3/3] COPY --from=build /app/dist /usr/share/nginx/html
+#15 DONE 0.0s
+
+#16 exporting to image
+#16 exporting layers 0.1s done
+#16 exporting manifest sha256:e8fc96eb8f7e7e779fe4fbd9b44545172f231592616a20eed77c3b9444fd12e2 0.0s done
+#16 exporting config sha256:b80a12b52ca5fab9bdb4e5c7a4d660bda783d8991e7ba4799c6522748fe4d7a0 0.0s done
+#16 exporting attestation manifest sha256:4e5fce59fd95722fa6599a466a2ccb00aaaef73fecc2ed4962c502949c641b52 0.0s done
+#16 exporting manifest list sha256:839f152ad0792e3eaad01456e3a7d5d321277480c7e858cc2fb371a1a106e591 0.0s done
+#16 naming to docker.io/library/issuetracker-frontend:latest
+#16 naming to docker.io/library/issuetracker-frontend:latest done
+#16 unpacking to docker.io/library/issuetracker-frontend:latest 0.0s done
+#16 DONE 0.3s
+
+#17 resolving provenance for metadata file
+#17 DONE 0.0s
+ issuetracker-frontend  Built

@@ -7,6 +7,7 @@ from app.api.schemas import (
     TaskStatusResponse, TicketCloseResponse, TicketCreate, TicketCreateResponse,
     TicketEdit, TicketEditResponse, TicketResponse, TicketStatusUpdate,
     AssignmentUpdate, AssignmentResponse, CategoryUpdate, PriorityUpdate,
+    SuggestedDuplicate,
 )
 from app.domain import Priority
 from app.services.processing import ProcessingRuntime
@@ -42,11 +43,18 @@ async def get_tickets(
     status: TicketStatus | None = None,
     category: Annotated[str | None, Query(min_length=1, max_length=50)] = None,
     priority: Priority | Literal["unknown"] | None = None,
+    needs_review: bool | None = None,
     limit: Annotated[int, Query(ge=1, le=100)] = 20,
     offset: Annotated[int, Query(ge=0)] = 0,
     service: TicketService = Depends(get_ticket_service),
 ):
-    return await service.list_tickets(status=status, category=category, priority=priority, limit=limit, offset=offset)
+    return await service.list_tickets(status=status, category=category, priority=priority,
+                                      needs_review=needs_review, limit=limit, offset=offset)
+
+
+@router.get("/{ticket_id}/duplicates", response_model=list[SuggestedDuplicate])
+async def suggested_duplicates(ticket_id: int, service: TicketService = Depends(get_ticket_service)):
+    return await service.duplicates(ticket_id)
 
 
 @router.get("/{ticket_id}", response_model=TicketResponse)
