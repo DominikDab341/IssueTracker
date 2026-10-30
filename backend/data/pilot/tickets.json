@@ -1,0 +1,739 @@
+{
+  "schema_version": 1,
+  "dataset_id": "pilot-pl-v1",
+  "created_on": "2026-10-28",
+  "language": "pl",
+  "purpose": "exploratory_pilot_only",
+  "label_status": "proposed_not_human_verified",
+  "provenance": {
+    "method": "llm_assisted_synthetic",
+    "tool": "OpenAI Codex",
+    "model_id": null,
+    "sampling_parameters": null,
+    "unavailable_metadata_reason": "Dokładny identyfikator modelu i ustawienia generowania nie są dostępne w tej sesji.",
+    "instructions_file": "generation.md",
+    "labeling_guide": "labeling-guide.md"
+  },
+  "examples": [
+    {
+      "id": "ACC-01",
+      "group_id": "acc-01",
+      "text": "Po zmianie nazwiska portal pokazuje dawną nazwę mojego konta. Logowanie i wszystkie uprawnienia działają poprawnie, mogę normalnie pracować.",
+      "proposed_category": "accounts_access",
+      "proposed_base_priority": "low",
+      "work_blocked": false,
+      "category_reason": "Dane profilu konta, a nie awaria funkcji aplikacji.",
+      "priority_reason": "Wyłącznie niedogodność w prezentacji nazwy.",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "ACC-02",
+      "group_id": "acc-02",
+      "text": "Co kilka dni dostaję przypomnienie o końcu ważności hasła, choć zmieniłem je wczoraj. Hasło działa i otwieram wszystkie potrzebne systemy.",
+      "proposed_category": "accounts_access",
+      "proposed_base_priority": "low",
+      "work_blocked": false,
+      "category_reason": "Powiadomienia dotyczące ważności poświadczeń.",
+      "priority_reason": "Komunikat nie ogranicza pracy.",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "ACC-03",
+      "group_id": "acc-folder-access",
+      "text": "Po przeniesieniu do zespołu rozliczeń folder zespołu otwiera się tylko do odczytu. Nie mogę wgrać zestawienia, ale na razie przekazuję je opiekunowi, który zapisuje plik za mnie.",
+      "proposed_category": "accounts_access",
+      "proposed_base_priority": "medium",
+      "work_blocked": false,
+      "category_reason": "Jawne ograniczenie prawa zapisu do folderu.",
+      "priority_reason": "Zapis jest utrudniony, istnieje działające obejście.",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "ACC-04",
+      "group_id": "acc-folder-access",
+      "text": "W tej samej sprawie uprawnień do katalogu rozliczeń: mogę przeglądać dokumenty, lecz zapis kończy się odmową dostępu. Wysyłam zestawienia opiekunowi i on umieszcza je w folderze.",
+      "proposed_category": "accounts_access",
+      "proposed_base_priority": "medium",
+      "work_blocked": false,
+      "category_reason": "Odmowa prawa zapisu, bez objawów uszkodzenia pliku.",
+      "priority_reason": "Można przekazać zapis innej osobie.",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "ACC-05",
+      "group_id": "acc-05",
+      "text": "Nowy telefon nie otrzymuje potwierdzeń logowania do poczty. Wchodzę obecnie kodem z zapasowego klucza i odbieram wiadomości, ale chciałbym przywrócić potwierdzenia na telefonie.",
+      "proposed_category": "accounts_access",
+      "proposed_base_priority": "medium",
+      "work_blocked": false,
+      "category_reason": "Problem drugiego składnika uwierzytelniania.",
+      "priority_reason": "Zapasowy klucz pozwala kontynuować pracę.",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "ACC-06",
+      "group_id": "acc-06",
+      "text": "Aplikacja odrzuca mój login komunikatem o wygaśnięciu hasła. Samodzielna zmiana w portalu działa i po niej odzyskuję dostęp, ale hasło wygasa ponownie następnego dnia.",
+      "proposed_category": "accounts_access",
+      "proposed_base_priority": "medium",
+      "work_blocked": false,
+      "category_reason": "Cykl ważności hasła i dostęp do konta.",
+      "priority_reason": "Samodzielna zmiana pozwala odzyskać dostęp.",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "ACC-07",
+      "group_id": "acc-07",
+      "text": "Moje konto do systemu magazynowego zostało zablokowane. Nie mogę przyjąć dzisiejszej dostawy; nie mam drugiego konta ani możliwości wykonania tego zadania poza systemem.",
+      "proposed_category": "accounts_access",
+      "proposed_base_priority": "high",
+      "work_blocked": true,
+      "category_reason": "Jawna blokada konta.",
+      "priority_reason": "Ważne zadanie jednej osoby zablokowane bez obejścia.",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "ACC-08",
+      "group_id": "acc-08",
+      "text": "Przy logowaniu do VPN widzę komunikat: użytkownik nie ma uprawnienia do połączeń zdalnych. Nie mogę wykonać z domu pilnego rozliczenia, a dostęp jest możliwy wyłącznie przez ten VPN.",
+      "proposed_category": "accounts_access",
+      "proposed_base_priority": "high",
+      "work_blocked": true,
+      "category_reason": "VPN jawnie odmawia uprawnienia, nie zgłasza awarii połączenia.",
+      "priority_reason": "Brak dostępu do niezbędnego zadania i brak obejścia.",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "ACC-09",
+      "group_id": "acc-09",
+      "text": "Po zmianie stanowiska zniknęło mi prawo zatwierdzania faktur. System wyświetla brak uprawnień, a dziś muszę zatwierdzić płatności; w tej zmianie nie ma drugiej upoważnionej osoby.",
+      "proposed_category": "accounts_access",
+      "proposed_base_priority": "high",
+      "work_blocked": true,
+      "category_reason": "Brak roli wymaganej do wykonania operacji.",
+      "priority_reason": "Zatwierdzanie płatności zablokowane bez zastępstwa.",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "ACC-10",
+      "group_id": "acc-10",
+      "text": "Od rana wszyscy pracownicy centrum obsługi dostają przy logowaniu informację, że ich konta są wyłączone. Cały dział nie może obsługiwać klientów; żadne zapasowe konto nie jest dostępne.",
+      "proposed_category": "accounts_access",
+      "proposed_base_priority": "critical",
+      "work_blocked": true,
+      "category_reason": "Jawne wyłączenie kont wielu użytkowników.",
+      "priority_reason": "Kluczowy proces całego działu jest niedostępny.",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "HW-01",
+      "group_id": "hw-01",
+      "text": "Na zewnętrznym monitorze pojawił się jeden stale świecący punkt przy dolnej krawędzi. Obraz poza tym jest czytelny i wszystkie zadania wykonuję normalnie.",
+      "proposed_category": "hardware",
+      "proposed_base_priority": "low",
+      "work_blocked": false,
+      "category_reason": "Fizyczny objaw na ekranie.",
+      "priority_reason": "Drobna wada bez ograniczenia pracy.",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "HW-02",
+      "group_id": "hw-02",
+      "text": "Wentylator w komputerze zaczął głośniej pracować. Urządzenie się nie wyłącza, nie ma komunikatów o temperaturze i mogę wykonywać wszystkie zadania.",
+      "proposed_category": "hardware",
+      "proposed_base_priority": "low",
+      "work_blocked": false,
+      "category_reason": "Objaw działania fizycznego podzespołu.",
+      "priority_reason": "Hałas jest uciążliwością, bez blokady zadań.",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "HW-03",
+      "group_id": "hw-reception-printer",
+      "text": "Drukarka przy recepcji zacina papier także przy uruchomieniu strony testowej z jej panelu. Dokumenty drukuję teraz na urządzeniu w sąsiednim pokoju.",
+      "proposed_category": "hardware",
+      "proposed_base_priority": "medium",
+      "work_blocked": false,
+      "category_reason": "Zacięcie występuje niezależnie od aplikacji i połączenia.",
+      "priority_reason": "Inna drukarka stanowi działające obejście.",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "HW-04",
+      "group_id": "hw-reception-printer",
+      "text": "Ta sama drukarka recepcji ponownie zatrzymuje kartkę w środku, również przy własnym teście. Korzystam z drukarki w sąsiednim pokoju i mogę wydawać dokumenty.",
+      "proposed_category": "hardware",
+      "proposed_base_priority": "medium",
+      "work_blocked": false,
+      "category_reason": "Fizyczny mechanizm podawania papieru.",
+      "priority_reason": "Wydruk na innym urządzeniu pozwala pracować.",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "HW-05",
+      "group_id": "hw-05",
+      "text": "Wbudowana klawiatura laptopa nie reaguje na kilka klawiszy. Podłączyłem klawiaturę USB i mogę pisać, ale utrudnia to pracę w salach spotkań.",
+      "proposed_category": "hardware",
+      "proposed_base_priority": "medium",
+      "work_blocked": false,
+      "category_reason": "Niesprawne klawisze urządzenia.",
+      "priority_reason": "Zewnętrzna klawiatura umożliwia pracę.",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "HW-06",
+      "group_id": "hw-06",
+      "text": "Kamera w laptopie pokazuje czarny obraz także w systemowym teście urządzenia. Na spotkaniach korzystam z pożyczonej kamery USB, która działa poprawnie.",
+      "proposed_category": "hardware",
+      "proposed_base_priority": "medium",
+      "work_blocked": false,
+      "category_reason": "Objaw urządzenia potwierdzony poza programem spotkań.",
+      "priority_reason": "Pożyczona kamera jest sprawnym zastępstwem.",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "HW-07",
+      "group_id": "hw-07",
+      "text": "Komputer nie uruchamia się po naciśnięciu przycisku, nie świecą żadne kontrolki mimo podłączenia do sprawnego gniazdka. Tylko na nim mam stanowisko do obsługi zamówień i nie ma komputera zastępczego.",
+      "proposed_category": "hardware",
+      "proposed_base_priority": "high",
+      "work_blocked": true,
+      "category_reason": "Brak zasilania lub reakcji urządzenia.",
+      "priority_reason": "Ważne zadanie jednej osoby nie ma zastępstwa.",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "HW-08",
+      "group_id": "hw-08",
+      "text": "Skaner kodów na moim stanowisku nie włącza się i nie reaguje także po podpięciu do innego portu. Nie mogę rejestrować paczek; program nie pozwala wpisywać kodów ręcznie i nie mamy zapasowego skanera.",
+      "proposed_category": "hardware",
+      "proposed_base_priority": "high",
+      "work_blocked": true,
+      "category_reason": "Brak reakcji fizycznego urządzenia.",
+      "priority_reason": "Rejestrowanie paczek jest niemożliwe bez obejścia.",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "HW-09",
+      "group_id": "hw-09",
+      "text": "Zasilacz laptopa przestał ładować, a bateria jest już rozładowana. Muszę dzisiaj przygotować listę płac na tym urządzeniu; innego zasilacza ani stanowiska z tym dostępem nie ma.",
+      "proposed_category": "hardware",
+      "proposed_base_priority": "high",
+      "work_blocked": true,
+      "category_reason": "Niedziałający zasilacz i rozładowane urządzenie.",
+      "priority_reason": "Niezbędne zadanie blokuje brak zastępczego sprzętu.",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "HW-10",
+      "group_id": "hw-10",
+      "text": "Główna macierz dyskowa nie włącza się, na obu zasilaczach zgasły kontrolki. Wszystkie zespoły straciły dostęp do plików potrzebnych do obsługi zamówień i nie ma dostępnej kopii roboczej.",
+      "proposed_category": "hardware",
+      "proposed_base_priority": "critical",
+      "work_blocked": true,
+      "category_reason": "Fizyczne objawy braku zasilania macierzy.",
+      "priority_reason": "Awaria kluczowego sprzętu blokuje wiele zespołów.",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "NET-01",
+      "group_id": "net-01",
+      "text": "Po wybudzeniu laptopa połączenie z firmowym Wi-Fi pojawia się dopiero po kilku sekundach. Potem działa stabilnie; nie przerywa to zadań i mogę normalnie korzystać ze wszystkich narzędzi.",
+      "proposed_category": "network",
+      "proposed_base_priority": "low",
+      "work_blocked": false,
+      "category_reason": "Krótkie opóźnienie zestawienia połączenia bezprzewodowego.",
+      "priority_reason": "Drobna zwłoka bez blokady wymaganych zadań.",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "NET-02",
+      "group_id": "net-02",
+      "text": "W pokoju socjalnym zasięg firmowego Wi-Fi jest słaby i strony otwierają się wolno. Nie wykonujemy tam zadań służbowych; przy biurkach połączenie działa prawidłowo i praca nie jest utrudniona.",
+      "proposed_category": "network",
+      "proposed_base_priority": "low",
+      "work_blocked": false,
+      "category_reason": "Słaby zasięg połączenia bezprzewodowego w określonym miejscu.",
+      "priority_reason": "Niedogodność poza miejscem wykonywania pracy.",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "NET-03",
+      "group_id": "net-meeting-room-b",
+      "text": "W sali spotkań B połączenie Wi-Fi rozłącza się co kilka minut. Po podłączeniu laptopa przewodem do gniazda w tej sali spotkania internetowe działają stabilnie.",
+      "proposed_category": "network",
+      "proposed_base_priority": "medium",
+      "work_blocked": false,
+      "category_reason": "Zrywanie połączenia bezprzewodowego.",
+      "priority_reason": "Połączenie przewodowe jest działającym obejściem.",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "NET-04",
+      "group_id": "net-meeting-room-b",
+      "text": "Zgłaszam to samo zrywanie firmowej sieci bezprzewodowej w sali B. Rozmowę mogę prowadzić po kablu; po odłączeniu przewodu Wi-Fi ponownie gubi połączenie.",
+      "proposed_category": "network",
+      "proposed_base_priority": "medium",
+      "work_blocked": false,
+      "category_reason": "Objaw dotyczy konkretnego połączenia Wi-Fi.",
+      "priority_reason": "Kabel pozwala kontynuować spotkanie.",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "NET-05",
+      "group_id": "net-05",
+      "text": "Domowy internet zrywa mi połączenie z firmą kilka razy dziennie, również przy zwykłym przeglądaniu stron. Przełączam laptop na internet z telefonu i wtedy mogę pracować stabilnie.",
+      "proposed_category": "network",
+      "proposed_base_priority": "medium",
+      "work_blocked": false,
+      "category_reason": "Utrata połączenia także poza jedną aplikacją.",
+      "priority_reason": "Internet z telefonu umożliwia pracę.",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "NET-06",
+      "group_id": "net-06",
+      "text": "W pokoju 12 gniazdo sieciowe nie daje połączenia, a ten sam laptop z tym samym przewodem łączy się w sąsiednim pokoju. Tymczasowo korzystam z firmowego Wi-Fi i obsługuję sprawy.",
+      "proposed_category": "network",
+      "proposed_base_priority": "medium",
+      "work_blocked": false,
+      "category_reason": "Problem ścieżki połączenia przez konkretne gniazdo.",
+      "priority_reason": "Sprawne Wi-Fi zapewnia obejście.",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "NET-07",
+      "group_id": "net-07",
+      "text": "VPN przyjmuje hasło i potwierdzenie logowania, ale zestawianie tunelu kończy się przekroczeniem czasu. Internet poza VPN działa; nie mogę połączyć się z systemem do dzisiejszej wysyłki i nie mam innej drogi dostępu.",
+      "proposed_category": "network",
+      "proposed_base_priority": "high",
+      "work_blocked": true,
+      "category_reason": "Uwierzytelnianie działa, nie udaje się zestawić połączenia.",
+      "priority_reason": "Ważne zadanie jednej osoby zablokowane bez obejścia.",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "NET-08",
+      "group_id": "net-08",
+      "text": "Na moim stanowisku połączenie przewodowe i Wi-Fi nie uzyskują dostępu do sieci firmowej. Nie mogę obsługiwać zamówień, a stanowiska zastępczego ani zasięgu internetu mobilnego tutaj nie ma.",
+      "proposed_category": "network",
+      "proposed_base_priority": "high",
+      "work_blocked": true,
+      "category_reason": "Brak dostępu do sieci przez dwa rodzaje połączeń.",
+      "priority_reason": "Obsługa zamówień zablokowana, nie ma alternatywy.",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "NET-09",
+      "group_id": "net-09",
+      "text": "Podczas zdalnej sesji z serwerem połączenie przerywa się co kilkanaście sekund. Dotyczy także innych usług po tym łączu; muszę dzisiaj zakończyć import danych i nie mam innego połączenia ani dostępu na miejscu.",
+      "proposed_category": "network",
+      "proposed_base_priority": "high",
+      "work_blocked": true,
+      "category_reason": "Utrata łączności z wieloma usługami, bez zgadywania przyczyny.",
+      "priority_reason": "Pilne zadanie nie ma działającej drogi zastępczej.",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "NET-10",
+      "group_id": "net-10",
+      "text": "W całym oddziale przestały działać internet i połączenia z centralą, zarówno po kablu, jak i po Wi-Fi. Trzydzieści osób nie może przyjmować zamówień, a łącze zapasowe również nie daje dostępu.",
+      "proposed_category": "network",
+      "proposed_base_priority": "critical",
+      "work_blocked": true,
+      "category_reason": "Rozległy brak łączności sieciowej.",
+      "priority_reason": "Kluczowa obsługa zamówień wielu osób zablokowana.",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "SW-01",
+      "group_id": "sw-01",
+      "text": "Po aktualizacji edytora część ikon na pasku narzędzi ma rozmyte krawędzie. Wszystkie przyciski działają, dokumenty zapisują się poprawnie i mogę pracować jak wcześniej.",
+      "proposed_category": "software",
+      "proposed_base_priority": "low",
+      "work_blocked": false,
+      "category_reason": "Niepoprawne wyświetlanie elementów aplikacji.",
+      "priority_reason": "Wyłącznie kosmetyczny problem interfejsu.",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "SW-02",
+      "group_id": "sw-02",
+      "text": "Lista ostatnio otwieranych dokumentów w programie nie zachowuje wybranej kolejności po ponownym uruchomieniu. Dokumenty otwierają się normalnie, a sortowanie nie jest potrzebne do wykonywania zadań.",
+      "proposed_category": "software",
+      "proposed_base_priority": "low",
+      "work_blocked": false,
+      "category_reason": "Błąd zapamiętywania ustawienia aplikacji.",
+      "priority_reason": "Drobna uciążliwość bez utraty wymaganej funkcji.",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "SW-03",
+      "group_id": "sw-reports-pdf",
+      "text": "Program do raportów zamyka się przy eksporcie do PDF. Te same raporty mogę otworzyć w przeglądarce i zapisać do PDF przez drukowanie, więc wysyłam je terminowo.",
+      "proposed_category": "software",
+      "proposed_base_priority": "medium",
+      "work_blocked": false,
+      "category_reason": "Awaria konkretnej funkcji programu.",
+      "priority_reason": "Alternatywny sposób tworzenia PDF działa.",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "SW-04",
+      "group_id": "sw-reports-pdf",
+      "text": "Wracam do tego samego błędu eksportu raportów: naciśnięcie zapisu jako PDF wyłącza aplikację. Nadal przygotowuję pliki przez wydruk z wersji przeglądarkowej i mogę przekazać raporty.",
+      "proposed_category": "software",
+      "proposed_base_priority": "medium",
+      "work_blocked": false,
+      "category_reason": "Powtórzenie awarii eksportu, nie problemu drukarki.",
+      "priority_reason": "Wersja przeglądarkowa pozwala wykonać zadanie.",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "SW-05",
+      "group_id": "sw-05",
+      "text": "W jednym programie drukowanie formularza kończy się zamknięciem okna. Strona testowa drukarki działa; mogę wyeksportować formularz do obrazu i wydrukować go z innego programu.",
+      "proposed_category": "software",
+      "proposed_base_priority": "medium",
+      "work_blocked": false,
+      "category_reason": "Błąd dotyczy aplikacji przy sprawnej drukarce.",
+      "priority_reason": "Inny program umożliwia wydruk.",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "SW-06",
+      "group_id": "sw-06",
+      "text": "Kalendarz w aplikacji na komputerze nie pokazuje nowo dodanych spotkań, choć są widoczne w jej wersji WWW. Sprawdzam terminy w przeglądarce i nie opuszczam spotkań.",
+      "proposed_category": "software",
+      "proposed_base_priority": "medium",
+      "work_blocked": false,
+      "category_reason": "Nieaktualny widok w konkretnej wersji aplikacji.",
+      "priority_reason": "Wersja WWW zapewnia dostęp do terminów.",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "SW-07",
+      "group_id": "sw-07",
+      "text": "Program księgowy zamyka się za każdym razem przy zatwierdzaniu deklaracji. Inne funkcje działają, ale muszę dziś wysłać deklarację; nie ma wersji WWW ani innego sposobu jej zatwierdzenia.",
+      "proposed_category": "software",
+      "proposed_base_priority": "high",
+      "work_blocked": true,
+      "category_reason": "Powtarzalna awaria operacji w aplikacji.",
+      "priority_reason": "Ważna operacja jest niemożliwa bez obejścia.",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "SW-08",
+      "group_id": "sw-08",
+      "text": "Po aktualizacji aplikacja do podpisywania dokumentów nie uruchamia się i od razu pokazuje błąd programu. Muszę podpisać dzisiaj umowę, a firmowa procedura dopuszcza tylko tę aplikację i nie ma zastępstwa.",
+      "proposed_category": "software",
+      "proposed_base_priority": "high",
+      "work_blocked": true,
+      "category_reason": "Program nie uruchamia się po aktualizacji.",
+      "priority_reason": "Podpisanie wymaganej umowy jest zablokowane.",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "SW-09",
+      "group_id": "sw-09",
+      "text": "W systemie magazynowym zatwierdzenie mojej listy wysyłkowej stale zwraca błąd obliczeń. Mam uprawnienia i inne listy otwierają się poprawnie, ale tej wysyłki nie da się zatwierdzić ręcznie ani w innym narzędziu.",
+      "proposed_category": "software",
+      "proposed_base_priority": "high",
+      "work_blocked": true,
+      "category_reason": "Błąd obliczeń funkcji, nie odmowa dostępu.",
+      "priority_reason": "Konkretne ważne zadanie nie ma obejścia.",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "SW-10",
+      "group_id": "sw-10",
+      "text": "Po wdrożeniu nowej wersji system zamówień zamyka sesję błędem programu przy próbie zapisania dowolnego zamówienia. Dotyczy wszystkich konsultantów; cała obsługa sprzedaży stoi i nie ma trybu zastępczego.",
+      "proposed_category": "software",
+      "proposed_base_priority": "critical",
+      "work_blocked": true,
+      "category_reason": "Awaria funkcji zapisu aplikacji dla wielu użytkowników.",
+      "priority_reason": "Kluczowa usługa całego zespołu jest niedostępna.",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": null
+      }
+    }
+  ]
+}

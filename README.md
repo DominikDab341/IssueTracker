@@ -34,6 +34,38 @@ oraz testy jej zapisu podczas klasyfikacji.
 Etap 6 dodaje polski frontend React z obsługą kont i procesu zgłoszeń.
 Endpoint LLM powstanie w kolejnych etapach.
 
+## Polski pilotaż danych (etap 4)
+
+W `backend/data/pilot/` znajduje się 40 syntetycznych zgłoszeń, po 10 na
+docelową kategorię, [instrukcja etykietowania](backend/data/pilot/labeling-guide.md)
+i [podgląd do ręcznego przeglądu](backend/data/pilot/review.md).
+Etykiety są propozycjami generatora, wszystkie rekordy oczekują na przegląd autora.
+Pochodzenie, instrukcje generowania i brakujące metadane opisano w `generation.md`.
+
+```powershell
+.venv/Scripts/python.exe backend/scripts/evaluate_pilot.py --validate-only
+.venv/Scripts/python.exe backend/scripts/evaluate_pilot.py
+```
+
+Skrypt korzysta domyślnie z lokalnego cache modelu; `--allow-download` pozwala
+go pobrać. Nie wymaga PostgreSQL. Ocena wyklucza całą grupę parafraz badanego
+przykładu, używa dotychczasowego `k=3` i nie stroi parametrów. Raporty znajdują
+się w [backend/data/pilot/results/](backend/data/pilot/results/report.md).
+Pierwszy przebieg na propozycjach: accuracy kategorii **60%**, priorytetu bazowego
+**37,5%** (stałe `medium`: **40%**). To diagnostyka małej syntetycznej próbki,
+nie końcowy wynik badawczy ani potwierdzenie poprawności etykiet.
+Słownik pilotażu i jego wyniki nie zmieniają aplikacji ani danych demonstracyjnych.
+Po ręcznym przeglądzie tryb `--labels reviewed` używa zatwierdzonych etykiet
+i odmawia oceny, jeśli jakiś rekord pozostaje `pending`.
+
+Testy pilotażu, bez bazy i modelu:
+
+```powershell
+Push-Location backend
+../.venv/Scripts/python.exe -m unittest tests.test_pilot_dataset -v
+Pop-Location
+```
+
 ## Aplikacja React (etap 6)
 
 Frontend w `frontend/` obejmuje rejestrację, logowanie, listę z filtrami
