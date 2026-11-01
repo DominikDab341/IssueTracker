@@ -116,3 +116,23 @@ pojedynczej treści: regułę eskalacji testujemy oddzielnie.
 Raport JSON i jego polska wersja Markdown trafiają domyślnie do `results/`.
 Nie są importowane żadne rekordy do PostgreSQL. Samodzielny przegląd przez
 autora bez drugiego oceniającego pozostaje ograniczeniem przyszłego badania.
+
+---
+
+## Aktualizacja danych v2 — 2026-11-01
+
+Definicje kategorii i priorytetów powyżej zachowano. Aktualne zbiory mają po 120 zgłoszeń, po 30 na kategorię, i 108 grup incydentów. Użytkownik zatwierdził 40 pierwotnych przykładów w obu językach; nowe 80 par wymaga osobnego przeglądu. Aktualny stan każdego przykładu znajduje się w `review` w pliku JSON.
+
+Tryb `proposed` pozwala wykonać diagnostykę wszystkich 120 na niezmienionych propozycjach etykiet. `reviewed` nadal wymaga zakończenia przeglądu każdego rekordu. Reguły wykluczenia grup, zamrożenia testu i oddzielenia priorytetu bazowego od checkboxa pozostają takie same.
+
+Raporty Markdown gromadzą przebiegi przez dopisywanie nowych sekcji na końcu. Każda nowa sekcja wskazuje niezmienny zapis JSON w `runs/`. Procedurę rozszerzenia i odtwarzania opisuje [expansion-120.md](expansion-120.md).
+
+---
+
+## Ostatnia partia: niepełne opisy — 2026-11-01
+
+W bieżącym `tickets.json` i `tickets.en.json` jest po 170 opisów. Użytkownik zatwierdził wszystkie wcześniejsze 120. Nowych 50 ma description_quality=weak i reference_eligible=false, pozostaje pending i służy wyłącznie jako zapytania do stałych 120 referencji.
+
+Jeżeli opis nie pozwala ustalić kategorii lub wpływu potrzebnego do priorytetu, odpowiednia proposed_category lub proposed_base_priority ma null. Nie wstawiamy medium ani nie zgadujemy przyczyny. Null w work_blocked oznacza brak tej informacji w eksperymencie. Dla referencji nadal wymagane są kompletne etykiety i logiczny checkbox.
+
+Brak etykiety nie jest klasą unknown ani błędem klasyfikacji. Accuracy/F1 liczymy tylko dla ustalalnych etykiet, osobno dla obu zadań, zawsze podając mianownik i liczbę pominiętych. Oddzielnie pokazujemy wymuszone etykiety modelu dla opisów wymagających doprecyzowania. [Protokół](weak-170.md) opisuje podział 30/20 kategorii i 10/40 priorytetów.

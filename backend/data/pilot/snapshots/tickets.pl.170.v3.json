@@ -1,0 +1,3209 @@
+{
+  "schema_version": 1,
+  "dataset_id": "pilot-pl-v3-170",
+  "created_on": "2026-10-28",
+  "language": "pl",
+  "purpose": "exploratory_pilot_only",
+  "label_status": "partially_human_verified",
+  "provenance": {
+    "method": "llm_assisted_synthetic",
+    "tool": "OpenAI Codex",
+    "model_id": null,
+    "sampling_parameters": null,
+    "unavailable_metadata_reason": "Dokładny identyfikator modelu i ustawienia generowania nie są dostępne w tej sesji.",
+    "instructions_file": "generation.md",
+    "labeling_guide": "labeling-guide.md"
+  },
+  "examples": [
+    {
+      "id": "ACC-01",
+      "group_id": "acc-01",
+      "text": "Po zmianie nazwiska portal pokazuje dawną nazwę mojego konta. Logowanie i wszystkie uprawnienia działają poprawnie, mogę normalnie pracować.",
+      "proposed_category": "accounts_access",
+      "proposed_base_priority": "low",
+      "work_blocked": false,
+      "category_reason": "Dane profilu konta, a nie awaria funkcji aplikacji.",
+      "priority_reason": "Wyłącznie niedogodność w prezentacji nazwy.",
+      "review": {
+        "status": "approved",
+        "category": "accounts_access",
+        "base_priority": "low",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:19:12+01:00",
+        "notes": "Zatwierdzenie istniejących przykładów przez użytkownika w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "ACC-02",
+      "group_id": "acc-02",
+      "text": "Co kilka dni dostaję przypomnienie o końcu ważności hasła, choć zmieniłem je wczoraj. Hasło działa i otwieram wszystkie potrzebne systemy.",
+      "proposed_category": "accounts_access",
+      "proposed_base_priority": "low",
+      "work_blocked": false,
+      "category_reason": "Powiadomienia dotyczące ważności poświadczeń.",
+      "priority_reason": "Komunikat nie ogranicza pracy.",
+      "review": {
+        "status": "approved",
+        "category": "accounts_access",
+        "base_priority": "low",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:19:12+01:00",
+        "notes": "Zatwierdzenie istniejących przykładów przez użytkownika w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "ACC-03",
+      "group_id": "acc-folder-access",
+      "text": "Po przeniesieniu do zespołu rozliczeń folder zespołu otwiera się tylko do odczytu. Nie mogę wgrać zestawienia, ale na razie przekazuję je opiekunowi, który zapisuje plik za mnie.",
+      "proposed_category": "accounts_access",
+      "proposed_base_priority": "medium",
+      "work_blocked": false,
+      "category_reason": "Jawne ograniczenie prawa zapisu do folderu.",
+      "priority_reason": "Zapis jest utrudniony, istnieje działające obejście.",
+      "review": {
+        "status": "approved",
+        "category": "accounts_access",
+        "base_priority": "medium",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:19:12+01:00",
+        "notes": "Zatwierdzenie istniejących przykładów przez użytkownika w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "ACC-04",
+      "group_id": "acc-folder-access",
+      "text": "W tej samej sprawie uprawnień do katalogu rozliczeń: mogę przeglądać dokumenty, lecz zapis kończy się odmową dostępu. Wysyłam zestawienia opiekunowi i on umieszcza je w folderze.",
+      "proposed_category": "accounts_access",
+      "proposed_base_priority": "medium",
+      "work_blocked": false,
+      "category_reason": "Odmowa prawa zapisu, bez objawów uszkodzenia pliku.",
+      "priority_reason": "Można przekazać zapis innej osobie.",
+      "review": {
+        "status": "approved",
+        "category": "accounts_access",
+        "base_priority": "medium",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:19:12+01:00",
+        "notes": "Zatwierdzenie istniejących przykładów przez użytkownika w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "ACC-05",
+      "group_id": "acc-05",
+      "text": "Nowy telefon nie otrzymuje potwierdzeń logowania do poczty. Wchodzę obecnie kodem z zapasowego klucza i odbieram wiadomości, ale chciałbym przywrócić potwierdzenia na telefonie.",
+      "proposed_category": "accounts_access",
+      "proposed_base_priority": "medium",
+      "work_blocked": false,
+      "category_reason": "Problem drugiego składnika uwierzytelniania.",
+      "priority_reason": "Zapasowy klucz pozwala kontynuować pracę.",
+      "review": {
+        "status": "approved",
+        "category": "accounts_access",
+        "base_priority": "medium",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:19:12+01:00",
+        "notes": "Zatwierdzenie istniejących przykładów przez użytkownika w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "ACC-06",
+      "group_id": "acc-06",
+      "text": "Aplikacja odrzuca mój login komunikatem o wygaśnięciu hasła. Samodzielna zmiana w portalu działa i po niej odzyskuję dostęp, ale hasło wygasa ponownie następnego dnia.",
+      "proposed_category": "accounts_access",
+      "proposed_base_priority": "medium",
+      "work_blocked": false,
+      "category_reason": "Cykl ważności hasła i dostęp do konta.",
+      "priority_reason": "Samodzielna zmiana pozwala odzyskać dostęp.",
+      "review": {
+        "status": "approved",
+        "category": "accounts_access",
+        "base_priority": "medium",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:19:12+01:00",
+        "notes": "Zatwierdzenie istniejących przykładów przez użytkownika w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "ACC-07",
+      "group_id": "acc-07",
+      "text": "Moje konto do systemu magazynowego zostało zablokowane. Nie mogę przyjąć dzisiejszej dostawy; nie mam drugiego konta ani możliwości wykonania tego zadania poza systemem.",
+      "proposed_category": "accounts_access",
+      "proposed_base_priority": "high",
+      "work_blocked": true,
+      "category_reason": "Jawna blokada konta.",
+      "priority_reason": "Ważne zadanie jednej osoby zablokowane bez obejścia.",
+      "review": {
+        "status": "approved",
+        "category": "accounts_access",
+        "base_priority": "high",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:19:12+01:00",
+        "notes": "Zatwierdzenie istniejących przykładów przez użytkownika w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "ACC-08",
+      "group_id": "acc-08",
+      "text": "Przy logowaniu do VPN widzę komunikat: użytkownik nie ma uprawnienia do połączeń zdalnych. Nie mogę wykonać z domu pilnego rozliczenia, a dostęp jest możliwy wyłącznie przez ten VPN.",
+      "proposed_category": "accounts_access",
+      "proposed_base_priority": "high",
+      "work_blocked": true,
+      "category_reason": "VPN jawnie odmawia uprawnienia, nie zgłasza awarii połączenia.",
+      "priority_reason": "Brak dostępu do niezbędnego zadania i brak obejścia.",
+      "review": {
+        "status": "approved",
+        "category": "accounts_access",
+        "base_priority": "high",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:19:12+01:00",
+        "notes": "Zatwierdzenie istniejących przykładów przez użytkownika w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "ACC-09",
+      "group_id": "acc-09",
+      "text": "Po zmianie stanowiska zniknęło mi prawo zatwierdzania faktur. System wyświetla brak uprawnień, a dziś muszę zatwierdzić płatności; w tej zmianie nie ma drugiej upoważnionej osoby.",
+      "proposed_category": "accounts_access",
+      "proposed_base_priority": "high",
+      "work_blocked": true,
+      "category_reason": "Brak roli wymaganej do wykonania operacji.",
+      "priority_reason": "Zatwierdzanie płatności zablokowane bez zastępstwa.",
+      "review": {
+        "status": "approved",
+        "category": "accounts_access",
+        "base_priority": "high",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:19:12+01:00",
+        "notes": "Zatwierdzenie istniejących przykładów przez użytkownika w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "ACC-10",
+      "group_id": "acc-10",
+      "text": "Od rana wszyscy pracownicy centrum obsługi dostają przy logowaniu informację, że ich konta są wyłączone. Cały dział nie może obsługiwać klientów; żadne zapasowe konto nie jest dostępne.",
+      "proposed_category": "accounts_access",
+      "proposed_base_priority": "critical",
+      "work_blocked": true,
+      "category_reason": "Jawne wyłączenie kont wielu użytkowników.",
+      "priority_reason": "Kluczowy proces całego działu jest niedostępny.",
+      "review": {
+        "status": "approved",
+        "category": "accounts_access",
+        "base_priority": "critical",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:19:12+01:00",
+        "notes": "Zatwierdzenie istniejących przykładów przez użytkownika w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "HW-01",
+      "group_id": "hw-01",
+      "text": "Na zewnętrznym monitorze pojawił się jeden stale świecący punkt przy dolnej krawędzi. Obraz poza tym jest czytelny i wszystkie zadania wykonuję normalnie.",
+      "proposed_category": "hardware",
+      "proposed_base_priority": "low",
+      "work_blocked": false,
+      "category_reason": "Fizyczny objaw na ekranie.",
+      "priority_reason": "Drobna wada bez ograniczenia pracy.",
+      "review": {
+        "status": "approved",
+        "category": "hardware",
+        "base_priority": "low",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:19:12+01:00",
+        "notes": "Zatwierdzenie istniejących przykładów przez użytkownika w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "HW-02",
+      "group_id": "hw-02",
+      "text": "Wentylator w komputerze zaczął głośniej pracować. Urządzenie się nie wyłącza, nie ma komunikatów o temperaturze i mogę wykonywać wszystkie zadania.",
+      "proposed_category": "hardware",
+      "proposed_base_priority": "low",
+      "work_blocked": false,
+      "category_reason": "Objaw działania fizycznego podzespołu.",
+      "priority_reason": "Hałas jest uciążliwością, bez blokady zadań.",
+      "review": {
+        "status": "approved",
+        "category": "hardware",
+        "base_priority": "low",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:19:12+01:00",
+        "notes": "Zatwierdzenie istniejących przykładów przez użytkownika w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "HW-03",
+      "group_id": "hw-reception-printer",
+      "text": "Drukarka przy recepcji zacina papier także przy uruchomieniu strony testowej z jej panelu. Dokumenty drukuję teraz na urządzeniu w sąsiednim pokoju.",
+      "proposed_category": "hardware",
+      "proposed_base_priority": "medium",
+      "work_blocked": false,
+      "category_reason": "Zacięcie występuje niezależnie od aplikacji i połączenia.",
+      "priority_reason": "Inna drukarka stanowi działające obejście.",
+      "review": {
+        "status": "approved",
+        "category": "hardware",
+        "base_priority": "medium",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:19:12+01:00",
+        "notes": "Zatwierdzenie istniejących przykładów przez użytkownika w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "HW-04",
+      "group_id": "hw-reception-printer",
+      "text": "Ta sama drukarka recepcji ponownie zatrzymuje kartkę w środku, również przy własnym teście. Korzystam z drukarki w sąsiednim pokoju i mogę wydawać dokumenty.",
+      "proposed_category": "hardware",
+      "proposed_base_priority": "medium",
+      "work_blocked": false,
+      "category_reason": "Fizyczny mechanizm podawania papieru.",
+      "priority_reason": "Wydruk na innym urządzeniu pozwala pracować.",
+      "review": {
+        "status": "approved",
+        "category": "hardware",
+        "base_priority": "medium",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:19:12+01:00",
+        "notes": "Zatwierdzenie istniejących przykładów przez użytkownika w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "HW-05",
+      "group_id": "hw-05",
+      "text": "Wbudowana klawiatura laptopa nie reaguje na kilka klawiszy. Podłączyłem klawiaturę USB i mogę pisać, ale utrudnia to pracę w salach spotkań.",
+      "proposed_category": "hardware",
+      "proposed_base_priority": "medium",
+      "work_blocked": false,
+      "category_reason": "Niesprawne klawisze urządzenia.",
+      "priority_reason": "Zewnętrzna klawiatura umożliwia pracę.",
+      "review": {
+        "status": "approved",
+        "category": "hardware",
+        "base_priority": "medium",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:19:12+01:00",
+        "notes": "Zatwierdzenie istniejących przykładów przez użytkownika w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "HW-06",
+      "group_id": "hw-06",
+      "text": "Kamera w laptopie pokazuje czarny obraz także w systemowym teście urządzenia. Na spotkaniach korzystam z pożyczonej kamery USB, która działa poprawnie.",
+      "proposed_category": "hardware",
+      "proposed_base_priority": "medium",
+      "work_blocked": false,
+      "category_reason": "Objaw urządzenia potwierdzony poza programem spotkań.",
+      "priority_reason": "Pożyczona kamera jest sprawnym zastępstwem.",
+      "review": {
+        "status": "approved",
+        "category": "hardware",
+        "base_priority": "medium",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:19:12+01:00",
+        "notes": "Zatwierdzenie istniejących przykładów przez użytkownika w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "HW-07",
+      "group_id": "hw-07",
+      "text": "Komputer nie uruchamia się po naciśnięciu przycisku, nie świecą żadne kontrolki mimo podłączenia do sprawnego gniazdka. Tylko na nim mam stanowisko do obsługi zamówień i nie ma komputera zastępczego.",
+      "proposed_category": "hardware",
+      "proposed_base_priority": "high",
+      "work_blocked": true,
+      "category_reason": "Brak zasilania lub reakcji urządzenia.",
+      "priority_reason": "Ważne zadanie jednej osoby nie ma zastępstwa.",
+      "review": {
+        "status": "approved",
+        "category": "hardware",
+        "base_priority": "high",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:19:12+01:00",
+        "notes": "Zatwierdzenie istniejących przykładów przez użytkownika w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "HW-08",
+      "group_id": "hw-08",
+      "text": "Skaner kodów na moim stanowisku nie włącza się i nie reaguje także po podpięciu do innego portu. Nie mogę rejestrować paczek; program nie pozwala wpisywać kodów ręcznie i nie mamy zapasowego skanera.",
+      "proposed_category": "hardware",
+      "proposed_base_priority": "high",
+      "work_blocked": true,
+      "category_reason": "Brak reakcji fizycznego urządzenia.",
+      "priority_reason": "Rejestrowanie paczek jest niemożliwe bez obejścia.",
+      "review": {
+        "status": "approved",
+        "category": "hardware",
+        "base_priority": "high",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:19:12+01:00",
+        "notes": "Zatwierdzenie istniejących przykładów przez użytkownika w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "HW-09",
+      "group_id": "hw-09",
+      "text": "Zasilacz laptopa przestał ładować, a bateria jest już rozładowana. Muszę dzisiaj przygotować listę płac na tym urządzeniu; innego zasilacza ani stanowiska z tym dostępem nie ma.",
+      "proposed_category": "hardware",
+      "proposed_base_priority": "high",
+      "work_blocked": true,
+      "category_reason": "Niedziałający zasilacz i rozładowane urządzenie.",
+      "priority_reason": "Niezbędne zadanie blokuje brak zastępczego sprzętu.",
+      "review": {
+        "status": "approved",
+        "category": "hardware",
+        "base_priority": "high",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:19:12+01:00",
+        "notes": "Zatwierdzenie istniejących przykładów przez użytkownika w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "HW-10",
+      "group_id": "hw-10",
+      "text": "Główna macierz dyskowa nie włącza się, na obu zasilaczach zgasły kontrolki. Wszystkie zespoły straciły dostęp do plików potrzebnych do obsługi zamówień i nie ma dostępnej kopii roboczej.",
+      "proposed_category": "hardware",
+      "proposed_base_priority": "critical",
+      "work_blocked": true,
+      "category_reason": "Fizyczne objawy braku zasilania macierzy.",
+      "priority_reason": "Awaria kluczowego sprzętu blokuje wiele zespołów.",
+      "review": {
+        "status": "approved",
+        "category": "hardware",
+        "base_priority": "critical",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:19:12+01:00",
+        "notes": "Zatwierdzenie istniejących przykładów przez użytkownika w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "NET-01",
+      "group_id": "net-01",
+      "text": "Po wybudzeniu laptopa połączenie z firmowym Wi-Fi pojawia się dopiero po kilku sekundach. Potem działa stabilnie; nie przerywa to zadań i mogę normalnie korzystać ze wszystkich narzędzi.",
+      "proposed_category": "network",
+      "proposed_base_priority": "low",
+      "work_blocked": false,
+      "category_reason": "Krótkie opóźnienie zestawienia połączenia bezprzewodowego.",
+      "priority_reason": "Drobna zwłoka bez blokady wymaganych zadań.",
+      "review": {
+        "status": "approved",
+        "category": "network",
+        "base_priority": "low",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:19:12+01:00",
+        "notes": "Zatwierdzenie istniejących przykładów przez użytkownika w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "NET-02",
+      "group_id": "net-02",
+      "text": "W pokoju socjalnym zasięg firmowego Wi-Fi jest słaby i strony otwierają się wolno. Nie wykonujemy tam zadań służbowych; przy biurkach połączenie działa prawidłowo i praca nie jest utrudniona.",
+      "proposed_category": "network",
+      "proposed_base_priority": "low",
+      "work_blocked": false,
+      "category_reason": "Słaby zasięg połączenia bezprzewodowego w określonym miejscu.",
+      "priority_reason": "Niedogodność poza miejscem wykonywania pracy.",
+      "review": {
+        "status": "approved",
+        "category": "network",
+        "base_priority": "low",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:19:12+01:00",
+        "notes": "Zatwierdzenie istniejących przykładów przez użytkownika w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "NET-03",
+      "group_id": "net-meeting-room-b",
+      "text": "W sali spotkań B połączenie Wi-Fi rozłącza się co kilka minut. Po podłączeniu laptopa przewodem do gniazda w tej sali spotkania internetowe działają stabilnie.",
+      "proposed_category": "network",
+      "proposed_base_priority": "medium",
+      "work_blocked": false,
+      "category_reason": "Zrywanie połączenia bezprzewodowego.",
+      "priority_reason": "Połączenie przewodowe jest działającym obejściem.",
+      "review": {
+        "status": "approved",
+        "category": "network",
+        "base_priority": "medium",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:19:12+01:00",
+        "notes": "Zatwierdzenie istniejących przykładów przez użytkownika w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "NET-04",
+      "group_id": "net-meeting-room-b",
+      "text": "Zgłaszam to samo zrywanie firmowej sieci bezprzewodowej w sali B. Rozmowę mogę prowadzić po kablu; po odłączeniu przewodu Wi-Fi ponownie gubi połączenie.",
+      "proposed_category": "network",
+      "proposed_base_priority": "medium",
+      "work_blocked": false,
+      "category_reason": "Objaw dotyczy konkretnego połączenia Wi-Fi.",
+      "priority_reason": "Kabel pozwala kontynuować spotkanie.",
+      "review": {
+        "status": "approved",
+        "category": "network",
+        "base_priority": "medium",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:19:12+01:00",
+        "notes": "Zatwierdzenie istniejących przykładów przez użytkownika w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "NET-05",
+      "group_id": "net-05",
+      "text": "Domowy internet zrywa mi połączenie z firmą kilka razy dziennie, również przy zwykłym przeglądaniu stron. Przełączam laptop na internet z telefonu i wtedy mogę pracować stabilnie.",
+      "proposed_category": "network",
+      "proposed_base_priority": "medium",
+      "work_blocked": false,
+      "category_reason": "Utrata połączenia także poza jedną aplikacją.",
+      "priority_reason": "Internet z telefonu umożliwia pracę.",
+      "review": {
+        "status": "approved",
+        "category": "network",
+        "base_priority": "medium",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:19:12+01:00",
+        "notes": "Zatwierdzenie istniejących przykładów przez użytkownika w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "NET-06",
+      "group_id": "net-06",
+      "text": "W pokoju 12 gniazdo sieciowe nie daje połączenia, a ten sam laptop z tym samym przewodem łączy się w sąsiednim pokoju. Tymczasowo korzystam z firmowego Wi-Fi i obsługuję sprawy.",
+      "proposed_category": "network",
+      "proposed_base_priority": "medium",
+      "work_blocked": false,
+      "category_reason": "Problem ścieżki połączenia przez konkretne gniazdo.",
+      "priority_reason": "Sprawne Wi-Fi zapewnia obejście.",
+      "review": {
+        "status": "approved",
+        "category": "network",
+        "base_priority": "medium",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:19:12+01:00",
+        "notes": "Zatwierdzenie istniejących przykładów przez użytkownika w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "NET-07",
+      "group_id": "net-07",
+      "text": "VPN przyjmuje hasło i potwierdzenie logowania, ale zestawianie tunelu kończy się przekroczeniem czasu. Internet poza VPN działa; nie mogę połączyć się z systemem do dzisiejszej wysyłki i nie mam innej drogi dostępu.",
+      "proposed_category": "network",
+      "proposed_base_priority": "high",
+      "work_blocked": true,
+      "category_reason": "Uwierzytelnianie działa, nie udaje się zestawić połączenia.",
+      "priority_reason": "Ważne zadanie jednej osoby zablokowane bez obejścia.",
+      "review": {
+        "status": "approved",
+        "category": "network",
+        "base_priority": "high",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:19:12+01:00",
+        "notes": "Zatwierdzenie istniejących przykładów przez użytkownika w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "NET-08",
+      "group_id": "net-08",
+      "text": "Na moim stanowisku połączenie przewodowe i Wi-Fi nie uzyskują dostępu do sieci firmowej. Nie mogę obsługiwać zamówień, a stanowiska zastępczego ani zasięgu internetu mobilnego tutaj nie ma.",
+      "proposed_category": "network",
+      "proposed_base_priority": "high",
+      "work_blocked": true,
+      "category_reason": "Brak dostępu do sieci przez dwa rodzaje połączeń.",
+      "priority_reason": "Obsługa zamówień zablokowana, nie ma alternatywy.",
+      "review": {
+        "status": "approved",
+        "category": "network",
+        "base_priority": "high",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:19:12+01:00",
+        "notes": "Zatwierdzenie istniejących przykładów przez użytkownika w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "NET-09",
+      "group_id": "net-09",
+      "text": "Podczas zdalnej sesji z serwerem połączenie przerywa się co kilkanaście sekund. Dotyczy także innych usług po tym łączu; muszę dzisiaj zakończyć import danych i nie mam innego połączenia ani dostępu na miejscu.",
+      "proposed_category": "network",
+      "proposed_base_priority": "high",
+      "work_blocked": true,
+      "category_reason": "Utrata łączności z wieloma usługami, bez zgadywania przyczyny.",
+      "priority_reason": "Pilne zadanie nie ma działającej drogi zastępczej.",
+      "review": {
+        "status": "approved",
+        "category": "network",
+        "base_priority": "high",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:19:12+01:00",
+        "notes": "Zatwierdzenie istniejących przykładów przez użytkownika w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "NET-10",
+      "group_id": "net-10",
+      "text": "W całym oddziale przestały działać internet i połączenia z centralą, zarówno po kablu, jak i po Wi-Fi. Trzydzieści osób nie może przyjmować zamówień, a łącze zapasowe również nie daje dostępu.",
+      "proposed_category": "network",
+      "proposed_base_priority": "critical",
+      "work_blocked": true,
+      "category_reason": "Rozległy brak łączności sieciowej.",
+      "priority_reason": "Kluczowa obsługa zamówień wielu osób zablokowana.",
+      "review": {
+        "status": "approved",
+        "category": "network",
+        "base_priority": "critical",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:19:12+01:00",
+        "notes": "Zatwierdzenie istniejących przykładów przez użytkownika w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "SW-01",
+      "group_id": "sw-01",
+      "text": "Po aktualizacji edytora część ikon na pasku narzędzi ma rozmyte krawędzie. Wszystkie przyciski działają, dokumenty zapisują się poprawnie i mogę pracować jak wcześniej.",
+      "proposed_category": "software",
+      "proposed_base_priority": "low",
+      "work_blocked": false,
+      "category_reason": "Niepoprawne wyświetlanie elementów aplikacji.",
+      "priority_reason": "Wyłącznie kosmetyczny problem interfejsu.",
+      "review": {
+        "status": "approved",
+        "category": "software",
+        "base_priority": "low",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:19:12+01:00",
+        "notes": "Zatwierdzenie istniejących przykładów przez użytkownika w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "SW-02",
+      "group_id": "sw-02",
+      "text": "Lista ostatnio otwieranych dokumentów w programie nie zachowuje wybranej kolejności po ponownym uruchomieniu. Dokumenty otwierają się normalnie, a sortowanie nie jest potrzebne do wykonywania zadań.",
+      "proposed_category": "software",
+      "proposed_base_priority": "low",
+      "work_blocked": false,
+      "category_reason": "Błąd zapamiętywania ustawienia aplikacji.",
+      "priority_reason": "Drobna uciążliwość bez utraty wymaganej funkcji.",
+      "review": {
+        "status": "approved",
+        "category": "software",
+        "base_priority": "low",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:19:12+01:00",
+        "notes": "Zatwierdzenie istniejących przykładów przez użytkownika w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "SW-03",
+      "group_id": "sw-reports-pdf",
+      "text": "Program do raportów zamyka się przy eksporcie do PDF. Te same raporty mogę otworzyć w przeglądarce i zapisać do PDF przez drukowanie, więc wysyłam je terminowo.",
+      "proposed_category": "software",
+      "proposed_base_priority": "medium",
+      "work_blocked": false,
+      "category_reason": "Awaria konkretnej funkcji programu.",
+      "priority_reason": "Alternatywny sposób tworzenia PDF działa.",
+      "review": {
+        "status": "approved",
+        "category": "software",
+        "base_priority": "medium",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:19:12+01:00",
+        "notes": "Zatwierdzenie istniejących przykładów przez użytkownika w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "SW-04",
+      "group_id": "sw-reports-pdf",
+      "text": "Wracam do tego samego błędu eksportu raportów: naciśnięcie zapisu jako PDF wyłącza aplikację. Nadal przygotowuję pliki przez wydruk z wersji przeglądarkowej i mogę przekazać raporty.",
+      "proposed_category": "software",
+      "proposed_base_priority": "medium",
+      "work_blocked": false,
+      "category_reason": "Powtórzenie awarii eksportu, nie problemu drukarki.",
+      "priority_reason": "Wersja przeglądarkowa pozwala wykonać zadanie.",
+      "review": {
+        "status": "approved",
+        "category": "software",
+        "base_priority": "medium",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:19:12+01:00",
+        "notes": "Zatwierdzenie istniejących przykładów przez użytkownika w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "SW-05",
+      "group_id": "sw-05",
+      "text": "W jednym programie drukowanie formularza kończy się zamknięciem okna. Strona testowa drukarki działa; mogę wyeksportować formularz do obrazu i wydrukować go z innego programu.",
+      "proposed_category": "software",
+      "proposed_base_priority": "medium",
+      "work_blocked": false,
+      "category_reason": "Błąd dotyczy aplikacji przy sprawnej drukarce.",
+      "priority_reason": "Inny program umożliwia wydruk.",
+      "review": {
+        "status": "approved",
+        "category": "software",
+        "base_priority": "medium",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:19:12+01:00",
+        "notes": "Zatwierdzenie istniejących przykładów przez użytkownika w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "SW-06",
+      "group_id": "sw-06",
+      "text": "Kalendarz w aplikacji na komputerze nie pokazuje nowo dodanych spotkań, choć są widoczne w jej wersji WWW. Sprawdzam terminy w przeglądarce i nie opuszczam spotkań.",
+      "proposed_category": "software",
+      "proposed_base_priority": "medium",
+      "work_blocked": false,
+      "category_reason": "Nieaktualny widok w konkretnej wersji aplikacji.",
+      "priority_reason": "Wersja WWW zapewnia dostęp do terminów.",
+      "review": {
+        "status": "approved",
+        "category": "software",
+        "base_priority": "medium",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:19:12+01:00",
+        "notes": "Zatwierdzenie istniejących przykładów przez użytkownika w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "SW-07",
+      "group_id": "sw-07",
+      "text": "Program księgowy zamyka się za każdym razem przy zatwierdzaniu deklaracji. Inne funkcje działają, ale muszę dziś wysłać deklarację; nie ma wersji WWW ani innego sposobu jej zatwierdzenia.",
+      "proposed_category": "software",
+      "proposed_base_priority": "high",
+      "work_blocked": true,
+      "category_reason": "Powtarzalna awaria operacji w aplikacji.",
+      "priority_reason": "Ważna operacja jest niemożliwa bez obejścia.",
+      "review": {
+        "status": "approved",
+        "category": "software",
+        "base_priority": "high",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:19:12+01:00",
+        "notes": "Zatwierdzenie istniejących przykładów przez użytkownika w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "SW-08",
+      "group_id": "sw-08",
+      "text": "Po aktualizacji aplikacja do podpisywania dokumentów nie uruchamia się i od razu pokazuje błąd programu. Muszę podpisać dzisiaj umowę, a firmowa procedura dopuszcza tylko tę aplikację i nie ma zastępstwa.",
+      "proposed_category": "software",
+      "proposed_base_priority": "high",
+      "work_blocked": true,
+      "category_reason": "Program nie uruchamia się po aktualizacji.",
+      "priority_reason": "Podpisanie wymaganej umowy jest zablokowane.",
+      "review": {
+        "status": "approved",
+        "category": "software",
+        "base_priority": "high",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:19:12+01:00",
+        "notes": "Zatwierdzenie istniejących przykładów przez użytkownika w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "SW-09",
+      "group_id": "sw-09",
+      "text": "W systemie magazynowym zatwierdzenie mojej listy wysyłkowej stale zwraca błąd obliczeń. Mam uprawnienia i inne listy otwierają się poprawnie, ale tej wysyłki nie da się zatwierdzić ręcznie ani w innym narzędziu.",
+      "proposed_category": "software",
+      "proposed_base_priority": "high",
+      "work_blocked": true,
+      "category_reason": "Błąd obliczeń funkcji, nie odmowa dostępu.",
+      "priority_reason": "Konkretne ważne zadanie nie ma obejścia.",
+      "review": {
+        "status": "approved",
+        "category": "software",
+        "base_priority": "high",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:19:12+01:00",
+        "notes": "Zatwierdzenie istniejących przykładów przez użytkownika w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "SW-10",
+      "group_id": "sw-10",
+      "text": "Po wdrożeniu nowej wersji system zamówień zamyka sesję błędem programu przy próbie zapisania dowolnego zamówienia. Dotyczy wszystkich konsultantów; cała obsługa sprzedaży stoi i nie ma trybu zastępczego.",
+      "proposed_category": "software",
+      "proposed_base_priority": "critical",
+      "work_blocked": true,
+      "category_reason": "Awaria funkcji zapisu aplikacji dla wielu użytkowników.",
+      "priority_reason": "Kluczowa usługa całego zespołu jest niedostępna.",
+      "review": {
+        "status": "approved",
+        "category": "software",
+        "base_priority": "critical",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:19:12+01:00",
+        "notes": "Zatwierdzenie istniejących przykładów przez użytkownika w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "ACC-11",
+      "group_id": "acc-11",
+      "text": "W wizytówce mojego konta w książce adresowej widnieje stary numer telefonu wewnętrznego. Loguję się bez problemu i korzystam ze wszystkich usług; błędny numer nie przeszkadza mi w zadaniach.",
+      "proposed_category": "accounts_access",
+      "proposed_base_priority": "low",
+      "work_blocked": false,
+      "category_reason": "Nieaktualna informacja w profilu konta.",
+      "priority_reason": "Drobna uciążliwość bez ograniczenia wymaganych zadań.",
+      "review": {
+        "status": "approved",
+        "category": "accounts_access",
+        "base_priority": "low",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:35:52+01:00",
+        "notes": "Użytkownik zatwierdził pozostałe 80 przykładów w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "ACC-12",
+      "group_id": "acc-12",
+      "text": "W portalu samoobsługowym nazwa mojego zespołu nadal jest poprzednia, mimo przeniesienia miesiąc temu. Dostęp do nowego zespołu już mam, a wyświetlana nazwa niczego nie blokuje.",
+      "proposed_category": "accounts_access",
+      "proposed_base_priority": "low",
+      "work_blocked": false,
+      "category_reason": "Dane organizacyjne przypisane do konta.",
+      "priority_reason": "Drobna uciążliwość bez ograniczenia wymaganych zadań.",
+      "review": {
+        "status": "approved",
+        "category": "accounts_access",
+        "base_priority": "low",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:35:52+01:00",
+        "notes": "Użytkownik zatwierdził pozostałe 80 przykładów w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "ACC-13",
+      "group_id": "acc-13",
+      "text": "Przy logowaniu widzę na liście dawną rolę z zakończonego projektu. Jej wybór niczego nie otwiera, natomiast bieżąca rola daje mi wszystkie potrzebne uprawnienia i mogę normalnie pracować.",
+      "proposed_category": "accounts_access",
+      "proposed_base_priority": "low",
+      "work_blocked": false,
+      "category_reason": "Widoczność nieaktualnej roli użytkownika.",
+      "priority_reason": "Drobna uciążliwość bez ograniczenia wymaganych zadań.",
+      "review": {
+        "status": "approved",
+        "category": "accounts_access",
+        "base_priority": "low",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:35:52+01:00",
+        "notes": "Użytkownik zatwierdził pozostałe 80 przykładów w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "ACC-14",
+      "group_id": "acc-14",
+      "text": "Panel konta pokazuje komunikat o konieczności uzupełnienia zdjęcia profilowego. Nie chcę dodawać zdjęcia; komunikat można zamknąć i wszystkie narzędzia pozostają dostępne.",
+      "proposed_category": "accounts_access",
+      "proposed_base_priority": "low",
+      "work_blocked": false,
+      "category_reason": "Wymaganie dotyczące profilu konta.",
+      "priority_reason": "Drobna uciążliwość bez ograniczenia wymaganych zadań.",
+      "review": {
+        "status": "approved",
+        "category": "accounts_access",
+        "base_priority": "low",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:35:52+01:00",
+        "notes": "Użytkownik zatwierdził pozostałe 80 przykładów w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "ACC-15",
+      "group_id": "acc-orion-folder",
+      "text": "W folderze projektu Orion straciłem prawo tworzenia nowych dokumentów, chociaż istniejące mogę czytać. Współpracowniczka z zespołu zapisuje przesyłane przeze mnie pliki, więc praca trwa.",
+      "proposed_category": "accounts_access",
+      "proposed_base_priority": "medium",
+      "work_blocked": false,
+      "category_reason": "Brak prawa tworzenia dokumentów w folderze.",
+      "priority_reason": "Opis zawiera działające obejście pozwalające kontynuować pracę.",
+      "review": {
+        "status": "approved",
+        "category": "accounts_access",
+        "base_priority": "medium",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:35:52+01:00",
+        "notes": "Użytkownik zatwierdził pozostałe 80 przykładów w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "ACC-16",
+      "group_id": "acc-orion-folder",
+      "text": "Chodzi o tę samą odmowę zapisu w katalogu Orion: odczyt działa, ale przy dodaniu pliku pojawia się brak uprawnień. Przekazuję dokumenty koleżance, która umieszcza je w katalogu.",
+      "proposed_category": "accounts_access",
+      "proposed_base_priority": "medium",
+      "work_blocked": false,
+      "category_reason": "Jawna odmowa uprawnienia do zapisu.",
+      "priority_reason": "Opis zawiera działające obejście pozwalające kontynuować pracę.",
+      "review": {
+        "status": "approved",
+        "category": "accounts_access",
+        "base_priority": "medium",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:35:52+01:00",
+        "notes": "Użytkownik zatwierdził pozostałe 80 przykładów w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "ACC-17",
+      "group_id": "acc-17",
+      "text": "Po wymianie telefonu aplikacja uwierzytelniająca nie ma mojego konta firmowego i nie mogę zatwierdzać nią logowania. Zachowane kody awaryjne pozwalają mi wejść do systemów i wykonać zadania.",
+      "proposed_category": "accounts_access",
+      "proposed_base_priority": "medium",
+      "work_blocked": false,
+      "category_reason": "Brak skonfigurowanego składnika uwierzytelniania.",
+      "priority_reason": "Opis zawiera działające obejście pozwalające kontynuować pracę.",
+      "review": {
+        "status": "approved",
+        "category": "accounts_access",
+        "base_priority": "medium",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:35:52+01:00",
+        "notes": "Użytkownik zatwierdził pozostałe 80 przykładów w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "ACC-18",
+      "group_id": "acc-18",
+      "text": "Logowanie jednokrotne do portalu zwraca informację, że moje konto nie jest przypisane do tej aplikacji. Bezpośrednie logowanie kontem lokalnym nadal działa i mogę obsługiwać sprawy.",
+      "proposed_category": "accounts_access",
+      "proposed_base_priority": "medium",
+      "work_blocked": false,
+      "category_reason": "Brak przypisania konta do aplikacji.",
+      "priority_reason": "Opis zawiera działające obejście pozwalające kontynuować pracę.",
+      "review": {
+        "status": "approved",
+        "category": "accounts_access",
+        "base_priority": "medium",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:35:52+01:00",
+        "notes": "Użytkownik zatwierdził pozostałe 80 przykładów w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "ACC-19",
+      "group_id": "acc-19",
+      "text": "Próba samodzielnego ustawienia nowego hasła kończy się komunikatem, że nie mam prawa zmieniać hasła. Dotychczasowe hasło nadal działa, korzystam z poczty i pozostałych systemów.",
+      "proposed_category": "accounts_access",
+      "proposed_base_priority": "medium",
+      "work_blocked": false,
+      "category_reason": "Odmowa uprawnienia do zmiany hasła.",
+      "priority_reason": "Opis zawiera działające obejście pozwalające kontynuować pracę.",
+      "review": {
+        "status": "approved",
+        "category": "accounts_access",
+        "base_priority": "medium",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:35:52+01:00",
+        "notes": "Użytkownik zatwierdził pozostałe 80 przykładów w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "ACC-20",
+      "group_id": "acc-20",
+      "text": "W narzędziu zgłoszeniowym mam rolę pozwalającą czytać sprawy, ale odebrano mi prawo dopisywania notatek. Przekazuję notatki dyżurnemu, który je zapisuje; obsługa klientów jest możliwa.",
+      "proposed_category": "accounts_access",
+      "proposed_base_priority": "medium",
+      "work_blocked": false,
+      "category_reason": "Brak konkretnego uprawnienia w roli.",
+      "priority_reason": "Opis zawiera działające obejście pozwalające kontynuować pracę.",
+      "review": {
+        "status": "approved",
+        "category": "accounts_access",
+        "base_priority": "medium",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:35:52+01:00",
+        "notes": "Użytkownik zatwierdził pozostałe 80 przykładów w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "ACC-21",
+      "group_id": "acc-21",
+      "text": "Portal odrzuca logowanie kluczem bezpieczeństwa komunikatem, że klucz nie jest przypisany do mojego użytkownika. Mogę wybrać drugi zarejestrowany klucz i wejść do narzędzi.",
+      "proposed_category": "accounts_access",
+      "proposed_base_priority": "medium",
+      "work_blocked": false,
+      "category_reason": "Brak powiązania klucza z kontem.",
+      "priority_reason": "Opis zawiera działające obejście pozwalające kontynuować pracę.",
+      "review": {
+        "status": "approved",
+        "category": "accounts_access",
+        "base_priority": "medium",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:35:52+01:00",
+        "notes": "Użytkownik zatwierdził pozostałe 80 przykładów w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "ACC-22",
+      "group_id": "acc-22",
+      "text": "Nie widzę grupy archiwalnych raportów, bo system jawnie informuje o braku członkostwa w grupie dostępu. Osoba prowadząca projekt udostępnia mi potrzebne raporty pojedynczo, więc przygotowuję zestawienie.",
+      "proposed_category": "accounts_access",
+      "proposed_base_priority": "medium",
+      "work_blocked": false,
+      "category_reason": "Brak członkostwa w grupie uprawnień.",
+      "priority_reason": "Opis zawiera działające obejście pozwalające kontynuować pracę.",
+      "review": {
+        "status": "approved",
+        "category": "accounts_access",
+        "base_priority": "medium",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:35:52+01:00",
+        "notes": "Użytkownik zatwierdził pozostałe 80 przykładów w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "ACC-23",
+      "group_id": "acc-23",
+      "text": "Podczas podpisywania listy przelewów system informuje, że moja rola nie pozwala zatwierdzać płatności. Jestem jedyną upoważnioną osobą na dyżurze i bez tej operacji nie wyślę dziś przelewów.",
+      "proposed_category": "accounts_access",
+      "proposed_base_priority": "high",
+      "work_blocked": true,
+      "category_reason": "Odmowa uprawnienia do zatwierdzania płatności.",
+      "priority_reason": "Ważne zadanie zgłaszającego jest zablokowane i nie ma dostępnego obejścia.",
+      "review": {
+        "status": "approved",
+        "category": "accounts_access",
+        "base_priority": "high",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:35:52+01:00",
+        "notes": "Użytkownik zatwierdził pozostałe 80 przykładów w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "ACC-24",
+      "group_id": "acc-24",
+      "text": "Przy wejściu do repozytorium projektu dostaję komunikat, że moje członkostwo w organizacji wygasło. Muszę dziś przekazać poprawkę klientowi, nie mam kopii kodu ani innego uprawnionego konta.",
+      "proposed_category": "accounts_access",
+      "proposed_base_priority": "high",
+      "work_blocked": true,
+      "category_reason": "Wygasłe członkostwo warunkujące dostęp.",
+      "priority_reason": "Ważne zadanie zgłaszającego jest zablokowane i nie ma dostępnego obejścia.",
+      "review": {
+        "status": "approved",
+        "category": "accounts_access",
+        "base_priority": "high",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:35:52+01:00",
+        "notes": "Użytkownik zatwierdził pozostałe 80 przykładów w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "ACC-25",
+      "group_id": "acc-25",
+      "text": "Moje konto administratora urządzeń zostało wyłączone, co potwierdza ekran logowania. Muszę skonfigurować dziś stanowisko nowego pracownika; inne konto nie ma tych uprawnień i nie ma zastępcy.",
+      "proposed_category": "accounts_access",
+      "proposed_base_priority": "high",
+      "work_blocked": true,
+      "category_reason": "Jawnie wyłączone konto uprzywilejowane.",
+      "priority_reason": "Ważne zadanie zgłaszającego jest zablokowane i nie ma dostępnego obejścia.",
+      "review": {
+        "status": "approved",
+        "category": "accounts_access",
+        "base_priority": "high",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:35:52+01:00",
+        "notes": "Użytkownik zatwierdził pozostałe 80 przykładów w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "ACC-26",
+      "group_id": "acc-26",
+      "text": "System obsługi dokumentów żąda drugiego składnika, ale mój jedyny zarejestrowany klucz został zgubiony. Nie mam kodów awaryjnych ani innej metody i nie mogę wysłać wymaganej dzisiaj dokumentacji.",
+      "proposed_category": "accounts_access",
+      "proposed_base_priority": "high",
+      "work_blocked": true,
+      "category_reason": "Brak dostępnego składnika uwierzytelniania.",
+      "priority_reason": "Ważne zadanie zgłaszającego jest zablokowane i nie ma dostępnego obejścia.",
+      "review": {
+        "status": "approved",
+        "category": "accounts_access",
+        "base_priority": "high",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:35:52+01:00",
+        "notes": "Użytkownik zatwierdził pozostałe 80 przykładów w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "ACC-27",
+      "group_id": "acc-month-end-folder",
+      "text": "Po zmianie zakresu obowiązków odmówiono mi dostępu do folderu zamknięcia miesiąca z komunikatem o braku uprawnień. Potrzebuję tych dokumentów do dzisiejszego rozliczenia; nikt na zmianie nie może mi ich przekazać.",
+      "proposed_category": "accounts_access",
+      "proposed_base_priority": "high",
+      "work_blocked": true,
+      "category_reason": "Odmowa dostępu do wymaganego folderu.",
+      "priority_reason": "Ważne zadanie zgłaszającego jest zablokowane i nie ma dostępnego obejścia.",
+      "review": {
+        "status": "approved",
+        "category": "accounts_access",
+        "base_priority": "high",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:35:52+01:00",
+        "notes": "Użytkownik zatwierdził pozostałe 80 przykładów w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "ACC-28",
+      "group_id": "acc-month-end-folder",
+      "text": "Ponownie zgłaszam utratę uprawnień do tego samego katalogu zamknięcia miesiąca. Nie mogę odczytać dokumentów do rozliczenia na dziś, a żadna dostępna osoba nie ma prawa udostępnić mi kopii.",
+      "proposed_category": "accounts_access",
+      "proposed_base_priority": "high",
+      "work_blocked": true,
+      "category_reason": "Ponowienie jawnego braku uprawnień do folderu.",
+      "priority_reason": "Ważne zadanie zgłaszającego jest zablokowane i nie ma dostępnego obejścia.",
+      "review": {
+        "status": "approved",
+        "category": "accounts_access",
+        "base_priority": "high",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:35:52+01:00",
+        "notes": "Użytkownik zatwierdził pozostałe 80 przykładów w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "ACC-29",
+      "group_id": "acc-29",
+      "text": "Wszyscy dyspozytorzy widzą przy logowaniu do systemu przewozów komunikat o odebraniu roli operatora. Nie możemy wydawać zleceń kierowcom, a żadne konto na tej zmianie nie ma dostępu zastępczego.",
+      "proposed_category": "accounts_access",
+      "proposed_base_priority": "critical",
+      "work_blocked": true,
+      "category_reason": "Odebrana rola operatora u wielu użytkowników.",
+      "priority_reason": "Niedostępna kluczowa usługa blokuje pracę wielu osób bez trybu zastępczego.",
+      "review": {
+        "status": "approved",
+        "category": "accounts_access",
+        "base_priority": "critical",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:35:52+01:00",
+        "notes": "Użytkownik zatwierdził pozostałe 80 przykładów w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "ACC-30",
+      "group_id": "acc-30",
+      "text": "Od rana system uwierzytelniania odrzuca konta całego zespołu obsługi pacjentów jako nieaktywne. Rejestracja wizyt stoi dla wszystkich, a logowanie awaryjne również nie jest dopuszczone.",
+      "proposed_category": "accounts_access",
+      "proposed_base_priority": "critical",
+      "work_blocked": true,
+      "category_reason": "Wspólna blokada aktywności kont.",
+      "priority_reason": "Niedostępna kluczowa usługa blokuje pracę wielu osób bez trybu zastępczego.",
+      "review": {
+        "status": "approved",
+        "category": "accounts_access",
+        "base_priority": "critical",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:35:52+01:00",
+        "notes": "Użytkownik zatwierdził pozostałe 80 przykładów w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "HW-11",
+      "group_id": "hw-11",
+      "text": "Na obudowie służbowego laptopa pękła plastikowa zaślepka zawiasu. Ekran otwiera się stabilnie, przewody nie są odsłonięte i wykonuję wszystkie zadania bez ograniczeń.",
+      "proposed_category": "hardware",
+      "proposed_base_priority": "low",
+      "work_blocked": false,
+      "category_reason": "Uszkodzenie fizycznego elementu obudowy.",
+      "priority_reason": "Drobna uciążliwość bez ograniczenia wymaganych zadań.",
+      "review": {
+        "status": "approved",
+        "category": "hardware",
+        "base_priority": "low",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:35:52+01:00",
+        "notes": "Użytkownik zatwierdził pozostałe 80 przykładów w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "HW-12",
+      "group_id": "hw-12",
+      "text": "Pokrętło regulacji głośności na słuchawkach jest luźne, ale dźwięk i mikrofon działają. Ustawiam głośność w systemie i bez przeszkód prowadzę rozmowy.",
+      "proposed_category": "hardware",
+      "proposed_base_priority": "low",
+      "work_blocked": false,
+      "category_reason": "Mechaniczna wada elementu słuchawek.",
+      "priority_reason": "Drobna uciążliwość bez ograniczenia wymaganych zadań.",
+      "review": {
+        "status": "approved",
+        "category": "hardware",
+        "base_priority": "low",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:35:52+01:00",
+        "notes": "Użytkownik zatwierdził pozostałe 80 przykładów w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "HW-13",
+      "group_id": "hw-13",
+      "text": "Na klawiaturze zewnętrznej przestała świecić kontrolka Caps Lock. Same klawisze działają, stan widzę na ekranie i nie utrudnia to pisania dokumentów.",
+      "proposed_category": "hardware",
+      "proposed_base_priority": "low",
+      "work_blocked": false,
+      "category_reason": "Niesprawna kontrolka urządzenia.",
+      "priority_reason": "Drobna uciążliwość bez ograniczenia wymaganych zadań.",
+      "review": {
+        "status": "approved",
+        "category": "hardware",
+        "base_priority": "low",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:35:52+01:00",
+        "notes": "Użytkownik zatwierdził pozostałe 80 przykładów w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "HW-14",
+      "group_id": "hw-14",
+      "text": "Podstawka monitora nie trzyma wybranej wysokości i zsuwa się do najniższej pozycji. Na tej wysokości ekran jest dla mnie czytelny i mogę wykonywać wszystkie obowiązki.",
+      "proposed_category": "hardware",
+      "proposed_base_priority": "low",
+      "work_blocked": false,
+      "category_reason": "Mechanizm regulacji podstawki monitora.",
+      "priority_reason": "Drobna uciążliwość bez ograniczenia wymaganych zadań.",
+      "review": {
+        "status": "approved",
+        "category": "hardware",
+        "base_priority": "low",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:35:52+01:00",
+        "notes": "Użytkownik zatwierdził pozostałe 80 przykładów w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "HW-15",
+      "group_id": "hw-terminal-4-reader",
+      "text": "Czytnik kart w terminalu numer 4 nie reaguje także w jego własnym teście diagnostycznym. Przeniosłem obsługę na wolny terminal numer 5 i nadal przyjmuję klientów.",
+      "proposed_category": "hardware",
+      "proposed_base_priority": "medium",
+      "work_blocked": false,
+      "category_reason": "Niesprawny czytnik potwierdzony testem urządzenia.",
+      "priority_reason": "Opis zawiera działające obejście pozwalające kontynuować pracę.",
+      "review": {
+        "status": "approved",
+        "category": "hardware",
+        "base_priority": "medium",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:35:52+01:00",
+        "notes": "Użytkownik zatwierdził pozostałe 80 przykładów w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "HW-16",
+      "group_id": "hw-terminal-4-reader",
+      "text": "Wracam do tego samego czytnika w terminalu 4: karty nie są wykrywane nawet w diagnostyce terminala. Korzystam z sąsiedniego stanowiska 5, więc klienci są obsługiwani.",
+      "proposed_category": "hardware",
+      "proposed_base_priority": "medium",
+      "work_blocked": false,
+      "category_reason": "Powtórzenie niesprawności fizycznego czytnika.",
+      "priority_reason": "Opis zawiera działające obejście pozwalające kontynuować pracę.",
+      "review": {
+        "status": "approved",
+        "category": "hardware",
+        "base_priority": "medium",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:35:52+01:00",
+        "notes": "Użytkownik zatwierdził pozostałe 80 przykładów w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "HW-17",
+      "group_id": "hw-17",
+      "text": "Jeden port USB w stacji dokującej nie rozpoznaje podłączonych urządzeń, niezależnie od przewodu. Pozostałe porty działają; przełożyłem do nich mysz i klawiaturę i mogę pracować.",
+      "proposed_category": "hardware",
+      "proposed_base_priority": "medium",
+      "work_blocked": false,
+      "category_reason": "Niesprawność konkretnego portu urządzenia.",
+      "priority_reason": "Opis zawiera działające obejście pozwalające kontynuować pracę.",
+      "review": {
+        "status": "approved",
+        "category": "hardware",
+        "base_priority": "medium",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:35:52+01:00",
+        "notes": "Użytkownik zatwierdził pozostałe 80 przykładów w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "HW-18",
+      "group_id": "hw-18",
+      "text": "Akumulator terminala mobilnego nie utrzymuje zasilania i urządzenie gaśnie po odłączeniu ładowarki. Przy ladzie pracuję z podłączonym zasilaniem i mogę rejestrować wydania.",
+      "proposed_category": "hardware",
+      "proposed_base_priority": "medium",
+      "work_blocked": false,
+      "category_reason": "Brak podtrzymania zasilania przez akumulator.",
+      "priority_reason": "Opis zawiera działające obejście pozwalające kontynuować pracę.",
+      "review": {
+        "status": "approved",
+        "category": "hardware",
+        "base_priority": "medium",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:35:52+01:00",
+        "notes": "Użytkownik zatwierdził pozostałe 80 przykładów w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "HW-19",
+      "group_id": "hw-19",
+      "text": "Mysz dwukrotnie rejestruje pojedyncze kliknięcie także na innym komputerze. Pożyczyłem sprawną mysz z zapasu i wykonuję zadania, ale moja wymaga wymiany.",
+      "proposed_category": "hardware",
+      "proposed_base_priority": "medium",
+      "work_blocked": false,
+      "category_reason": "Objaw fizycznego urządzenia powtarza się na innym komputerze.",
+      "priority_reason": "Opis zawiera działające obejście pozwalające kontynuować pracę.",
+      "review": {
+        "status": "approved",
+        "category": "hardware",
+        "base_priority": "medium",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:35:52+01:00",
+        "notes": "Użytkownik zatwierdził pozostałe 80 przykładów w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "HW-20",
+      "group_id": "hw-20",
+      "text": "W skanerze dokumentów podajnik zatrzymuje kartki również przy kopiowaniu bez komputera. Mogę skanować pojedyncze strony z szyby i w ten sposób przekazuję dokumenty.",
+      "proposed_category": "hardware",
+      "proposed_base_priority": "medium",
+      "work_blocked": false,
+      "category_reason": "Mechanizm podawania papieru działa nieprawidłowo.",
+      "priority_reason": "Opis zawiera działające obejście pozwalające kontynuować pracę.",
+      "review": {
+        "status": "approved",
+        "category": "hardware",
+        "base_priority": "medium",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:35:52+01:00",
+        "notes": "Użytkownik zatwierdził pozostałe 80 przykładów w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "HW-21",
+      "group_id": "hw-21",
+      "text": "Zewnętrzny dysk nie jest wykrywany na dwóch komputerach, a jego dioda nie świeci. Potrzebne pliki mam również na firmowym zasobie, więc pobieram je stamtąd i pracuję dalej.",
+      "proposed_category": "hardware",
+      "proposed_base_priority": "medium",
+      "work_blocked": false,
+      "category_reason": "Brak reakcji urządzenia na różnych komputerach.",
+      "priority_reason": "Opis zawiera działające obejście pozwalające kontynuować pracę.",
+      "review": {
+        "status": "approved",
+        "category": "hardware",
+        "base_priority": "medium",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:35:52+01:00",
+        "notes": "Użytkownik zatwierdził pozostałe 80 przykładów w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "HW-22",
+      "group_id": "hw-22",
+      "text": "Wbudowany mikrofon laptopa trzeszczy także podczas lokalnego nagrania testowego. Podłączony zestaw słuchawkowy nagrywa czysto i używam go do wszystkich rozmów.",
+      "proposed_category": "hardware",
+      "proposed_base_priority": "medium",
+      "work_blocked": false,
+      "category_reason": "Objaw mikrofonu występuje poza aplikacją rozmów.",
+      "priority_reason": "Opis zawiera działające obejście pozwalające kontynuować pracę.",
+      "review": {
+        "status": "approved",
+        "category": "hardware",
+        "base_priority": "medium",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:35:52+01:00",
+        "notes": "Użytkownik zatwierdził pozostałe 80 przykładów w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "HW-23",
+      "group_id": "hw-23",
+      "text": "Jedyny monitor przy stanowisku kontroli świeci podświetleniem, lecz nie wyświetla nawet własnego menu. Muszę dzisiaj przeprowadzić odbiór partii; nie mamy innego ekranu ani stanowiska do tej kontroli.",
+      "proposed_category": "hardware",
+      "proposed_base_priority": "high",
+      "work_blocked": true,
+      "category_reason": "Brak obrazu także w menu samego monitora.",
+      "priority_reason": "Ważne zadanie zgłaszającego jest zablokowane i nie ma dostępnego obejścia.",
+      "review": {
+        "status": "approved",
+        "category": "hardware",
+        "base_priority": "high",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:35:52+01:00",
+        "notes": "Użytkownik zatwierdził pozostałe 80 przykładów w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "HW-24",
+      "group_id": "hw-24",
+      "text": "Drukarka etykiet przewozowych nie podaje papieru i zgłasza uszkodzenie mechanizmu także w teście z panelu. Dzisiejszych paczek nie można nadać bez tych etykiet, a drugiej drukarki ani wydruku zastępczego nie ma.",
+      "proposed_category": "hardware",
+      "proposed_base_priority": "high",
+      "work_blocked": true,
+      "category_reason": "Awaria mechanizmu drukarki potwierdzona bez aplikacji.",
+      "priority_reason": "Ważne zadanie zgłaszającego jest zablokowane i nie ma dostępnego obejścia.",
+      "review": {
+        "status": "approved",
+        "category": "hardware",
+        "base_priority": "high",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:35:52+01:00",
+        "notes": "Użytkownik zatwierdził pozostałe 80 przykładów w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "HW-25",
+      "group_id": "hw-25",
+      "text": "Urządzenie do nanoszenia podpisu nie włącza się na żadnym z dostępnych portów. Muszę dzisiaj odebrać podpis klienta, procedura nie dopuszcza papieru i nie mamy zapasowego urządzenia.",
+      "proposed_category": "hardware",
+      "proposed_base_priority": "high",
+      "work_blocked": true,
+      "category_reason": "Fizyczne urządzenie nie uruchamia się.",
+      "priority_reason": "Ważne zadanie zgłaszającego jest zablokowane i nie ma dostępnego obejścia.",
+      "review": {
+        "status": "approved",
+        "category": "hardware",
+        "base_priority": "high",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:35:52+01:00",
+        "notes": "Użytkownik zatwierdził pozostałe 80 przykładów w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "HW-26",
+      "group_id": "hw-26",
+      "text": "W komputerze do przygotowania prezentacji słychać stukanie dysku, a test sprzętowy zgłasza jego awarię i system się nie uruchamia. Potrzebne pliki są tylko tutaj; nie mam kopii ani innego sposobu przygotowania dzisiejszego pokazu.",
+      "proposed_category": "hardware",
+      "proposed_base_priority": "high",
+      "work_blocked": true,
+      "category_reason": "Awaria dysku wskazana przez test sprzętowy.",
+      "priority_reason": "Ważne zadanie zgłaszającego jest zablokowane i nie ma dostępnego obejścia.",
+      "review": {
+        "status": "approved",
+        "category": "hardware",
+        "base_priority": "high",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:35:52+01:00",
+        "notes": "Użytkownik zatwierdził pozostałe 80 przykładów w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "HW-27",
+      "group_id": "hw-loading-gate-charger",
+      "text": "Jedyny zasilacz terminala przy bramie załadunkowej ma urwany przewód, terminal jest rozładowany. Muszę teraz rejestrować samochody, ale nie ma drugiego zasilacza ani innego stanowiska z tą funkcją.",
+      "proposed_category": "hardware",
+      "proposed_base_priority": "high",
+      "work_blocked": true,
+      "category_reason": "Uszkodzony przewód zasilacza i brak zasilania terminala.",
+      "priority_reason": "Ważne zadanie zgłaszającego jest zablokowane i nie ma dostępnego obejścia.",
+      "review": {
+        "status": "approved",
+        "category": "hardware",
+        "base_priority": "high",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:35:52+01:00",
+        "notes": "Użytkownik zatwierdził pozostałe 80 przykładów w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "HW-28",
+      "group_id": "hw-loading-gate-charger",
+      "text": "Zgłaszam ponownie ten sam zerwany kabel ładowarki terminala przy bramie. Urządzenie nie ma już baterii, więc nie wpiszę przyjeżdżających pojazdów; ładowarki zastępczej i innego stanowiska nie mamy.",
+      "proposed_category": "hardware",
+      "proposed_base_priority": "high",
+      "work_blocked": true,
+      "category_reason": "Powtórzenie uszkodzenia zasilacza terminala.",
+      "priority_reason": "Ważne zadanie zgłaszającego jest zablokowane i nie ma dostępnego obejścia.",
+      "review": {
+        "status": "approved",
+        "category": "hardware",
+        "base_priority": "high",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:35:52+01:00",
+        "notes": "Użytkownik zatwierdził pozostałe 80 przykładów w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "HW-29",
+      "group_id": "hw-29",
+      "text": "Centralny zasilacz awaryjny nie daje napięcia na wyjściu i pokazuje błąd modułu mocy także po teście własnym. Wyłączone są wszystkie stanowiska punktu obsługi, klienci nie mogą być przyjmowani i nie ma zasilania zastępczego.",
+      "proposed_category": "hardware",
+      "proposed_base_priority": "critical",
+      "work_blocked": true,
+      "category_reason": "Usterka fizycznego modułu zasilania.",
+      "priority_reason": "Niedostępna kluczowa usługa blokuje pracę wielu osób bez trybu zastępczego.",
+      "review": {
+        "status": "approved",
+        "category": "hardware",
+        "base_priority": "critical",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:35:52+01:00",
+        "notes": "Użytkownik zatwierdził pozostałe 80 przykładów w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "HW-30",
+      "group_id": "hw-30",
+      "text": "Główny serwer rejestracji nie reaguje na przycisk zasilania, a obie jednostki zasilające zgłaszają czerwone kontrolki. Cały zespół nie może obsługiwać wizyt i nie ma uruchamialnego serwera zastępczego.",
+      "proposed_category": "hardware",
+      "proposed_base_priority": "critical",
+      "work_blocked": true,
+      "category_reason": "Sprzętowe objawy braku zasilania serwera.",
+      "priority_reason": "Niedostępna kluczowa usługa blokuje pracę wielu osób bez trybu zastępczego.",
+      "review": {
+        "status": "approved",
+        "category": "hardware",
+        "base_priority": "critical",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:35:52+01:00",
+        "notes": "Użytkownik zatwierdził pozostałe 80 przykładów w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "NET-11",
+      "group_id": "net-11",
+      "text": "Po przejściu między pokojami telefon służbowy przez chwilę pokazuje brak sieci Wi-Fi, po czym sam się łączy. W tym czasie nie prowadzę rozmów ani zadań i nie tracę dostępu do narzędzi potrzebnych do pracy.",
+      "proposed_category": "network",
+      "proposed_base_priority": "low",
+      "work_blocked": false,
+      "category_reason": "Krótka przerwa podczas zmiany punktu dostępu.",
+      "priority_reason": "Drobna uciążliwość bez ograniczenia wymaganych zadań.",
+      "review": {
+        "status": "approved",
+        "category": "network",
+        "base_priority": "low",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:35:52+01:00",
+        "notes": "Użytkownik zatwierdził pozostałe 80 przykładów w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "NET-12",
+      "group_id": "net-12",
+      "text": "Sieć dla gości w poczekalni otwiera stronę powitalną z kilkusekundowym opóźnieniem. Służbowa sieć przy stanowiskach działa normalnie, opóźnienie nie dotyczy wykonywanej pracy.",
+      "proposed_category": "network",
+      "proposed_base_priority": "low",
+      "work_blocked": false,
+      "category_reason": "Opóźnienie nawiązywania dostępu do sieci gościnnej.",
+      "priority_reason": "Drobna uciążliwość bez ograniczenia wymaganych zadań.",
+      "review": {
+        "status": "approved",
+        "category": "network",
+        "base_priority": "low",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:35:52+01:00",
+        "notes": "Użytkownik zatwierdził pozostałe 80 przykładów w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "NET-13",
+      "group_id": "net-13",
+      "text": "Po podłączeniu przewodu ikona sieci zmienia stan na połączony dopiero po kilku sekundach. Później wszystkie usługi działają stabilnie, a oczekiwanie nie przerywa mi żadnego zadania.",
+      "proposed_category": "network",
+      "proposed_base_priority": "low",
+      "work_blocked": false,
+      "category_reason": "Opóźnienie ustanowienia połączenia przewodowego.",
+      "priority_reason": "Drobna uciążliwość bez ograniczenia wymaganych zadań.",
+      "review": {
+        "status": "approved",
+        "category": "network",
+        "base_priority": "low",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:35:52+01:00",
+        "notes": "Użytkownik zatwierdził pozostałe 80 przykładów w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "NET-14",
+      "group_id": "net-14",
+      "text": "Na tarasie biura firmowe Wi-Fi ma bardzo mały zasięg i strony ładują się wolno. To miejsce odpoczynku; w pomieszczeniach pracy mam pełny dostęp i realizuję wszystkie obowiązki.",
+      "proposed_category": "network",
+      "proposed_base_priority": "low",
+      "work_blocked": false,
+      "category_reason": "Słaby zasięg sieci w konkretnym obszarze.",
+      "priority_reason": "Drobna uciążliwość bez ograniczenia wymaganych zadań.",
+      "review": {
+        "status": "approved",
+        "category": "network",
+        "base_priority": "low",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:35:52+01:00",
+        "notes": "Użytkownik zatwierdził pozostałe 80 przykładów w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "NET-15",
+      "group_id": "net-training-room-c",
+      "text": "W sali szkoleniowej C połączenie przewodowe jest rozłączane co kilka minut, także przy zwykłym otwieraniu stron. Przełączyłem komputer na Wi-Fi i szkolenie może trwać dalej.",
+      "proposed_category": "network",
+      "proposed_base_priority": "medium",
+      "work_blocked": false,
+      "category_reason": "Powtarzające się zerwanie połączenia przewodowego.",
+      "priority_reason": "Opis zawiera działające obejście pozwalające kontynuować pracę.",
+      "review": {
+        "status": "approved",
+        "category": "network",
+        "base_priority": "medium",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:35:52+01:00",
+        "notes": "Użytkownik zatwierdził pozostałe 80 przykładów w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "NET-16",
+      "group_id": "net-training-room-c",
+      "text": "To ponowne zgłoszenie zrywania kabla sieciowego w sali C: usługi przestają odpowiadać, po chwili wracają. Na bezprzewodowym połączeniu szkolenie działa bez przerw, więc obecnie z niego korzystamy.",
+      "proposed_category": "network",
+      "proposed_base_priority": "medium",
+      "work_blocked": false,
+      "category_reason": "Ten sam problem stabilności połączenia w sali.",
+      "priority_reason": "Opis zawiera działające obejście pozwalające kontynuować pracę.",
+      "review": {
+        "status": "approved",
+        "category": "network",
+        "base_priority": "medium",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:35:52+01:00",
+        "notes": "Użytkownik zatwierdził pozostałe 80 przykładów w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "NET-17",
+      "group_id": "net-17",
+      "text": "W biurze nie otwierają się żadne strony po nazwach, ale wejście na znany adres IP serwera działa. Po przełączeniu na dozwolony zapasowy resolver nazwy znów działają i obsługuję sprawy.",
+      "proposed_category": "network",
+      "proposed_base_priority": "medium",
+      "work_blocked": false,
+      "category_reason": "Problem rozwiązywania nazw w połączeniu sieciowym.",
+      "priority_reason": "Opis zawiera działające obejście pozwalające kontynuować pracę.",
+      "review": {
+        "status": "approved",
+        "category": "network",
+        "base_priority": "medium",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:35:52+01:00",
+        "notes": "Użytkownik zatwierdził pozostałe 80 przykładów w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "NET-18",
+      "group_id": "net-18",
+      "text": "W rozmowach przez firmowe łącze głos urywa się, a test pokazuje utratę pakietów także do innych usług. Po podłączeniu do łącza zapasowego mogę rozmawiać i obsługiwać klientów.",
+      "proposed_category": "network",
+      "proposed_base_priority": "medium",
+      "work_blocked": false,
+      "category_reason": "Utrata pakietów dotyczy wielu usług.",
+      "priority_reason": "Opis zawiera działające obejście pozwalające kontynuować pracę.",
+      "review": {
+        "status": "approved",
+        "category": "network",
+        "base_priority": "medium",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:35:52+01:00",
+        "notes": "Użytkownik zatwierdził pozostałe 80 przykładów w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "NET-19",
+      "group_id": "net-19",
+      "text": "Firmowa sieć bezprzewodowa nie przydziela mojemu laptopowi adresu; urządzenie pokazuje oczekiwanie na konfigurację sieci. Po podłączeniu przewodem dostaję połączenie i mogę pracować.",
+      "proposed_category": "network",
+      "proposed_base_priority": "medium",
+      "work_blocked": false,
+      "category_reason": "Brak konfiguracji adresowej połączenia bezprzewodowego.",
+      "priority_reason": "Opis zawiera działające obejście pozwalające kontynuować pracę.",
+      "review": {
+        "status": "approved",
+        "category": "network",
+        "base_priority": "medium",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:35:52+01:00",
+        "notes": "Użytkownik zatwierdził pozostałe 80 przykładów w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "NET-20",
+      "group_id": "net-20",
+      "text": "Po zalogowaniu do VPN połączenie znika przy wysyłaniu większego pliku, a to samo dzieje się z kilkoma usługami. Pliki przekazuję przez zatwierdzony portal zewnętrzny i zadanie jest wykonywane.",
+      "proposed_category": "network",
+      "proposed_base_priority": "medium",
+      "work_blocked": false,
+      "category_reason": "Niestabilność połączenia VPN po uwierzytelnieniu.",
+      "priority_reason": "Opis zawiera działające obejście pozwalające kontynuować pracę.",
+      "review": {
+        "status": "approved",
+        "category": "network",
+        "base_priority": "medium",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:35:52+01:00",
+        "notes": "Użytkownik zatwierdził pozostałe 80 przykładów w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "NET-21",
+      "group_id": "net-21",
+      "text": "Wynajęty pokój pracy nie ma działającego połączenia z firmową centralą, choć lokalne strony są osiągalne. Korzystam z zatwierdzonego łącza komórkowego i dzięki temu wykonuję obowiązki.",
+      "proposed_category": "network",
+      "proposed_base_priority": "medium",
+      "work_blocked": false,
+      "category_reason": "Niedostępna trasa połączenia z centralą.",
+      "priority_reason": "Opis zawiera działające obejście pozwalające kontynuować pracę.",
+      "review": {
+        "status": "approved",
+        "category": "network",
+        "base_priority": "medium",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:35:52+01:00",
+        "notes": "Użytkownik zatwierdził pozostałe 80 przykładów w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "NET-22",
+      "group_id": "net-22",
+      "text": "Po zmianie stanowiska połączenie przez gniazdo 18 jest bardzo wolne przy kopiowaniu i otwieraniu różnych usług. Przeniosłem się do wolnego biurka z innym gniazdem i praca przebiega normalnie.",
+      "proposed_category": "network",
+      "proposed_base_priority": "medium",
+      "work_blocked": false,
+      "category_reason": "Ograniczona wydajność konkretnego połączenia sieciowego.",
+      "priority_reason": "Opis zawiera działające obejście pozwalające kontynuować pracę.",
+      "review": {
+        "status": "approved",
+        "category": "network",
+        "base_priority": "medium",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:35:52+01:00",
+        "notes": "Użytkownik zatwierdził pozostałe 80 przykładów w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "NET-23",
+      "group_id": "net-23",
+      "text": "Z mojego punktu obsługi nie można połączyć się z centralą, żądania do wszystkich jej usług kończą się przekroczeniem czasu. Muszę dzisiaj potwierdzić wydania, a nie ma łącza zapasowego ani możliwości przejścia na inne stanowisko.",
+      "proposed_category": "network",
+      "proposed_base_priority": "high",
+      "work_blocked": true,
+      "category_reason": "Brak łączności z wieloma usługami centrali.",
+      "priority_reason": "Ważne zadanie zgłaszającego jest zablokowane i nie ma dostępnego obejścia.",
+      "review": {
+        "status": "approved",
+        "category": "network",
+        "base_priority": "high",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:35:52+01:00",
+        "notes": "Użytkownik zatwierdził pozostałe 80 przykładów w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "NET-24",
+      "group_id": "net-24",
+      "text": "Na służbowym laptopie nie działa ani firmowa sieć przewodowa, ani bezprzewodowa; nie osiągam żadnego firmowego adresu. Muszę przeprowadzić dzisiaj rozmowę z klientem, telefon nie ma tutaj zasięgu i nie mam innego stanowiska.",
+      "proposed_category": "network",
+      "proposed_base_priority": "high",
+      "work_blocked": true,
+      "category_reason": "Brak dostępu do sieci przez różne połączenia.",
+      "priority_reason": "Ważne zadanie zgłaszającego jest zablokowane i nie ma dostępnego obejścia.",
+      "review": {
+        "status": "approved",
+        "category": "network",
+        "base_priority": "high",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:35:52+01:00",
+        "notes": "Użytkownik zatwierdził pozostałe 80 przykładów w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "NET-25",
+      "group_id": "net-25",
+      "text": "Połączenie do zdalnego pulpitu jest uwierzytelniane, ale ruch do serwera zatrzymuje się i kończy timeoutem, podobnie jak dostęp do innych usług w tej lokalizacji. Muszę zatwierdzić dzisiejszy import i nie mam innej drogi do serwera.",
+      "proposed_category": "network",
+      "proposed_base_priority": "high",
+      "work_blocked": true,
+      "category_reason": "Po uwierzytelnieniu brakuje łączności do lokalizacji.",
+      "priority_reason": "Ważne zadanie zgłaszającego jest zablokowane i nie ma dostępnego obejścia.",
+      "review": {
+        "status": "approved",
+        "category": "network",
+        "base_priority": "high",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:35:52+01:00",
+        "notes": "Użytkownik zatwierdził pozostałe 80 przykładów w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "NET-26",
+      "group_id": "net-26",
+      "text": "Łącze używane do transmisji dzisiejszego szkolenia traci pakiety i rozłącza także inne aplikacje. Nie mogę poprowadzić transmisji, a dostępne tu urządzenia nie obsługują żadnego innego połączenia.",
+      "proposed_category": "network",
+      "proposed_base_priority": "high",
+      "work_blocked": true,
+      "category_reason": "Utrata łączności obejmuje wiele aplikacji.",
+      "priority_reason": "Ważne zadanie zgłaszającego jest zablokowane i nie ma dostępnego obejścia.",
+      "review": {
+        "status": "approved",
+        "category": "network",
+        "base_priority": "high",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:35:52+01:00",
+        "notes": "Użytkownik zatwierdził pozostałe 80 przykładów w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "NET-27",
+      "group_id": "net-field-office-uplink",
+      "text": "Moje połączenie z firmą z placówki terenowej przestało odpowiadać; wszystkie usługi centrali mają timeout, choć logowanie do lokalnego urządzenia działa. Muszę dzisiaj wysłać protokół, a w tej lokalizacji nie ma alternatywnego łącza ani innego punktu dostępu.",
+      "proposed_category": "network",
+      "proposed_base_priority": "high",
+      "work_blocked": true,
+      "category_reason": "Wspólna utrata łączności do centrali z jednej placówki.",
+      "priority_reason": "Ważne zadanie zgłaszającego jest zablokowane i nie ma dostępnego obejścia.",
+      "review": {
+        "status": "approved",
+        "category": "network",
+        "base_priority": "high",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:35:52+01:00",
+        "notes": "Użytkownik zatwierdził pozostałe 80 przykładów w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "NET-28",
+      "group_id": "net-field-office-uplink",
+      "text": "Ponawiam sprawę niedostępnego połączenia placówki terenowej z centralą. Każda jej usługa przekracza czas odpowiedzi; dzisiejszy protokół czeka, a nie ma tutaj sieci zapasowej ani drugiego dostępu.",
+      "proposed_category": "network",
+      "proposed_base_priority": "high",
+      "work_blocked": true,
+      "category_reason": "Ten sam brak łączności z usługami centrali.",
+      "priority_reason": "Ważne zadanie zgłaszającego jest zablokowane i nie ma dostępnego obejścia.",
+      "review": {
+        "status": "approved",
+        "category": "network",
+        "base_priority": "high",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:35:52+01:00",
+        "notes": "Użytkownik zatwierdził pozostałe 80 przykładów w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "NET-29",
+      "group_id": "net-29",
+      "text": "W całej firmie nazwy wewnętrznych systemów przestały się rozwiązywać, a znane adresy IP są osiągalne. Wszystkie zespoły utraciły dostęp do obsługi zamówień, zapasowy resolver również nie odpowiada i nie ma dopuszczonego obejścia.",
+      "proposed_category": "network",
+      "proposed_base_priority": "critical",
+      "work_blocked": true,
+      "category_reason": "Wspólna awaria rozwiązywania nazw w sieci.",
+      "priority_reason": "Niedostępna kluczowa usługa blokuje pracę wielu osób bez trybu zastępczego.",
+      "review": {
+        "status": "approved",
+        "category": "network",
+        "base_priority": "critical",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:35:52+01:00",
+        "notes": "Użytkownik zatwierdził pozostałe 80 przykładów w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "NET-30",
+      "group_id": "net-30",
+      "text": "Obie trasy sieciowe między magazynem a centralą są niedostępne; każda usługa centralna kończy się timeoutem. Wszystkie zmiany w magazynie stoją, bo nie da się rejestrować wydań, i nie ma trzeciego łącza ani pracy offline.",
+      "proposed_category": "network",
+      "proposed_base_priority": "critical",
+      "work_blocked": true,
+      "category_reason": "Brak łączności przez obie dostępne trasy.",
+      "priority_reason": "Niedostępna kluczowa usługa blokuje pracę wielu osób bez trybu zastępczego.",
+      "review": {
+        "status": "approved",
+        "category": "network",
+        "base_priority": "critical",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:35:52+01:00",
+        "notes": "Użytkownik zatwierdził pozostałe 80 przykładów w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "SW-11",
+      "group_id": "sw-11",
+      "text": "W programie do notatek po ostatniej aktualizacji tekst podpowiedzi nachodzi na ikonę. Po odsunięciu myszy podpowiedź znika, wszystkie funkcje działają i tworzę notatki normalnie.",
+      "proposed_category": "software",
+      "proposed_base_priority": "low",
+      "work_blocked": false,
+      "category_reason": "Błąd wyświetlania elementu programu.",
+      "priority_reason": "Drobna uciążliwość bez ograniczenia wymaganych zadań.",
+      "review": {
+        "status": "approved",
+        "category": "software",
+        "base_priority": "low",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:35:52+01:00",
+        "notes": "Użytkownik zatwierdził pozostałe 80 przykładów w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "SW-12",
+      "group_id": "sw-12",
+      "text": "Aplikacja pokazuje nazwę miesiąca po angielsku, chociaż wybrałem polski język. Daty są poprawne, rozumiem nazwy i mogę wykonywać wszystkie operacje.",
+      "proposed_category": "software",
+      "proposed_base_priority": "low",
+      "work_blocked": false,
+      "category_reason": "Niepoprawna lokalizacja interfejsu aplikacji.",
+      "priority_reason": "Drobna uciążliwość bez ograniczenia wymaganych zadań.",
+      "review": {
+        "status": "approved",
+        "category": "software",
+        "base_priority": "low",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:35:52+01:00",
+        "notes": "Użytkownik zatwierdził pozostałe 80 przykładów w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "SW-13",
+      "group_id": "sw-13",
+      "text": "W oknie pomocy programu odnośnik do spisu treści przewija stronę do złego nagłówka. Pozostałe funkcje są sprawne i tej pomocy nie potrzebuję do bieżących obowiązków.",
+      "proposed_category": "software",
+      "proposed_base_priority": "low",
+      "work_blocked": false,
+      "category_reason": "Nieprawidłowe działanie odnośnika w aplikacji.",
+      "priority_reason": "Drobna uciążliwość bez ograniczenia wymaganych zadań.",
+      "review": {
+        "status": "approved",
+        "category": "software",
+        "base_priority": "low",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:35:52+01:00",
+        "notes": "Użytkownik zatwierdził pozostałe 80 przykładów w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "SW-14",
+      "group_id": "sw-14",
+      "text": "Po ponownym uruchomieniu narzędzia wybrany kolor motywu wraca do domyślnego. Nie tracę ustawień potrzebnych do zadań ani dokumentów i pracuję bez przeszkód.",
+      "proposed_category": "software",
+      "proposed_base_priority": "low",
+      "work_blocked": false,
+      "category_reason": "Program nie zapamiętuje kosmetycznego ustawienia.",
+      "priority_reason": "Drobna uciążliwość bez ograniczenia wymaganych zadań.",
+      "review": {
+        "status": "approved",
+        "category": "software",
+        "base_priority": "low",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:35:52+01:00",
+        "notes": "Użytkownik zatwierdził pozostałe 80 przykładów w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "SW-15",
+      "group_id": "sw-contacts-csv",
+      "text": "Eksport listy kontaktów do CSV w aplikacji sprzedażowej kończy się błędem programu. Mogę skopiować tabelę do arkusza i zapisać ją jako CSV, więc przekazuję listy w terminie.",
+      "proposed_category": "software",
+      "proposed_base_priority": "medium",
+      "work_blocked": false,
+      "category_reason": "Awaria funkcji eksportu aplikacji.",
+      "priority_reason": "Opis zawiera działające obejście pozwalające kontynuować pracę.",
+      "review": {
+        "status": "approved",
+        "category": "software",
+        "base_priority": "medium",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:35:52+01:00",
+        "notes": "Użytkownik zatwierdził pozostałe 80 przykładów w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "SW-16",
+      "group_id": "sw-contacts-csv",
+      "text": "Ponownie zgłaszam ten sam błąd zapisu kontaktów do CSV: przycisk eksportu wyświetla wyjątek zamiast pliku. Kopiowanie tabeli do arkusza i zapis stamtąd nadal pozwala przygotować listę.",
+      "proposed_category": "software",
+      "proposed_base_priority": "medium",
+      "work_blocked": false,
+      "category_reason": "Powtórzenie błędu eksportu kontaktów.",
+      "priority_reason": "Opis zawiera działające obejście pozwalające kontynuować pracę.",
+      "review": {
+        "status": "approved",
+        "category": "software",
+        "base_priority": "medium",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:35:52+01:00",
+        "notes": "Użytkownik zatwierdził pozostałe 80 przykładów w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "SW-17",
+      "group_id": "sw-17",
+      "text": "Filtr dat w programie raportowym pokazuje pustą listę mimo istniejących rekordów. Wyłączam filtr i wybieram potrzebne wiersze z pełnej listy, dzięki czemu przygotowuję raport.",
+      "proposed_category": "software",
+      "proposed_base_priority": "medium",
+      "work_blocked": false,
+      "category_reason": "Błąd filtrowania wyników w programie.",
+      "priority_reason": "Opis zawiera działające obejście pozwalające kontynuować pracę.",
+      "review": {
+        "status": "approved",
+        "category": "software",
+        "base_priority": "medium",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:35:52+01:00",
+        "notes": "Użytkownik zatwierdził pozostałe 80 przykładów w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "SW-18",
+      "group_id": "sw-18",
+      "text": "Program do faktur źle sortuje po numerze i przestawia dokumenty w losowej kolejności. Wyszukiwanie konkretnego numeru działa, dlatego nadal wystawiam i odnajduję faktury.",
+      "proposed_category": "software",
+      "proposed_base_priority": "medium",
+      "work_blocked": false,
+      "category_reason": "Nieprawidłowa funkcja sortowania dokumentów.",
+      "priority_reason": "Opis zawiera działające obejście pozwalające kontynuować pracę.",
+      "review": {
+        "status": "approved",
+        "category": "software",
+        "base_priority": "medium",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:35:52+01:00",
+        "notes": "Użytkownik zatwierdził pozostałe 80 przykładów w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "SW-19",
+      "group_id": "sw-19",
+      "text": "Podgląd załącznika PDF w aplikacji pokazuje pustą stronę, ale pobrany plik otwiera się poprawnie w osobnym czytniku. Pobieram dokumenty i na tej podstawie obsługuję sprawy.",
+      "proposed_category": "software",
+      "proposed_base_priority": "medium",
+      "work_blocked": false,
+      "category_reason": "Błąd podglądu pliku w aplikacji.",
+      "priority_reason": "Opis zawiera działające obejście pozwalające kontynuować pracę.",
+      "review": {
+        "status": "approved",
+        "category": "software",
+        "base_priority": "medium",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:35:52+01:00",
+        "notes": "Użytkownik zatwierdził pozostałe 80 przykładów w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "SW-20",
+      "group_id": "sw-20",
+      "text": "Przeciągnięcie załącznika do formularza zamyka okno z błędem programu. Dodanie tego samego pliku przez przycisk wyboru działa, więc mogę wysyłać wymagane formularze.",
+      "proposed_category": "software",
+      "proposed_base_priority": "medium",
+      "work_blocked": false,
+      "category_reason": "Awaria jednej metody dodawania załącznika.",
+      "priority_reason": "Opis zawiera działające obejście pozwalające kontynuować pracę.",
+      "review": {
+        "status": "approved",
+        "category": "software",
+        "base_priority": "medium",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:35:52+01:00",
+        "notes": "Użytkownik zatwierdził pozostałe 80 przykładów w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "SW-21",
+      "group_id": "sw-21",
+      "text": "W programie zestawień suma kolumny nie aktualizuje się po zmianie wiersza. Ponowne otwarcie dokumentu przelicza ją prawidłowo; sprawdzam w ten sposób wartości i kończę zestawienia.",
+      "proposed_category": "software",
+      "proposed_base_priority": "medium",
+      "work_blocked": false,
+      "category_reason": "Nieprawidłowe odświeżanie obliczeń w aplikacji.",
+      "priority_reason": "Opis zawiera działające obejście pozwalające kontynuować pracę.",
+      "review": {
+        "status": "approved",
+        "category": "software",
+        "base_priority": "medium",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:35:52+01:00",
+        "notes": "Użytkownik zatwierdził pozostałe 80 przykładów w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "SW-22",
+      "group_id": "sw-22",
+      "text": "Aplikacja do ewidencji czasu zawiesza się na ekranie zapisu, choć jej wersja przeglądarkowa działa. Wprowadzam godziny przez przeglądarkę i mogę rozliczać pracę.",
+      "proposed_category": "software",
+      "proposed_base_priority": "medium",
+      "work_blocked": false,
+      "category_reason": "Zawieszenie konkretnej wersji aplikacji.",
+      "priority_reason": "Opis zawiera działające obejście pozwalające kontynuować pracę.",
+      "review": {
+        "status": "approved",
+        "category": "software",
+        "base_priority": "medium",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:35:52+01:00",
+        "notes": "Użytkownik zatwierdził pozostałe 80 przykładów w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "SW-23",
+      "group_id": "sw-23",
+      "text": "Program płacowy przy obliczeniu mojego zestawienia pokazuje błąd arytmetyczny i przerywa operację. Muszę dziś zamknąć wynagrodzenia, ale nie da się ich zatwierdzić ręcznie ani w innym narzędziu.",
+      "proposed_category": "software",
+      "proposed_base_priority": "high",
+      "work_blocked": true,
+      "category_reason": "Błąd obliczeń przerywa funkcję programu.",
+      "priority_reason": "Ważne zadanie zgłaszającego jest zablokowane i nie ma dostępnego obejścia.",
+      "review": {
+        "status": "approved",
+        "category": "software",
+        "base_priority": "high",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:35:52+01:00",
+        "notes": "Użytkownik zatwierdził pozostałe 80 przykładów w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "SW-24",
+      "group_id": "sw-24",
+      "text": "Przy zapisaniu przygotowanej oferty aplikacja sprzedażowa stale wyświetla wyjątek i usuwa formularz. Muszę wysłać tę ofertę dzisiaj, a polityka firmy wymaga zapisu w tym systemie i nie ma alternatywnej wersji.",
+      "proposed_category": "software",
+      "proposed_base_priority": "high",
+      "work_blocked": true,
+      "category_reason": "Powtarzalny błąd zapisu formularza.",
+      "priority_reason": "Ważne zadanie zgłaszającego jest zablokowane i nie ma dostępnego obejścia.",
+      "review": {
+        "status": "approved",
+        "category": "software",
+        "base_priority": "high",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:35:52+01:00",
+        "notes": "Użytkownik zatwierdził pozostałe 80 przykładów w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "SW-25",
+      "group_id": "sw-25",
+      "text": "Narzędzie importu danych zatrzymuje się na każdym pliku komunikatem o błędzie parsowania, również na własnym poprawnym pliku przykładowym. Muszę dziś wczytać dane klienta i nie istnieje import ręczny ani inne narzędzie.",
+      "proposed_category": "software",
+      "proposed_base_priority": "high",
+      "work_blocked": true,
+      "category_reason": "Awaria parsera w narzędziu importu.",
+      "priority_reason": "Ważne zadanie zgłaszającego jest zablokowane i nie ma dostępnego obejścia.",
+      "review": {
+        "status": "approved",
+        "category": "software",
+        "base_priority": "high",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:35:52+01:00",
+        "notes": "Użytkownik zatwierdził pozostałe 80 przykładów w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "SW-26",
+      "group_id": "sw-26",
+      "text": "Aplikacja projektowa zamyka się podczas otwierania mojego wymaganego dokumentu, także z jego zachowanej kopii. Mam właściwe uprawnienia, lecz nie mogę przygotować dzisiejszej dokumentacji, a inny program nie obsługuje tego formatu.",
+      "proposed_category": "software",
+      "proposed_base_priority": "high",
+      "work_blocked": true,
+      "category_reason": "Zamknięcie aplikacji przy odczycie dokumentu.",
+      "priority_reason": "Ważne zadanie zgłaszającego jest zablokowane i nie ma dostępnego obejścia.",
+      "review": {
+        "status": "approved",
+        "category": "software",
+        "base_priority": "high",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:35:52+01:00",
+        "notes": "Użytkownik zatwierdził pozostałe 80 przykładów w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "SW-27",
+      "group_id": "sw-roster-publication",
+      "text": "Publikowanie mojego grafiku w systemie dyżurów kończy się błędem programu mimo poprawnego sprawdzenia danych. Muszę udostępnić grafik na jutro, a system nie ma drugiego sposobu publikacji i eksport nie jest akceptowany.",
+      "proposed_category": "software",
+      "proposed_base_priority": "high",
+      "work_blocked": true,
+      "category_reason": "Awaria operacji publikacji po walidacji danych.",
+      "priority_reason": "Ważne zadanie zgłaszającego jest zablokowane i nie ma dostępnego obejścia.",
+      "review": {
+        "status": "approved",
+        "category": "software",
+        "base_priority": "high",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:35:52+01:00",
+        "notes": "Użytkownik zatwierdził pozostałe 80 przykładów w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "SW-28",
+      "group_id": "sw-roster-publication",
+      "text": "To ponowienie sprawy tego samego grafiku: kontrola formularza przechodzi, lecz zatwierdzenie publikacji wyświetla wyjątek. Grafik na jutro nadal jest niedostępny; nie można go opublikować inną ścieżką ani zastąpić eksportem.",
+      "proposed_category": "software",
+      "proposed_base_priority": "high",
+      "work_blocked": true,
+      "category_reason": "Ten sam błąd publikowania grafiku.",
+      "priority_reason": "Ważne zadanie zgłaszającego jest zablokowane i nie ma dostępnego obejścia.",
+      "review": {
+        "status": "approved",
+        "category": "software",
+        "base_priority": "high",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:35:52+01:00",
+        "notes": "Użytkownik zatwierdził pozostałe 80 przykładów w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "SW-29",
+      "group_id": "sw-29",
+      "text": "Po aktualizacji aplikacji magazynowej zapis każdego wydania kończy się wyjątkiem dla wszystkich operatorów. Logowanie i sieć działają, ale cały magazyn nie może wydawać towaru i nie ma trybu offline ani systemu zastępczego.",
+      "proposed_category": "software",
+      "proposed_base_priority": "critical",
+      "work_blocked": true,
+      "category_reason": "Awaria funkcji zapisu aplikacji u wszystkich operatorów.",
+      "priority_reason": "Niedostępna kluczowa usługa blokuje pracę wielu osób bez trybu zastępczego.",
+      "review": {
+        "status": "approved",
+        "category": "software",
+        "base_priority": "critical",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:35:52+01:00",
+        "notes": "Użytkownik zatwierdził pozostałe 80 przykładów w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "SW-30",
+      "group_id": "sw-30",
+      "text": "Program obsługi infolinii zamyka się na każdym stanowisku przy przyjęciu rozmowy, podczas gdy inne usługi sieciowe działają. Cały zespół nie może odbierać połączeń od klientów i nie mamy alternatywnej aplikacji ani przekierowania.",
+      "proposed_category": "software",
+      "proposed_base_priority": "critical",
+      "work_blocked": true,
+      "category_reason": "Zamknięcie aplikacji wywoływane wspólną operacją.",
+      "priority_reason": "Niedostępna kluczowa usługa blokuje pracę wielu osób bez trybu zastępczego.",
+      "review": {
+        "status": "approved",
+        "category": "software",
+        "base_priority": "critical",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:35:52+01:00",
+        "notes": "Użytkownik zatwierdził pozostałe 80 przykładów w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "WEAK-01",
+      "group_id": "weak-01",
+      "text": "Konto zablokowane.",
+      "proposed_category": "accounts_access",
+      "proposed_base_priority": null,
+      "work_blocked": null,
+      "reference_eligible": false,
+      "description_quality": "weak",
+      "category_reason": "Opis wskazuje konto, uprawnienie lub uwierzytelnianie.",
+      "priority_reason": "Brak wystarczających danych o wpływie i obejściu; nie przypisujemy wzorcowego priorytetu.",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "WEAK-02",
+      "group_id": "weak-02",
+      "text": "Nie mam uprawnień do folderu.",
+      "proposed_category": "accounts_access",
+      "proposed_base_priority": null,
+      "work_blocked": null,
+      "reference_eligible": false,
+      "description_quality": "weak",
+      "category_reason": "Opis wskazuje konto, uprawnienie lub uwierzytelnianie.",
+      "priority_reason": "Brak wystarczających danych o wpływie i obejściu; nie przypisujemy wzorcowego priorytetu.",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "WEAK-03",
+      "group_id": "weak-03",
+      "text": "MFA nie dochodzi na telefon.",
+      "proposed_category": "accounts_access",
+      "proposed_base_priority": null,
+      "work_blocked": null,
+      "reference_eligible": false,
+      "description_quality": "weak",
+      "category_reason": "Opis wskazuje konto, uprawnienie lub uwierzytelnianie.",
+      "priority_reason": "Brak wystarczających danych o wpływie i obejściu; nie przypisujemy wzorcowego priorytetu.",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "WEAK-04",
+      "group_id": "weak-04",
+      "text": "Hasło wygasło, nie mogę wejść.",
+      "proposed_category": "accounts_access",
+      "proposed_base_priority": null,
+      "work_blocked": null,
+      "reference_eligible": false,
+      "description_quality": "weak",
+      "category_reason": "Opis wskazuje konto, uprawnienie lub uwierzytelnianie.",
+      "priority_reason": "Brak wystarczających danych o wpływie i obejściu; nie przypisujemy wzorcowego priorytetu.",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "WEAK-05",
+      "group_id": "weak-05",
+      "text": "Zabrali mi rolę w systemie.",
+      "proposed_category": "accounts_access",
+      "proposed_base_priority": null,
+      "work_blocked": null,
+      "reference_eligible": false,
+      "description_quality": "weak",
+      "category_reason": "Opis wskazuje konto, uprawnienie lub uwierzytelnianie.",
+      "priority_reason": "Brak wystarczających danych o wpływie i obejściu; nie przypisujemy wzorcowego priorytetu.",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "WEAK-06",
+      "group_id": "weak-06",
+      "text": "Nie mogę zatwierdzić logowania na nowym telefonie.",
+      "proposed_category": "accounts_access",
+      "proposed_base_priority": null,
+      "work_blocked": null,
+      "reference_eligible": false,
+      "description_quality": "weak",
+      "category_reason": "Opis wskazuje konto, uprawnienie lub uwierzytelnianie.",
+      "priority_reason": "Brak wystarczających danych o wpływie i obejściu; nie przypisujemy wzorcowego priorytetu.",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "WEAK-07",
+      "group_id": "weak-07",
+      "text": "Konto pokazuje dawny telefon. Pracuję normalnie.",
+      "proposed_category": "accounts_access",
+      "proposed_base_priority": "low",
+      "work_blocked": false,
+      "reference_eligible": false,
+      "description_quality": "weak",
+      "category_reason": "Opis wskazuje konto, uprawnienie lub uwierzytelnianie.",
+      "priority_reason": "Opis potwierdza możliwość normalnej pracy mimo uciążliwości.",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "WEAK-08",
+      "group_id": "weak-08",
+      "text": "Brak uprawnień do raportów. Kolega wysyła mi pliki.",
+      "proposed_category": "accounts_access",
+      "proposed_base_priority": "medium",
+      "work_blocked": false,
+      "reference_eligible": false,
+      "description_quality": "weak",
+      "category_reason": "Opis wskazuje konto, uprawnienie lub uwierzytelnianie.",
+      "priority_reason": "Opis zawiera dostępne działające obejście.",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "WEAK-09",
+      "group_id": "weak-09",
+      "text": "Urwał się klawisz.",
+      "proposed_category": "hardware",
+      "proposed_base_priority": null,
+      "work_blocked": null,
+      "reference_eligible": false,
+      "description_quality": "weak",
+      "category_reason": "Opis zawiera fizyczny objaw dotyczący urządzenia.",
+      "priority_reason": "Brak wystarczających danych o wpływie i obejściu; nie przypisujemy wzorcowego priorytetu.",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "WEAK-10",
+      "group_id": "weak-10",
+      "text": "Monitor ma pękniętą matrycę.",
+      "proposed_category": "hardware",
+      "proposed_base_priority": null,
+      "work_blocked": null,
+      "reference_eligible": false,
+      "description_quality": "weak",
+      "category_reason": "Opis zawiera fizyczny objaw dotyczący urządzenia.",
+      "priority_reason": "Brak wystarczających danych o wpływie i obejściu; nie przypisujemy wzorcowego priorytetu.",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "WEAK-11",
+      "group_id": "weak-11",
+      "text": "Wentylator ociera o obudowę.",
+      "proposed_category": "hardware",
+      "proposed_base_priority": null,
+      "work_blocked": null,
+      "reference_eligible": false,
+      "description_quality": "weak",
+      "category_reason": "Opis zawiera fizyczny objaw dotyczący urządzenia.",
+      "priority_reason": "Brak wystarczających danych o wpływie i obejściu; nie przypisujemy wzorcowego priorytetu.",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "WEAK-12",
+      "group_id": "weak-12",
+      "text": "Bateria jest spuchnięta.",
+      "proposed_category": "hardware",
+      "proposed_base_priority": null,
+      "work_blocked": null,
+      "reference_eligible": false,
+      "description_quality": "weak",
+      "category_reason": "Opis zawiera fizyczny objaw dotyczący urządzenia.",
+      "priority_reason": "Brak wystarczających danych o wpływie i obejściu; nie przypisujemy wzorcowego priorytetu.",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "WEAK-13",
+      "group_id": "weak-13",
+      "text": "Zasilacz iskrzy.",
+      "proposed_category": "hardware",
+      "proposed_base_priority": null,
+      "work_blocked": null,
+      "reference_eligible": false,
+      "description_quality": "weak",
+      "category_reason": "Opis zawiera fizyczny objaw dotyczący urządzenia.",
+      "priority_reason": "Brak wystarczających danych o wpływie i obejściu; nie przypisujemy wzorcowego priorytetu.",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "WEAK-14",
+      "group_id": "weak-14",
+      "text": "Pękła podstawka monitora. Ekran stoi stabilnie, pracuję.",
+      "proposed_category": "hardware",
+      "proposed_base_priority": "low",
+      "work_blocked": false,
+      "reference_eligible": false,
+      "description_quality": "weak",
+      "category_reason": "Opis zawiera fizyczny objaw dotyczący urządzenia.",
+      "priority_reason": "Opis potwierdza możliwość normalnej pracy mimo uciążliwości.",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "WEAK-15",
+      "group_id": "weak-15",
+      "text": "Mysz nie klika, pożyczona działa.",
+      "proposed_category": "hardware",
+      "proposed_base_priority": "medium",
+      "work_blocked": false,
+      "reference_eligible": false,
+      "description_quality": "weak",
+      "category_reason": "Opis zawiera fizyczny objaw dotyczący urządzenia.",
+      "priority_reason": "Opis zawiera dostępne działające obejście.",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "WEAK-16",
+      "group_id": "weak-16",
+      "text": "Jedyny skaner nie włącza się. Paczki stoją, brak zapasowego.",
+      "proposed_category": "hardware",
+      "proposed_base_priority": "high",
+      "work_blocked": true,
+      "reference_eligible": false,
+      "description_quality": "weak",
+      "category_reason": "Opis zawiera fizyczny objaw dotyczący urządzenia.",
+      "priority_reason": "Ważne zadanie jest zablokowane bez opisanej dostępnej alternatywy.",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "WEAK-17",
+      "group_id": "weak-17",
+      "text": "Wi-Fi ciągle zrywa.",
+      "proposed_category": "network",
+      "proposed_base_priority": null,
+      "work_blocked": null,
+      "reference_eligible": false,
+      "description_quality": "weak",
+      "category_reason": "Opis wskazuje utratę lub nieprawidłowe działanie łączności.",
+      "priority_reason": "Brak wystarczających danych o wpływie i obejściu; nie przypisujemy wzorcowego priorytetu.",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "WEAK-18",
+      "group_id": "weak-18",
+      "text": "VPN uwierzytelnia, potem timeout.",
+      "proposed_category": "network",
+      "proposed_base_priority": null,
+      "work_blocked": null,
+      "reference_eligible": false,
+      "description_quality": "weak",
+      "category_reason": "Opis wskazuje utratę lub nieprawidłowe działanie łączności.",
+      "priority_reason": "Brak wystarczających danych o wpływie i obejściu; nie przypisujemy wzorcowego priorytetu.",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "WEAK-19",
+      "group_id": "weak-19",
+      "text": "Adresy IP działają, nazwy nie.",
+      "proposed_category": "network",
+      "proposed_base_priority": null,
+      "work_blocked": null,
+      "reference_eligible": false,
+      "description_quality": "weak",
+      "category_reason": "Opis wskazuje utratę lub nieprawidłowe działanie łączności.",
+      "priority_reason": "Brak wystarczających danych o wpływie i obejściu; nie przypisujemy wzorcowego priorytetu.",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "WEAK-20",
+      "group_id": "weak-20",
+      "text": "Pakiety giną na całym łączu.",
+      "proposed_category": "network",
+      "proposed_base_priority": null,
+      "work_blocked": null,
+      "reference_eligible": false,
+      "description_quality": "weak",
+      "category_reason": "Opis wskazuje utratę lub nieprawidłowe działanie łączności.",
+      "priority_reason": "Brak wystarczających danych o wpływie i obejściu; nie przypisujemy wzorcowego priorytetu.",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "WEAK-21",
+      "group_id": "weak-21",
+      "text": "Kabel sieciowy nie łączy. Pracuję przez Wi-Fi.",
+      "proposed_category": "network",
+      "proposed_base_priority": "medium",
+      "work_blocked": false,
+      "reference_eligible": false,
+      "description_quality": "weak",
+      "category_reason": "Opis wskazuje utratę lub nieprawidłowe działanie łączności.",
+      "priority_reason": "Opis zawiera dostępne działające obejście.",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "WEAK-22",
+      "group_id": "weak-22",
+      "text": "Bez internetu nie wyślę dziś rozliczenia. Nie mam innego łącza.",
+      "proposed_category": "network",
+      "proposed_base_priority": "high",
+      "work_blocked": true,
+      "reference_eligible": false,
+      "description_quality": "weak",
+      "category_reason": "Opis wskazuje utratę lub nieprawidłowe działanie łączności.",
+      "priority_reason": "Ważne zadanie jest zablokowane bez opisanej dostępnej alternatywy.",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "WEAK-23",
+      "group_id": "weak-23",
+      "text": "Cały oddział bez sieci. Wszyscy nie mogą przyjmować zamówień, łącza zapasowego brak.",
+      "proposed_category": "network",
+      "proposed_base_priority": "critical",
+      "work_blocked": true,
+      "reference_eligible": false,
+      "description_quality": "weak",
+      "category_reason": "Opis wskazuje utratę lub nieprawidłowe działanie łączności.",
+      "priority_reason": "Kluczowa obsługa wielu osób jest zablokowana bez zastępstwa.",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "WEAK-24",
+      "group_id": "weak-24",
+      "text": "Program zamyka się przy zapisie.",
+      "proposed_category": "software",
+      "proposed_base_priority": null,
+      "work_blocked": null,
+      "reference_eligible": false,
+      "description_quality": "weak",
+      "category_reason": "Opis wskazuje nieprawidłowe działanie funkcji programu.",
+      "priority_reason": "Brak wystarczających danych o wpływie i obejściu; nie przypisujemy wzorcowego priorytetu.",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "WEAK-25",
+      "group_id": "weak-25",
+      "text": "Eksport CSV rzuca wyjątek.",
+      "proposed_category": "software",
+      "proposed_base_priority": null,
+      "work_blocked": null,
+      "reference_eligible": false,
+      "description_quality": "weak",
+      "category_reason": "Opis wskazuje nieprawidłowe działanie funkcji programu.",
+      "priority_reason": "Brak wystarczających danych o wpływie i obejściu; nie przypisujemy wzorcowego priorytetu.",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "WEAK-26",
+      "group_id": "weak-26",
+      "text": "Kalendarz nie odświeża wpisów.",
+      "proposed_category": "software",
+      "proposed_base_priority": null,
+      "work_blocked": null,
+      "reference_eligible": false,
+      "description_quality": "weak",
+      "category_reason": "Opis wskazuje nieprawidłowe działanie funkcji programu.",
+      "priority_reason": "Brak wystarczających danych o wpływie i obejściu; nie przypisujemy wzorcowego priorytetu.",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "WEAK-27",
+      "group_id": "weak-27",
+      "text": "Aplikacja zawiesza się przy otwieraniu PDF.",
+      "proposed_category": "software",
+      "proposed_base_priority": null,
+      "work_blocked": null,
+      "reference_eligible": false,
+      "description_quality": "weak",
+      "category_reason": "Opis wskazuje nieprawidłowe działanie funkcji programu.",
+      "priority_reason": "Brak wystarczających danych o wpływie i obejściu; nie przypisujemy wzorcowego priorytetu.",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "WEAK-28",
+      "group_id": "weak-28",
+      "text": "Program do podpisu nie startuje. Dziś umowa, tylko ten program jest dopuszczony.",
+      "proposed_category": "software",
+      "proposed_base_priority": "high",
+      "work_blocked": true,
+      "reference_eligible": false,
+      "description_quality": "weak",
+      "category_reason": "Opis wskazuje nieprawidłowe działanie funkcji programu.",
+      "priority_reason": "Ważne zadanie jest zablokowane bez opisanej dostępnej alternatywy.",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "WEAK-29",
+      "group_id": "weak-29",
+      "text": "Po aktualizacji program sprzedaży pada wszystkim. Nie da się przyjąć żadnego zamówienia, brak zastępstwa.",
+      "proposed_category": "software",
+      "proposed_base_priority": "critical",
+      "work_blocked": true,
+      "reference_eligible": false,
+      "description_quality": "weak",
+      "category_reason": "Opis wskazuje nieprawidłowe działanie funkcji programu.",
+      "priority_reason": "Kluczowa obsługa wielu osób jest zablokowana bez zastępstwa.",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "WEAK-30",
+      "group_id": "weak-30",
+      "text": "Nie zapisuje ustawień widoku.",
+      "proposed_category": "software",
+      "proposed_base_priority": null,
+      "work_blocked": null,
+      "reference_eligible": false,
+      "description_quality": "weak",
+      "category_reason": "Opis wskazuje nieprawidłowe działanie funkcji programu.",
+      "priority_reason": "Brak wystarczających danych o wpływie i obejściu; nie przypisujemy wzorcowego priorytetu.",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "WEAK-31",
+      "group_id": "weak-31",
+      "text": "Nie działa.",
+      "proposed_category": null,
+      "proposed_base_priority": null,
+      "work_blocked": null,
+      "reference_eligible": false,
+      "description_quality": "weak",
+      "category_reason": "Brak objawów pozwalających odróżnić kategorię; wymagane doprecyzowanie.",
+      "priority_reason": "Brak wystarczających danych o wpływie i obejściu; nie przypisujemy wzorcowego priorytetu.",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "WEAK-32",
+      "group_id": "weak-32",
+      "text": "Znowu to samo.",
+      "proposed_category": null,
+      "proposed_base_priority": null,
+      "work_blocked": null,
+      "reference_eligible": false,
+      "description_quality": "weak",
+      "category_reason": "Brak objawów pozwalających odróżnić kategorię; wymagane doprecyzowanie.",
+      "priority_reason": "Brak wystarczających danych o wpływie i obejściu; nie przypisujemy wzorcowego priorytetu.",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "WEAK-33",
+      "group_id": "weak-33",
+      "text": "Pilne!!!",
+      "proposed_category": null,
+      "proposed_base_priority": null,
+      "work_blocked": null,
+      "reference_eligible": false,
+      "description_quality": "weak",
+      "category_reason": "Brak objawów pozwalających odróżnić kategorię; wymagane doprecyzowanie.",
+      "priority_reason": "Brak wystarczających danych o wpływie i obejściu; nie przypisujemy wzorcowego priorytetu.",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "WEAK-34",
+      "group_id": "weak-34",
+      "text": "Wszystko się sypie.",
+      "proposed_category": null,
+      "proposed_base_priority": null,
+      "work_blocked": null,
+      "reference_eligible": false,
+      "description_quality": "weak",
+      "category_reason": "Brak objawów pozwalających odróżnić kategorię; wymagane doprecyzowanie.",
+      "priority_reason": "Brak wystarczających danych o wpływie i obejściu; nie przypisujemy wzorcowego priorytetu.",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "WEAK-35",
+      "group_id": "weak-35",
+      "text": "Strasznie wolno.",
+      "proposed_category": null,
+      "proposed_base_priority": null,
+      "work_blocked": null,
+      "reference_eligible": false,
+      "description_quality": "weak",
+      "category_reason": "Brak objawów pozwalających odróżnić kategorię; wymagane doprecyzowanie.",
+      "priority_reason": "Brak wystarczających danych o wpływie i obejściu; nie przypisujemy wzorcowego priorytetu.",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "WEAK-36",
+      "group_id": "weak-36",
+      "text": "Nie mogę wejść.",
+      "proposed_category": null,
+      "proposed_base_priority": null,
+      "work_blocked": null,
+      "reference_eligible": false,
+      "description_quality": "weak",
+      "category_reason": "Brak objawów pozwalających odróżnić kategorię; wymagane doprecyzowanie.",
+      "priority_reason": "Brak wystarczających danych o wpływie i obejściu; nie przypisujemy wzorcowego priorytetu.",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "WEAK-37",
+      "group_id": "weak-37",
+      "text": "Błąd od rana.",
+      "proposed_category": null,
+      "proposed_base_priority": null,
+      "work_blocked": null,
+      "reference_eligible": false,
+      "description_quality": "weak",
+      "category_reason": "Brak objawów pozwalających odróżnić kategorię; wymagane doprecyzowanie.",
+      "priority_reason": "Brak wystarczających danych o wpływie i obejściu; nie przypisujemy wzorcowego priorytetu.",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "WEAK-38",
+      "group_id": "weak-38",
+      "text": "Nic nie idzie zrobić.",
+      "proposed_category": null,
+      "proposed_base_priority": null,
+      "work_blocked": null,
+      "reference_eligible": false,
+      "description_quality": "weak",
+      "category_reason": "Brak objawów pozwalających odróżnić kategorię; wymagane doprecyzowanie.",
+      "priority_reason": "Brak wystarczających danych o wpływie i obejściu; nie przypisujemy wzorcowego priorytetu.",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "WEAK-39",
+      "group_id": "weak-39",
+      "text": "Dalej lipa po restarcie.",
+      "proposed_category": null,
+      "proposed_base_priority": null,
+      "work_blocked": null,
+      "reference_eligible": false,
+      "description_quality": "weak",
+      "category_reason": "Brak objawów pozwalających odróżnić kategorię; wymagane doprecyzowanie.",
+      "priority_reason": "Brak wystarczających danych o wpływie i obejściu; nie przypisujemy wzorcowego priorytetu.",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "WEAK-40",
+      "group_id": "weak-40",
+      "text": "To coś ciągle znika.",
+      "proposed_category": null,
+      "proposed_base_priority": null,
+      "work_blocked": null,
+      "reference_eligible": false,
+      "description_quality": "weak",
+      "category_reason": "Brak objawów pozwalających odróżnić kategorię; wymagane doprecyzowanie.",
+      "priority_reason": "Brak wystarczających danych o wpływie i obejściu; nie przypisujemy wzorcowego priorytetu.",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "WEAK-41",
+      "group_id": "weak-41",
+      "text": "Jak klikam, jest źle.",
+      "proposed_category": null,
+      "proposed_base_priority": null,
+      "work_blocked": null,
+      "reference_eligible": false,
+      "description_quality": "weak",
+      "category_reason": "Brak objawów pozwalających odróżnić kategorię; wymagane doprecyzowanie.",
+      "priority_reason": "Brak wystarczających danych o wpływie i obejściu; nie przypisujemy wzorcowego priorytetu.",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "WEAK-42",
+      "group_id": "weak-42",
+      "text": "Wczoraj było dobrze.",
+      "proposed_category": null,
+      "proposed_base_priority": null,
+      "work_blocked": null,
+      "reference_eligible": false,
+      "description_quality": "weak",
+      "category_reason": "Brak objawów pozwalających odróżnić kategorię; wymagane doprecyzowanie.",
+      "priority_reason": "Brak wystarczających danych o wpływie i obejściu; nie przypisujemy wzorcowego priorytetu.",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "WEAK-43",
+      "group_id": "weak-43",
+      "text": "Mam ten sam problem co inni.",
+      "proposed_category": null,
+      "proposed_base_priority": null,
+      "work_blocked": null,
+      "reference_eligible": false,
+      "description_quality": "weak",
+      "category_reason": "Brak objawów pozwalających odróżnić kategorię; wymagane doprecyzowanie.",
+      "priority_reason": "Brak wystarczających danych o wpływie i obejściu; nie przypisujemy wzorcowego priorytetu.",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "WEAK-44",
+      "group_id": "weak-44",
+      "text": "Zobaczcie to proszę.",
+      "proposed_category": null,
+      "proposed_base_priority": null,
+      "work_blocked": null,
+      "reference_eligible": false,
+      "description_quality": "weak",
+      "category_reason": "Brak objawów pozwalających odróżnić kategorię; wymagane doprecyzowanie.",
+      "priority_reason": "Brak wystarczających danych o wpływie i obejściu; nie przypisujemy wzorcowego priorytetu.",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "WEAK-45",
+      "group_id": "weak-45",
+      "text": "Wywala mnie.",
+      "proposed_category": null,
+      "proposed_base_priority": null,
+      "work_blocked": null,
+      "reference_eligible": false,
+      "description_quality": "weak",
+      "category_reason": "Brak objawów pozwalających odróżnić kategorię; wymagane doprecyzowanie.",
+      "priority_reason": "Brak wystarczających danych o wpływie i obejściu; nie przypisujemy wzorcowego priorytetu.",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "WEAK-46",
+      "group_id": "weak-46",
+      "text": "Nie ma tego, co trzeba.",
+      "proposed_category": null,
+      "proposed_base_priority": null,
+      "work_blocked": null,
+      "reference_eligible": false,
+      "description_quality": "weak",
+      "category_reason": "Brak objawów pozwalających odróżnić kategorię; wymagane doprecyzowanie.",
+      "priority_reason": "Brak wystarczających danych o wpływie i obejściu; nie przypisujemy wzorcowego priorytetu.",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "WEAK-47",
+      "group_id": "weak-47",
+      "text": "Kręci się i kręci.",
+      "proposed_category": null,
+      "proposed_base_priority": null,
+      "work_blocked": null,
+      "reference_eligible": false,
+      "description_quality": "weak",
+      "category_reason": "Brak objawów pozwalających odróżnić kategorię; wymagane doprecyzowanie.",
+      "priority_reason": "Brak wystarczających danych o wpływie i obejściu; nie przypisujemy wzorcowego priorytetu.",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "WEAK-48",
+      "group_id": "weak-48",
+      "text": "Cały czas czerwone.",
+      "proposed_category": null,
+      "proposed_base_priority": null,
+      "work_blocked": null,
+      "reference_eligible": false,
+      "description_quality": "weak",
+      "category_reason": "Brak objawów pozwalających odróżnić kategorię; wymagane doprecyzowanie.",
+      "priority_reason": "Brak wystarczających danych o wpływie i obejściu; nie przypisujemy wzorcowego priorytetu.",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "WEAK-49",
+      "group_id": "weak-49",
+      "text": "Nie przechodzi dalej.",
+      "proposed_category": null,
+      "proposed_base_priority": null,
+      "work_blocked": null,
+      "reference_eligible": false,
+      "description_quality": "weak",
+      "category_reason": "Brak objawów pozwalających odróżnić kategorię; wymagane doprecyzowanie.",
+      "priority_reason": "Brak wystarczających danych o wpływie i obejściu; nie przypisujemy wzorcowego priorytetu.",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "WEAK-50",
+      "group_id": "weak-50",
+      "text": "Pomocy, nie wiem co się stało.",
+      "proposed_category": null,
+      "proposed_base_priority": null,
+      "work_blocked": null,
+      "reference_eligible": false,
+      "description_quality": "weak",
+      "category_reason": "Brak objawów pozwalających odróżnić kategorię; wymagane doprecyzowanie.",
+      "priority_reason": "Brak wystarczających danych o wpływie i obejściu; nie przypisujemy wzorcowego priorytetu.",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": null
+      }
+    }
+  ],
+  "updated_on": "2026-11-01",
+  "expected_count": 170,
+  "expansion": {
+    "source_dataset_id": "pilot-pl-v1",
+    "source_snapshot": "snapshots/tickets.pl.40.v1.json",
+    "added_examples": 80,
+    "original_examples_approved": 40,
+    "new_examples_pending": 0,
+    "approval_evidence": "Użytkownik w rozmowie: „zatwierdzam te przyklady”. Zatwierdzenie dotyczy 40 istniejących przykładów; nowe 80 nie było wtedy dostępne.",
+    "approval_recorded_at": "2026-11-01T14:19:12+01:00",
+    "generation_instructions_file": "expansion-120.md",
+    "new_examples_approved": 80,
+    "final_approval": {
+      "evidence": "Użytkownik w rozmowie: „tamte tez moga byc potwierdzone”.",
+      "recorded_at": "2026-11-01T14:35:52+01:00",
+      "newly_approved": 80
+    }
+  },
+  "reference_count": 120,
+  "weak_extension": {
+    "added_examples": 50,
+    "reference_examples": 120,
+    "reference_policy": "weak examples are queries only; never KNN references",
+    "category_labels_available": 30,
+    "base_priority_labels_available": 10,
+    "fully_ambiguous_examples": 20,
+    "generation_instructions_file": "weak-170.md",
+    "human_verified": false,
+    "approved_reference_snapshot": "snapshots/tickets.pl.120.approved.v2.json"
+  }
+}

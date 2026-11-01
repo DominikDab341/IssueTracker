@@ -1,0 +1,755 @@
+{
+  "schema_version": 1,
+  "dataset_id": "pilot-en-v1",
+  "created_on": "2026-11-01",
+  "language": "en",
+  "purpose": "exploratory_pilot_only",
+  "label_status": "proposed_not_human_verified",
+  "provenance": {
+    "method": "llm_assisted_synthetic",
+    "tool": "OpenAI Codex",
+    "model_id": null,
+    "sampling_parameters": null,
+    "unavailable_metadata_reason": "The exact translating model identifier and sampling parameters are unavailable in this session.",
+    "instructions_file": "translation-en.md",
+    "labeling_guide": "labeling-guide.md",
+    "translation": {
+      "method": "llm_assisted_translation",
+      "source_file": "tickets.json",
+      "source_dataset_id": "pilot-pl-v1",
+      "source_language": "pl",
+      "source_sha256": "b6f1137290e7a95cd0ad79cdac8ccff553049851958acfe98fc5120686a3b542",
+      "human_verified": false,
+      "preserved_fields": [
+        "id",
+        "group_id",
+        "proposed_category",
+        "proposed_base_priority",
+        "work_blocked"
+      ],
+      "instruction": "Translate each report and its label explanations faithfully into English. Preserve symptoms, impact, number of people, available workarounds, negations, and paraphrase groups. Do not add category or priority names to the report text. Do not improve reports based on model predictions. Keep proposed labels and leave human review pending."
+    }
+  },
+  "examples": [
+    {
+      "id": "ACC-01",
+      "group_id": "acc-01",
+      "text": "After I changed my surname, the portal still shows my old account name. Signing in and all permissions work correctly, and I can work normally.",
+      "proposed_category": "accounts_access",
+      "proposed_base_priority": "low",
+      "work_blocked": false,
+      "category_reason": "Account profile information rather than a failure of an application feature.",
+      "priority_reason": "Only an inconvenience in how the name is displayed.",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "ACC-02",
+      "group_id": "acc-02",
+      "text": "Every few days I receive a reminder that my password is about to expire, even though I changed it yesterday. The password works and I can open all the systems I need.",
+      "proposed_category": "accounts_access",
+      "proposed_base_priority": "low",
+      "work_blocked": false,
+      "category_reason": "Notifications about credential validity.",
+      "priority_reason": "The message does not interfere with work.",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "ACC-03",
+      "group_id": "acc-folder-access",
+      "text": "After I moved to the billing team, the team folder opens in read-only mode. I cannot upload a report, but for now I send it to the person responsible for the folder, who saves the file for me.",
+      "proposed_category": "accounts_access",
+      "proposed_base_priority": "medium",
+      "work_blocked": false,
+      "category_reason": "An explicit restriction on permission to write to the folder.",
+      "priority_reason": "Saving is difficult, but a working workaround is available.",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "ACC-04",
+      "group_id": "acc-folder-access",
+      "text": "Regarding the same permissions issue with the billing folder: I can view documents, but saving results in an access denied message. I send the reports to the person responsible for the folder, who places them there.",
+      "proposed_category": "accounts_access",
+      "proposed_base_priority": "medium",
+      "work_blocked": false,
+      "category_reason": "Write access is denied, with no signs of file corruption.",
+      "priority_reason": "Another person can save the file on the user's behalf.",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "ACC-05",
+      "group_id": "acc-05",
+      "text": "My new phone does not receive email sign-in confirmations. I currently sign in using a code from a backup key and can receive messages, but I would like to restore confirmations on the phone.",
+      "proposed_category": "accounts_access",
+      "proposed_base_priority": "medium",
+      "work_blocked": false,
+      "category_reason": "A problem with the second authentication factor.",
+      "priority_reason": "The backup key allows work to continue.",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "ACC-06",
+      "group_id": "acc-06",
+      "text": "The application rejects my login with a message saying that my password has expired. Changing it myself in the portal works and restores access, but the password expires again the next day.",
+      "proposed_category": "accounts_access",
+      "proposed_base_priority": "medium",
+      "work_blocked": false,
+      "category_reason": "The password validity cycle and account access.",
+      "priority_reason": "Changing the password independently restores access.",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "ACC-07",
+      "group_id": "acc-07",
+      "text": "My account for the warehouse system has been locked. I cannot receive today's delivery; I have no second account and no way to complete this task outside the system.",
+      "proposed_category": "accounts_access",
+      "proposed_base_priority": "high",
+      "work_blocked": true,
+      "category_reason": "An explicit account lock.",
+      "priority_reason": "An important task for one person is blocked with no workaround.",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "ACC-08",
+      "group_id": "acc-08",
+      "text": "When signing in to the VPN, I see this message: the user does not have permission for remote connections. I cannot complete an urgent billing task from home, and access is available only through this VPN.",
+      "proposed_category": "accounts_access",
+      "proposed_base_priority": "high",
+      "work_blocked": true,
+      "category_reason": "The VPN explicitly denies permission rather than reporting a connection failure.",
+      "priority_reason": "An essential task cannot be accessed and no workaround is available.",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "ACC-09",
+      "group_id": "acc-09",
+      "text": "After I changed positions, I lost permission to approve invoices. The system displays an insufficient permissions message, and I must approve payments today; no other authorized person is on this shift.",
+      "proposed_category": "accounts_access",
+      "proposed_base_priority": "high",
+      "work_blocked": true,
+      "category_reason": "The role required to perform the operation is missing.",
+      "priority_reason": "Payment approval is blocked with no authorized replacement.",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "ACC-10",
+      "group_id": "acc-10",
+      "text": "Since this morning, all employees in the customer service center have received a message at sign-in saying their accounts are disabled. The entire department cannot serve customers; no backup account is available.",
+      "proposed_category": "accounts_access",
+      "proposed_base_priority": "critical",
+      "work_blocked": true,
+      "category_reason": "The accounts of multiple users are explicitly disabled.",
+      "priority_reason": "A key process for the entire department is unavailable.",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "HW-01",
+      "group_id": "hw-01",
+      "text": "A single bright dot has appeared near the bottom edge of my external monitor and stays lit. The rest of the image is readable and I can perform all my tasks normally.",
+      "proposed_category": "hardware",
+      "proposed_base_priority": "low",
+      "work_blocked": false,
+      "category_reason": "A physical symptom on the display.",
+      "priority_reason": "A minor defect that does not limit work.",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "HW-02",
+      "group_id": "hw-02",
+      "text": "The fan in my computer has started running more loudly. The device does not shut down, there are no temperature warnings, and I can perform all my tasks.",
+      "proposed_category": "hardware",
+      "proposed_base_priority": "low",
+      "work_blocked": false,
+      "category_reason": "A symptom involving the operation of a physical component.",
+      "priority_reason": "The noise is an inconvenience without blocking tasks.",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "HW-03",
+      "group_id": "hw-reception-printer",
+      "text": "The printer at reception jams paper even when I start a test page from its own control panel. I am currently printing documents on the device in the next room.",
+      "proposed_category": "hardware",
+      "proposed_base_priority": "medium",
+      "work_blocked": false,
+      "category_reason": "The jam occurs independently of the application and connection.",
+      "priority_reason": "Another printer provides a working workaround.",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "HW-04",
+      "group_id": "hw-reception-printer",
+      "text": "The same reception printer is once again stopping a sheet halfway through, including during its own test. I use the printer in the next room and can issue documents.",
+      "proposed_category": "hardware",
+      "proposed_base_priority": "medium",
+      "work_blocked": false,
+      "category_reason": "The physical paper feed mechanism.",
+      "priority_reason": "Printing on another device allows work to continue.",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "HW-05",
+      "group_id": "hw-05",
+      "text": "Several keys on my laptop's built-in keyboard do not respond. I connected a USB keyboard and can type, but this makes working in meeting rooms more difficult.",
+      "proposed_category": "hardware",
+      "proposed_base_priority": "medium",
+      "work_blocked": false,
+      "category_reason": "Nonfunctional keys on the device.",
+      "priority_reason": "An external keyboard allows work to continue.",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "HW-06",
+      "group_id": "hw-06",
+      "text": "The laptop camera shows a black image even in the operating system's device test. For meetings, I use a borrowed USB camera that works correctly.",
+      "proposed_category": "hardware",
+      "proposed_base_priority": "medium",
+      "work_blocked": false,
+      "category_reason": "The device symptom is confirmed outside the meeting application.",
+      "priority_reason": "A borrowed camera provides a working replacement.",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "HW-07",
+      "group_id": "hw-07",
+      "text": "The computer does not start when I press the button, and no indicator lights come on despite being plugged into a working power socket. This is my only workstation for handling orders and no replacement computer is available.",
+      "proposed_category": "hardware",
+      "proposed_base_priority": "high",
+      "work_blocked": true,
+      "category_reason": "The device has no power or does not respond.",
+      "priority_reason": "An important task for one person has no replacement setup.",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "HW-08",
+      "group_id": "hw-08",
+      "text": "The barcode scanner at my workstation does not turn on and still does not respond when connected to a different port. I cannot register parcels; the program does not allow codes to be entered manually and we have no spare scanner.",
+      "proposed_category": "hardware",
+      "proposed_base_priority": "high",
+      "work_blocked": true,
+      "category_reason": "A physical device does not respond.",
+      "priority_reason": "Registering parcels is impossible with no workaround.",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "HW-09",
+      "group_id": "hw-09",
+      "text": "My laptop's power adapter has stopped charging it, and the battery is now empty. I must prepare payroll on this device today; no other adapter or workstation with this access is available.",
+      "proposed_category": "hardware",
+      "proposed_base_priority": "high",
+      "work_blocked": true,
+      "category_reason": "A nonfunctional power adapter and a discharged device.",
+      "priority_reason": "An essential task is blocked by the lack of replacement equipment.",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "HW-10",
+      "group_id": "hw-10",
+      "text": "The main disk array will not turn on, and the indicator lights on both power supplies are off. All teams have lost access to files needed to process orders and no working copy is available.",
+      "proposed_category": "hardware",
+      "proposed_base_priority": "critical",
+      "work_blocked": true,
+      "category_reason": "Physical signs that the disk array has no power.",
+      "priority_reason": "The failure of essential equipment blocks multiple teams.",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "NET-01",
+      "group_id": "net-01",
+      "text": "After my laptop wakes from sleep, the connection to the company Wi-Fi appears only after a few seconds. It then works reliably; this does not interrupt tasks and I can use all tools normally.",
+      "proposed_category": "network",
+      "proposed_base_priority": "low",
+      "work_blocked": false,
+      "category_reason": "A short delay in establishing the wireless connection.",
+      "priority_reason": "A minor delay that does not block required tasks.",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "NET-02",
+      "group_id": "net-02",
+      "text": "The company Wi-Fi signal in the break room is weak and pages load slowly. We do not perform work tasks there; the connection works correctly at our desks and work is not affected.",
+      "proposed_category": "network",
+      "proposed_base_priority": "low",
+      "work_blocked": false,
+      "category_reason": "A weak wireless signal in a specific location.",
+      "priority_reason": "An inconvenience outside the place where work is performed.",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "NET-03",
+      "group_id": "net-meeting-room-b",
+      "text": "In meeting room B, the Wi-Fi connection drops every few minutes. After I connect the laptop by cable to the network socket in that room, online meetings work reliably.",
+      "proposed_category": "network",
+      "proposed_base_priority": "medium",
+      "work_blocked": false,
+      "category_reason": "The wireless connection drops.",
+      "priority_reason": "A wired connection provides a working workaround.",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "NET-04",
+      "group_id": "net-meeting-room-b",
+      "text": "I am reporting the same company wireless network disconnections in room B. I can continue the call over a cable; after I unplug it, the Wi-Fi loses its connection again.",
+      "proposed_category": "network",
+      "proposed_base_priority": "medium",
+      "work_blocked": false,
+      "category_reason": "The symptom concerns a particular Wi-Fi connection.",
+      "priority_reason": "The cable allows the meeting to continue.",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "NET-05",
+      "group_id": "net-05",
+      "text": "My home internet drops my connection to the company several times a day, including during ordinary web browsing. I switch the laptop to my phone's internet connection and can then work reliably.",
+      "proposed_category": "network",
+      "proposed_base_priority": "medium",
+      "work_blocked": false,
+      "category_reason": "The connection is lost outside a single application as well.",
+      "priority_reason": "The phone's internet connection allows work to continue.",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "NET-06",
+      "group_id": "net-06",
+      "text": "The network socket in room 12 provides no connection, while the same laptop with the same cable connects in the next room. I am temporarily using the company Wi-Fi to handle my tasks.",
+      "proposed_category": "network",
+      "proposed_base_priority": "medium",
+      "work_blocked": false,
+      "category_reason": "A problem with the connection path through a specific socket.",
+      "priority_reason": "Working Wi-Fi provides a workaround.",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "NET-07",
+      "group_id": "net-07",
+      "text": "The VPN accepts my password and sign-in confirmation, but setting up the tunnel times out. Internet access outside the VPN works; I cannot connect to the system needed for today's dispatch and have no other way to access it.",
+      "proposed_category": "network",
+      "proposed_base_priority": "high",
+      "work_blocked": true,
+      "category_reason": "Authentication works, but the connection cannot be established.",
+      "priority_reason": "An important task for one person is blocked with no workaround.",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "NET-08",
+      "group_id": "net-08",
+      "text": "At my workstation, neither the wired connection nor Wi-Fi can access the company network. I cannot process orders, and there is no replacement workstation or mobile internet coverage here.",
+      "proposed_category": "network",
+      "proposed_base_priority": "high",
+      "work_blocked": true,
+      "category_reason": "Two types of connection cannot access the network.",
+      "priority_reason": "Order processing is blocked and there is no alternative.",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "NET-09",
+      "group_id": "net-09",
+      "text": "During a remote session with the server, the connection drops every few dozen seconds. Other services over this link are also affected; I must finish a data import today and have no other connection or on-site access.",
+      "proposed_category": "network",
+      "proposed_base_priority": "high",
+      "work_blocked": true,
+      "category_reason": "Connectivity is lost to multiple services, without guessing the cause.",
+      "priority_reason": "An urgent task has no working alternative access path.",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "NET-10",
+      "group_id": "net-10",
+      "text": "Internet access and connections to headquarters have stopped working throughout the branch, over both cable and Wi-Fi. Thirty people cannot take orders, and the backup link also provides no access.",
+      "proposed_category": "network",
+      "proposed_base_priority": "critical",
+      "work_blocked": true,
+      "category_reason": "A widespread loss of network connectivity.",
+      "priority_reason": "Essential order processing for multiple people is blocked.",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "SW-01",
+      "group_id": "sw-01",
+      "text": "After the editor update, some icons on the toolbar have blurred edges. All buttons work, documents save correctly, and I can work as before.",
+      "proposed_category": "software",
+      "proposed_base_priority": "low",
+      "work_blocked": false,
+      "category_reason": "Application elements are displayed incorrectly.",
+      "priority_reason": "A purely cosmetic interface problem.",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "SW-02",
+      "group_id": "sw-02",
+      "text": "The list of recently opened documents in the program does not retain the selected order after a restart. Documents open normally and the sorting is not needed to perform tasks.",
+      "proposed_category": "software",
+      "proposed_base_priority": "low",
+      "work_blocked": false,
+      "category_reason": "The application fails to remember a setting.",
+      "priority_reason": "A minor inconvenience without losing a required feature.",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "SW-03",
+      "group_id": "sw-reports-pdf",
+      "text": "The reporting program closes when exporting to PDF. I can open the same reports in the browser and save them to PDF using print, so I send them on time.",
+      "proposed_category": "software",
+      "proposed_base_priority": "medium",
+      "work_blocked": false,
+      "category_reason": "A specific program feature fails.",
+      "priority_reason": "An alternative way to create a PDF works.",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "SW-04",
+      "group_id": "sw-reports-pdf",
+      "text": "I am following up on the same report export error: clicking save as PDF shuts down the application. I still prepare the files by printing from the browser version and can deliver the reports.",
+      "proposed_category": "software",
+      "proposed_base_priority": "medium",
+      "work_blocked": false,
+      "category_reason": "A recurrence of the export failure rather than a printer problem.",
+      "priority_reason": "The browser version allows the task to be completed.",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "SW-05",
+      "group_id": "sw-05",
+      "text": "In one program, printing a form causes the window to close. The printer's test page works; I can export the form as an image and print it from another program.",
+      "proposed_category": "software",
+      "proposed_base_priority": "medium",
+      "work_blocked": false,
+      "category_reason": "The error affects the application while the printer works.",
+      "priority_reason": "Another program allows printing.",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "SW-06",
+      "group_id": "sw-06",
+      "text": "The calendar in the desktop application does not show newly added meetings, although they are visible in its web version. I check the schedule in the browser and do not miss meetings.",
+      "proposed_category": "software",
+      "proposed_base_priority": "medium",
+      "work_blocked": false,
+      "category_reason": "An outdated view in a particular version of the application.",
+      "priority_reason": "The web version provides access to the schedule.",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "SW-07",
+      "group_id": "sw-07",
+      "text": "The accounting program closes every time I approve a declaration. Other features work, but I must submit the declaration today; there is no web version or other way to approve it.",
+      "proposed_category": "software",
+      "proposed_base_priority": "high",
+      "work_blocked": true,
+      "category_reason": "A repeatable failure of an operation in the application.",
+      "priority_reason": "An important operation is impossible with no workaround.",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "SW-08",
+      "group_id": "sw-08",
+      "text": "After an update, the document signing application will not start and immediately displays a program error. I must sign a contract today, and company procedure permits only this application with no alternative.",
+      "proposed_category": "software",
+      "proposed_base_priority": "high",
+      "work_blocked": true,
+      "category_reason": "The program will not start after an update.",
+      "priority_reason": "Signing a required contract is blocked.",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "SW-09",
+      "group_id": "sw-09",
+      "text": "In the warehouse system, approving my dispatch list consistently returns a calculation error. I have the required permissions and other lists open correctly, but this dispatch cannot be approved manually or in another tool.",
+      "proposed_category": "software",
+      "proposed_base_priority": "high",
+      "work_blocked": true,
+      "category_reason": "A calculation error in a feature rather than access being denied.",
+      "priority_reason": "A specific important task has no workaround.",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "SW-10",
+      "group_id": "sw-10",
+      "text": "After a new version was deployed, the order system ends the session with a program error whenever anyone tries to save an order. All customer service agents are affected; the entire sales operation is at a standstill and there is no fallback mode.",
+      "proposed_category": "software",
+      "proposed_base_priority": "critical",
+      "work_blocked": true,
+      "category_reason": "The application's save feature fails for multiple users.",
+      "priority_reason": "An essential service for the entire team is unavailable.",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": null
+      }
+    }
+  ]
+}

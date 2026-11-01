@@ -1,0 +1,3979 @@
+{
+  "dataset_id": "pilot-pl-v2-120",
+  "dataset_sha256": "137b5e7501b4be72dd00a2c97a914cd583c1dc8e4dcc5caa7f3c6a91c2662ae0",
+  "language": "pl",
+  "provenance": {
+    "method": "llm_assisted_synthetic",
+    "tool": "OpenAI Codex",
+    "model_id": null,
+    "sampling_parameters": null,
+    "unavailable_metadata_reason": "Dokładny identyfikator modelu i ustawienia generowania nie są dostępne w tej sesji.",
+    "instructions_file": "generation.md",
+    "labeling_guide": "labeling-guide.md"
+  },
+  "evaluation_script_sha256": "d73b8aaaebec126131b6591319a5767afe27ce810a99940aa9d20e21868fb381",
+  "generated_at": "2026-11-01T13:28:58.898898+00:00",
+  "labels_mode": "proposed",
+  "human_approved_count": 40,
+  "count": 120,
+  "groups": 108,
+  "model_id": "sentence-transformers/all-MiniLM-L6-v2",
+  "model_revision": "c9745ed1d9f207416be6d2e6f8de32d1f16199bf",
+  "parameters": {
+    "k": 3,
+    "similarity": "cosine",
+    "evaluation": "leave_one_group_out",
+    "device": "cpu",
+    "confidence_threshold": null,
+    "coverage": 1.0,
+    "tie_break": "nearest_then_id"
+  },
+  "label_counts": {
+    "category": {
+      "accounts_access": 30,
+      "hardware": 30,
+      "network": 30,
+      "software": 30
+    },
+    "base_priority": {
+      "low": 24,
+      "medium": 48,
+      "high": 36,
+      "critical": 12
+    }
+  },
+  "git": {
+    "commit": "a4d8637204939a9547fbfe74d3faf8702eb3abaa",
+    "dirty": true
+  },
+  "python": "3.14.0",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "packages": {
+    "sentence-transformers": "5.3.0",
+    "transformers": "5.5.0",
+    "torch": "2.11.0",
+    "numpy": "2.4.4",
+    "huggingface-hub": "1.9.0"
+  },
+  "tokens": {
+    "min": 56,
+    "max": 111,
+    "limit": 256,
+    "unknown_count": 0,
+    "unknown_fraction": 0.0
+  },
+  "timings_seconds": {
+    "model_load": 0.4642982999794185,
+    "embedding_batch": 1.5687163998372853
+  },
+  "metrics": {
+    "category": {
+      "accuracy": 0.7916666666666666,
+      "macro_f1": 0.7919817927170868,
+      "labels": [
+        "accounts_access",
+        "hardware",
+        "network",
+        "software"
+      ],
+      "confusion_matrix": [
+        [
+          22,
+          0,
+          1,
+          7
+        ],
+        [
+          2,
+          23,
+          4,
+          1
+        ],
+        [
+          1,
+          3,
+          23,
+          3
+        ],
+        [
+          1,
+          0,
+          2,
+          27
+        ]
+      ],
+      "per_class": {
+        "accounts_access": {
+          "precision": 0.8461538461538461,
+          "recall": 0.7333333333333333,
+          "f1": 0.7857142857142856,
+          "support": 30
+        },
+        "hardware": {
+          "precision": 0.8846153846153846,
+          "recall": 0.7666666666666667,
+          "f1": 0.8214285714285715,
+          "support": 30
+        },
+        "network": {
+          "precision": 0.7666666666666667,
+          "recall": 0.7666666666666667,
+          "f1": 0.7666666666666667,
+          "support": 30
+        },
+        "software": {
+          "precision": 0.7105263157894737,
+          "recall": 0.9,
+          "f1": 0.7941176470588235,
+          "support": 30
+        }
+      }
+    },
+    "base_priority": {
+      "accuracy": 0.4083333333333333,
+      "macro_f1": 0.42415572232645404,
+      "labels": [
+        "low",
+        "medium",
+        "high",
+        "critical"
+      ],
+      "confusion_matrix": [
+        [
+          16,
+          5,
+          2,
+          1
+        ],
+        [
+          17,
+          15,
+          14,
+          2
+        ],
+        [
+          7,
+          12,
+          11,
+          6
+        ],
+        [
+          1,
+          2,
+          2,
+          7
+        ]
+      ],
+      "per_class": {
+        "low": {
+          "precision": 0.3902439024390244,
+          "recall": 0.6666666666666666,
+          "f1": 0.4923076923076923,
+          "support": 24
+        },
+        "medium": {
+          "precision": 0.4411764705882353,
+          "recall": 0.3125,
+          "f1": 0.3658536585365854,
+          "support": 48
+        },
+        "high": {
+          "precision": 0.3793103448275862,
+          "recall": 0.3055555555555556,
+          "f1": 0.3384615384615385,
+          "support": 36
+        },
+        "critical": {
+          "precision": 0.4375,
+          "recall": 0.5833333333333334,
+          "f1": 0.5,
+          "support": 12
+        }
+      }
+    }
+  },
+  "fixed_medium_baseline": {
+    "accuracy": 0.4,
+    "macro_f1": 0.14285714285714288,
+    "labels": [
+      "low",
+      "medium",
+      "high",
+      "critical"
+    ],
+    "confusion_matrix": [
+      [
+        0,
+        24,
+        0,
+        0
+      ],
+      [
+        0,
+        48,
+        0,
+        0
+      ],
+      [
+        0,
+        36,
+        0,
+        0
+      ],
+      [
+        0,
+        12,
+        0,
+        0
+      ]
+    ],
+    "per_class": {
+      "low": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "support": 24
+      },
+      "medium": {
+        "precision": 0.4,
+        "recall": 1.0,
+        "f1": 0.5714285714285715,
+        "support": 48
+      },
+      "high": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "support": 36
+      },
+      "critical": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "support": 12
+      }
+    }
+  },
+  "predictions": [
+    {
+      "id": "ACC-01",
+      "group_id": "acc-01",
+      "expected_category": "accounts_access",
+      "predicted_category": "accounts_access",
+      "expected_base_priority": "low",
+      "predicted_base_priority": "low",
+      "neighbors": [
+        {
+          "id": "ACC-18",
+          "group_id": "acc-18",
+          "category": "accounts_access",
+          "base_priority": "medium",
+          "cosine_similarity": 0.7938565878113126
+        },
+        {
+          "id": "SW-01",
+          "group_id": "sw-01",
+          "category": "software",
+          "base_priority": "low",
+          "cosine_similarity": 0.789835801654917
+        },
+        {
+          "id": "ACC-12",
+          "group_id": "acc-12",
+          "category": "accounts_access",
+          "base_priority": "low",
+          "cosine_similarity": 0.7847583066275876
+        }
+      ]
+    },
+    {
+      "id": "ACC-02",
+      "group_id": "acc-02",
+      "expected_category": "accounts_access",
+      "predicted_category": "software",
+      "expected_base_priority": "low",
+      "predicted_base_priority": "low",
+      "neighbors": [
+        {
+          "id": "SW-01",
+          "group_id": "sw-01",
+          "category": "software",
+          "base_priority": "low",
+          "cosine_similarity": 0.7787796896850263
+        },
+        {
+          "id": "HW-12",
+          "group_id": "hw-12",
+          "category": "hardware",
+          "base_priority": "low",
+          "cosine_similarity": 0.7466196324637302
+        },
+        {
+          "id": "ACC-29",
+          "group_id": "acc-29",
+          "category": "accounts_access",
+          "base_priority": "critical",
+          "cosine_similarity": 0.7406715728662698
+        }
+      ]
+    },
+    {
+      "id": "ACC-03",
+      "group_id": "acc-folder-access",
+      "expected_category": "accounts_access",
+      "predicted_category": "software",
+      "expected_base_priority": "medium",
+      "predicted_base_priority": "low",
+      "neighbors": [
+        {
+          "id": "ACC-27",
+          "group_id": "acc-month-end-folder",
+          "category": "accounts_access",
+          "base_priority": "high",
+          "cosine_similarity": 0.8085475261473299
+        },
+        {
+          "id": "SW-13",
+          "group_id": "sw-13",
+          "category": "software",
+          "base_priority": "low",
+          "cosine_similarity": 0.7453799927248608
+        },
+        {
+          "id": "SW-01",
+          "group_id": "sw-01",
+          "category": "software",
+          "base_priority": "low",
+          "cosine_similarity": 0.7387209029855246
+        }
+      ]
+    },
+    {
+      "id": "ACC-04",
+      "group_id": "acc-folder-access",
+      "expected_category": "accounts_access",
+      "predicted_category": "accounts_access",
+      "expected_base_priority": "medium",
+      "predicted_base_priority": "high",
+      "neighbors": [
+        {
+          "id": "ACC-28",
+          "group_id": "acc-month-end-folder",
+          "category": "accounts_access",
+          "base_priority": "high",
+          "cosine_similarity": 0.7988824111458958
+        },
+        {
+          "id": "ACC-27",
+          "group_id": "acc-month-end-folder",
+          "category": "accounts_access",
+          "base_priority": "high",
+          "cosine_similarity": 0.7803360272547454
+        },
+        {
+          "id": "SW-01",
+          "group_id": "sw-01",
+          "category": "software",
+          "base_priority": "low",
+          "cosine_similarity": 0.7624697658626598
+        }
+      ]
+    },
+    {
+      "id": "ACC-05",
+      "group_id": "acc-05",
+      "expected_category": "accounts_access",
+      "predicted_category": "accounts_access",
+      "expected_base_priority": "medium",
+      "predicted_base_priority": "low",
+      "neighbors": [
+        {
+          "id": "ACC-17",
+          "group_id": "acc-17",
+          "category": "accounts_access",
+          "base_priority": "medium",
+          "cosine_similarity": 0.797283377107763
+        },
+        {
+          "id": "NET-11",
+          "group_id": "net-11",
+          "category": "network",
+          "base_priority": "low",
+          "cosine_similarity": 0.7771127684591714
+        },
+        {
+          "id": "ACC-11",
+          "group_id": "acc-11",
+          "category": "accounts_access",
+          "base_priority": "low",
+          "cosine_similarity": 0.7576376706325016
+        }
+      ]
+    },
+    {
+      "id": "ACC-06",
+      "group_id": "acc-06",
+      "expected_category": "accounts_access",
+      "predicted_category": "accounts_access",
+      "expected_base_priority": "medium",
+      "predicted_base_priority": "low",
+      "neighbors": [
+        {
+          "id": "ACC-01",
+          "group_id": "acc-01",
+          "category": "accounts_access",
+          "base_priority": "low",
+          "cosine_similarity": 0.7637349410481844
+        },
+        {
+          "id": "SW-26",
+          "group_id": "sw-26",
+          "category": "software",
+          "base_priority": "high",
+          "cosine_similarity": 0.7549597011924039
+        },
+        {
+          "id": "ACC-18",
+          "group_id": "acc-18",
+          "category": "accounts_access",
+          "base_priority": "medium",
+          "cosine_similarity": 0.7542287650735119
+        }
+      ]
+    },
+    {
+      "id": "ACC-07",
+      "group_id": "acc-07",
+      "expected_category": "accounts_access",
+      "predicted_category": "accounts_access",
+      "expected_base_priority": "high",
+      "predicted_base_priority": "high",
+      "neighbors": [
+        {
+          "id": "ACC-26",
+          "group_id": "acc-26",
+          "category": "accounts_access",
+          "base_priority": "high",
+          "cosine_similarity": 0.8563939324410722
+        },
+        {
+          "id": "ACC-09",
+          "group_id": "acc-09",
+          "category": "accounts_access",
+          "base_priority": "high",
+          "cosine_similarity": 0.8323537977648826
+        },
+        {
+          "id": "SW-10",
+          "group_id": "sw-10",
+          "category": "software",
+          "base_priority": "critical",
+          "cosine_similarity": 0.8195117988228842
+        }
+      ]
+    },
+    {
+      "id": "ACC-08",
+      "group_id": "acc-08",
+      "expected_category": "accounts_access",
+      "predicted_category": "network",
+      "expected_base_priority": "high",
+      "predicted_base_priority": "medium",
+      "neighbors": [
+        {
+          "id": "NET-07",
+          "group_id": "net-07",
+          "category": "network",
+          "base_priority": "high",
+          "cosine_similarity": 0.8830260060770059
+        },
+        {
+          "id": "NET-20",
+          "group_id": "net-20",
+          "category": "network",
+          "base_priority": "medium",
+          "cosine_similarity": 0.864644788736612
+        },
+        {
+          "id": "NET-05",
+          "group_id": "net-05",
+          "category": "network",
+          "base_priority": "medium",
+          "cosine_similarity": 0.6733130959219283
+        }
+      ]
+    },
+    {
+      "id": "ACC-09",
+      "group_id": "acc-09",
+      "expected_category": "accounts_access",
+      "predicted_category": "accounts_access",
+      "expected_base_priority": "high",
+      "predicted_base_priority": "high",
+      "neighbors": [
+        {
+          "id": "ACC-07",
+          "group_id": "acc-07",
+          "category": "accounts_access",
+          "base_priority": "high",
+          "cosine_similarity": 0.8323537977648826
+        },
+        {
+          "id": "ACC-26",
+          "group_id": "acc-26",
+          "category": "accounts_access",
+          "base_priority": "high",
+          "cosine_similarity": 0.8309166461466221
+        },
+        {
+          "id": "NET-28",
+          "group_id": "net-field-office-uplink",
+          "category": "network",
+          "base_priority": "high",
+          "cosine_similarity": 0.7919186364661946
+        }
+      ]
+    },
+    {
+      "id": "ACC-10",
+      "group_id": "acc-10",
+      "expected_category": "accounts_access",
+      "predicted_category": "software",
+      "expected_base_priority": "critical",
+      "predicted_base_priority": "low",
+      "neighbors": [
+        {
+          "id": "SW-01",
+          "group_id": "sw-01",
+          "category": "software",
+          "base_priority": "low",
+          "cosine_similarity": 0.7336211093011623
+        },
+        {
+          "id": "ACC-30",
+          "group_id": "acc-30",
+          "category": "accounts_access",
+          "base_priority": "critical",
+          "cosine_similarity": 0.7298107266696781
+        },
+        {
+          "id": "NET-23",
+          "group_id": "net-23",
+          "category": "network",
+          "base_priority": "high",
+          "cosine_similarity": 0.7214195598000384
+        }
+      ]
+    },
+    {
+      "id": "HW-01",
+      "group_id": "hw-01",
+      "expected_category": "hardware",
+      "predicted_category": "hardware",
+      "expected_base_priority": "low",
+      "predicted_base_priority": "low",
+      "neighbors": [
+        {
+          "id": "HW-14",
+          "group_id": "hw-14",
+          "category": "hardware",
+          "base_priority": "low",
+          "cosine_similarity": 0.7553814566547157
+        },
+        {
+          "id": "SW-01",
+          "group_id": "sw-01",
+          "category": "software",
+          "base_priority": "low",
+          "cosine_similarity": 0.7217629471341404
+        },
+        {
+          "id": "HW-29",
+          "group_id": "hw-29",
+          "category": "hardware",
+          "base_priority": "critical",
+          "cosine_similarity": 0.7135336277854261
+        }
+      ]
+    },
+    {
+      "id": "HW-02",
+      "group_id": "hw-02",
+      "expected_category": "hardware",
+      "predicted_category": "hardware",
+      "expected_base_priority": "low",
+      "predicted_base_priority": "medium",
+      "neighbors": [
+        {
+          "id": "SW-01",
+          "group_id": "sw-01",
+          "category": "software",
+          "base_priority": "low",
+          "cosine_similarity": 0.7182497480664499
+        },
+        {
+          "id": "HW-04",
+          "group_id": "hw-reception-printer",
+          "category": "hardware",
+          "base_priority": "medium",
+          "cosine_similarity": 0.68353500582748
+        },
+        {
+          "id": "HW-19",
+          "group_id": "hw-19",
+          "category": "hardware",
+          "base_priority": "medium",
+          "cosine_similarity": 0.6770866637094476
+        }
+      ]
+    },
+    {
+      "id": "HW-03",
+      "group_id": "hw-reception-printer",
+      "expected_category": "hardware",
+      "predicted_category": "hardware",
+      "expected_base_priority": "medium",
+      "predicted_base_priority": "medium",
+      "neighbors": [
+        {
+          "id": "HW-26",
+          "group_id": "hw-26",
+          "category": "hardware",
+          "base_priority": "high",
+          "cosine_similarity": 0.7200538869261686
+        },
+        {
+          "id": "SW-20",
+          "group_id": "sw-20",
+          "category": "software",
+          "base_priority": "medium",
+          "cosine_similarity": 0.6879627423149405
+        },
+        {
+          "id": "NET-18",
+          "group_id": "net-18",
+          "category": "network",
+          "base_priority": "medium",
+          "cosine_similarity": 0.6862145631356861
+        }
+      ]
+    },
+    {
+      "id": "HW-04",
+      "group_id": "hw-reception-printer",
+      "expected_category": "hardware",
+      "predicted_category": "hardware",
+      "expected_base_priority": "medium",
+      "predicted_base_priority": "low",
+      "neighbors": [
+        {
+          "id": "HW-20",
+          "group_id": "hw-20",
+          "category": "hardware",
+          "base_priority": "medium",
+          "cosine_similarity": 0.8058318678195819
+        },
+        {
+          "id": "SW-01",
+          "group_id": "sw-01",
+          "category": "software",
+          "base_priority": "low",
+          "cosine_similarity": 0.7999838042393441
+        },
+        {
+          "id": "NET-13",
+          "group_id": "net-13",
+          "category": "network",
+          "base_priority": "low",
+          "cosine_similarity": 0.7675267794237717
+        }
+      ]
+    },
+    {
+      "id": "HW-05",
+      "group_id": "hw-05",
+      "expected_category": "hardware",
+      "predicted_category": "hardware",
+      "expected_base_priority": "medium",
+      "predicted_base_priority": "medium",
+      "neighbors": [
+        {
+          "id": "HW-06",
+          "group_id": "hw-06",
+          "category": "hardware",
+          "base_priority": "medium",
+          "cosine_similarity": 0.8176710842963227
+        },
+        {
+          "id": "HW-17",
+          "group_id": "hw-17",
+          "category": "hardware",
+          "base_priority": "medium",
+          "cosine_similarity": 0.7220911154891472
+        },
+        {
+          "id": "NET-03",
+          "group_id": "net-meeting-room-b",
+          "category": "network",
+          "base_priority": "medium",
+          "cosine_similarity": 0.7051462298143439
+        }
+      ]
+    },
+    {
+      "id": "HW-06",
+      "group_id": "hw-06",
+      "expected_category": "hardware",
+      "predicted_category": "hardware",
+      "expected_base_priority": "medium",
+      "predicted_base_priority": "low",
+      "neighbors": [
+        {
+          "id": "HW-05",
+          "group_id": "hw-05",
+          "category": "hardware",
+          "base_priority": "medium",
+          "cosine_similarity": 0.8176710842963227
+        },
+        {
+          "id": "NET-01",
+          "group_id": "net-01",
+          "category": "network",
+          "base_priority": "low",
+          "cosine_similarity": 0.7550132124143336
+        },
+        {
+          "id": "HW-11",
+          "group_id": "hw-11",
+          "category": "hardware",
+          "base_priority": "low",
+          "cosine_similarity": 0.754562310006084
+        }
+      ]
+    },
+    {
+      "id": "HW-07",
+      "group_id": "hw-07",
+      "expected_category": "hardware",
+      "predicted_category": "hardware",
+      "expected_base_priority": "high",
+      "predicted_base_priority": "critical",
+      "neighbors": [
+        {
+          "id": "HW-30",
+          "group_id": "hw-30",
+          "category": "hardware",
+          "base_priority": "critical",
+          "cosine_similarity": 0.769451962705152
+        },
+        {
+          "id": "NET-22",
+          "group_id": "net-22",
+          "category": "network",
+          "base_priority": "medium",
+          "cosine_similarity": 0.7432332194707276
+        },
+        {
+          "id": "HW-10",
+          "group_id": "hw-10",
+          "category": "hardware",
+          "base_priority": "critical",
+          "cosine_similarity": 0.7361775499902862
+        }
+      ]
+    },
+    {
+      "id": "HW-08",
+      "group_id": "hw-08",
+      "expected_category": "hardware",
+      "predicted_category": "hardware",
+      "expected_base_priority": "high",
+      "predicted_base_priority": "medium",
+      "neighbors": [
+        {
+          "id": "HW-20",
+          "group_id": "hw-20",
+          "category": "hardware",
+          "base_priority": "medium",
+          "cosine_similarity": 0.6910132069308391
+        },
+        {
+          "id": "SW-30",
+          "group_id": "sw-30",
+          "category": "software",
+          "base_priority": "critical",
+          "cosine_similarity": 0.6800930005020418
+        },
+        {
+          "id": "HW-04",
+          "group_id": "hw-reception-printer",
+          "category": "hardware",
+          "base_priority": "medium",
+          "cosine_similarity": 0.6717946609097889
+        }
+      ]
+    },
+    {
+      "id": "HW-09",
+      "group_id": "hw-09",
+      "expected_category": "hardware",
+      "predicted_category": "hardware",
+      "expected_base_priority": "high",
+      "predicted_base_priority": "low",
+      "neighbors": [
+        {
+          "id": "HW-11",
+          "group_id": "hw-11",
+          "category": "hardware",
+          "base_priority": "low",
+          "cosine_similarity": 0.7382377021538243
+        },
+        {
+          "id": "HW-27",
+          "group_id": "hw-loading-gate-charger",
+          "category": "hardware",
+          "base_priority": "high",
+          "cosine_similarity": 0.7057466012019509
+        },
+        {
+          "id": "NET-01",
+          "group_id": "net-01",
+          "category": "network",
+          "base_priority": "low",
+          "cosine_similarity": 0.6984142863583296
+        }
+      ]
+    },
+    {
+      "id": "HW-10",
+      "group_id": "hw-10",
+      "expected_category": "hardware",
+      "predicted_category": "hardware",
+      "expected_base_priority": "critical",
+      "predicted_base_priority": "critical",
+      "neighbors": [
+        {
+          "id": "HW-29",
+          "group_id": "hw-29",
+          "category": "hardware",
+          "base_priority": "critical",
+          "cosine_similarity": 0.8139725883689983
+        },
+        {
+          "id": "NET-23",
+          "group_id": "net-23",
+          "category": "network",
+          "base_priority": "high",
+          "cosine_similarity": 0.7977782984462097
+        },
+        {
+          "id": "HW-30",
+          "group_id": "hw-30",
+          "category": "hardware",
+          "base_priority": "critical",
+          "cosine_similarity": 0.7883315625333496
+        }
+      ]
+    },
+    {
+      "id": "NET-01",
+      "group_id": "net-01",
+      "expected_category": "network",
+      "predicted_category": "network",
+      "expected_base_priority": "low",
+      "predicted_base_priority": "low",
+      "neighbors": [
+        {
+          "id": "HW-11",
+          "group_id": "hw-11",
+          "category": "hardware",
+          "base_priority": "low",
+          "cosine_similarity": 0.836412617664093
+        },
+        {
+          "id": "NET-05",
+          "group_id": "net-05",
+          "category": "network",
+          "base_priority": "medium",
+          "cosine_similarity": 0.8330418782396061
+        },
+        {
+          "id": "NET-24",
+          "group_id": "net-24",
+          "category": "network",
+          "base_priority": "high",
+          "cosine_similarity": 0.8162466042558723
+        }
+      ]
+    },
+    {
+      "id": "NET-02",
+      "group_id": "net-02",
+      "expected_category": "network",
+      "predicted_category": "network",
+      "expected_base_priority": "low",
+      "predicted_base_priority": "low",
+      "neighbors": [
+        {
+          "id": "NET-14",
+          "group_id": "net-14",
+          "category": "network",
+          "base_priority": "low",
+          "cosine_similarity": 0.8330390972645216
+        },
+        {
+          "id": "NET-08",
+          "group_id": "net-08",
+          "category": "network",
+          "base_priority": "high",
+          "cosine_similarity": 0.8014005756692518
+        },
+        {
+          "id": "NET-04",
+          "group_id": "net-meeting-room-b",
+          "category": "network",
+          "base_priority": "medium",
+          "cosine_similarity": 0.7653931982983491
+        }
+      ]
+    },
+    {
+      "id": "NET-03",
+      "group_id": "net-meeting-room-b",
+      "expected_category": "network",
+      "predicted_category": "network",
+      "expected_base_priority": "medium",
+      "predicted_base_priority": "medium",
+      "neighbors": [
+        {
+          "id": "NET-05",
+          "group_id": "net-05",
+          "category": "network",
+          "base_priority": "medium",
+          "cosine_similarity": 0.7894788165004825
+        },
+        {
+          "id": "NET-01",
+          "group_id": "net-01",
+          "category": "network",
+          "base_priority": "low",
+          "cosine_similarity": 0.7881060851136932
+        },
+        {
+          "id": "NET-24",
+          "group_id": "net-24",
+          "category": "network",
+          "base_priority": "high",
+          "cosine_similarity": 0.7592559751303094
+        }
+      ]
+    },
+    {
+      "id": "NET-04",
+      "group_id": "net-meeting-room-b",
+      "expected_category": "network",
+      "predicted_category": "network",
+      "expected_base_priority": "medium",
+      "predicted_base_priority": "high",
+      "neighbors": [
+        {
+          "id": "NET-02",
+          "group_id": "net-02",
+          "category": "network",
+          "base_priority": "low",
+          "cosine_similarity": 0.7653931982983491
+        },
+        {
+          "id": "NET-08",
+          "group_id": "net-08",
+          "category": "network",
+          "base_priority": "high",
+          "cosine_similarity": 0.7506166794348065
+        },
+        {
+          "id": "NET-24",
+          "group_id": "net-24",
+          "category": "network",
+          "base_priority": "high",
+          "cosine_similarity": 0.7493187544491616
+        }
+      ]
+    },
+    {
+      "id": "NET-05",
+      "group_id": "net-05",
+      "expected_category": "network",
+      "predicted_category": "network",
+      "expected_base_priority": "medium",
+      "predicted_base_priority": "high",
+      "neighbors": [
+        {
+          "id": "NET-24",
+          "group_id": "net-24",
+          "category": "network",
+          "base_priority": "high",
+          "cosine_similarity": 0.8330484107449427
+        },
+        {
+          "id": "NET-01",
+          "group_id": "net-01",
+          "category": "network",
+          "base_priority": "low",
+          "cosine_similarity": 0.8330418782396061
+        },
+        {
+          "id": "NET-10",
+          "group_id": "net-10",
+          "category": "network",
+          "base_priority": "critical",
+          "cosine_similarity": 0.8187559197709047
+        }
+      ]
+    },
+    {
+      "id": "NET-06",
+      "group_id": "net-06",
+      "expected_category": "network",
+      "predicted_category": "network",
+      "expected_base_priority": "medium",
+      "predicted_base_priority": "high",
+      "neighbors": [
+        {
+          "id": "NET-24",
+          "group_id": "net-24",
+          "category": "network",
+          "base_priority": "high",
+          "cosine_similarity": 0.7944124007591578
+        },
+        {
+          "id": "NET-01",
+          "group_id": "net-01",
+          "category": "network",
+          "base_priority": "low",
+          "cosine_similarity": 0.7836160405724153
+        },
+        {
+          "id": "HW-22",
+          "group_id": "hw-22",
+          "category": "hardware",
+          "base_priority": "medium",
+          "cosine_similarity": 0.7603287099880756
+        }
+      ]
+    },
+    {
+      "id": "NET-07",
+      "group_id": "net-07",
+      "expected_category": "network",
+      "predicted_category": "network",
+      "expected_base_priority": "high",
+      "predicted_base_priority": "medium",
+      "neighbors": [
+        {
+          "id": "ACC-08",
+          "group_id": "acc-08",
+          "category": "accounts_access",
+          "base_priority": "high",
+          "cosine_similarity": 0.8830260060770059
+        },
+        {
+          "id": "NET-20",
+          "group_id": "net-20",
+          "category": "network",
+          "base_priority": "medium",
+          "cosine_similarity": 0.8748370060544106
+        },
+        {
+          "id": "NET-05",
+          "group_id": "net-05",
+          "category": "network",
+          "base_priority": "medium",
+          "cosine_similarity": 0.7254699864546517
+        }
+      ]
+    },
+    {
+      "id": "NET-08",
+      "group_id": "net-08",
+      "expected_category": "network",
+      "predicted_category": "network",
+      "expected_base_priority": "high",
+      "predicted_base_priority": "high",
+      "neighbors": [
+        {
+          "id": "NET-24",
+          "group_id": "net-24",
+          "category": "network",
+          "base_priority": "high",
+          "cosine_similarity": 0.8115985895973474
+        },
+        {
+          "id": "NET-02",
+          "group_id": "net-02",
+          "category": "network",
+          "base_priority": "low",
+          "cosine_similarity": 0.8014005756692518
+        },
+        {
+          "id": "NET-05",
+          "group_id": "net-05",
+          "category": "network",
+          "base_priority": "medium",
+          "cosine_similarity": 0.7933474600837631
+        }
+      ]
+    },
+    {
+      "id": "NET-09",
+      "group_id": "net-09",
+      "expected_category": "network",
+      "predicted_category": "software",
+      "expected_base_priority": "high",
+      "predicted_base_priority": "low",
+      "neighbors": [
+        {
+          "id": "NET-13",
+          "group_id": "net-13",
+          "category": "network",
+          "base_priority": "low",
+          "cosine_similarity": 0.7821743408731784
+        },
+        {
+          "id": "SW-25",
+          "group_id": "sw-25",
+          "category": "software",
+          "base_priority": "high",
+          "cosine_similarity": 0.745610422076187
+        },
+        {
+          "id": "SW-01",
+          "group_id": "sw-01",
+          "category": "software",
+          "base_priority": "low",
+          "cosine_similarity": 0.7261405871732969
+        }
+      ]
+    },
+    {
+      "id": "NET-10",
+      "group_id": "net-10",
+      "expected_category": "network",
+      "predicted_category": "network",
+      "expected_base_priority": "critical",
+      "predicted_base_priority": "medium",
+      "neighbors": [
+        {
+          "id": "NET-05",
+          "group_id": "net-05",
+          "category": "network",
+          "base_priority": "medium",
+          "cosine_similarity": 0.8187559197709047
+        },
+        {
+          "id": "NET-08",
+          "group_id": "net-08",
+          "category": "network",
+          "base_priority": "high",
+          "cosine_similarity": 0.7838093774623642
+        },
+        {
+          "id": "SW-29",
+          "group_id": "sw-29",
+          "category": "software",
+          "base_priority": "critical",
+          "cosine_similarity": 0.7589694137114743
+        }
+      ]
+    },
+    {
+      "id": "SW-01",
+      "group_id": "sw-01",
+      "expected_category": "software",
+      "predicted_category": "software",
+      "expected_base_priority": "low",
+      "predicted_base_priority": "low",
+      "neighbors": [
+        {
+          "id": "SW-12",
+          "group_id": "sw-12",
+          "category": "software",
+          "base_priority": "low",
+          "cosine_similarity": 0.8412386396676959
+        },
+        {
+          "id": "HW-04",
+          "group_id": "hw-reception-printer",
+          "category": "hardware",
+          "base_priority": "medium",
+          "cosine_similarity": 0.7999838042393441
+        },
+        {
+          "id": "ACC-01",
+          "group_id": "acc-01",
+          "category": "accounts_access",
+          "base_priority": "low",
+          "cosine_similarity": 0.789835801654917
+        }
+      ]
+    },
+    {
+      "id": "SW-02",
+      "group_id": "sw-02",
+      "expected_category": "software",
+      "predicted_category": "software",
+      "expected_base_priority": "low",
+      "predicted_base_priority": "medium",
+      "neighbors": [
+        {
+          "id": "SW-11",
+          "group_id": "sw-11",
+          "category": "software",
+          "base_priority": "low",
+          "cosine_similarity": 0.735610543423751
+        },
+        {
+          "id": "SW-21",
+          "group_id": "sw-21",
+          "category": "software",
+          "base_priority": "medium",
+          "cosine_similarity": 0.7350252914908866
+        },
+        {
+          "id": "SW-05",
+          "group_id": "sw-05",
+          "category": "software",
+          "base_priority": "medium",
+          "cosine_similarity": 0.7029121023814884
+        }
+      ]
+    },
+    {
+      "id": "SW-03",
+      "group_id": "sw-reports-pdf",
+      "expected_category": "software",
+      "predicted_category": "software",
+      "expected_base_priority": "medium",
+      "predicted_base_priority": "high",
+      "neighbors": [
+        {
+          "id": "SW-23",
+          "group_id": "sw-23",
+          "category": "software",
+          "base_priority": "high",
+          "cosine_similarity": 0.7628494744260463
+        },
+        {
+          "id": "SW-30",
+          "group_id": "sw-30",
+          "category": "software",
+          "base_priority": "critical",
+          "cosine_similarity": 0.7609380901376419
+        },
+        {
+          "id": "SW-07",
+          "group_id": "sw-07",
+          "category": "software",
+          "base_priority": "high",
+          "cosine_similarity": 0.7434702107711623
+        }
+      ]
+    },
+    {
+      "id": "SW-04",
+      "group_id": "sw-reports-pdf",
+      "expected_category": "software",
+      "predicted_category": "software",
+      "expected_base_priority": "medium",
+      "predicted_base_priority": "medium",
+      "neighbors": [
+        {
+          "id": "SW-20",
+          "group_id": "sw-20",
+          "category": "software",
+          "base_priority": "medium",
+          "cosine_similarity": 0.7446018821779437
+        },
+        {
+          "id": "SW-26",
+          "group_id": "sw-26",
+          "category": "software",
+          "base_priority": "high",
+          "cosine_similarity": 0.7396583615051151
+        },
+        {
+          "id": "SW-22",
+          "group_id": "sw-22",
+          "category": "software",
+          "base_priority": "medium",
+          "cosine_similarity": 0.7319563205263779
+        }
+      ]
+    },
+    {
+      "id": "SW-05",
+      "group_id": "sw-05",
+      "expected_category": "software",
+      "predicted_category": "software",
+      "expected_base_priority": "medium",
+      "predicted_base_priority": "medium",
+      "neighbors": [
+        {
+          "id": "SW-20",
+          "group_id": "sw-20",
+          "category": "software",
+          "base_priority": "medium",
+          "cosine_similarity": 0.8171434552189429
+        },
+        {
+          "id": "SW-23",
+          "group_id": "sw-23",
+          "category": "software",
+          "base_priority": "high",
+          "cosine_similarity": 0.7954341341238759
+        },
+        {
+          "id": "SW-30",
+          "group_id": "sw-30",
+          "category": "software",
+          "base_priority": "critical",
+          "cosine_similarity": 0.7775900322766665
+        }
+      ]
+    },
+    {
+      "id": "SW-06",
+      "group_id": "sw-06",
+      "expected_category": "software",
+      "predicted_category": "software",
+      "expected_base_priority": "medium",
+      "predicted_base_priority": "medium",
+      "neighbors": [
+        {
+          "id": "SW-22",
+          "group_id": "sw-22",
+          "category": "software",
+          "base_priority": "medium",
+          "cosine_similarity": 0.7174425423719476
+        },
+        {
+          "id": "SW-01",
+          "group_id": "sw-01",
+          "category": "software",
+          "base_priority": "low",
+          "cosine_similarity": 0.6981227599860985
+        },
+        {
+          "id": "SW-19",
+          "group_id": "sw-19",
+          "category": "software",
+          "base_priority": "medium",
+          "cosine_similarity": 0.6961786935280648
+        }
+      ]
+    },
+    {
+      "id": "SW-07",
+      "group_id": "sw-07",
+      "expected_category": "software",
+      "predicted_category": "software",
+      "expected_base_priority": "high",
+      "predicted_base_priority": "critical",
+      "neighbors": [
+        {
+          "id": "SW-23",
+          "group_id": "sw-23",
+          "category": "software",
+          "base_priority": "high",
+          "cosine_similarity": 0.829532955174647
+        },
+        {
+          "id": "SW-30",
+          "group_id": "sw-30",
+          "category": "software",
+          "base_priority": "critical",
+          "cosine_similarity": 0.8205539622319208
+        },
+        {
+          "id": "SW-10",
+          "group_id": "sw-10",
+          "category": "software",
+          "base_priority": "critical",
+          "cosine_similarity": 0.7629420999787744
+        }
+      ]
+    },
+    {
+      "id": "SW-08",
+      "group_id": "sw-08",
+      "expected_category": "software",
+      "predicted_category": "software",
+      "expected_base_priority": "high",
+      "predicted_base_priority": "medium",
+      "neighbors": [
+        {
+          "id": "SW-26",
+          "group_id": "sw-26",
+          "category": "software",
+          "base_priority": "high",
+          "cosine_similarity": 0.7859462714117935
+        },
+        {
+          "id": "SW-19",
+          "group_id": "sw-19",
+          "category": "software",
+          "base_priority": "medium",
+          "cosine_similarity": 0.7138020591216478
+        },
+        {
+          "id": "ACC-18",
+          "group_id": "acc-18",
+          "category": "accounts_access",
+          "base_priority": "medium",
+          "cosine_similarity": 0.6905485836608938
+        }
+      ]
+    },
+    {
+      "id": "SW-09",
+      "group_id": "sw-09",
+      "expected_category": "software",
+      "predicted_category": "software",
+      "expected_base_priority": "high",
+      "predicted_base_priority": "high",
+      "neighbors": [
+        {
+          "id": "ACC-09",
+          "group_id": "acc-09",
+          "category": "accounts_access",
+          "base_priority": "high",
+          "cosine_similarity": 0.7088955794373973
+        },
+        {
+          "id": "SW-24",
+          "group_id": "sw-24",
+          "category": "software",
+          "base_priority": "high",
+          "cosine_similarity": 0.6932756874248742
+        },
+        {
+          "id": "SW-29",
+          "group_id": "sw-29",
+          "category": "software",
+          "base_priority": "critical",
+          "cosine_similarity": 0.6929191278834502
+        }
+      ]
+    },
+    {
+      "id": "SW-10",
+      "group_id": "sw-10",
+      "expected_category": "software",
+      "predicted_category": "software",
+      "expected_base_priority": "critical",
+      "predicted_base_priority": "high",
+      "neighbors": [
+        {
+          "id": "SW-23",
+          "group_id": "sw-23",
+          "category": "software",
+          "base_priority": "high",
+          "cosine_similarity": 0.8238780209666594
+        },
+        {
+          "id": "ACC-07",
+          "group_id": "acc-07",
+          "category": "accounts_access",
+          "base_priority": "high",
+          "cosine_similarity": 0.8195117988228842
+        },
+        {
+          "id": "SW-29",
+          "group_id": "sw-29",
+          "category": "software",
+          "base_priority": "critical",
+          "cosine_similarity": 0.7966351199111791
+        }
+      ]
+    },
+    {
+      "id": "ACC-11",
+      "group_id": "acc-11",
+      "expected_category": "accounts_access",
+      "predicted_category": "accounts_access",
+      "expected_base_priority": "low",
+      "predicted_base_priority": "medium",
+      "neighbors": [
+        {
+          "id": "ACC-05",
+          "group_id": "acc-05",
+          "category": "accounts_access",
+          "base_priority": "medium",
+          "cosine_similarity": 0.7576376706325016
+        },
+        {
+          "id": "SW-29",
+          "group_id": "sw-29",
+          "category": "software",
+          "base_priority": "critical",
+          "cosine_similarity": 0.6965587261302816
+        },
+        {
+          "id": "NET-23",
+          "group_id": "net-23",
+          "category": "network",
+          "base_priority": "high",
+          "cosine_similarity": 0.6934835834329677
+        }
+      ]
+    },
+    {
+      "id": "ACC-12",
+      "group_id": "acc-12",
+      "expected_category": "accounts_access",
+      "predicted_category": "accounts_access",
+      "expected_base_priority": "low",
+      "predicted_base_priority": "low",
+      "neighbors": [
+        {
+          "id": "ACC-01",
+          "group_id": "acc-01",
+          "category": "accounts_access",
+          "base_priority": "low",
+          "cosine_similarity": 0.7847583066275876
+        },
+        {
+          "id": "SW-12",
+          "group_id": "sw-12",
+          "category": "software",
+          "base_priority": "low",
+          "cosine_similarity": 0.7344488460149549
+        },
+        {
+          "id": "ACC-06",
+          "group_id": "acc-06",
+          "category": "accounts_access",
+          "base_priority": "medium",
+          "cosine_similarity": 0.732376457093496
+        }
+      ]
+    },
+    {
+      "id": "ACC-13",
+      "group_id": "acc-13",
+      "expected_category": "accounts_access",
+      "predicted_category": "accounts_access",
+      "expected_base_priority": "low",
+      "predicted_base_priority": "low",
+      "neighbors": [
+        {
+          "id": "ACC-01",
+          "group_id": "acc-01",
+          "category": "accounts_access",
+          "base_priority": "low",
+          "cosine_similarity": 0.7308322240654415
+        },
+        {
+          "id": "SW-01",
+          "group_id": "sw-01",
+          "category": "software",
+          "base_priority": "low",
+          "cosine_similarity": 0.7299693730915995
+        },
+        {
+          "id": "ACC-20",
+          "group_id": "acc-20",
+          "category": "accounts_access",
+          "base_priority": "medium",
+          "cosine_similarity": 0.7177218458220018
+        }
+      ]
+    },
+    {
+      "id": "ACC-14",
+      "group_id": "acc-14",
+      "expected_category": "accounts_access",
+      "predicted_category": "accounts_access",
+      "expected_base_priority": "low",
+      "predicted_base_priority": "medium",
+      "neighbors": [
+        {
+          "id": "ACC-01",
+          "group_id": "acc-01",
+          "category": "accounts_access",
+          "base_priority": "low",
+          "cosine_similarity": 0.7320152672156567
+        },
+        {
+          "id": "ACC-06",
+          "group_id": "acc-06",
+          "category": "accounts_access",
+          "base_priority": "medium",
+          "cosine_similarity": 0.7098757793472341
+        },
+        {
+          "id": "ACC-18",
+          "group_id": "acc-18",
+          "category": "accounts_access",
+          "base_priority": "medium",
+          "cosine_similarity": 0.7008195185702646
+        }
+      ]
+    },
+    {
+      "id": "ACC-15",
+      "group_id": "acc-orion-folder",
+      "expected_category": "accounts_access",
+      "predicted_category": "accounts_access",
+      "expected_base_priority": "medium",
+      "predicted_base_priority": "medium",
+      "neighbors": [
+        {
+          "id": "ACC-03",
+          "group_id": "acc-folder-access",
+          "category": "accounts_access",
+          "base_priority": "medium",
+          "cosine_similarity": 0.6677109980719225
+        },
+        {
+          "id": "ACC-13",
+          "group_id": "acc-13",
+          "category": "accounts_access",
+          "base_priority": "low",
+          "cosine_similarity": 0.6569879143805509
+        },
+        {
+          "id": "ACC-04",
+          "group_id": "acc-folder-access",
+          "category": "accounts_access",
+          "base_priority": "medium",
+          "cosine_similarity": 0.6344882363690785
+        }
+      ]
+    },
+    {
+      "id": "ACC-16",
+      "group_id": "acc-orion-folder",
+      "expected_category": "accounts_access",
+      "predicted_category": "accounts_access",
+      "expected_base_priority": "medium",
+      "predicted_base_priority": "high",
+      "neighbors": [
+        {
+          "id": "ACC-28",
+          "group_id": "acc-month-end-folder",
+          "category": "accounts_access",
+          "base_priority": "high",
+          "cosine_similarity": 0.6942415125229593
+        },
+        {
+          "id": "ACC-04",
+          "group_id": "acc-folder-access",
+          "category": "accounts_access",
+          "base_priority": "medium",
+          "cosine_similarity": 0.6680771543223217
+        },
+        {
+          "id": "ACC-13",
+          "group_id": "acc-13",
+          "category": "accounts_access",
+          "base_priority": "low",
+          "cosine_similarity": 0.6136822144999592
+        }
+      ]
+    },
+    {
+      "id": "ACC-17",
+      "group_id": "acc-17",
+      "expected_category": "accounts_access",
+      "predicted_category": "accounts_access",
+      "expected_base_priority": "medium",
+      "predicted_base_priority": "medium",
+      "neighbors": [
+        {
+          "id": "ACC-05",
+          "group_id": "acc-05",
+          "category": "accounts_access",
+          "base_priority": "medium",
+          "cosine_similarity": 0.797283377107763
+        },
+        {
+          "id": "NET-08",
+          "group_id": "net-08",
+          "category": "network",
+          "base_priority": "high",
+          "cosine_similarity": 0.7853926864823464
+        },
+        {
+          "id": "SW-29",
+          "group_id": "sw-29",
+          "category": "software",
+          "base_priority": "critical",
+          "cosine_similarity": 0.7604859856886487
+        }
+      ]
+    },
+    {
+      "id": "ACC-18",
+      "group_id": "acc-18",
+      "expected_category": "accounts_access",
+      "predicted_category": "accounts_access",
+      "expected_base_priority": "medium",
+      "predicted_base_priority": "low",
+      "neighbors": [
+        {
+          "id": "ACC-01",
+          "group_id": "acc-01",
+          "category": "accounts_access",
+          "base_priority": "low",
+          "cosine_similarity": 0.7938565878113126
+        },
+        {
+          "id": "ACC-06",
+          "group_id": "acc-06",
+          "category": "accounts_access",
+          "base_priority": "medium",
+          "cosine_similarity": 0.7542287650735119
+        },
+        {
+          "id": "ACC-25",
+          "group_id": "acc-25",
+          "category": "accounts_access",
+          "base_priority": "high",
+          "cosine_similarity": 0.7261962080034515
+        }
+      ]
+    },
+    {
+      "id": "ACC-19",
+      "group_id": "acc-19",
+      "expected_category": "accounts_access",
+      "predicted_category": "accounts_access",
+      "expected_base_priority": "medium",
+      "predicted_base_priority": "low",
+      "neighbors": [
+        {
+          "id": "ACC-02",
+          "group_id": "acc-02",
+          "category": "accounts_access",
+          "base_priority": "low",
+          "cosine_similarity": 0.7144734411215667
+        },
+        {
+          "id": "HW-26",
+          "group_id": "hw-26",
+          "category": "hardware",
+          "base_priority": "high",
+          "cosine_similarity": 0.6947827972876902
+        },
+        {
+          "id": "SW-10",
+          "group_id": "sw-10",
+          "category": "software",
+          "base_priority": "critical",
+          "cosine_similarity": 0.6864648159052076
+        }
+      ]
+    },
+    {
+      "id": "ACC-20",
+      "group_id": "acc-20",
+      "expected_category": "accounts_access",
+      "predicted_category": "software",
+      "expected_base_priority": "medium",
+      "predicted_base_priority": "low",
+      "neighbors": [
+        {
+          "id": "ACC-13",
+          "group_id": "acc-13",
+          "category": "accounts_access",
+          "base_priority": "low",
+          "cosine_similarity": 0.7177218458220018
+        },
+        {
+          "id": "SW-01",
+          "group_id": "sw-01",
+          "category": "software",
+          "base_priority": "low",
+          "cosine_similarity": 0.7019616952837238
+        },
+        {
+          "id": "SW-12",
+          "group_id": "sw-12",
+          "category": "software",
+          "base_priority": "low",
+          "cosine_similarity": 0.6985404366389655
+        }
+      ]
+    },
+    {
+      "id": "ACC-21",
+      "group_id": "acc-21",
+      "expected_category": "accounts_access",
+      "predicted_category": "accounts_access",
+      "expected_base_priority": "medium",
+      "predicted_base_priority": "high",
+      "neighbors": [
+        {
+          "id": "ACC-26",
+          "group_id": "acc-26",
+          "category": "accounts_access",
+          "base_priority": "high",
+          "cosine_similarity": 0.7989963635590356
+        },
+        {
+          "id": "ACC-07",
+          "group_id": "acc-07",
+          "category": "accounts_access",
+          "base_priority": "high",
+          "cosine_similarity": 0.7616642461005145
+        },
+        {
+          "id": "ACC-01",
+          "group_id": "acc-01",
+          "category": "accounts_access",
+          "base_priority": "low",
+          "cosine_similarity": 0.7515694362216316
+        }
+      ]
+    },
+    {
+      "id": "ACC-22",
+      "group_id": "acc-22",
+      "expected_category": "accounts_access",
+      "predicted_category": "accounts_access",
+      "expected_base_priority": "medium",
+      "predicted_base_priority": "high",
+      "neighbors": [
+        {
+          "id": "ACC-09",
+          "group_id": "acc-09",
+          "category": "accounts_access",
+          "base_priority": "high",
+          "cosine_similarity": 0.7041869535526897
+        },
+        {
+          "id": "SW-10",
+          "group_id": "sw-10",
+          "category": "software",
+          "base_priority": "critical",
+          "cosine_similarity": 0.6987535476170671
+        },
+        {
+          "id": "HW-07",
+          "group_id": "hw-07",
+          "category": "hardware",
+          "base_priority": "high",
+          "cosine_similarity": 0.6903655106998031
+        }
+      ]
+    },
+    {
+      "id": "ACC-23",
+      "group_id": "acc-23",
+      "expected_category": "accounts_access",
+      "predicted_category": "software",
+      "expected_base_priority": "high",
+      "predicted_base_priority": "low",
+      "neighbors": [
+        {
+          "id": "NET-11",
+          "group_id": "net-11",
+          "category": "network",
+          "base_priority": "low",
+          "cosine_similarity": 0.7117563519596779
+        },
+        {
+          "id": "SW-01",
+          "group_id": "sw-01",
+          "category": "software",
+          "base_priority": "low",
+          "cosine_similarity": 0.7037403117248331
+        },
+        {
+          "id": "SW-30",
+          "group_id": "sw-30",
+          "category": "software",
+          "base_priority": "critical",
+          "cosine_similarity": 0.702207624920119
+        }
+      ]
+    },
+    {
+      "id": "ACC-24",
+      "group_id": "acc-24",
+      "expected_category": "accounts_access",
+      "predicted_category": "software",
+      "expected_base_priority": "high",
+      "predicted_base_priority": "low",
+      "neighbors": [
+        {
+          "id": "SW-01",
+          "group_id": "sw-01",
+          "category": "software",
+          "base_priority": "low",
+          "cosine_similarity": 0.6974646479875295
+        },
+        {
+          "id": "SW-26",
+          "group_id": "sw-26",
+          "category": "software",
+          "base_priority": "high",
+          "cosine_similarity": 0.6813233411562457
+        },
+        {
+          "id": "SW-20",
+          "group_id": "sw-20",
+          "category": "software",
+          "base_priority": "medium",
+          "cosine_similarity": 0.6723742756912774
+        }
+      ]
+    },
+    {
+      "id": "ACC-25",
+      "group_id": "acc-25",
+      "expected_category": "accounts_access",
+      "predicted_category": "accounts_access",
+      "expected_base_priority": "high",
+      "predicted_base_priority": "low",
+      "neighbors": [
+        {
+          "id": "ACC-18",
+          "group_id": "acc-18",
+          "category": "accounts_access",
+          "base_priority": "medium",
+          "cosine_similarity": 0.7261962080034515
+        },
+        {
+          "id": "ACC-01",
+          "group_id": "acc-01",
+          "category": "accounts_access",
+          "base_priority": "low",
+          "cosine_similarity": 0.7226978774635588
+        },
+        {
+          "id": "ACC-13",
+          "group_id": "acc-13",
+          "category": "accounts_access",
+          "base_priority": "low",
+          "cosine_similarity": 0.706743773742486
+        }
+      ]
+    },
+    {
+      "id": "ACC-26",
+      "group_id": "acc-26",
+      "expected_category": "accounts_access",
+      "predicted_category": "accounts_access",
+      "expected_base_priority": "high",
+      "predicted_base_priority": "high",
+      "neighbors": [
+        {
+          "id": "ACC-07",
+          "group_id": "acc-07",
+          "category": "accounts_access",
+          "base_priority": "high",
+          "cosine_similarity": 0.8563939324410722
+        },
+        {
+          "id": "ACC-09",
+          "group_id": "acc-09",
+          "category": "accounts_access",
+          "base_priority": "high",
+          "cosine_similarity": 0.8309166461466221
+        },
+        {
+          "id": "ACC-21",
+          "group_id": "acc-21",
+          "category": "accounts_access",
+          "base_priority": "medium",
+          "cosine_similarity": 0.7989963635590356
+        }
+      ]
+    },
+    {
+      "id": "ACC-27",
+      "group_id": "acc-month-end-folder",
+      "expected_category": "accounts_access",
+      "predicted_category": "accounts_access",
+      "expected_base_priority": "high",
+      "predicted_base_priority": "medium",
+      "neighbors": [
+        {
+          "id": "ACC-03",
+          "group_id": "acc-folder-access",
+          "category": "accounts_access",
+          "base_priority": "medium",
+          "cosine_similarity": 0.8085475261473299
+        },
+        {
+          "id": "ACC-04",
+          "group_id": "acc-folder-access",
+          "category": "accounts_access",
+          "base_priority": "medium",
+          "cosine_similarity": 0.7803360272547454
+        },
+        {
+          "id": "SW-13",
+          "group_id": "sw-13",
+          "category": "software",
+          "base_priority": "low",
+          "cosine_similarity": 0.7333478060579086
+        }
+      ]
+    },
+    {
+      "id": "ACC-28",
+      "group_id": "acc-month-end-folder",
+      "expected_category": "accounts_access",
+      "predicted_category": "accounts_access",
+      "expected_base_priority": "high",
+      "predicted_base_priority": "low",
+      "neighbors": [
+        {
+          "id": "ACC-04",
+          "group_id": "acc-folder-access",
+          "category": "accounts_access",
+          "base_priority": "medium",
+          "cosine_similarity": 0.7988824111458958
+        },
+        {
+          "id": "NET-13",
+          "group_id": "net-13",
+          "category": "network",
+          "base_priority": "low",
+          "cosine_similarity": 0.7397362014236826
+        },
+        {
+          "id": "SW-01",
+          "group_id": "sw-01",
+          "category": "software",
+          "base_priority": "low",
+          "cosine_similarity": 0.7240457511790693
+        }
+      ]
+    },
+    {
+      "id": "ACC-29",
+      "group_id": "acc-29",
+      "expected_category": "accounts_access",
+      "predicted_category": "software",
+      "expected_base_priority": "critical",
+      "predicted_base_priority": "critical",
+      "neighbors": [
+        {
+          "id": "SW-29",
+          "group_id": "sw-29",
+          "category": "software",
+          "base_priority": "critical",
+          "cosine_similarity": 0.7877313490770642
+        },
+        {
+          "id": "SW-24",
+          "group_id": "sw-24",
+          "category": "software",
+          "base_priority": "high",
+          "cosine_similarity": 0.7603346383391918
+        },
+        {
+          "id": "ACC-02",
+          "group_id": "acc-02",
+          "category": "accounts_access",
+          "base_priority": "low",
+          "cosine_similarity": 0.7406715728662698
+        }
+      ]
+    },
+    {
+      "id": "ACC-30",
+      "group_id": "acc-30",
+      "expected_category": "accounts_access",
+      "predicted_category": "accounts_access",
+      "expected_base_priority": "critical",
+      "predicted_base_priority": "critical",
+      "neighbors": [
+        {
+          "id": "ACC-10",
+          "group_id": "acc-10",
+          "category": "accounts_access",
+          "base_priority": "critical",
+          "cosine_similarity": 0.7298107266696781
+        },
+        {
+          "id": "ACC-02",
+          "group_id": "acc-02",
+          "category": "accounts_access",
+          "base_priority": "low",
+          "cosine_similarity": 0.6840787045665584
+        },
+        {
+          "id": "NET-29",
+          "group_id": "net-29",
+          "category": "network",
+          "base_priority": "critical",
+          "cosine_similarity": 0.6823975624754863
+        }
+      ]
+    },
+    {
+      "id": "HW-11",
+      "group_id": "hw-11",
+      "expected_category": "hardware",
+      "predicted_category": "network",
+      "expected_base_priority": "low",
+      "predicted_base_priority": "low",
+      "neighbors": [
+        {
+          "id": "NET-01",
+          "group_id": "net-01",
+          "category": "network",
+          "base_priority": "low",
+          "cosine_similarity": 0.836412617664093
+        },
+        {
+          "id": "NET-24",
+          "group_id": "net-24",
+          "category": "network",
+          "base_priority": "high",
+          "cosine_similarity": 0.8066710857228463
+        },
+        {
+          "id": "HW-22",
+          "group_id": "hw-22",
+          "category": "hardware",
+          "base_priority": "medium",
+          "cosine_similarity": 0.7809937369514901
+        }
+      ]
+    },
+    {
+      "id": "HW-12",
+      "group_id": "hw-12",
+      "expected_category": "hardware",
+      "predicted_category": "network",
+      "expected_base_priority": "low",
+      "predicted_base_priority": "low",
+      "neighbors": [
+        {
+          "id": "ACC-02",
+          "group_id": "acc-02",
+          "category": "accounts_access",
+          "base_priority": "low",
+          "cosine_similarity": 0.7466196324637302
+        },
+        {
+          "id": "NET-29",
+          "group_id": "net-29",
+          "category": "network",
+          "base_priority": "critical",
+          "cosine_similarity": 0.7329065098714816
+        },
+        {
+          "id": "NET-15",
+          "group_id": "net-training-room-c",
+          "category": "network",
+          "base_priority": "medium",
+          "cosine_similarity": 0.6898222648276212
+        }
+      ]
+    },
+    {
+      "id": "HW-13",
+      "group_id": "hw-13",
+      "expected_category": "hardware",
+      "predicted_category": "hardware",
+      "expected_base_priority": "low",
+      "predicted_base_priority": "high",
+      "neighbors": [
+        {
+          "id": "HW-07",
+          "group_id": "hw-07",
+          "category": "hardware",
+          "base_priority": "high",
+          "cosine_similarity": 0.5935072718644537
+        },
+        {
+          "id": "ACC-25",
+          "group_id": "acc-25",
+          "category": "accounts_access",
+          "base_priority": "high",
+          "cosine_similarity": 0.5901052801368883
+        },
+        {
+          "id": "HW-10",
+          "group_id": "hw-10",
+          "category": "hardware",
+          "base_priority": "critical",
+          "cosine_similarity": 0.5890282147422345
+        }
+      ]
+    },
+    {
+      "id": "HW-14",
+      "group_id": "hw-14",
+      "expected_category": "hardware",
+      "predicted_category": "hardware",
+      "expected_base_priority": "low",
+      "predicted_base_priority": "low",
+      "neighbors": [
+        {
+          "id": "HW-01",
+          "group_id": "hw-01",
+          "category": "hardware",
+          "base_priority": "low",
+          "cosine_similarity": 0.7553814566547157
+        },
+        {
+          "id": "ACC-29",
+          "group_id": "acc-29",
+          "category": "accounts_access",
+          "base_priority": "critical",
+          "cosine_similarity": 0.718782386525297
+        },
+        {
+          "id": "SW-12",
+          "group_id": "sw-12",
+          "category": "software",
+          "base_priority": "low",
+          "cosine_similarity": 0.715599609536328
+        }
+      ]
+    },
+    {
+      "id": "HW-15",
+      "group_id": "hw-terminal-4-reader",
+      "expected_category": "hardware",
+      "predicted_category": "accounts_access",
+      "expected_base_priority": "medium",
+      "predicted_base_priority": "low",
+      "neighbors": [
+        {
+          "id": "ACC-11",
+          "group_id": "acc-11",
+          "category": "accounts_access",
+          "base_priority": "low",
+          "cosine_similarity": 0.6368221293949407
+        },
+        {
+          "id": "SW-18",
+          "group_id": "sw-18",
+          "category": "software",
+          "base_priority": "medium",
+          "cosine_similarity": 0.6052515446392892
+        },
+        {
+          "id": "HW-27",
+          "group_id": "hw-loading-gate-charger",
+          "category": "hardware",
+          "base_priority": "high",
+          "cosine_similarity": 0.581131402592511
+        }
+      ]
+    },
+    {
+      "id": "HW-16",
+      "group_id": "hw-terminal-4-reader",
+      "expected_category": "hardware",
+      "predicted_category": "hardware",
+      "expected_base_priority": "medium",
+      "predicted_base_priority": "medium",
+      "neighbors": [
+        {
+          "id": "HW-27",
+          "group_id": "hw-loading-gate-charger",
+          "category": "hardware",
+          "base_priority": "high",
+          "cosine_similarity": 0.6365174526564786
+        },
+        {
+          "id": "ACC-06",
+          "group_id": "acc-06",
+          "category": "accounts_access",
+          "base_priority": "medium",
+          "cosine_similarity": 0.5991808284761383
+        },
+        {
+          "id": "HW-18",
+          "group_id": "hw-18",
+          "category": "hardware",
+          "base_priority": "medium",
+          "cosine_similarity": 0.5958260804054278
+        }
+      ]
+    },
+    {
+      "id": "HW-17",
+      "group_id": "hw-17",
+      "expected_category": "hardware",
+      "predicted_category": "hardware",
+      "expected_base_priority": "medium",
+      "predicted_base_priority": "medium",
+      "neighbors": [
+        {
+          "id": "HW-06",
+          "group_id": "hw-06",
+          "category": "hardware",
+          "base_priority": "medium",
+          "cosine_similarity": 0.7411114694485758
+        },
+        {
+          "id": "HW-05",
+          "group_id": "hw-05",
+          "category": "hardware",
+          "base_priority": "medium",
+          "cosine_similarity": 0.7220911154891472
+        },
+        {
+          "id": "NET-13",
+          "group_id": "net-13",
+          "category": "network",
+          "base_priority": "low",
+          "cosine_similarity": 0.6903543633395572
+        }
+      ]
+    },
+    {
+      "id": "HW-18",
+      "group_id": "hw-18",
+      "expected_category": "hardware",
+      "predicted_category": "hardware",
+      "expected_base_priority": "medium",
+      "predicted_base_priority": "high",
+      "neighbors": [
+        {
+          "id": "HW-27",
+          "group_id": "hw-loading-gate-charger",
+          "category": "hardware",
+          "base_priority": "high",
+          "cosine_similarity": 0.7833278830089078
+        },
+        {
+          "id": "HW-28",
+          "group_id": "hw-loading-gate-charger",
+          "category": "hardware",
+          "base_priority": "high",
+          "cosine_similarity": 0.6838343395379384
+        },
+        {
+          "id": "HW-30",
+          "group_id": "hw-30",
+          "category": "hardware",
+          "base_priority": "critical",
+          "cosine_similarity": 0.6630423824236404
+        }
+      ]
+    },
+    {
+      "id": "HW-19",
+      "group_id": "hw-19",
+      "expected_category": "hardware",
+      "predicted_category": "software",
+      "expected_base_priority": "medium",
+      "predicted_base_priority": "low",
+      "neighbors": [
+        {
+          "id": "SW-01",
+          "group_id": "sw-01",
+          "category": "software",
+          "base_priority": "low",
+          "cosine_similarity": 0.7755455972011442
+        },
+        {
+          "id": "HW-20",
+          "group_id": "hw-20",
+          "category": "hardware",
+          "base_priority": "medium",
+          "cosine_similarity": 0.7637852097988326
+        },
+        {
+          "id": "SW-12",
+          "group_id": "sw-12",
+          "category": "software",
+          "base_priority": "low",
+          "cosine_similarity": 0.7532838952818812
+        }
+      ]
+    },
+    {
+      "id": "HW-20",
+      "group_id": "hw-20",
+      "expected_category": "hardware",
+      "predicted_category": "hardware",
+      "expected_base_priority": "medium",
+      "predicted_base_priority": "medium",
+      "neighbors": [
+        {
+          "id": "HW-04",
+          "group_id": "hw-reception-printer",
+          "category": "hardware",
+          "base_priority": "medium",
+          "cosine_similarity": 0.8058318678195819
+        },
+        {
+          "id": "SW-01",
+          "group_id": "sw-01",
+          "category": "software",
+          "base_priority": "low",
+          "cosine_similarity": 0.7734059782989193
+        },
+        {
+          "id": "HW-19",
+          "group_id": "hw-19",
+          "category": "hardware",
+          "base_priority": "medium",
+          "cosine_similarity": 0.7637852097988326
+        }
+      ]
+    },
+    {
+      "id": "HW-21",
+      "group_id": "hw-21",
+      "expected_category": "hardware",
+      "predicted_category": "hardware",
+      "expected_base_priority": "medium",
+      "predicted_base_priority": "medium",
+      "neighbors": [
+        {
+          "id": "HW-20",
+          "group_id": "hw-20",
+          "category": "hardware",
+          "base_priority": "medium",
+          "cosine_similarity": 0.734873145893511
+        },
+        {
+          "id": "HW-04",
+          "group_id": "hw-reception-printer",
+          "category": "hardware",
+          "base_priority": "medium",
+          "cosine_similarity": 0.7146285356147969
+        },
+        {
+          "id": "NET-02",
+          "group_id": "net-02",
+          "category": "network",
+          "base_priority": "low",
+          "cosine_similarity": 0.7145766150689712
+        }
+      ]
+    },
+    {
+      "id": "HW-22",
+      "group_id": "hw-22",
+      "expected_category": "hardware",
+      "predicted_category": "network",
+      "expected_base_priority": "medium",
+      "predicted_base_priority": "low",
+      "neighbors": [
+        {
+          "id": "NET-01",
+          "group_id": "net-01",
+          "category": "network",
+          "base_priority": "low",
+          "cosine_similarity": 0.7886804229963938
+        },
+        {
+          "id": "HW-11",
+          "group_id": "hw-11",
+          "category": "hardware",
+          "base_priority": "low",
+          "cosine_similarity": 0.7809937369514901
+        },
+        {
+          "id": "NET-06",
+          "group_id": "net-06",
+          "category": "network",
+          "base_priority": "medium",
+          "cosine_similarity": 0.7603287099880756
+        }
+      ]
+    },
+    {
+      "id": "HW-23",
+      "group_id": "hw-23",
+      "expected_category": "hardware",
+      "predicted_category": "hardware",
+      "expected_base_priority": "high",
+      "predicted_base_priority": "low",
+      "neighbors": [
+        {
+          "id": "HW-14",
+          "group_id": "hw-14",
+          "category": "hardware",
+          "base_priority": "low",
+          "cosine_similarity": 0.7091092152510721
+        },
+        {
+          "id": "NET-24",
+          "group_id": "net-24",
+          "category": "network",
+          "base_priority": "high",
+          "cosine_similarity": 0.6817866941978684
+        },
+        {
+          "id": "HW-01",
+          "group_id": "hw-01",
+          "category": "hardware",
+          "base_priority": "low",
+          "cosine_similarity": 0.6763627349488284
+        }
+      ]
+    },
+    {
+      "id": "HW-24",
+      "group_id": "hw-24",
+      "expected_category": "hardware",
+      "predicted_category": "accounts_access",
+      "expected_base_priority": "high",
+      "predicted_base_priority": "medium",
+      "neighbors": [
+        {
+          "id": "ACC-09",
+          "group_id": "acc-09",
+          "category": "accounts_access",
+          "base_priority": "high",
+          "cosine_similarity": 0.7632329604578517
+        },
+        {
+          "id": "HW-04",
+          "group_id": "hw-reception-printer",
+          "category": "hardware",
+          "base_priority": "medium",
+          "cosine_similarity": 0.7469474448076703
+        },
+        {
+          "id": "ACC-21",
+          "group_id": "acc-21",
+          "category": "accounts_access",
+          "base_priority": "medium",
+          "cosine_similarity": 0.7459599752402081
+        }
+      ]
+    },
+    {
+      "id": "HW-25",
+      "group_id": "hw-25",
+      "expected_category": "hardware",
+      "predicted_category": "network",
+      "expected_base_priority": "high",
+      "predicted_base_priority": "critical",
+      "neighbors": [
+        {
+          "id": "HW-30",
+          "group_id": "hw-30",
+          "category": "hardware",
+          "base_priority": "critical",
+          "cosine_similarity": 0.6281089608655998
+        },
+        {
+          "id": "NET-27",
+          "group_id": "net-field-office-uplink",
+          "category": "network",
+          "base_priority": "high",
+          "cosine_similarity": 0.6164492838654991
+        },
+        {
+          "id": "NET-17",
+          "group_id": "net-17",
+          "category": "network",
+          "base_priority": "medium",
+          "cosine_similarity": 0.6113747949721243
+        }
+      ]
+    },
+    {
+      "id": "HW-26",
+      "group_id": "hw-26",
+      "expected_category": "hardware",
+      "predicted_category": "hardware",
+      "expected_base_priority": "high",
+      "predicted_base_priority": "medium",
+      "neighbors": [
+        {
+          "id": "HW-03",
+          "group_id": "hw-reception-printer",
+          "category": "hardware",
+          "base_priority": "medium",
+          "cosine_similarity": 0.7200538869261686
+        },
+        {
+          "id": "ACC-19",
+          "group_id": "acc-19",
+          "category": "accounts_access",
+          "base_priority": "medium",
+          "cosine_similarity": 0.6947827972876902
+        },
+        {
+          "id": "SW-01",
+          "group_id": "sw-01",
+          "category": "software",
+          "base_priority": "low",
+          "cosine_similarity": 0.6786136759032138
+        }
+      ]
+    },
+    {
+      "id": "HW-27",
+      "group_id": "hw-loading-gate-charger",
+      "expected_category": "hardware",
+      "predicted_category": "hardware",
+      "expected_base_priority": "high",
+      "predicted_base_priority": "critical",
+      "neighbors": [
+        {
+          "id": "HW-18",
+          "group_id": "hw-18",
+          "category": "hardware",
+          "base_priority": "medium",
+          "cosine_similarity": 0.7833278830089078
+        },
+        {
+          "id": "HW-30",
+          "group_id": "hw-30",
+          "category": "hardware",
+          "base_priority": "critical",
+          "cosine_similarity": 0.770403306570165
+        },
+        {
+          "id": "HW-10",
+          "group_id": "hw-10",
+          "category": "hardware",
+          "base_priority": "critical",
+          "cosine_similarity": 0.7251266468181398
+        }
+      ]
+    },
+    {
+      "id": "HW-28",
+      "group_id": "hw-loading-gate-charger",
+      "expected_category": "hardware",
+      "predicted_category": "hardware",
+      "expected_base_priority": "high",
+      "predicted_base_priority": "medium",
+      "neighbors": [
+        {
+          "id": "HW-18",
+          "group_id": "hw-18",
+          "category": "hardware",
+          "base_priority": "medium",
+          "cosine_similarity": 0.6838343395379384
+        },
+        {
+          "id": "NET-22",
+          "group_id": "net-22",
+          "category": "network",
+          "base_priority": "medium",
+          "cosine_similarity": 0.6814952878064036
+        },
+        {
+          "id": "ACC-09",
+          "group_id": "acc-09",
+          "category": "accounts_access",
+          "base_priority": "high",
+          "cosine_similarity": 0.6601310947102845
+        }
+      ]
+    },
+    {
+      "id": "HW-29",
+      "group_id": "hw-29",
+      "expected_category": "hardware",
+      "predicted_category": "hardware",
+      "expected_base_priority": "critical",
+      "predicted_base_priority": "critical",
+      "neighbors": [
+        {
+          "id": "NET-23",
+          "group_id": "net-23",
+          "category": "network",
+          "base_priority": "high",
+          "cosine_similarity": 0.8449996745716168
+        },
+        {
+          "id": "HW-10",
+          "group_id": "hw-10",
+          "category": "hardware",
+          "base_priority": "critical",
+          "cosine_similarity": 0.8139725883689983
+        },
+        {
+          "id": "HW-30",
+          "group_id": "hw-30",
+          "category": "hardware",
+          "base_priority": "critical",
+          "cosine_similarity": 0.7809387405020023
+        }
+      ]
+    },
+    {
+      "id": "HW-30",
+      "group_id": "hw-30",
+      "expected_category": "hardware",
+      "predicted_category": "hardware",
+      "expected_base_priority": "critical",
+      "predicted_base_priority": "critical",
+      "neighbors": [
+        {
+          "id": "HW-10",
+          "group_id": "hw-10",
+          "category": "hardware",
+          "base_priority": "critical",
+          "cosine_similarity": 0.7883315625333496
+        },
+        {
+          "id": "HW-29",
+          "group_id": "hw-29",
+          "category": "hardware",
+          "base_priority": "critical",
+          "cosine_similarity": 0.7809387405020023
+        },
+        {
+          "id": "HW-27",
+          "group_id": "hw-loading-gate-charger",
+          "category": "hardware",
+          "base_priority": "high",
+          "cosine_similarity": 0.770403306570165
+        }
+      ]
+    },
+    {
+      "id": "NET-11",
+      "group_id": "net-11",
+      "expected_category": "network",
+      "predicted_category": "network",
+      "expected_base_priority": "low",
+      "predicted_base_priority": "medium",
+      "neighbors": [
+        {
+          "id": "ACC-05",
+          "group_id": "acc-05",
+          "category": "accounts_access",
+          "base_priority": "medium",
+          "cosine_similarity": 0.7771127684591714
+        },
+        {
+          "id": "NET-08",
+          "group_id": "net-08",
+          "category": "network",
+          "base_priority": "high",
+          "cosine_similarity": 0.7610080998753486
+        },
+        {
+          "id": "NET-10",
+          "group_id": "net-10",
+          "category": "network",
+          "base_priority": "critical",
+          "cosine_similarity": 0.7571940541894855
+        }
+      ]
+    },
+    {
+      "id": "NET-12",
+      "group_id": "net-12",
+      "expected_category": "network",
+      "predicted_category": "network",
+      "expected_base_priority": "low",
+      "predicted_base_priority": "low",
+      "neighbors": [
+        {
+          "id": "NET-13",
+          "group_id": "net-13",
+          "category": "network",
+          "base_priority": "low",
+          "cosine_similarity": 0.7251593040185997
+        },
+        {
+          "id": "NET-21",
+          "group_id": "net-21",
+          "category": "network",
+          "base_priority": "medium",
+          "cosine_similarity": 0.7124560770133275
+        },
+        {
+          "id": "SW-01",
+          "group_id": "sw-01",
+          "category": "software",
+          "base_priority": "low",
+          "cosine_similarity": 0.7085353610049477
+        }
+      ]
+    },
+    {
+      "id": "NET-13",
+      "group_id": "net-13",
+      "expected_category": "network",
+      "predicted_category": "network",
+      "expected_base_priority": "low",
+      "predicted_base_priority": "high",
+      "neighbors": [
+        {
+          "id": "NET-09",
+          "group_id": "net-09",
+          "category": "network",
+          "base_priority": "high",
+          "cosine_similarity": 0.7821743408731784
+        },
+        {
+          "id": "NET-17",
+          "group_id": "net-17",
+          "category": "network",
+          "base_priority": "medium",
+          "cosine_similarity": 0.7817314999214853
+        },
+        {
+          "id": "SW-01",
+          "group_id": "sw-01",
+          "category": "software",
+          "base_priority": "low",
+          "cosine_similarity": 0.7777823600360901
+        }
+      ]
+    },
+    {
+      "id": "NET-14",
+      "group_id": "net-14",
+      "expected_category": "network",
+      "predicted_category": "network",
+      "expected_base_priority": "low",
+      "predicted_base_priority": "low",
+      "neighbors": [
+        {
+          "id": "NET-02",
+          "group_id": "net-02",
+          "category": "network",
+          "base_priority": "low",
+          "cosine_similarity": 0.8330390972645216
+        },
+        {
+          "id": "NET-21",
+          "group_id": "net-21",
+          "category": "network",
+          "base_priority": "medium",
+          "cosine_similarity": 0.7884743008063074
+        },
+        {
+          "id": "SW-24",
+          "group_id": "sw-24",
+          "category": "software",
+          "base_priority": "high",
+          "cosine_similarity": 0.7591454931175332
+        }
+      ]
+    },
+    {
+      "id": "NET-15",
+      "group_id": "net-training-room-c",
+      "expected_category": "network",
+      "predicted_category": "hardware",
+      "expected_base_priority": "medium",
+      "predicted_base_priority": "low",
+      "neighbors": [
+        {
+          "id": "HW-12",
+          "group_id": "hw-12",
+          "category": "hardware",
+          "base_priority": "low",
+          "cosine_similarity": 0.6898222648276212
+        },
+        {
+          "id": "NET-11",
+          "group_id": "net-11",
+          "category": "network",
+          "base_priority": "low",
+          "cosine_similarity": 0.6851089052660381
+        },
+        {
+          "id": "ACC-02",
+          "group_id": "acc-02",
+          "category": "accounts_access",
+          "base_priority": "low",
+          "cosine_similarity": 0.6844616888906574
+        }
+      ]
+    },
+    {
+      "id": "NET-16",
+      "group_id": "net-training-room-c",
+      "expected_category": "network",
+      "predicted_category": "software",
+      "expected_base_priority": "medium",
+      "predicted_base_priority": "low",
+      "neighbors": [
+        {
+          "id": "SW-01",
+          "group_id": "sw-01",
+          "category": "software",
+          "base_priority": "low",
+          "cosine_similarity": 0.7242766009942776
+        },
+        {
+          "id": "NET-28",
+          "group_id": "net-field-office-uplink",
+          "category": "network",
+          "base_priority": "high",
+          "cosine_similarity": 0.722352307255651
+        },
+        {
+          "id": "SW-13",
+          "group_id": "sw-13",
+          "category": "software",
+          "base_priority": "low",
+          "cosine_similarity": 0.7196793064611211
+        }
+      ]
+    },
+    {
+      "id": "NET-17",
+      "group_id": "net-17",
+      "expected_category": "network",
+      "predicted_category": "network",
+      "expected_base_priority": "medium",
+      "predicted_base_priority": "low",
+      "neighbors": [
+        {
+          "id": "NET-29",
+          "group_id": "net-29",
+          "category": "network",
+          "base_priority": "critical",
+          "cosine_similarity": 0.7817474223228695
+        },
+        {
+          "id": "NET-13",
+          "group_id": "net-13",
+          "category": "network",
+          "base_priority": "low",
+          "cosine_similarity": 0.7817314999214853
+        },
+        {
+          "id": "SW-13",
+          "group_id": "sw-13",
+          "category": "software",
+          "base_priority": "low",
+          "cosine_similarity": 0.7404256452418219
+        }
+      ]
+    },
+    {
+      "id": "NET-18",
+      "group_id": "net-18",
+      "expected_category": "network",
+      "predicted_category": "network",
+      "expected_base_priority": "medium",
+      "predicted_base_priority": "critical",
+      "neighbors": [
+        {
+          "id": "NET-29",
+          "group_id": "net-29",
+          "category": "network",
+          "base_priority": "critical",
+          "cosine_similarity": 0.7528677154322106
+        },
+        {
+          "id": "NET-14",
+          "group_id": "net-14",
+          "category": "network",
+          "base_priority": "low",
+          "cosine_similarity": 0.7199461417413731
+        },
+        {
+          "id": "NET-23",
+          "group_id": "net-23",
+          "category": "network",
+          "base_priority": "high",
+          "cosine_similarity": 0.7138855855300286
+        }
+      ]
+    },
+    {
+      "id": "NET-19",
+      "group_id": "net-19",
+      "expected_category": "network",
+      "predicted_category": "network",
+      "expected_base_priority": "medium",
+      "predicted_base_priority": "high",
+      "neighbors": [
+        {
+          "id": "NET-24",
+          "group_id": "net-24",
+          "category": "network",
+          "base_priority": "high",
+          "cosine_similarity": 0.843540081229355
+        },
+        {
+          "id": "NET-01",
+          "group_id": "net-01",
+          "category": "network",
+          "base_priority": "low",
+          "cosine_similarity": 0.786673699209059
+        },
+        {
+          "id": "NET-06",
+          "group_id": "net-06",
+          "category": "network",
+          "base_priority": "medium",
+          "cosine_similarity": 0.7556455871476294
+        }
+      ]
+    },
+    {
+      "id": "NET-20",
+      "group_id": "net-20",
+      "expected_category": "network",
+      "predicted_category": "network",
+      "expected_base_priority": "medium",
+      "predicted_base_priority": "high",
+      "neighbors": [
+        {
+          "id": "NET-07",
+          "group_id": "net-07",
+          "category": "network",
+          "base_priority": "high",
+          "cosine_similarity": 0.8748370060544106
+        },
+        {
+          "id": "ACC-08",
+          "group_id": "acc-08",
+          "category": "accounts_access",
+          "base_priority": "high",
+          "cosine_similarity": 0.864644788736612
+        },
+        {
+          "id": "NET-10",
+          "group_id": "net-10",
+          "category": "network",
+          "base_priority": "critical",
+          "cosine_similarity": 0.7578646055424446
+        }
+      ]
+    },
+    {
+      "id": "NET-21",
+      "group_id": "net-21",
+      "expected_category": "network",
+      "predicted_category": "network",
+      "expected_base_priority": "medium",
+      "predicted_base_priority": "high",
+      "neighbors": [
+        {
+          "id": "NET-14",
+          "group_id": "net-14",
+          "category": "network",
+          "base_priority": "low",
+          "cosine_similarity": 0.7884743008063074
+        },
+        {
+          "id": "SW-24",
+          "group_id": "sw-24",
+          "category": "software",
+          "base_priority": "high",
+          "cosine_similarity": 0.7831477861368679
+        },
+        {
+          "id": "NET-27",
+          "group_id": "net-field-office-uplink",
+          "category": "network",
+          "base_priority": "high",
+          "cosine_similarity": 0.7668779232217801
+        }
+      ]
+    },
+    {
+      "id": "NET-22",
+      "group_id": "net-22",
+      "expected_category": "network",
+      "predicted_category": "hardware",
+      "expected_base_priority": "medium",
+      "predicted_base_priority": "low",
+      "neighbors": [
+        {
+          "id": "HW-07",
+          "group_id": "hw-07",
+          "category": "hardware",
+          "base_priority": "high",
+          "cosine_similarity": 0.7432332194707276
+        },
+        {
+          "id": "SW-13",
+          "group_id": "sw-13",
+          "category": "software",
+          "base_priority": "low",
+          "cosine_similarity": 0.7361399498682822
+        },
+        {
+          "id": "NET-13",
+          "group_id": "net-13",
+          "category": "network",
+          "base_priority": "low",
+          "cosine_similarity": 0.7239220558808513
+        }
+      ]
+    },
+    {
+      "id": "NET-23",
+      "group_id": "net-23",
+      "expected_category": "network",
+      "predicted_category": "hardware",
+      "expected_base_priority": "high",
+      "predicted_base_priority": "critical",
+      "neighbors": [
+        {
+          "id": "HW-29",
+          "group_id": "hw-29",
+          "category": "hardware",
+          "base_priority": "critical",
+          "cosine_similarity": 0.8449996745716168
+        },
+        {
+          "id": "HW-10",
+          "group_id": "hw-10",
+          "category": "hardware",
+          "base_priority": "critical",
+          "cosine_similarity": 0.7977782984462097
+        },
+        {
+          "id": "NET-28",
+          "group_id": "net-field-office-uplink",
+          "category": "network",
+          "base_priority": "high",
+          "cosine_similarity": 0.7793573992832185
+        }
+      ]
+    },
+    {
+      "id": "NET-24",
+      "group_id": "net-24",
+      "expected_category": "network",
+      "predicted_category": "network",
+      "expected_base_priority": "high",
+      "predicted_base_priority": "medium",
+      "neighbors": [
+        {
+          "id": "NET-19",
+          "group_id": "net-19",
+          "category": "network",
+          "base_priority": "medium",
+          "cosine_similarity": 0.843540081229355
+        },
+        {
+          "id": "NET-05",
+          "group_id": "net-05",
+          "category": "network",
+          "base_priority": "medium",
+          "cosine_similarity": 0.8330484107449427
+        },
+        {
+          "id": "NET-01",
+          "group_id": "net-01",
+          "category": "network",
+          "base_priority": "low",
+          "cosine_similarity": 0.8162466042558723
+        }
+      ]
+    },
+    {
+      "id": "NET-25",
+      "group_id": "net-25",
+      "expected_category": "network",
+      "predicted_category": "network",
+      "expected_base_priority": "high",
+      "predicted_base_priority": "high",
+      "neighbors": [
+        {
+          "id": "NET-09",
+          "group_id": "net-09",
+          "category": "network",
+          "base_priority": "high",
+          "cosine_similarity": 0.6642399069294322
+        },
+        {
+          "id": "SW-23",
+          "group_id": "sw-23",
+          "category": "software",
+          "base_priority": "high",
+          "cosine_similarity": 0.6641969879353982
+        },
+        {
+          "id": "NET-17",
+          "group_id": "net-17",
+          "category": "network",
+          "base_priority": "medium",
+          "cosine_similarity": 0.6557286730196974
+        }
+      ]
+    },
+    {
+      "id": "NET-26",
+      "group_id": "net-26",
+      "expected_category": "network",
+      "predicted_category": "software",
+      "expected_base_priority": "high",
+      "predicted_base_priority": "high",
+      "neighbors": [
+        {
+          "id": "SW-23",
+          "group_id": "sw-23",
+          "category": "software",
+          "base_priority": "high",
+          "cosine_similarity": 0.7159862761639236
+        },
+        {
+          "id": "NET-23",
+          "group_id": "net-23",
+          "category": "network",
+          "base_priority": "high",
+          "cosine_similarity": 0.711014662141763
+        },
+        {
+          "id": "SW-29",
+          "group_id": "sw-29",
+          "category": "software",
+          "base_priority": "critical",
+          "cosine_similarity": 0.6968717596027703
+        }
+      ]
+    },
+    {
+      "id": "NET-27",
+      "group_id": "net-field-office-uplink",
+      "expected_category": "network",
+      "predicted_category": "network",
+      "expected_base_priority": "high",
+      "predicted_base_priority": "medium",
+      "neighbors": [
+        {
+          "id": "NET-21",
+          "group_id": "net-21",
+          "category": "network",
+          "base_priority": "medium",
+          "cosine_similarity": 0.7668779232217801
+        },
+        {
+          "id": "NET-14",
+          "group_id": "net-14",
+          "category": "network",
+          "base_priority": "low",
+          "cosine_similarity": 0.7168833710990044
+        },
+        {
+          "id": "NET-23",
+          "group_id": "net-23",
+          "category": "network",
+          "base_priority": "high",
+          "cosine_similarity": 0.715281528699716
+        }
+      ]
+    },
+    {
+      "id": "NET-28",
+      "group_id": "net-field-office-uplink",
+      "expected_category": "network",
+      "predicted_category": "accounts_access",
+      "expected_base_priority": "high",
+      "predicted_base_priority": "high",
+      "neighbors": [
+        {
+          "id": "ACC-09",
+          "group_id": "acc-09",
+          "category": "accounts_access",
+          "base_priority": "high",
+          "cosine_similarity": 0.7919186364661946
+        },
+        {
+          "id": "ACC-07",
+          "group_id": "acc-07",
+          "category": "accounts_access",
+          "base_priority": "high",
+          "cosine_similarity": 0.7892622618503227
+        },
+        {
+          "id": "NET-23",
+          "group_id": "net-23",
+          "category": "network",
+          "base_priority": "high",
+          "cosine_similarity": 0.7793573992832185
+        }
+      ]
+    },
+    {
+      "id": "NET-29",
+      "group_id": "net-29",
+      "expected_category": "network",
+      "predicted_category": "network",
+      "expected_base_priority": "critical",
+      "predicted_base_priority": "medium",
+      "neighbors": [
+        {
+          "id": "SW-29",
+          "group_id": "sw-29",
+          "category": "software",
+          "base_priority": "critical",
+          "cosine_similarity": 0.7878847566517824
+        },
+        {
+          "id": "NET-17",
+          "group_id": "net-17",
+          "category": "network",
+          "base_priority": "medium",
+          "cosine_similarity": 0.7817474223228695
+        },
+        {
+          "id": "NET-05",
+          "group_id": "net-05",
+          "category": "network",
+          "base_priority": "medium",
+          "cosine_similarity": 0.7533532514723335
+        }
+      ]
+    },
+    {
+      "id": "NET-30",
+      "group_id": "net-30",
+      "expected_category": "network",
+      "predicted_category": "network",
+      "expected_base_priority": "critical",
+      "predicted_base_priority": "critical",
+      "neighbors": [
+        {
+          "id": "SW-29",
+          "group_id": "sw-29",
+          "category": "software",
+          "base_priority": "critical",
+          "cosine_similarity": 0.814006646533144
+        },
+        {
+          "id": "NET-10",
+          "group_id": "net-10",
+          "category": "network",
+          "base_priority": "critical",
+          "cosine_similarity": 0.7479635750763437
+        },
+        {
+          "id": "NET-23",
+          "group_id": "net-23",
+          "category": "network",
+          "base_priority": "high",
+          "cosine_similarity": 0.7421587296129024
+        }
+      ]
+    },
+    {
+      "id": "SW-11",
+      "group_id": "sw-11",
+      "expected_category": "software",
+      "predicted_category": "software",
+      "expected_base_priority": "low",
+      "predicted_base_priority": "low",
+      "neighbors": [
+        {
+          "id": "SW-02",
+          "group_id": "sw-02",
+          "category": "software",
+          "base_priority": "low",
+          "cosine_similarity": 0.735610543423751
+        },
+        {
+          "id": "SW-13",
+          "group_id": "sw-13",
+          "category": "software",
+          "base_priority": "low",
+          "cosine_similarity": 0.7267757161292392
+        },
+        {
+          "id": "SW-01",
+          "group_id": "sw-01",
+          "category": "software",
+          "base_priority": "low",
+          "cosine_similarity": 0.7129886092241913
+        }
+      ]
+    },
+    {
+      "id": "SW-12",
+      "group_id": "sw-12",
+      "expected_category": "software",
+      "predicted_category": "software",
+      "expected_base_priority": "low",
+      "predicted_base_priority": "low",
+      "neighbors": [
+        {
+          "id": "SW-01",
+          "group_id": "sw-01",
+          "category": "software",
+          "base_priority": "low",
+          "cosine_similarity": 0.8412386396676959
+        },
+        {
+          "id": "ACC-01",
+          "group_id": "acc-01",
+          "category": "accounts_access",
+          "base_priority": "low",
+          "cosine_similarity": 0.7603785114884211
+        },
+        {
+          "id": "SW-26",
+          "group_id": "sw-26",
+          "category": "software",
+          "base_priority": "high",
+          "cosine_similarity": 0.7574027455725937
+        }
+      ]
+    },
+    {
+      "id": "SW-13",
+      "group_id": "sw-13",
+      "expected_category": "software",
+      "predicted_category": "software",
+      "expected_base_priority": "low",
+      "predicted_base_priority": "critical",
+      "neighbors": [
+        {
+          "id": "SW-30",
+          "group_id": "sw-30",
+          "category": "software",
+          "base_priority": "critical",
+          "cosine_similarity": 0.7824780362008923
+        },
+        {
+          "id": "NET-13",
+          "group_id": "net-13",
+          "category": "network",
+          "base_priority": "low",
+          "cosine_similarity": 0.7704574412545392
+        },
+        {
+          "id": "SW-23",
+          "group_id": "sw-23",
+          "category": "software",
+          "base_priority": "high",
+          "cosine_similarity": 0.7681745507511044
+        }
+      ]
+    },
+    {
+      "id": "SW-14",
+      "group_id": "sw-14",
+      "expected_category": "software",
+      "predicted_category": "software",
+      "expected_base_priority": "low",
+      "predicted_base_priority": "low",
+      "neighbors": [
+        {
+          "id": "SW-21",
+          "group_id": "sw-21",
+          "category": "software",
+          "base_priority": "medium",
+          "cosine_similarity": 0.7293938687547045
+        },
+        {
+          "id": "SW-13",
+          "group_id": "sw-13",
+          "category": "software",
+          "base_priority": "low",
+          "cosine_similarity": 0.7211234173669802
+        },
+        {
+          "id": "SW-01",
+          "group_id": "sw-01",
+          "category": "software",
+          "base_priority": "low",
+          "cosine_similarity": 0.7202093315006364
+        }
+      ]
+    },
+    {
+      "id": "SW-15",
+      "group_id": "sw-contacts-csv",
+      "expected_category": "software",
+      "predicted_category": "software",
+      "expected_base_priority": "medium",
+      "predicted_base_priority": "medium",
+      "neighbors": [
+        {
+          "id": "SW-04",
+          "group_id": "sw-reports-pdf",
+          "category": "software",
+          "base_priority": "medium",
+          "cosine_similarity": 0.6681657997838459
+        },
+        {
+          "id": "SW-30",
+          "group_id": "sw-30",
+          "category": "software",
+          "base_priority": "critical",
+          "cosine_similarity": 0.6493448374827671
+        },
+        {
+          "id": "SW-26",
+          "group_id": "sw-26",
+          "category": "software",
+          "base_priority": "high",
+          "cosine_similarity": 0.639768228696889
+        }
+      ]
+    },
+    {
+      "id": "SW-16",
+      "group_id": "sw-contacts-csv",
+      "expected_category": "software",
+      "predicted_category": "software",
+      "expected_base_priority": "medium",
+      "predicted_base_priority": "critical",
+      "neighbors": [
+        {
+          "id": "SW-04",
+          "group_id": "sw-reports-pdf",
+          "category": "software",
+          "base_priority": "medium",
+          "cosine_similarity": 0.7282942221061026
+        },
+        {
+          "id": "SW-10",
+          "group_id": "sw-10",
+          "category": "software",
+          "base_priority": "critical",
+          "cosine_similarity": 0.725051788501321
+        },
+        {
+          "id": "SW-30",
+          "group_id": "sw-30",
+          "category": "software",
+          "base_priority": "critical",
+          "cosine_similarity": 0.6938113980382323
+        }
+      ]
+    },
+    {
+      "id": "SW-17",
+      "group_id": "sw-17",
+      "expected_category": "software",
+      "predicted_category": "software",
+      "expected_base_priority": "medium",
+      "predicted_base_priority": "high",
+      "neighbors": [
+        {
+          "id": "SW-23",
+          "group_id": "sw-23",
+          "category": "software",
+          "base_priority": "high",
+          "cosine_similarity": 0.689685224480082
+        },
+        {
+          "id": "SW-30",
+          "group_id": "sw-30",
+          "category": "software",
+          "base_priority": "critical",
+          "cosine_similarity": 0.6787324462276969
+        },
+        {
+          "id": "SW-03",
+          "group_id": "sw-reports-pdf",
+          "category": "software",
+          "base_priority": "medium",
+          "cosine_similarity": 0.6712476507772085
+        }
+      ]
+    },
+    {
+      "id": "SW-18",
+      "group_id": "sw-18",
+      "expected_category": "software",
+      "predicted_category": "software",
+      "expected_base_priority": "medium",
+      "predicted_base_priority": "medium",
+      "neighbors": [
+        {
+          "id": "SW-05",
+          "group_id": "sw-05",
+          "category": "software",
+          "base_priority": "medium",
+          "cosine_similarity": 0.6755041699408018
+        },
+        {
+          "id": "ACC-11",
+          "group_id": "acc-11",
+          "category": "accounts_access",
+          "base_priority": "low",
+          "cosine_similarity": 0.6734046576263308
+        },
+        {
+          "id": "SW-30",
+          "group_id": "sw-30",
+          "category": "software",
+          "base_priority": "critical",
+          "cosine_similarity": 0.641727576668442
+        }
+      ]
+    },
+    {
+      "id": "SW-19",
+      "group_id": "sw-19",
+      "expected_category": "software",
+      "predicted_category": "software",
+      "expected_base_priority": "medium",
+      "predicted_base_priority": "low",
+      "neighbors": [
+        {
+          "id": "SW-13",
+          "group_id": "sw-13",
+          "category": "software",
+          "base_priority": "low",
+          "cosine_similarity": 0.7501215706651233
+        },
+        {
+          "id": "SW-12",
+          "group_id": "sw-12",
+          "category": "software",
+          "base_priority": "low",
+          "cosine_similarity": 0.7447428908873436
+        },
+        {
+          "id": "NET-13",
+          "group_id": "net-13",
+          "category": "network",
+          "base_priority": "low",
+          "cosine_similarity": 0.7243074283180823
+        }
+      ]
+    },
+    {
+      "id": "SW-20",
+      "group_id": "sw-20",
+      "expected_category": "software",
+      "predicted_category": "software",
+      "expected_base_priority": "medium",
+      "predicted_base_priority": "medium",
+      "neighbors": [
+        {
+          "id": "SW-05",
+          "group_id": "sw-05",
+          "category": "software",
+          "base_priority": "medium",
+          "cosine_similarity": 0.8171434552189429
+        },
+        {
+          "id": "SW-23",
+          "group_id": "sw-23",
+          "category": "software",
+          "base_priority": "high",
+          "cosine_similarity": 0.7895714439662647
+        },
+        {
+          "id": "SW-30",
+          "group_id": "sw-30",
+          "category": "software",
+          "base_priority": "critical",
+          "cosine_similarity": 0.7654441612710923
+        }
+      ]
+    },
+    {
+      "id": "SW-21",
+      "group_id": "sw-21",
+      "expected_category": "software",
+      "predicted_category": "software",
+      "expected_base_priority": "medium",
+      "predicted_base_priority": "high",
+      "neighbors": [
+        {
+          "id": "SW-23",
+          "group_id": "sw-23",
+          "category": "software",
+          "base_priority": "high",
+          "cosine_similarity": 0.7794880523270631
+        },
+        {
+          "id": "SW-10",
+          "group_id": "sw-10",
+          "category": "software",
+          "base_priority": "critical",
+          "cosine_similarity": 0.7640611257833423
+        },
+        {
+          "id": "SW-13",
+          "group_id": "sw-13",
+          "category": "software",
+          "base_priority": "low",
+          "cosine_similarity": 0.7598059327916694
+        }
+      ]
+    },
+    {
+      "id": "SW-22",
+      "group_id": "sw-22",
+      "expected_category": "software",
+      "predicted_category": "software",
+      "expected_base_priority": "medium",
+      "predicted_base_priority": "low",
+      "neighbors": [
+        {
+          "id": "SW-01",
+          "group_id": "sw-01",
+          "category": "software",
+          "base_priority": "low",
+          "cosine_similarity": 0.7458983197175977
+        },
+        {
+          "id": "SW-12",
+          "group_id": "sw-12",
+          "category": "software",
+          "base_priority": "low",
+          "cosine_similarity": 0.7436157217535363
+        },
+        {
+          "id": "SW-04",
+          "group_id": "sw-reports-pdf",
+          "category": "software",
+          "base_priority": "medium",
+          "cosine_similarity": 0.7319563205263779
+        }
+      ]
+    },
+    {
+      "id": "SW-23",
+      "group_id": "sw-23",
+      "expected_category": "software",
+      "predicted_category": "software",
+      "expected_base_priority": "high",
+      "predicted_base_priority": "critical",
+      "neighbors": [
+        {
+          "id": "SW-07",
+          "group_id": "sw-07",
+          "category": "software",
+          "base_priority": "high",
+          "cosine_similarity": 0.829532955174647
+        },
+        {
+          "id": "SW-30",
+          "group_id": "sw-30",
+          "category": "software",
+          "base_priority": "critical",
+          "cosine_similarity": 0.8290615416088771
+        },
+        {
+          "id": "SW-10",
+          "group_id": "sw-10",
+          "category": "software",
+          "base_priority": "critical",
+          "cosine_similarity": 0.8238780209666594
+        }
+      ]
+    },
+    {
+      "id": "SW-24",
+      "group_id": "sw-24",
+      "expected_category": "software",
+      "predicted_category": "network",
+      "expected_base_priority": "high",
+      "predicted_base_priority": "medium",
+      "neighbors": [
+        {
+          "id": "NET-21",
+          "group_id": "net-21",
+          "category": "network",
+          "base_priority": "medium",
+          "cosine_similarity": 0.7831477861368679
+        },
+        {
+          "id": "NET-02",
+          "group_id": "net-02",
+          "category": "network",
+          "base_priority": "low",
+          "cosine_similarity": 0.761978626418167
+        },
+        {
+          "id": "ACC-29",
+          "group_id": "acc-29",
+          "category": "accounts_access",
+          "base_priority": "critical",
+          "cosine_similarity": 0.7603346383391918
+        }
+      ]
+    },
+    {
+      "id": "SW-25",
+      "group_id": "sw-25",
+      "expected_category": "software",
+      "predicted_category": "software",
+      "expected_base_priority": "high",
+      "predicted_base_priority": "high",
+      "neighbors": [
+        {
+          "id": "NET-09",
+          "group_id": "net-09",
+          "category": "network",
+          "base_priority": "high",
+          "cosine_similarity": 0.745610422076187
+        },
+        {
+          "id": "SW-01",
+          "group_id": "sw-01",
+          "category": "software",
+          "base_priority": "low",
+          "cosine_similarity": 0.7331203492968533
+        },
+        {
+          "id": "SW-23",
+          "group_id": "sw-23",
+          "category": "software",
+          "base_priority": "high",
+          "cosine_similarity": 0.728072307674646
+        }
+      ]
+    },
+    {
+      "id": "SW-26",
+      "group_id": "sw-26",
+      "expected_category": "software",
+      "predicted_category": "software",
+      "expected_base_priority": "high",
+      "predicted_base_priority": "high",
+      "neighbors": [
+        {
+          "id": "SW-08",
+          "group_id": "sw-08",
+          "category": "software",
+          "base_priority": "high",
+          "cosine_similarity": 0.7859462714117935
+        },
+        {
+          "id": "SW-23",
+          "group_id": "sw-23",
+          "category": "software",
+          "base_priority": "high",
+          "cosine_similarity": 0.7845627781184217
+        },
+        {
+          "id": "SW-10",
+          "group_id": "sw-10",
+          "category": "software",
+          "base_priority": "critical",
+          "cosine_similarity": 0.7704649901773208
+        }
+      ]
+    },
+    {
+      "id": "SW-27",
+      "group_id": "sw-roster-publication",
+      "expected_category": "software",
+      "predicted_category": "accounts_access",
+      "expected_base_priority": "high",
+      "predicted_base_priority": "high",
+      "neighbors": [
+        {
+          "id": "ACC-26",
+          "group_id": "acc-26",
+          "category": "accounts_access",
+          "base_priority": "high",
+          "cosine_similarity": 0.7238118870271499
+        },
+        {
+          "id": "ACC-09",
+          "group_id": "acc-09",
+          "category": "accounts_access",
+          "base_priority": "high",
+          "cosine_similarity": 0.7157182084303537
+        },
+        {
+          "id": "ACC-07",
+          "group_id": "acc-07",
+          "category": "accounts_access",
+          "base_priority": "high",
+          "cosine_similarity": 0.7111690954902867
+        }
+      ]
+    },
+    {
+      "id": "SW-28",
+      "group_id": "sw-roster-publication",
+      "expected_category": "software",
+      "predicted_category": "software",
+      "expected_base_priority": "high",
+      "predicted_base_priority": "medium",
+      "neighbors": [
+        {
+          "id": "SW-04",
+          "group_id": "sw-reports-pdf",
+          "category": "software",
+          "base_priority": "medium",
+          "cosine_similarity": 0.6709695469507991
+        },
+        {
+          "id": "SW-24",
+          "group_id": "sw-24",
+          "category": "software",
+          "base_priority": "high",
+          "cosine_similarity": 0.6389411728496224
+        },
+        {
+          "id": "NET-21",
+          "group_id": "net-21",
+          "category": "network",
+          "base_priority": "medium",
+          "cosine_similarity": 0.6260394469933929
+        }
+      ]
+    },
+    {
+      "id": "SW-29",
+      "group_id": "sw-29",
+      "expected_category": "software",
+      "predicted_category": "network",
+      "expected_base_priority": "critical",
+      "predicted_base_priority": "critical",
+      "neighbors": [
+        {
+          "id": "NET-30",
+          "group_id": "net-30",
+          "category": "network",
+          "base_priority": "critical",
+          "cosine_similarity": 0.814006646533144
+        },
+        {
+          "id": "SW-10",
+          "group_id": "sw-10",
+          "category": "software",
+          "base_priority": "critical",
+          "cosine_similarity": 0.7966351199111791
+        },
+        {
+          "id": "NET-29",
+          "group_id": "net-29",
+          "category": "network",
+          "base_priority": "critical",
+          "cosine_similarity": 0.7878847566517824
+        }
+      ]
+    },
+    {
+      "id": "SW-30",
+      "group_id": "sw-30",
+      "expected_category": "software",
+      "predicted_category": "software",
+      "expected_base_priority": "critical",
+      "predicted_base_priority": "high",
+      "neighbors": [
+        {
+          "id": "SW-23",
+          "group_id": "sw-23",
+          "category": "software",
+          "base_priority": "high",
+          "cosine_similarity": 0.8290615416088771
+        },
+        {
+          "id": "SW-07",
+          "group_id": "sw-07",
+          "category": "software",
+          "base_priority": "high",
+          "cosine_similarity": 0.8205539622319208
+        },
+        {
+          "id": "SW-10",
+          "group_id": "sw-10",
+          "category": "software",
+          "base_priority": "critical",
+          "cosine_similarity": 0.7839152237402295
+        }
+      ]
+    }
+  ]
+}

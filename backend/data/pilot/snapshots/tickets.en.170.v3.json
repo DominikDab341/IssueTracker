@@ -1,0 +1,3227 @@
+{
+  "schema_version": 1,
+  "dataset_id": "pilot-en-v3-170",
+  "created_on": "2026-11-01",
+  "language": "en",
+  "purpose": "exploratory_pilot_only",
+  "label_status": "partially_human_verified",
+  "provenance": {
+    "method": "llm_assisted_synthetic",
+    "tool": "OpenAI Codex",
+    "model_id": null,
+    "sampling_parameters": null,
+    "unavailable_metadata_reason": "The exact translating model identifier and sampling parameters are unavailable in this session.",
+    "instructions_file": "translation-en.md",
+    "labeling_guide": "labeling-guide.md",
+    "translation": {
+      "method": "llm_assisted_translation",
+      "source_file": "tickets.json",
+      "source_dataset_id": "pilot-pl-v3-170",
+      "source_language": "pl",
+      "source_sha256": "60321f0dca837c09d5c8b6616948a2161db9a28837d973ce03f8d2d965791f58",
+      "human_verified": false,
+      "preserved_fields": [
+        "id",
+        "group_id",
+        "proposed_category",
+        "proposed_base_priority",
+        "work_blocked"
+      ],
+      "instruction": "Translate each report and its label explanations faithfully into English. Preserve symptoms, impact, number of people, available workarounds, negations, and paraphrase groups. Do not add category or priority names to the report text. Do not improve reports based on model predictions. Keep proposed labels and leave human review pending.",
+      "human_verified_count": 120,
+      "instructions_file": "weak-170.md"
+    }
+  },
+  "examples": [
+    {
+      "id": "ACC-01",
+      "group_id": "acc-01",
+      "text": "After I changed my surname, the portal still shows my old account name. Signing in and all permissions work correctly, and I can work normally.",
+      "proposed_category": "accounts_access",
+      "proposed_base_priority": "low",
+      "work_blocked": false,
+      "category_reason": "Account profile information rather than a failure of an application feature.",
+      "priority_reason": "Only an inconvenience in how the name is displayed.",
+      "review": {
+        "status": "approved",
+        "category": "accounts_access",
+        "base_priority": "low",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:19:12+01:00",
+        "notes": "Zatwierdzenie istniejących przykładów przez użytkownika w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "ACC-02",
+      "group_id": "acc-02",
+      "text": "Every few days I receive a reminder that my password is about to expire, even though I changed it yesterday. The password works and I can open all the systems I need.",
+      "proposed_category": "accounts_access",
+      "proposed_base_priority": "low",
+      "work_blocked": false,
+      "category_reason": "Notifications about credential validity.",
+      "priority_reason": "The message does not interfere with work.",
+      "review": {
+        "status": "approved",
+        "category": "accounts_access",
+        "base_priority": "low",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:19:12+01:00",
+        "notes": "Zatwierdzenie istniejących przykładów przez użytkownika w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "ACC-03",
+      "group_id": "acc-folder-access",
+      "text": "After I moved to the billing team, the team folder opens in read-only mode. I cannot upload a report, but for now I send it to the person responsible for the folder, who saves the file for me.",
+      "proposed_category": "accounts_access",
+      "proposed_base_priority": "medium",
+      "work_blocked": false,
+      "category_reason": "An explicit restriction on permission to write to the folder.",
+      "priority_reason": "Saving is difficult, but a working workaround is available.",
+      "review": {
+        "status": "approved",
+        "category": "accounts_access",
+        "base_priority": "medium",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:19:12+01:00",
+        "notes": "Zatwierdzenie istniejących przykładów przez użytkownika w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "ACC-04",
+      "group_id": "acc-folder-access",
+      "text": "Regarding the same permissions issue with the billing folder: I can view documents, but saving results in an access denied message. I send the reports to the person responsible for the folder, who places them there.",
+      "proposed_category": "accounts_access",
+      "proposed_base_priority": "medium",
+      "work_blocked": false,
+      "category_reason": "Write access is denied, with no signs of file corruption.",
+      "priority_reason": "Another person can save the file on the user's behalf.",
+      "review": {
+        "status": "approved",
+        "category": "accounts_access",
+        "base_priority": "medium",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:19:12+01:00",
+        "notes": "Zatwierdzenie istniejących przykładów przez użytkownika w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "ACC-05",
+      "group_id": "acc-05",
+      "text": "My new phone does not receive email sign-in confirmations. I currently sign in using a code from a backup key and can receive messages, but I would like to restore confirmations on the phone.",
+      "proposed_category": "accounts_access",
+      "proposed_base_priority": "medium",
+      "work_blocked": false,
+      "category_reason": "A problem with the second authentication factor.",
+      "priority_reason": "The backup key allows work to continue.",
+      "review": {
+        "status": "approved",
+        "category": "accounts_access",
+        "base_priority": "medium",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:19:12+01:00",
+        "notes": "Zatwierdzenie istniejących przykładów przez użytkownika w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "ACC-06",
+      "group_id": "acc-06",
+      "text": "The application rejects my login with a message saying that my password has expired. Changing it myself in the portal works and restores access, but the password expires again the next day.",
+      "proposed_category": "accounts_access",
+      "proposed_base_priority": "medium",
+      "work_blocked": false,
+      "category_reason": "The password validity cycle and account access.",
+      "priority_reason": "Changing the password independently restores access.",
+      "review": {
+        "status": "approved",
+        "category": "accounts_access",
+        "base_priority": "medium",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:19:12+01:00",
+        "notes": "Zatwierdzenie istniejących przykładów przez użytkownika w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "ACC-07",
+      "group_id": "acc-07",
+      "text": "My account for the warehouse system has been locked. I cannot receive today's delivery; I have no second account and no way to complete this task outside the system.",
+      "proposed_category": "accounts_access",
+      "proposed_base_priority": "high",
+      "work_blocked": true,
+      "category_reason": "An explicit account lock.",
+      "priority_reason": "An important task for one person is blocked with no workaround.",
+      "review": {
+        "status": "approved",
+        "category": "accounts_access",
+        "base_priority": "high",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:19:12+01:00",
+        "notes": "Zatwierdzenie istniejących przykładów przez użytkownika w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "ACC-08",
+      "group_id": "acc-08",
+      "text": "When signing in to the VPN, I see this message: the user does not have permission for remote connections. I cannot complete an urgent billing task from home, and access is available only through this VPN.",
+      "proposed_category": "accounts_access",
+      "proposed_base_priority": "high",
+      "work_blocked": true,
+      "category_reason": "The VPN explicitly denies permission rather than reporting a connection failure.",
+      "priority_reason": "An essential task cannot be accessed and no workaround is available.",
+      "review": {
+        "status": "approved",
+        "category": "accounts_access",
+        "base_priority": "high",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:19:12+01:00",
+        "notes": "Zatwierdzenie istniejących przykładów przez użytkownika w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "ACC-09",
+      "group_id": "acc-09",
+      "text": "After I changed positions, I lost permission to approve invoices. The system displays an insufficient permissions message, and I must approve payments today; no other authorized person is on this shift.",
+      "proposed_category": "accounts_access",
+      "proposed_base_priority": "high",
+      "work_blocked": true,
+      "category_reason": "The role required to perform the operation is missing.",
+      "priority_reason": "Payment approval is blocked with no authorized replacement.",
+      "review": {
+        "status": "approved",
+        "category": "accounts_access",
+        "base_priority": "high",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:19:12+01:00",
+        "notes": "Zatwierdzenie istniejących przykładów przez użytkownika w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "ACC-10",
+      "group_id": "acc-10",
+      "text": "Since this morning, all employees in the customer service center have received a message at sign-in saying their accounts are disabled. The entire department cannot serve customers; no backup account is available.",
+      "proposed_category": "accounts_access",
+      "proposed_base_priority": "critical",
+      "work_blocked": true,
+      "category_reason": "The accounts of multiple users are explicitly disabled.",
+      "priority_reason": "A key process for the entire department is unavailable.",
+      "review": {
+        "status": "approved",
+        "category": "accounts_access",
+        "base_priority": "critical",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:19:12+01:00",
+        "notes": "Zatwierdzenie istniejących przykładów przez użytkownika w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "HW-01",
+      "group_id": "hw-01",
+      "text": "A single bright dot has appeared near the bottom edge of my external monitor and stays lit. The rest of the image is readable and I can perform all my tasks normally.",
+      "proposed_category": "hardware",
+      "proposed_base_priority": "low",
+      "work_blocked": false,
+      "category_reason": "A physical symptom on the display.",
+      "priority_reason": "A minor defect that does not limit work.",
+      "review": {
+        "status": "approved",
+        "category": "hardware",
+        "base_priority": "low",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:19:12+01:00",
+        "notes": "Zatwierdzenie istniejących przykładów przez użytkownika w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "HW-02",
+      "group_id": "hw-02",
+      "text": "The fan in my computer has started running more loudly. The device does not shut down, there are no temperature warnings, and I can perform all my tasks.",
+      "proposed_category": "hardware",
+      "proposed_base_priority": "low",
+      "work_blocked": false,
+      "category_reason": "A symptom involving the operation of a physical component.",
+      "priority_reason": "The noise is an inconvenience without blocking tasks.",
+      "review": {
+        "status": "approved",
+        "category": "hardware",
+        "base_priority": "low",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:19:12+01:00",
+        "notes": "Zatwierdzenie istniejących przykładów przez użytkownika w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "HW-03",
+      "group_id": "hw-reception-printer",
+      "text": "The printer at reception jams paper even when I start a test page from its own control panel. I am currently printing documents on the device in the next room.",
+      "proposed_category": "hardware",
+      "proposed_base_priority": "medium",
+      "work_blocked": false,
+      "category_reason": "The jam occurs independently of the application and connection.",
+      "priority_reason": "Another printer provides a working workaround.",
+      "review": {
+        "status": "approved",
+        "category": "hardware",
+        "base_priority": "medium",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:19:12+01:00",
+        "notes": "Zatwierdzenie istniejących przykładów przez użytkownika w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "HW-04",
+      "group_id": "hw-reception-printer",
+      "text": "The same reception printer is once again stopping a sheet halfway through, including during its own test. I use the printer in the next room and can issue documents.",
+      "proposed_category": "hardware",
+      "proposed_base_priority": "medium",
+      "work_blocked": false,
+      "category_reason": "The physical paper feed mechanism.",
+      "priority_reason": "Printing on another device allows work to continue.",
+      "review": {
+        "status": "approved",
+        "category": "hardware",
+        "base_priority": "medium",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:19:12+01:00",
+        "notes": "Zatwierdzenie istniejących przykładów przez użytkownika w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "HW-05",
+      "group_id": "hw-05",
+      "text": "Several keys on my laptop's built-in keyboard do not respond. I connected a USB keyboard and can type, but this makes working in meeting rooms more difficult.",
+      "proposed_category": "hardware",
+      "proposed_base_priority": "medium",
+      "work_blocked": false,
+      "category_reason": "Nonfunctional keys on the device.",
+      "priority_reason": "An external keyboard allows work to continue.",
+      "review": {
+        "status": "approved",
+        "category": "hardware",
+        "base_priority": "medium",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:19:12+01:00",
+        "notes": "Zatwierdzenie istniejących przykładów przez użytkownika w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "HW-06",
+      "group_id": "hw-06",
+      "text": "The laptop camera shows a black image even in the operating system's device test. For meetings, I use a borrowed USB camera that works correctly.",
+      "proposed_category": "hardware",
+      "proposed_base_priority": "medium",
+      "work_blocked": false,
+      "category_reason": "The device symptom is confirmed outside the meeting application.",
+      "priority_reason": "A borrowed camera provides a working replacement.",
+      "review": {
+        "status": "approved",
+        "category": "hardware",
+        "base_priority": "medium",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:19:12+01:00",
+        "notes": "Zatwierdzenie istniejących przykładów przez użytkownika w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "HW-07",
+      "group_id": "hw-07",
+      "text": "The computer does not start when I press the button, and no indicator lights come on despite being plugged into a working power socket. This is my only workstation for handling orders and no replacement computer is available.",
+      "proposed_category": "hardware",
+      "proposed_base_priority": "high",
+      "work_blocked": true,
+      "category_reason": "The device has no power or does not respond.",
+      "priority_reason": "An important task for one person has no replacement setup.",
+      "review": {
+        "status": "approved",
+        "category": "hardware",
+        "base_priority": "high",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:19:12+01:00",
+        "notes": "Zatwierdzenie istniejących przykładów przez użytkownika w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "HW-08",
+      "group_id": "hw-08",
+      "text": "The barcode scanner at my workstation does not turn on and still does not respond when connected to a different port. I cannot register parcels; the program does not allow codes to be entered manually and we have no spare scanner.",
+      "proposed_category": "hardware",
+      "proposed_base_priority": "high",
+      "work_blocked": true,
+      "category_reason": "A physical device does not respond.",
+      "priority_reason": "Registering parcels is impossible with no workaround.",
+      "review": {
+        "status": "approved",
+        "category": "hardware",
+        "base_priority": "high",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:19:12+01:00",
+        "notes": "Zatwierdzenie istniejących przykładów przez użytkownika w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "HW-09",
+      "group_id": "hw-09",
+      "text": "My laptop's power adapter has stopped charging it, and the battery is now empty. I must prepare payroll on this device today; no other adapter or workstation with this access is available.",
+      "proposed_category": "hardware",
+      "proposed_base_priority": "high",
+      "work_blocked": true,
+      "category_reason": "A nonfunctional power adapter and a discharged device.",
+      "priority_reason": "An essential task is blocked by the lack of replacement equipment.",
+      "review": {
+        "status": "approved",
+        "category": "hardware",
+        "base_priority": "high",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:19:12+01:00",
+        "notes": "Zatwierdzenie istniejących przykładów przez użytkownika w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "HW-10",
+      "group_id": "hw-10",
+      "text": "The main disk array will not turn on, and the indicator lights on both power supplies are off. All teams have lost access to files needed to process orders and no working copy is available.",
+      "proposed_category": "hardware",
+      "proposed_base_priority": "critical",
+      "work_blocked": true,
+      "category_reason": "Physical signs that the disk array has no power.",
+      "priority_reason": "The failure of essential equipment blocks multiple teams.",
+      "review": {
+        "status": "approved",
+        "category": "hardware",
+        "base_priority": "critical",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:19:12+01:00",
+        "notes": "Zatwierdzenie istniejących przykładów przez użytkownika w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "NET-01",
+      "group_id": "net-01",
+      "text": "After my laptop wakes from sleep, the connection to the company Wi-Fi appears only after a few seconds. It then works reliably; this does not interrupt tasks and I can use all tools normally.",
+      "proposed_category": "network",
+      "proposed_base_priority": "low",
+      "work_blocked": false,
+      "category_reason": "A short delay in establishing the wireless connection.",
+      "priority_reason": "A minor delay that does not block required tasks.",
+      "review": {
+        "status": "approved",
+        "category": "network",
+        "base_priority": "low",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:19:12+01:00",
+        "notes": "Zatwierdzenie istniejących przykładów przez użytkownika w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "NET-02",
+      "group_id": "net-02",
+      "text": "The company Wi-Fi signal in the break room is weak and pages load slowly. We do not perform work tasks there; the connection works correctly at our desks and work is not affected.",
+      "proposed_category": "network",
+      "proposed_base_priority": "low",
+      "work_blocked": false,
+      "category_reason": "A weak wireless signal in a specific location.",
+      "priority_reason": "An inconvenience outside the place where work is performed.",
+      "review": {
+        "status": "approved",
+        "category": "network",
+        "base_priority": "low",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:19:12+01:00",
+        "notes": "Zatwierdzenie istniejących przykładów przez użytkownika w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "NET-03",
+      "group_id": "net-meeting-room-b",
+      "text": "In meeting room B, the Wi-Fi connection drops every few minutes. After I connect the laptop by cable to the network socket in that room, online meetings work reliably.",
+      "proposed_category": "network",
+      "proposed_base_priority": "medium",
+      "work_blocked": false,
+      "category_reason": "The wireless connection drops.",
+      "priority_reason": "A wired connection provides a working workaround.",
+      "review": {
+        "status": "approved",
+        "category": "network",
+        "base_priority": "medium",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:19:12+01:00",
+        "notes": "Zatwierdzenie istniejących przykładów przez użytkownika w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "NET-04",
+      "group_id": "net-meeting-room-b",
+      "text": "I am reporting the same company wireless network disconnections in room B. I can continue the call over a cable; after I unplug it, the Wi-Fi loses its connection again.",
+      "proposed_category": "network",
+      "proposed_base_priority": "medium",
+      "work_blocked": false,
+      "category_reason": "The symptom concerns a particular Wi-Fi connection.",
+      "priority_reason": "The cable allows the meeting to continue.",
+      "review": {
+        "status": "approved",
+        "category": "network",
+        "base_priority": "medium",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:19:12+01:00",
+        "notes": "Zatwierdzenie istniejących przykładów przez użytkownika w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "NET-05",
+      "group_id": "net-05",
+      "text": "My home internet drops my connection to the company several times a day, including during ordinary web browsing. I switch the laptop to my phone's internet connection and can then work reliably.",
+      "proposed_category": "network",
+      "proposed_base_priority": "medium",
+      "work_blocked": false,
+      "category_reason": "The connection is lost outside a single application as well.",
+      "priority_reason": "The phone's internet connection allows work to continue.",
+      "review": {
+        "status": "approved",
+        "category": "network",
+        "base_priority": "medium",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:19:12+01:00",
+        "notes": "Zatwierdzenie istniejących przykładów przez użytkownika w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "NET-06",
+      "group_id": "net-06",
+      "text": "The network socket in room 12 provides no connection, while the same laptop with the same cable connects in the next room. I am temporarily using the company Wi-Fi to handle my tasks.",
+      "proposed_category": "network",
+      "proposed_base_priority": "medium",
+      "work_blocked": false,
+      "category_reason": "A problem with the connection path through a specific socket.",
+      "priority_reason": "Working Wi-Fi provides a workaround.",
+      "review": {
+        "status": "approved",
+        "category": "network",
+        "base_priority": "medium",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:19:12+01:00",
+        "notes": "Zatwierdzenie istniejących przykładów przez użytkownika w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "NET-07",
+      "group_id": "net-07",
+      "text": "The VPN accepts my password and sign-in confirmation, but setting up the tunnel times out. Internet access outside the VPN works; I cannot connect to the system needed for today's dispatch and have no other way to access it.",
+      "proposed_category": "network",
+      "proposed_base_priority": "high",
+      "work_blocked": true,
+      "category_reason": "Authentication works, but the connection cannot be established.",
+      "priority_reason": "An important task for one person is blocked with no workaround.",
+      "review": {
+        "status": "approved",
+        "category": "network",
+        "base_priority": "high",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:19:12+01:00",
+        "notes": "Zatwierdzenie istniejących przykładów przez użytkownika w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "NET-08",
+      "group_id": "net-08",
+      "text": "At my workstation, neither the wired connection nor Wi-Fi can access the company network. I cannot process orders, and there is no replacement workstation or mobile internet coverage here.",
+      "proposed_category": "network",
+      "proposed_base_priority": "high",
+      "work_blocked": true,
+      "category_reason": "Two types of connection cannot access the network.",
+      "priority_reason": "Order processing is blocked and there is no alternative.",
+      "review": {
+        "status": "approved",
+        "category": "network",
+        "base_priority": "high",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:19:12+01:00",
+        "notes": "Zatwierdzenie istniejących przykładów przez użytkownika w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "NET-09",
+      "group_id": "net-09",
+      "text": "During a remote session with the server, the connection drops every few dozen seconds. Other services over this link are also affected; I must finish a data import today and have no other connection or on-site access.",
+      "proposed_category": "network",
+      "proposed_base_priority": "high",
+      "work_blocked": true,
+      "category_reason": "Connectivity is lost to multiple services, without guessing the cause.",
+      "priority_reason": "An urgent task has no working alternative access path.",
+      "review": {
+        "status": "approved",
+        "category": "network",
+        "base_priority": "high",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:19:12+01:00",
+        "notes": "Zatwierdzenie istniejących przykładów przez użytkownika w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "NET-10",
+      "group_id": "net-10",
+      "text": "Internet access and connections to headquarters have stopped working throughout the branch, over both cable and Wi-Fi. Thirty people cannot take orders, and the backup link also provides no access.",
+      "proposed_category": "network",
+      "proposed_base_priority": "critical",
+      "work_blocked": true,
+      "category_reason": "A widespread loss of network connectivity.",
+      "priority_reason": "Essential order processing for multiple people is blocked.",
+      "review": {
+        "status": "approved",
+        "category": "network",
+        "base_priority": "critical",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:19:12+01:00",
+        "notes": "Zatwierdzenie istniejących przykładów przez użytkownika w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "SW-01",
+      "group_id": "sw-01",
+      "text": "After the editor update, some icons on the toolbar have blurred edges. All buttons work, documents save correctly, and I can work as before.",
+      "proposed_category": "software",
+      "proposed_base_priority": "low",
+      "work_blocked": false,
+      "category_reason": "Application elements are displayed incorrectly.",
+      "priority_reason": "A purely cosmetic interface problem.",
+      "review": {
+        "status": "approved",
+        "category": "software",
+        "base_priority": "low",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:19:12+01:00",
+        "notes": "Zatwierdzenie istniejących przykładów przez użytkownika w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "SW-02",
+      "group_id": "sw-02",
+      "text": "The list of recently opened documents in the program does not retain the selected order after a restart. Documents open normally and the sorting is not needed to perform tasks.",
+      "proposed_category": "software",
+      "proposed_base_priority": "low",
+      "work_blocked": false,
+      "category_reason": "The application fails to remember a setting.",
+      "priority_reason": "A minor inconvenience without losing a required feature.",
+      "review": {
+        "status": "approved",
+        "category": "software",
+        "base_priority": "low",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:19:12+01:00",
+        "notes": "Zatwierdzenie istniejących przykładów przez użytkownika w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "SW-03",
+      "group_id": "sw-reports-pdf",
+      "text": "The reporting program closes when exporting to PDF. I can open the same reports in the browser and save them to PDF using print, so I send them on time.",
+      "proposed_category": "software",
+      "proposed_base_priority": "medium",
+      "work_blocked": false,
+      "category_reason": "A specific program feature fails.",
+      "priority_reason": "An alternative way to create a PDF works.",
+      "review": {
+        "status": "approved",
+        "category": "software",
+        "base_priority": "medium",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:19:12+01:00",
+        "notes": "Zatwierdzenie istniejących przykładów przez użytkownika w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "SW-04",
+      "group_id": "sw-reports-pdf",
+      "text": "I am following up on the same report export error: clicking save as PDF shuts down the application. I still prepare the files by printing from the browser version and can deliver the reports.",
+      "proposed_category": "software",
+      "proposed_base_priority": "medium",
+      "work_blocked": false,
+      "category_reason": "A recurrence of the export failure rather than a printer problem.",
+      "priority_reason": "The browser version allows the task to be completed.",
+      "review": {
+        "status": "approved",
+        "category": "software",
+        "base_priority": "medium",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:19:12+01:00",
+        "notes": "Zatwierdzenie istniejących przykładów przez użytkownika w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "SW-05",
+      "group_id": "sw-05",
+      "text": "In one program, printing a form causes the window to close. The printer's test page works; I can export the form as an image and print it from another program.",
+      "proposed_category": "software",
+      "proposed_base_priority": "medium",
+      "work_blocked": false,
+      "category_reason": "The error affects the application while the printer works.",
+      "priority_reason": "Another program allows printing.",
+      "review": {
+        "status": "approved",
+        "category": "software",
+        "base_priority": "medium",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:19:12+01:00",
+        "notes": "Zatwierdzenie istniejących przykładów przez użytkownika w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "SW-06",
+      "group_id": "sw-06",
+      "text": "The calendar in the desktop application does not show newly added meetings, although they are visible in its web version. I check the schedule in the browser and do not miss meetings.",
+      "proposed_category": "software",
+      "proposed_base_priority": "medium",
+      "work_blocked": false,
+      "category_reason": "An outdated view in a particular version of the application.",
+      "priority_reason": "The web version provides access to the schedule.",
+      "review": {
+        "status": "approved",
+        "category": "software",
+        "base_priority": "medium",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:19:12+01:00",
+        "notes": "Zatwierdzenie istniejących przykładów przez użytkownika w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "SW-07",
+      "group_id": "sw-07",
+      "text": "The accounting program closes every time I approve a declaration. Other features work, but I must submit the declaration today; there is no web version or other way to approve it.",
+      "proposed_category": "software",
+      "proposed_base_priority": "high",
+      "work_blocked": true,
+      "category_reason": "A repeatable failure of an operation in the application.",
+      "priority_reason": "An important operation is impossible with no workaround.",
+      "review": {
+        "status": "approved",
+        "category": "software",
+        "base_priority": "high",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:19:12+01:00",
+        "notes": "Zatwierdzenie istniejących przykładów przez użytkownika w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "SW-08",
+      "group_id": "sw-08",
+      "text": "After an update, the document signing application will not start and immediately displays a program error. I must sign a contract today, and company procedure permits only this application with no alternative.",
+      "proposed_category": "software",
+      "proposed_base_priority": "high",
+      "work_blocked": true,
+      "category_reason": "The program will not start after an update.",
+      "priority_reason": "Signing a required contract is blocked.",
+      "review": {
+        "status": "approved",
+        "category": "software",
+        "base_priority": "high",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:19:12+01:00",
+        "notes": "Zatwierdzenie istniejących przykładów przez użytkownika w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "SW-09",
+      "group_id": "sw-09",
+      "text": "In the warehouse system, approving my dispatch list consistently returns a calculation error. I have the required permissions and other lists open correctly, but this dispatch cannot be approved manually or in another tool.",
+      "proposed_category": "software",
+      "proposed_base_priority": "high",
+      "work_blocked": true,
+      "category_reason": "A calculation error in a feature rather than access being denied.",
+      "priority_reason": "A specific important task has no workaround.",
+      "review": {
+        "status": "approved",
+        "category": "software",
+        "base_priority": "high",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:19:12+01:00",
+        "notes": "Zatwierdzenie istniejących przykładów przez użytkownika w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "SW-10",
+      "group_id": "sw-10",
+      "text": "After a new version was deployed, the order system ends the session with a program error whenever anyone tries to save an order. All customer service agents are affected; the entire sales operation is at a standstill and there is no fallback mode.",
+      "proposed_category": "software",
+      "proposed_base_priority": "critical",
+      "work_blocked": true,
+      "category_reason": "The application's save feature fails for multiple users.",
+      "priority_reason": "An essential service for the entire team is unavailable.",
+      "review": {
+        "status": "approved",
+        "category": "software",
+        "base_priority": "critical",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:19:12+01:00",
+        "notes": "Zatwierdzenie istniejących przykładów przez użytkownika w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "ACC-11",
+      "group_id": "acc-11",
+      "text": "My account's entry in the address book shows my old extension number. I can sign in and use every service; the incorrect number does not interfere with my tasks.",
+      "proposed_category": "accounts_access",
+      "proposed_base_priority": "low",
+      "work_blocked": false,
+      "category_reason": "Outdated information in the account profile.",
+      "priority_reason": "A minor inconvenience without restricting required tasks.",
+      "review": {
+        "status": "approved",
+        "category": "accounts_access",
+        "base_priority": "low",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:35:52+01:00",
+        "notes": "Użytkownik zatwierdził pozostałe 80 przykładów w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "ACC-12",
+      "group_id": "acc-12",
+      "text": "The self-service portal still shows my previous team name, even though I moved a month ago. I already have access to the new team, and the displayed name does not block anything.",
+      "proposed_category": "accounts_access",
+      "proposed_base_priority": "low",
+      "work_blocked": false,
+      "category_reason": "Organizational information attached to the account.",
+      "priority_reason": "A minor inconvenience without restricting required tasks.",
+      "review": {
+        "status": "approved",
+        "category": "accounts_access",
+        "base_priority": "low",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:35:52+01:00",
+        "notes": "Użytkownik zatwierdził pozostałe 80 przykładów w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "ACC-13",
+      "group_id": "acc-13",
+      "text": "When signing in, I see an old role from a completed project in the list. Selecting it opens nothing, but my current role provides all necessary permissions and I can work normally.",
+      "proposed_category": "accounts_access",
+      "proposed_base_priority": "low",
+      "work_blocked": false,
+      "category_reason": "An outdated user role remains visible.",
+      "priority_reason": "A minor inconvenience without restricting required tasks.",
+      "review": {
+        "status": "approved",
+        "category": "accounts_access",
+        "base_priority": "low",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:35:52+01:00",
+        "notes": "Użytkownik zatwierdził pozostałe 80 przykładów w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "ACC-14",
+      "group_id": "acc-14",
+      "text": "The account panel displays a message asking me to add a profile photo. I do not want to add one; I can dismiss the message and all tools remain available.",
+      "proposed_category": "accounts_access",
+      "proposed_base_priority": "low",
+      "work_blocked": false,
+      "category_reason": "A requirement concerning the account profile.",
+      "priority_reason": "A minor inconvenience without restricting required tasks.",
+      "review": {
+        "status": "approved",
+        "category": "accounts_access",
+        "base_priority": "low",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:35:52+01:00",
+        "notes": "Użytkownik zatwierdził pozostałe 80 przykładów w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "ACC-15",
+      "group_id": "acc-orion-folder",
+      "text": "I have lost permission to create new documents in the Orion project folder, although I can read existing ones. A teammate saves the files I send her, so work continues.",
+      "proposed_category": "accounts_access",
+      "proposed_base_priority": "medium",
+      "work_blocked": false,
+      "category_reason": "Permission to create documents in a folder is missing.",
+      "priority_reason": "The report describes a working workaround that allows work to continue.",
+      "review": {
+        "status": "approved",
+        "category": "accounts_access",
+        "base_priority": "medium",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:35:52+01:00",
+        "notes": "Użytkownik zatwierdził pozostałe 80 przykładów w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "ACC-16",
+      "group_id": "acc-orion-folder",
+      "text": "This concerns the same write access denial in the Orion directory: reading works, but adding a file produces an insufficient permissions message. I pass the documents to a colleague who places them in the directory.",
+      "proposed_category": "accounts_access",
+      "proposed_base_priority": "medium",
+      "work_blocked": false,
+      "category_reason": "An explicit denial of write permission.",
+      "priority_reason": "The report describes a working workaround that allows work to continue.",
+      "review": {
+        "status": "approved",
+        "category": "accounts_access",
+        "base_priority": "medium",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:35:52+01:00",
+        "notes": "Użytkownik zatwierdził pozostałe 80 przykładów w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "ACC-17",
+      "group_id": "acc-17",
+      "text": "After replacing my phone, the authenticator app does not contain my company account and I cannot approve sign-ins with it. Saved recovery codes let me access the systems and complete my tasks.",
+      "proposed_category": "accounts_access",
+      "proposed_base_priority": "medium",
+      "work_blocked": false,
+      "category_reason": "An authentication factor has not been configured.",
+      "priority_reason": "The report describes a working workaround that allows work to continue.",
+      "review": {
+        "status": "approved",
+        "category": "accounts_access",
+        "base_priority": "medium",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:35:52+01:00",
+        "notes": "Użytkownik zatwierdził pozostałe 80 przykładów w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "ACC-18",
+      "group_id": "acc-18",
+      "text": "Single sign-on to the portal says my account is not assigned to this application. Signing in directly with a local account still works and I can handle my tasks.",
+      "proposed_category": "accounts_access",
+      "proposed_base_priority": "medium",
+      "work_blocked": false,
+      "category_reason": "The account is not assigned to the application.",
+      "priority_reason": "The report describes a working workaround that allows work to continue.",
+      "review": {
+        "status": "approved",
+        "category": "accounts_access",
+        "base_priority": "medium",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:35:52+01:00",
+        "notes": "Użytkownik zatwierdził pozostałe 80 przykładów w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "ACC-19",
+      "group_id": "acc-19",
+      "text": "Trying to set a new password myself produces a message saying I am not allowed to change it. My existing password still works and I can use email and the other systems.",
+      "proposed_category": "accounts_access",
+      "proposed_base_priority": "medium",
+      "work_blocked": false,
+      "category_reason": "Permission to change the password is denied.",
+      "priority_reason": "The report describes a working workaround that allows work to continue.",
+      "review": {
+        "status": "approved",
+        "category": "accounts_access",
+        "base_priority": "medium",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:35:52+01:00",
+        "notes": "Użytkownik zatwierdził pozostałe 80 przykładów w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "ACC-20",
+      "group_id": "acc-20",
+      "text": "In the ticketing tool, my role allows me to read cases, but permission to add notes has been removed. I send notes to the duty operator, who records them; customer service can continue.",
+      "proposed_category": "accounts_access",
+      "proposed_base_priority": "medium",
+      "work_blocked": false,
+      "category_reason": "A specific role permission is missing.",
+      "priority_reason": "The report describes a working workaround that allows work to continue.",
+      "review": {
+        "status": "approved",
+        "category": "accounts_access",
+        "base_priority": "medium",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:35:52+01:00",
+        "notes": "Użytkownik zatwierdził pozostałe 80 przykładów w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "ACC-21",
+      "group_id": "acc-21",
+      "text": "The portal rejects sign-in with my security key, saying the key is not assigned to my user. I can select a second registered key and access the tools.",
+      "proposed_category": "accounts_access",
+      "proposed_base_priority": "medium",
+      "work_blocked": false,
+      "category_reason": "The security key is not linked to the account.",
+      "priority_reason": "The report describes a working workaround that allows work to continue.",
+      "review": {
+        "status": "approved",
+        "category": "accounts_access",
+        "base_priority": "medium",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:35:52+01:00",
+        "notes": "Użytkownik zatwierdził pozostałe 80 przykładów w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "ACC-22",
+      "group_id": "acc-22",
+      "text": "I cannot see the archived reports because the system explicitly says I am not a member of the access group. The project lead shares the reports I need individually, so I can prepare the summary.",
+      "proposed_category": "accounts_access",
+      "proposed_base_priority": "medium",
+      "work_blocked": false,
+      "category_reason": "Membership in an access group is missing.",
+      "priority_reason": "The report describes a working workaround that allows work to continue.",
+      "review": {
+        "status": "approved",
+        "category": "accounts_access",
+        "base_priority": "medium",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:35:52+01:00",
+        "notes": "Użytkownik zatwierdził pozostałe 80 przykładów w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "ACC-23",
+      "group_id": "acc-23",
+      "text": "While signing the payment list, the system says my role does not permit payment approval. I am the only authorized person on duty, and without this operation I cannot send today's payments.",
+      "proposed_category": "accounts_access",
+      "proposed_base_priority": "high",
+      "work_blocked": true,
+      "category_reason": "Permission to approve payments is denied.",
+      "priority_reason": "The reporter's important task is blocked and no workaround is available.",
+      "review": {
+        "status": "approved",
+        "category": "accounts_access",
+        "base_priority": "high",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:35:52+01:00",
+        "notes": "Użytkownik zatwierdził pozostałe 80 przykładów w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "ACC-24",
+      "group_id": "acc-24",
+      "text": "When accessing the project repository, I receive a message saying my organization membership has expired. I must deliver a fix to the customer today and have neither a copy of the code nor another authorized account.",
+      "proposed_category": "accounts_access",
+      "proposed_base_priority": "high",
+      "work_blocked": true,
+      "category_reason": "Membership required for access has expired.",
+      "priority_reason": "The reporter's important task is blocked and no workaround is available.",
+      "review": {
+        "status": "approved",
+        "category": "accounts_access",
+        "base_priority": "high",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:35:52+01:00",
+        "notes": "Użytkownik zatwierdził pozostałe 80 przykładów w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "ACC-25",
+      "group_id": "acc-25",
+      "text": "My device administrator account has been disabled, as confirmed by the sign-in screen. I must configure a new employee's workstation today; my other account lacks those permissions and no replacement administrator is available.",
+      "proposed_category": "accounts_access",
+      "proposed_base_priority": "high",
+      "work_blocked": true,
+      "category_reason": "A privileged account is explicitly disabled.",
+      "priority_reason": "The reporter's important task is blocked and no workaround is available.",
+      "review": {
+        "status": "approved",
+        "category": "accounts_access",
+        "base_priority": "high",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:35:52+01:00",
+        "notes": "Użytkownik zatwierdził pozostałe 80 przykładów w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "ACC-26",
+      "group_id": "acc-26",
+      "text": "The document management system requires a second factor, but my only registered key has been lost. I have no recovery codes or other method and cannot send the documentation required today.",
+      "proposed_category": "accounts_access",
+      "proposed_base_priority": "high",
+      "work_blocked": true,
+      "category_reason": "No authentication factor is available.",
+      "priority_reason": "The reporter's important task is blocked and no workaround is available.",
+      "review": {
+        "status": "approved",
+        "category": "accounts_access",
+        "base_priority": "high",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:35:52+01:00",
+        "notes": "Użytkownik zatwierdził pozostałe 80 przykładów w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "ACC-27",
+      "group_id": "acc-month-end-folder",
+      "text": "After my responsibilities changed, access to the month-end folder was denied with an insufficient permissions message. I need these documents for today's settlement; nobody on this shift can provide them.",
+      "proposed_category": "accounts_access",
+      "proposed_base_priority": "high",
+      "work_blocked": true,
+      "category_reason": "Access to a required folder is denied.",
+      "priority_reason": "The reporter's important task is blocked and no workaround is available.",
+      "review": {
+        "status": "approved",
+        "category": "accounts_access",
+        "base_priority": "high",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:35:52+01:00",
+        "notes": "Użytkownik zatwierdził pozostałe 80 przykładów w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "ACC-28",
+      "group_id": "acc-month-end-folder",
+      "text": "I am reporting again the loss of permission to the same month-end directory. I cannot read the documents needed for today's settlement, and nobody available has permission to share a copy with me.",
+      "proposed_category": "accounts_access",
+      "proposed_base_priority": "high",
+      "work_blocked": true,
+      "category_reason": "A repeated report of explicit missing folder permissions.",
+      "priority_reason": "The reporter's important task is blocked and no workaround is available.",
+      "review": {
+        "status": "approved",
+        "category": "accounts_access",
+        "base_priority": "high",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:35:52+01:00",
+        "notes": "Użytkownik zatwierdził pozostałe 80 przykładów w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "ACC-29",
+      "group_id": "acc-29",
+      "text": "All dispatchers see a message at sign-in to the transport system saying the operator role has been revoked. We cannot issue assignments to drivers, and no account on this shift has alternative access.",
+      "proposed_category": "accounts_access",
+      "proposed_base_priority": "critical",
+      "work_blocked": true,
+      "category_reason": "The operator role has been revoked for multiple users.",
+      "priority_reason": "An unavailable essential service blocks multiple people with no fallback mode.",
+      "review": {
+        "status": "approved",
+        "category": "accounts_access",
+        "base_priority": "critical",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:35:52+01:00",
+        "notes": "Użytkownik zatwierdził pozostałe 80 przykładów w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "ACC-30",
+      "group_id": "acc-30",
+      "text": "Since this morning, the authentication system has rejected the accounts of the entire patient service team as inactive. Appointment registration has stopped for everyone, and emergency sign-in is not permitted either.",
+      "proposed_category": "accounts_access",
+      "proposed_base_priority": "critical",
+      "work_blocked": true,
+      "category_reason": "Multiple accounts are blocked as inactive.",
+      "priority_reason": "An unavailable essential service blocks multiple people with no fallback mode.",
+      "review": {
+        "status": "approved",
+        "category": "accounts_access",
+        "base_priority": "critical",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:35:52+01:00",
+        "notes": "Użytkownik zatwierdził pozostałe 80 przykładów w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "HW-11",
+      "group_id": "hw-11",
+      "text": "A plastic hinge cover on my work laptop's case has cracked. The screen opens steadily, no wires are exposed, and I can perform all my tasks without restrictions.",
+      "proposed_category": "hardware",
+      "proposed_base_priority": "low",
+      "work_blocked": false,
+      "category_reason": "Damage to a physical part of the case.",
+      "priority_reason": "A minor inconvenience without restricting required tasks.",
+      "review": {
+        "status": "approved",
+        "category": "hardware",
+        "base_priority": "low",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:35:52+01:00",
+        "notes": "Użytkownik zatwierdził pozostałe 80 przykładów w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "HW-12",
+      "group_id": "hw-12",
+      "text": "The volume wheel on my headset is loose, but the sound and microphone work. I adjust the volume in the operating system and can make calls without difficulty.",
+      "proposed_category": "hardware",
+      "proposed_base_priority": "low",
+      "work_blocked": false,
+      "category_reason": "A mechanical defect in a headset component.",
+      "priority_reason": "A minor inconvenience without restricting required tasks.",
+      "review": {
+        "status": "approved",
+        "category": "hardware",
+        "base_priority": "low",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:35:52+01:00",
+        "notes": "Użytkownik zatwierdził pozostałe 80 przykładów w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "HW-13",
+      "group_id": "hw-13",
+      "text": "The Caps Lock indicator on my external keyboard has stopped lighting up. The keys themselves work, I can see the state on screen, and writing documents is not affected.",
+      "proposed_category": "hardware",
+      "proposed_base_priority": "low",
+      "work_blocked": false,
+      "category_reason": "A device indicator is not working.",
+      "priority_reason": "A minor inconvenience without restricting required tasks.",
+      "review": {
+        "status": "approved",
+        "category": "hardware",
+        "base_priority": "low",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:35:52+01:00",
+        "notes": "Użytkownik zatwierdził pozostałe 80 przykładów w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "HW-14",
+      "group_id": "hw-14",
+      "text": "The monitor stand does not hold the selected height and slides to its lowest position. The screen is readable for me at that height and I can perform all my duties.",
+      "proposed_category": "hardware",
+      "proposed_base_priority": "low",
+      "work_blocked": false,
+      "category_reason": "The height adjustment mechanism of the monitor stand.",
+      "priority_reason": "A minor inconvenience without restricting required tasks.",
+      "review": {
+        "status": "approved",
+        "category": "hardware",
+        "base_priority": "low",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:35:52+01:00",
+        "notes": "Użytkownik zatwierdził pozostałe 80 przykładów w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "HW-15",
+      "group_id": "hw-terminal-4-reader",
+      "text": "The card reader in terminal number 4 does not respond even in its own diagnostic test. I moved to the available terminal number 5 and can still serve customers.",
+      "proposed_category": "hardware",
+      "proposed_base_priority": "medium",
+      "work_blocked": false,
+      "category_reason": "A faulty reader confirmed by the device test.",
+      "priority_reason": "The report describes a working workaround that allows work to continue.",
+      "review": {
+        "status": "approved",
+        "category": "hardware",
+        "base_priority": "medium",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:35:52+01:00",
+        "notes": "Użytkownik zatwierdził pozostałe 80 przykładów w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "HW-16",
+      "group_id": "hw-terminal-4-reader",
+      "text": "I am following up on the same reader in terminal 4: cards are not detected even in the terminal diagnostics. I use the neighboring workstation 5, so customers can be served.",
+      "proposed_category": "hardware",
+      "proposed_base_priority": "medium",
+      "work_blocked": false,
+      "category_reason": "A repeated report of the faulty physical reader.",
+      "priority_reason": "The report describes a working workaround that allows work to continue.",
+      "review": {
+        "status": "approved",
+        "category": "hardware",
+        "base_priority": "medium",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:35:52+01:00",
+        "notes": "Użytkownik zatwierdził pozostałe 80 przykładów w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "HW-17",
+      "group_id": "hw-17",
+      "text": "One USB port on the docking station does not recognize connected devices, regardless of the cable. The other ports work; I moved the mouse and keyboard to them and can work.",
+      "proposed_category": "hardware",
+      "proposed_base_priority": "medium",
+      "work_blocked": false,
+      "category_reason": "A specific device port is faulty.",
+      "priority_reason": "The report describes a working workaround that allows work to continue.",
+      "review": {
+        "status": "approved",
+        "category": "hardware",
+        "base_priority": "medium",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:35:52+01:00",
+        "notes": "Użytkownik zatwierdził pozostałe 80 przykładów w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "HW-18",
+      "group_id": "hw-18",
+      "text": "The mobile terminal's battery does not hold a charge and the device shuts off when unplugged. I work at the counter with the power connected and can record outgoing items.",
+      "proposed_category": "hardware",
+      "proposed_base_priority": "medium",
+      "work_blocked": false,
+      "category_reason": "The battery cannot maintain power.",
+      "priority_reason": "The report describes a working workaround that allows work to continue.",
+      "review": {
+        "status": "approved",
+        "category": "hardware",
+        "base_priority": "medium",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:35:52+01:00",
+        "notes": "Użytkownik zatwierdził pozostałe 80 przykładów w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "HW-19",
+      "group_id": "hw-19",
+      "text": "The mouse registers a single click twice, including on another computer. I borrowed a working spare mouse and can complete my tasks, but mine needs replacement.",
+      "proposed_category": "hardware",
+      "proposed_base_priority": "medium",
+      "work_blocked": false,
+      "category_reason": "The physical device shows the same symptom on another computer.",
+      "priority_reason": "The report describes a working workaround that allows work to continue.",
+      "review": {
+        "status": "approved",
+        "category": "hardware",
+        "base_priority": "medium",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:35:52+01:00",
+        "notes": "Użytkownik zatwierdził pozostałe 80 przykładów w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "HW-20",
+      "group_id": "hw-20",
+      "text": "The document scanner's feeder stops sheets even when copying without a computer. I can scan individual pages from the glass and send the documents that way.",
+      "proposed_category": "hardware",
+      "proposed_base_priority": "medium",
+      "work_blocked": false,
+      "category_reason": "The paper feeding mechanism is malfunctioning.",
+      "priority_reason": "The report describes a working workaround that allows work to continue.",
+      "review": {
+        "status": "approved",
+        "category": "hardware",
+        "base_priority": "medium",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:35:52+01:00",
+        "notes": "Użytkownik zatwierdził pozostałe 80 przykładów w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "HW-21",
+      "group_id": "hw-21",
+      "text": "The external drive is not detected on two computers and its indicator does not light up. The files I need are also on the company file share, so I retrieve them there and continue working.",
+      "proposed_category": "hardware",
+      "proposed_base_priority": "medium",
+      "work_blocked": false,
+      "category_reason": "The device does not respond on different computers.",
+      "priority_reason": "The report describes a working workaround that allows work to continue.",
+      "review": {
+        "status": "approved",
+        "category": "hardware",
+        "base_priority": "medium",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:35:52+01:00",
+        "notes": "Użytkownik zatwierdził pozostałe 80 przykładów w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "HW-22",
+      "group_id": "hw-22",
+      "text": "The laptop's built-in microphone crackles even in a local test recording. A connected headset records clearly and I use it for all calls.",
+      "proposed_category": "hardware",
+      "proposed_base_priority": "medium",
+      "work_blocked": false,
+      "category_reason": "The microphone symptom occurs outside the calling application.",
+      "priority_reason": "The report describes a working workaround that allows work to continue.",
+      "review": {
+        "status": "approved",
+        "category": "hardware",
+        "base_priority": "medium",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:35:52+01:00",
+        "notes": "Użytkownik zatwierdził pozostałe 80 przykładów w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "HW-23",
+      "group_id": "hw-23",
+      "text": "The only monitor at the inspection workstation has its backlight on but does not display even its own menu. I must inspect a batch today; we have no other screen or workstation for this inspection.",
+      "proposed_category": "hardware",
+      "proposed_base_priority": "high",
+      "work_blocked": true,
+      "category_reason": "The monitor cannot display even its own menu.",
+      "priority_reason": "The reporter's important task is blocked and no workaround is available.",
+      "review": {
+        "status": "approved",
+        "category": "hardware",
+        "base_priority": "high",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:35:52+01:00",
+        "notes": "Użytkownik zatwierdził pozostałe 80 przykładów w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "HW-24",
+      "group_id": "hw-24",
+      "text": "The shipping label printer does not feed paper and reports a mechanism fault even in the control panel test. Today's parcels cannot be dispatched without these labels, and there is no second printer or alternative printout.",
+      "proposed_category": "hardware",
+      "proposed_base_priority": "high",
+      "work_blocked": true,
+      "category_reason": "A printer mechanism failure confirmed without the application.",
+      "priority_reason": "The reporter's important task is blocked and no workaround is available.",
+      "review": {
+        "status": "approved",
+        "category": "hardware",
+        "base_priority": "high",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:35:52+01:00",
+        "notes": "Użytkownik zatwierdził pozostałe 80 przykładów w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "HW-25",
+      "group_id": "hw-25",
+      "text": "The signature capture device will not turn on through any available port. I must collect a customer's signature today, the procedure does not permit paper, and we have no spare device.",
+      "proposed_category": "hardware",
+      "proposed_base_priority": "high",
+      "work_blocked": true,
+      "category_reason": "The physical device does not power on.",
+      "priority_reason": "The reporter's important task is blocked and no workaround is available.",
+      "review": {
+        "status": "approved",
+        "category": "hardware",
+        "base_priority": "high",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:35:52+01:00",
+        "notes": "Użytkownik zatwierdził pozostałe 80 przykładów w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "HW-26",
+      "group_id": "hw-26",
+      "text": "The computer used to prepare presentations has a clicking drive, and the hardware test reports a drive failure while the system will not start. The required files are only here; I have no backup or other way to prepare today's demonstration.",
+      "proposed_category": "hardware",
+      "proposed_base_priority": "high",
+      "work_blocked": true,
+      "category_reason": "A drive failure reported by the hardware test.",
+      "priority_reason": "The reporter's important task is blocked and no workaround is available.",
+      "review": {
+        "status": "approved",
+        "category": "hardware",
+        "base_priority": "high",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:35:52+01:00",
+        "notes": "Użytkownik zatwierdził pozostałe 80 przykładów w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "HW-27",
+      "group_id": "hw-loading-gate-charger",
+      "text": "The only charger for the terminal at the loading gate has a broken cable, and the terminal is discharged. I must register vehicles now, but there is no second charger or other workstation with this function.",
+      "proposed_category": "hardware",
+      "proposed_base_priority": "high",
+      "work_blocked": true,
+      "category_reason": "A damaged charger cable leaves the terminal without power.",
+      "priority_reason": "The reporter's important task is blocked and no workaround is available.",
+      "review": {
+        "status": "approved",
+        "category": "hardware",
+        "base_priority": "high",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:35:52+01:00",
+        "notes": "Użytkownik zatwierdził pozostałe 80 przykładów w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "HW-28",
+      "group_id": "hw-loading-gate-charger",
+      "text": "I am reporting again the same severed charger cable for the terminal at the gate. The device has no battery power left, so I cannot enter arriving vehicles; we have neither a replacement charger nor another workstation.",
+      "proposed_category": "hardware",
+      "proposed_base_priority": "high",
+      "work_blocked": true,
+      "category_reason": "A repeated report of the terminal charger damage.",
+      "priority_reason": "The reporter's important task is blocked and no workaround is available.",
+      "review": {
+        "status": "approved",
+        "category": "hardware",
+        "base_priority": "high",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:35:52+01:00",
+        "notes": "Użytkownik zatwierdził pozostałe 80 przykładów w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "HW-29",
+      "group_id": "hw-29",
+      "text": "The central UPS supplies no output voltage and shows a power module fault even after its self-test. All service point workstations are off, customers cannot be served, and no alternative power supply is available.",
+      "proposed_category": "hardware",
+      "proposed_base_priority": "critical",
+      "work_blocked": true,
+      "category_reason": "A fault in a physical power supply module.",
+      "priority_reason": "An unavailable essential service blocks multiple people with no fallback mode.",
+      "review": {
+        "status": "approved",
+        "category": "hardware",
+        "base_priority": "critical",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:35:52+01:00",
+        "notes": "Użytkownik zatwierdził pozostałe 80 przykładów w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "HW-30",
+      "group_id": "hw-30",
+      "text": "The main registration server does not respond to the power button, and both power supply units show red indicators. The entire team cannot handle appointments, and no working replacement server is available.",
+      "proposed_category": "hardware",
+      "proposed_base_priority": "critical",
+      "work_blocked": true,
+      "category_reason": "Hardware symptoms of a server power failure.",
+      "priority_reason": "An unavailable essential service blocks multiple people with no fallback mode.",
+      "review": {
+        "status": "approved",
+        "category": "hardware",
+        "base_priority": "critical",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:35:52+01:00",
+        "notes": "Użytkownik zatwierdził pozostałe 80 przykładów w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "NET-11",
+      "group_id": "net-11",
+      "text": "When I move between rooms, my work phone briefly shows no Wi-Fi network and then reconnects by itself. I am not making calls or performing tasks during that time, and I do not lose access to tools needed for work.",
+      "proposed_category": "network",
+      "proposed_base_priority": "low",
+      "work_blocked": false,
+      "category_reason": "A brief interruption while moving between access points.",
+      "priority_reason": "A minor inconvenience without restricting required tasks.",
+      "review": {
+        "status": "approved",
+        "category": "network",
+        "base_priority": "low",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:35:52+01:00",
+        "notes": "Użytkownik zatwierdził pozostałe 80 przykładów w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "NET-12",
+      "group_id": "net-12",
+      "text": "The guest network in the waiting area opens its welcome page with a delay of a few seconds. The work network at the desks operates normally, and the delay does not affect work tasks.",
+      "proposed_category": "network",
+      "proposed_base_priority": "low",
+      "work_blocked": false,
+      "category_reason": "A delay in establishing access to the guest network.",
+      "priority_reason": "A minor inconvenience without restricting required tasks.",
+      "review": {
+        "status": "approved",
+        "category": "network",
+        "base_priority": "low",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:35:52+01:00",
+        "notes": "Użytkownik zatwierdził pozostałe 80 przykładów w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "NET-13",
+      "group_id": "net-13",
+      "text": "After I plug in the cable, the network icon changes to connected only after a few seconds. All services then work reliably, and the wait does not interrupt any task.",
+      "proposed_category": "network",
+      "proposed_base_priority": "low",
+      "work_blocked": false,
+      "category_reason": "A delay in establishing the wired connection.",
+      "priority_reason": "A minor inconvenience without restricting required tasks.",
+      "review": {
+        "status": "approved",
+        "category": "network",
+        "base_priority": "low",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:35:52+01:00",
+        "notes": "Użytkownik zatwierdził pozostałe 80 przykładów w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "NET-14",
+      "group_id": "net-14",
+      "text": "The company Wi-Fi has very weak coverage on the office terrace and pages load slowly. This is a break area; I have full access in the work rooms and can perform all my duties.",
+      "proposed_category": "network",
+      "proposed_base_priority": "low",
+      "work_blocked": false,
+      "category_reason": "Weak network coverage in a specific area.",
+      "priority_reason": "A minor inconvenience without restricting required tasks.",
+      "review": {
+        "status": "approved",
+        "category": "network",
+        "base_priority": "low",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:35:52+01:00",
+        "notes": "Użytkownik zatwierdził pozostałe 80 przykładów w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "NET-15",
+      "group_id": "net-training-room-c",
+      "text": "In training room C, the wired connection drops every few minutes, including during ordinary web browsing. I switched the computer to Wi-Fi and the training can continue.",
+      "proposed_category": "network",
+      "proposed_base_priority": "medium",
+      "work_blocked": false,
+      "category_reason": "Repeated disconnections of the wired connection.",
+      "priority_reason": "The report describes a working workaround that allows work to continue.",
+      "review": {
+        "status": "approved",
+        "category": "network",
+        "base_priority": "medium",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:35:52+01:00",
+        "notes": "Użytkownik zatwierdził pozostałe 80 przykładów w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "NET-16",
+      "group_id": "net-training-room-c",
+      "text": "This is another report of the wired network dropping in room C: services stop responding and return after a while. The training works without interruptions over wireless, so we are currently using it.",
+      "proposed_category": "network",
+      "proposed_base_priority": "medium",
+      "work_blocked": false,
+      "category_reason": "The same connection stability problem in the room.",
+      "priority_reason": "The report describes a working workaround that allows work to continue.",
+      "review": {
+        "status": "approved",
+        "category": "network",
+        "base_priority": "medium",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:35:52+01:00",
+        "notes": "Użytkownik zatwierdził pozostałe 80 przykładów w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "NET-17",
+      "group_id": "net-17",
+      "text": "In the office, no websites open by name, but accessing the server's known IP address works. After switching to an approved backup resolver, names work again and I can handle my tasks.",
+      "proposed_category": "network",
+      "proposed_base_priority": "medium",
+      "work_blocked": false,
+      "category_reason": "A name resolution problem on the network connection.",
+      "priority_reason": "The report describes a working workaround that allows work to continue.",
+      "review": {
+        "status": "approved",
+        "category": "network",
+        "base_priority": "medium",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:35:52+01:00",
+        "notes": "Użytkownik zatwierdził pozostałe 80 przykładów w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "NET-18",
+      "group_id": "net-18",
+      "text": "During calls over the company connection, the audio cuts out, and a test shows packet loss to other services as well. After connecting to the backup link, I can make calls and serve customers.",
+      "proposed_category": "network",
+      "proposed_base_priority": "medium",
+      "work_blocked": false,
+      "category_reason": "Packet loss affects multiple services.",
+      "priority_reason": "The report describes a working workaround that allows work to continue.",
+      "review": {
+        "status": "approved",
+        "category": "network",
+        "base_priority": "medium",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:35:52+01:00",
+        "notes": "Użytkownik zatwierdził pozostałe 80 przykładów w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "NET-19",
+      "group_id": "net-19",
+      "text": "The company wireless network does not assign my laptop an address; the device shows that it is waiting for network configuration. Connecting by cable gives me access and I can work.",
+      "proposed_category": "network",
+      "proposed_base_priority": "medium",
+      "work_blocked": false,
+      "category_reason": "The wireless connection does not receive an address configuration.",
+      "priority_reason": "The report describes a working workaround that allows work to continue.",
+      "review": {
+        "status": "approved",
+        "category": "network",
+        "base_priority": "medium",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:35:52+01:00",
+        "notes": "Użytkownik zatwierdził pozostałe 80 przykładów w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "NET-20",
+      "group_id": "net-20",
+      "text": "After I sign in to the VPN, the connection disappears when sending a larger file, and the same happens with several services. I transfer files through an approved external portal and the task can be completed.",
+      "proposed_category": "network",
+      "proposed_base_priority": "medium",
+      "work_blocked": false,
+      "category_reason": "The VPN connection is unstable after authentication.",
+      "priority_reason": "The report describes a working workaround that allows work to continue.",
+      "review": {
+        "status": "approved",
+        "category": "network",
+        "base_priority": "medium",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:35:52+01:00",
+        "notes": "Użytkownik zatwierdził pozostałe 80 przykładów w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "NET-21",
+      "group_id": "net-21",
+      "text": "The rented work room has no working connection to company headquarters, although local websites are reachable. I use an approved mobile connection and can perform my duties that way.",
+      "proposed_category": "network",
+      "proposed_base_priority": "medium",
+      "work_blocked": false,
+      "category_reason": "The connection route to headquarters is unavailable.",
+      "priority_reason": "The report describes a working workaround that allows work to continue.",
+      "review": {
+        "status": "approved",
+        "category": "network",
+        "base_priority": "medium",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:35:52+01:00",
+        "notes": "Użytkownik zatwierdził pozostałe 80 przykładów w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "NET-22",
+      "group_id": "net-22",
+      "text": "After moving desks, the connection through socket 18 is very slow when copying files and opening different services. I moved to an available desk with another socket and work proceeds normally.",
+      "proposed_category": "network",
+      "proposed_base_priority": "medium",
+      "work_blocked": false,
+      "category_reason": "A specific network connection has limited performance.",
+      "priority_reason": "The report describes a working workaround that allows work to continue.",
+      "review": {
+        "status": "approved",
+        "category": "network",
+        "base_priority": "medium",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:35:52+01:00",
+        "notes": "Użytkownik zatwierdził pozostałe 80 przykładów w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "NET-23",
+      "group_id": "net-23",
+      "text": "My service point cannot connect to headquarters; requests to all its services time out. I must confirm outgoing items today, and there is no backup link or possibility of moving to another workstation.",
+      "proposed_category": "network",
+      "proposed_base_priority": "high",
+      "work_blocked": true,
+      "category_reason": "Connectivity to multiple headquarters services is unavailable.",
+      "priority_reason": "The reporter's important task is blocked and no workaround is available.",
+      "review": {
+        "status": "approved",
+        "category": "network",
+        "base_priority": "high",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:35:52+01:00",
+        "notes": "Użytkownik zatwierdził pozostałe 80 przykładów w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "NET-24",
+      "group_id": "net-24",
+      "text": "Neither the company wired nor wireless network works on my work laptop; I cannot reach any company address. I must conduct a customer call today, my phone has no coverage here, and I have no other workstation.",
+      "proposed_category": "network",
+      "proposed_base_priority": "high",
+      "work_blocked": true,
+      "category_reason": "Different connections cannot access the network.",
+      "priority_reason": "The reporter's important task is blocked and no workaround is available.",
+      "review": {
+        "status": "approved",
+        "category": "network",
+        "base_priority": "high",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:35:52+01:00",
+        "notes": "Użytkownik zatwierdził pozostałe 80 przykładów w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "NET-25",
+      "group_id": "net-25",
+      "text": "The remote desktop connection authenticates, but traffic to the server stalls and times out, as does access to other services at that location. I must approve today's import and have no other route to the server.",
+      "proposed_category": "network",
+      "proposed_base_priority": "high",
+      "work_blocked": true,
+      "category_reason": "Connectivity to the location is missing after authentication.",
+      "priority_reason": "The reporter's important task is blocked and no workaround is available.",
+      "review": {
+        "status": "approved",
+        "category": "network",
+        "base_priority": "high",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:35:52+01:00",
+        "notes": "Użytkownik zatwierdził pozostałe 80 przykładów w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "NET-26",
+      "group_id": "net-26",
+      "text": "The connection used to broadcast today's training loses packets and disconnects other applications as well. I cannot deliver the broadcast, and the devices available here do not support any other connection.",
+      "proposed_category": "network",
+      "proposed_base_priority": "high",
+      "work_blocked": true,
+      "category_reason": "Loss of connectivity affects multiple applications.",
+      "priority_reason": "The reporter's important task is blocked and no workaround is available.",
+      "review": {
+        "status": "approved",
+        "category": "network",
+        "base_priority": "high",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:35:52+01:00",
+        "notes": "Użytkownik zatwierdził pozostałe 80 przykładów w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "NET-27",
+      "group_id": "net-field-office-uplink",
+      "text": "My connection to the company from the field office has stopped responding; all headquarters services time out, although signing in to the local device works. I must send a report today, and this location has no alternative link or access point.",
+      "proposed_category": "network",
+      "proposed_base_priority": "high",
+      "work_blocked": true,
+      "category_reason": "Connectivity to headquarters is lost from one field office.",
+      "priority_reason": "The reporter's important task is blocked and no workaround is available.",
+      "review": {
+        "status": "approved",
+        "category": "network",
+        "base_priority": "high",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:35:52+01:00",
+        "notes": "Użytkownik zatwierdził pozostałe 80 przykładów w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "NET-28",
+      "group_id": "net-field-office-uplink",
+      "text": "I am following up on the unavailable field office connection to headquarters. Every headquarters service times out; today's report is waiting, and there is no backup network or second access route here.",
+      "proposed_category": "network",
+      "proposed_base_priority": "high",
+      "work_blocked": true,
+      "category_reason": "The same loss of connectivity to headquarters services.",
+      "priority_reason": "The reporter's important task is blocked and no workaround is available.",
+      "review": {
+        "status": "approved",
+        "category": "network",
+        "base_priority": "high",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:35:52+01:00",
+        "notes": "Użytkownik zatwierdził pozostałe 80 przykładów w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "NET-29",
+      "group_id": "net-29",
+      "text": "Internal system names have stopped resolving throughout the company, while known IP addresses remain reachable. All teams have lost access to order processing, the backup resolver also fails to respond, and there is no approved workaround.",
+      "proposed_category": "network",
+      "proposed_base_priority": "critical",
+      "work_blocked": true,
+      "category_reason": "A shared network name resolution outage.",
+      "priority_reason": "An unavailable essential service blocks multiple people with no fallback mode.",
+      "review": {
+        "status": "approved",
+        "category": "network",
+        "base_priority": "critical",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:35:52+01:00",
+        "notes": "Użytkownik zatwierdził pozostałe 80 przykładów w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "NET-30",
+      "group_id": "net-30",
+      "text": "Both network routes between the warehouse and headquarters are unavailable; every central service times out. All warehouse shifts have stopped because outgoing items cannot be recorded, and there is no third link or offline mode.",
+      "proposed_category": "network",
+      "proposed_base_priority": "critical",
+      "work_blocked": true,
+      "category_reason": "Connectivity is unavailable through both available routes.",
+      "priority_reason": "An unavailable essential service blocks multiple people with no fallback mode.",
+      "review": {
+        "status": "approved",
+        "category": "network",
+        "base_priority": "critical",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:35:52+01:00",
+        "notes": "Użytkownik zatwierdził pozostałe 80 przykładów w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "SW-11",
+      "group_id": "sw-11",
+      "text": "In the note-taking program, tooltip text overlaps an icon after the latest update. The tooltip disappears when I move the mouse away, all features work, and I can write notes normally.",
+      "proposed_category": "software",
+      "proposed_base_priority": "low",
+      "work_blocked": false,
+      "category_reason": "A program element is displayed incorrectly.",
+      "priority_reason": "A minor inconvenience without restricting required tasks.",
+      "review": {
+        "status": "approved",
+        "category": "software",
+        "base_priority": "low",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:35:52+01:00",
+        "notes": "Użytkownik zatwierdził pozostałe 80 przykładów w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "SW-12",
+      "group_id": "sw-12",
+      "text": "The application shows the month name in English even though I selected Polish. The dates are correct, I understand the names, and I can perform every operation.",
+      "proposed_category": "software",
+      "proposed_base_priority": "low",
+      "work_blocked": false,
+      "category_reason": "The application interface is not localized correctly.",
+      "priority_reason": "A minor inconvenience without restricting required tasks.",
+      "review": {
+        "status": "approved",
+        "category": "software",
+        "base_priority": "low",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:35:52+01:00",
+        "notes": "Użytkownik zatwierdził pozostałe 80 przykładów w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "SW-13",
+      "group_id": "sw-13",
+      "text": "In the program's help window, the table of contents link scrolls to the wrong heading. All other features work and I do not need this help for my current duties.",
+      "proposed_category": "software",
+      "proposed_base_priority": "low",
+      "work_blocked": false,
+      "category_reason": "A link in the application behaves incorrectly.",
+      "priority_reason": "A minor inconvenience without restricting required tasks.",
+      "review": {
+        "status": "approved",
+        "category": "software",
+        "base_priority": "low",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:35:52+01:00",
+        "notes": "Użytkownik zatwierdził pozostałe 80 przykładów w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "SW-14",
+      "group_id": "sw-14",
+      "text": "After restarting the tool, the selected theme color returns to the default. I do not lose settings needed for my tasks or any documents and can work without difficulty.",
+      "proposed_category": "software",
+      "proposed_base_priority": "low",
+      "work_blocked": false,
+      "category_reason": "The program does not remember a cosmetic setting.",
+      "priority_reason": "A minor inconvenience without restricting required tasks.",
+      "review": {
+        "status": "approved",
+        "category": "software",
+        "base_priority": "low",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:35:52+01:00",
+        "notes": "Użytkownik zatwierdził pozostałe 80 przykładów w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "SW-15",
+      "group_id": "sw-contacts-csv",
+      "text": "Exporting the contact list to CSV in the sales application ends with a program error. I can copy the table into a spreadsheet and save it as CSV, so I deliver the lists on time.",
+      "proposed_category": "software",
+      "proposed_base_priority": "medium",
+      "work_blocked": false,
+      "category_reason": "The application's export feature fails.",
+      "priority_reason": "The report describes a working workaround that allows work to continue.",
+      "review": {
+        "status": "approved",
+        "category": "software",
+        "base_priority": "medium",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:35:52+01:00",
+        "notes": "Użytkownik zatwierdził pozostałe 80 przykładów w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "SW-16",
+      "group_id": "sw-contacts-csv",
+      "text": "I am reporting the same contact CSV saving error again: the export button displays an exception instead of producing a file. Copying the table to a spreadsheet and saving it there still lets me prepare the list.",
+      "proposed_category": "software",
+      "proposed_base_priority": "medium",
+      "work_blocked": false,
+      "category_reason": "A repeated report of the contact export error.",
+      "priority_reason": "The report describes a working workaround that allows work to continue.",
+      "review": {
+        "status": "approved",
+        "category": "software",
+        "base_priority": "medium",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:35:52+01:00",
+        "notes": "Użytkownik zatwierdził pozostałe 80 przykładów w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "SW-17",
+      "group_id": "sw-17",
+      "text": "The date filter in the reporting program shows an empty list despite existing records. I disable the filter and select the required rows from the full list, so I can prepare the report.",
+      "proposed_category": "software",
+      "proposed_base_priority": "medium",
+      "work_blocked": false,
+      "category_reason": "The program filters results incorrectly.",
+      "priority_reason": "The report describes a working workaround that allows work to continue.",
+      "review": {
+        "status": "approved",
+        "category": "software",
+        "base_priority": "medium",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:35:52+01:00",
+        "notes": "Użytkownik zatwierdził pozostałe 80 przykładów w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "SW-18",
+      "group_id": "sw-18",
+      "text": "The invoicing program sorts invoice numbers incorrectly and puts documents in a random order. Searching for a specific number works, so I can still issue and find invoices.",
+      "proposed_category": "software",
+      "proposed_base_priority": "medium",
+      "work_blocked": false,
+      "category_reason": "The document sorting feature is incorrect.",
+      "priority_reason": "The report describes a working workaround that allows work to continue.",
+      "review": {
+        "status": "approved",
+        "category": "software",
+        "base_priority": "medium",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:35:52+01:00",
+        "notes": "Użytkownik zatwierdził pozostałe 80 przykładów w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "SW-19",
+      "group_id": "sw-19",
+      "text": "The PDF attachment preview in the application shows a blank page, but the downloaded file opens correctly in a separate reader. I download the documents and use them to handle cases.",
+      "proposed_category": "software",
+      "proposed_base_priority": "medium",
+      "work_blocked": false,
+      "category_reason": "The application file preview is faulty.",
+      "priority_reason": "The report describes a working workaround that allows work to continue.",
+      "review": {
+        "status": "approved",
+        "category": "software",
+        "base_priority": "medium",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:35:52+01:00",
+        "notes": "Użytkownik zatwierdził pozostałe 80 przykładów w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "SW-20",
+      "group_id": "sw-20",
+      "text": "Dragging an attachment into the form closes the window with a program error. Adding the same file through the file selection button works, so I can submit the required forms.",
+      "proposed_category": "software",
+      "proposed_base_priority": "medium",
+      "work_blocked": false,
+      "category_reason": "One method of adding attachments fails.",
+      "priority_reason": "The report describes a working workaround that allows work to continue.",
+      "review": {
+        "status": "approved",
+        "category": "software",
+        "base_priority": "medium",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:35:52+01:00",
+        "notes": "Użytkownik zatwierdził pozostałe 80 przykładów w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "SW-21",
+      "group_id": "sw-21",
+      "text": "In the summary program, the column total does not update after a row changes. Reopening the document recalculates it correctly; I check the values that way and complete the summaries.",
+      "proposed_category": "software",
+      "proposed_base_priority": "medium",
+      "work_blocked": false,
+      "category_reason": "The application does not refresh calculations correctly.",
+      "priority_reason": "The report describes a working workaround that allows work to continue.",
+      "review": {
+        "status": "approved",
+        "category": "software",
+        "base_priority": "medium",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:35:52+01:00",
+        "notes": "Użytkownik zatwierdził pozostałe 80 przykładów w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "SW-22",
+      "group_id": "sw-22",
+      "text": "The time tracking application freezes on the save screen, although its browser version works. I enter hours through the browser and can account for my work.",
+      "proposed_category": "software",
+      "proposed_base_priority": "medium",
+      "work_blocked": false,
+      "category_reason": "A particular version of the application freezes.",
+      "priority_reason": "The report describes a working workaround that allows work to continue.",
+      "review": {
+        "status": "approved",
+        "category": "software",
+        "base_priority": "medium",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:35:52+01:00",
+        "notes": "Użytkownik zatwierdził pozostałe 80 przykładów w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "SW-23",
+      "group_id": "sw-23",
+      "text": "The payroll program displays an arithmetic error while calculating my summary and stops the operation. I must finalize salaries today, but they cannot be approved manually or in another tool.",
+      "proposed_category": "software",
+      "proposed_base_priority": "high",
+      "work_blocked": true,
+      "category_reason": "A calculation error interrupts a program feature.",
+      "priority_reason": "The reporter's important task is blocked and no workaround is available.",
+      "review": {
+        "status": "approved",
+        "category": "software",
+        "base_priority": "high",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:35:52+01:00",
+        "notes": "Użytkownik zatwierdził pozostałe 80 przykładów w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "SW-24",
+      "group_id": "sw-24",
+      "text": "When saving a prepared quotation, the sales application consistently displays an exception and removes the form. I must send this quotation today, company policy requires it to be saved in this system, and no alternative version is available.",
+      "proposed_category": "software",
+      "proposed_base_priority": "high",
+      "work_blocked": true,
+      "category_reason": "A repeatable form saving error.",
+      "priority_reason": "The reporter's important task is blocked and no workaround is available.",
+      "review": {
+        "status": "approved",
+        "category": "software",
+        "base_priority": "high",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:35:52+01:00",
+        "notes": "Użytkownik zatwierdził pozostałe 80 przykładów w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "SW-25",
+      "group_id": "sw-25",
+      "text": "The data import tool stops on every file with a parsing error, including its own valid sample file. I must load the customer's data today and there is no manual import or other tool.",
+      "proposed_category": "software",
+      "proposed_base_priority": "high",
+      "work_blocked": true,
+      "category_reason": "The import tool's parser fails.",
+      "priority_reason": "The reporter's important task is blocked and no workaround is available.",
+      "review": {
+        "status": "approved",
+        "category": "software",
+        "base_priority": "high",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:35:52+01:00",
+        "notes": "Użytkownik zatwierdził pozostałe 80 przykładów w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "SW-26",
+      "group_id": "sw-26",
+      "text": "The design application closes while opening my required document, including its saved copy. I have the correct permissions, but cannot prepare today's documentation, and no other program supports this format.",
+      "proposed_category": "software",
+      "proposed_base_priority": "high",
+      "work_blocked": true,
+      "category_reason": "The application closes while reading a document.",
+      "priority_reason": "The reporter's important task is blocked and no workaround is available.",
+      "review": {
+        "status": "approved",
+        "category": "software",
+        "base_priority": "high",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:35:52+01:00",
+        "notes": "Użytkownik zatwierdził pozostałe 80 przykładów w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "SW-27",
+      "group_id": "sw-roster-publication",
+      "text": "Publishing my schedule in the duty roster system ends with a program error despite successful data validation. I must share tomorrow's schedule, but the system has no second publication method and exports are not accepted.",
+      "proposed_category": "software",
+      "proposed_base_priority": "high",
+      "work_blocked": true,
+      "category_reason": "The publication operation fails after data validation.",
+      "priority_reason": "The reporter's important task is blocked and no workaround is available.",
+      "review": {
+        "status": "approved",
+        "category": "software",
+        "base_priority": "high",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:35:52+01:00",
+        "notes": "Użytkownik zatwierdził pozostałe 80 przykładów w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "SW-28",
+      "group_id": "sw-roster-publication",
+      "text": "This is a follow-up on the same schedule: form validation passes, but confirming publication displays an exception. Tomorrow's schedule is still unavailable; there is no other publication path and an export cannot replace it.",
+      "proposed_category": "software",
+      "proposed_base_priority": "high",
+      "work_blocked": true,
+      "category_reason": "The same schedule publication error.",
+      "priority_reason": "The reporter's important task is blocked and no workaround is available.",
+      "review": {
+        "status": "approved",
+        "category": "software",
+        "base_priority": "high",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:35:52+01:00",
+        "notes": "Użytkownik zatwierdził pozostałe 80 przykładów w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "SW-29",
+      "group_id": "sw-29",
+      "text": "After the warehouse application update, saving any outgoing item ends with an exception for every operator. Sign-in and the network work, but the entire warehouse cannot release goods and there is no offline mode or replacement system.",
+      "proposed_category": "software",
+      "proposed_base_priority": "critical",
+      "work_blocked": true,
+      "category_reason": "The application's save feature fails for every operator.",
+      "priority_reason": "An unavailable essential service blocks multiple people with no fallback mode.",
+      "review": {
+        "status": "approved",
+        "category": "software",
+        "base_priority": "critical",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:35:52+01:00",
+        "notes": "Użytkownik zatwierdził pozostałe 80 przykładów w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "SW-30",
+      "group_id": "sw-30",
+      "text": "The call center program closes at every workstation when accepting a call, while other network services work. The entire team cannot take customer calls and we have no alternative application or call forwarding.",
+      "proposed_category": "software",
+      "proposed_base_priority": "critical",
+      "work_blocked": true,
+      "category_reason": "The application closes when performing a shared operation.",
+      "priority_reason": "An unavailable essential service blocks multiple people with no fallback mode.",
+      "review": {
+        "status": "approved",
+        "category": "software",
+        "base_priority": "critical",
+        "reviewer": "autor pracy (użytkownik)",
+        "reviewed_at": "2026-11-01T14:35:52+01:00",
+        "notes": "Użytkownik zatwierdził pozostałe 80 przykładów w rozmowie; etykiety bez zmian."
+      }
+    },
+    {
+      "id": "WEAK-01",
+      "group_id": "weak-01",
+      "text": "Account locked.",
+      "proposed_category": "accounts_access",
+      "proposed_base_priority": null,
+      "work_blocked": null,
+      "reference_eligible": false,
+      "description_quality": "weak",
+      "category_reason": "The description identifies an account, permission, or authentication issue.",
+      "priority_reason": "Insufficient information about impact and workarounds; no reference priority is assigned.",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "WEAK-02",
+      "group_id": "weak-02",
+      "text": "I don't have permission for the folder.",
+      "proposed_category": "accounts_access",
+      "proposed_base_priority": null,
+      "work_blocked": null,
+      "reference_eligible": false,
+      "description_quality": "weak",
+      "category_reason": "The description identifies an account, permission, or authentication issue.",
+      "priority_reason": "Insufficient information about impact and workarounds; no reference priority is assigned.",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "WEAK-03",
+      "group_id": "weak-03",
+      "text": "MFA isn't coming through to my phone.",
+      "proposed_category": "accounts_access",
+      "proposed_base_priority": null,
+      "work_blocked": null,
+      "reference_eligible": false,
+      "description_quality": "weak",
+      "category_reason": "The description identifies an account, permission, or authentication issue.",
+      "priority_reason": "Insufficient information about impact and workarounds; no reference priority is assigned.",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "WEAK-04",
+      "group_id": "weak-04",
+      "text": "Password expired, can't sign in.",
+      "proposed_category": "accounts_access",
+      "proposed_base_priority": null,
+      "work_blocked": null,
+      "reference_eligible": false,
+      "description_quality": "weak",
+      "category_reason": "The description identifies an account, permission, or authentication issue.",
+      "priority_reason": "Insufficient information about impact and workarounds; no reference priority is assigned.",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "WEAK-05",
+      "group_id": "weak-05",
+      "text": "My role in the system has been removed.",
+      "proposed_category": "accounts_access",
+      "proposed_base_priority": null,
+      "work_blocked": null,
+      "reference_eligible": false,
+      "description_quality": "weak",
+      "category_reason": "The description identifies an account, permission, or authentication issue.",
+      "priority_reason": "Insufficient information about impact and workarounds; no reference priority is assigned.",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "WEAK-06",
+      "group_id": "weak-06",
+      "text": "Can't approve the sign-in on my new phone.",
+      "proposed_category": "accounts_access",
+      "proposed_base_priority": null,
+      "work_blocked": null,
+      "reference_eligible": false,
+      "description_quality": "weak",
+      "category_reason": "The description identifies an account, permission, or authentication issue.",
+      "priority_reason": "Insufficient information about impact and workarounds; no reference priority is assigned.",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "WEAK-07",
+      "group_id": "weak-07",
+      "text": "My account shows my old phone number. I can work normally.",
+      "proposed_category": "accounts_access",
+      "proposed_base_priority": "low",
+      "work_blocked": false,
+      "reference_eligible": false,
+      "description_quality": "weak",
+      "category_reason": "The description identifies an account, permission, or authentication issue.",
+      "priority_reason": "The description confirms that work can continue normally despite the inconvenience.",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "WEAK-08",
+      "group_id": "weak-08",
+      "text": "No permission to access reports. A colleague sends me the files.",
+      "proposed_category": "accounts_access",
+      "proposed_base_priority": "medium",
+      "work_blocked": false,
+      "reference_eligible": false,
+      "description_quality": "weak",
+      "category_reason": "The description identifies an account, permission, or authentication issue.",
+      "priority_reason": "The description includes an available working workaround.",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "WEAK-09",
+      "group_id": "weak-09",
+      "text": "A key has broken off.",
+      "proposed_category": "hardware",
+      "proposed_base_priority": null,
+      "work_blocked": null,
+      "reference_eligible": false,
+      "description_quality": "weak",
+      "category_reason": "The description contains a physical symptom involving a device.",
+      "priority_reason": "Insufficient information about impact and workarounds; no reference priority is assigned.",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "WEAK-10",
+      "group_id": "weak-10",
+      "text": "The monitor's display panel is cracked.",
+      "proposed_category": "hardware",
+      "proposed_base_priority": null,
+      "work_blocked": null,
+      "reference_eligible": false,
+      "description_quality": "weak",
+      "category_reason": "The description contains a physical symptom involving a device.",
+      "priority_reason": "Insufficient information about impact and workarounds; no reference priority is assigned.",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "WEAK-11",
+      "group_id": "weak-11",
+      "text": "The fan is scraping against the case.",
+      "proposed_category": "hardware",
+      "proposed_base_priority": null,
+      "work_blocked": null,
+      "reference_eligible": false,
+      "description_quality": "weak",
+      "category_reason": "The description contains a physical symptom involving a device.",
+      "priority_reason": "Insufficient information about impact and workarounds; no reference priority is assigned.",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "WEAK-12",
+      "group_id": "weak-12",
+      "text": "The battery is swollen.",
+      "proposed_category": "hardware",
+      "proposed_base_priority": null,
+      "work_blocked": null,
+      "reference_eligible": false,
+      "description_quality": "weak",
+      "category_reason": "The description contains a physical symptom involving a device.",
+      "priority_reason": "Insufficient information about impact and workarounds; no reference priority is assigned.",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "WEAK-13",
+      "group_id": "weak-13",
+      "text": "The power adapter is sparking.",
+      "proposed_category": "hardware",
+      "proposed_base_priority": null,
+      "work_blocked": null,
+      "reference_eligible": false,
+      "description_quality": "weak",
+      "category_reason": "The description contains a physical symptom involving a device.",
+      "priority_reason": "Insufficient information about impact and workarounds; no reference priority is assigned.",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "WEAK-14",
+      "group_id": "weak-14",
+      "text": "The monitor stand cracked. The screen is stable, I can work.",
+      "proposed_category": "hardware",
+      "proposed_base_priority": "low",
+      "work_blocked": false,
+      "reference_eligible": false,
+      "description_quality": "weak",
+      "category_reason": "The description contains a physical symptom involving a device.",
+      "priority_reason": "The description confirms that work can continue normally despite the inconvenience.",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "WEAK-15",
+      "group_id": "weak-15",
+      "text": "The mouse doesn't click, a borrowed one works.",
+      "proposed_category": "hardware",
+      "proposed_base_priority": "medium",
+      "work_blocked": false,
+      "reference_eligible": false,
+      "description_quality": "weak",
+      "category_reason": "The description contains a physical symptom involving a device.",
+      "priority_reason": "The description includes an available working workaround.",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "WEAK-16",
+      "group_id": "weak-16",
+      "text": "The only scanner won't turn on. Parcels are waiting, no spare available.",
+      "proposed_category": "hardware",
+      "proposed_base_priority": "high",
+      "work_blocked": true,
+      "reference_eligible": false,
+      "description_quality": "weak",
+      "category_reason": "The description contains a physical symptom involving a device.",
+      "priority_reason": "An important task is blocked with no available alternative described.",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "WEAK-17",
+      "group_id": "weak-17",
+      "text": "Wi-Fi keeps dropping.",
+      "proposed_category": "network",
+      "proposed_base_priority": null,
+      "work_blocked": null,
+      "reference_eligible": false,
+      "description_quality": "weak",
+      "category_reason": "The description identifies lost or malfunctioning connectivity.",
+      "priority_reason": "Insufficient information about impact and workarounds; no reference priority is assigned.",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "WEAK-18",
+      "group_id": "weak-18",
+      "text": "VPN authenticates, then times out.",
+      "proposed_category": "network",
+      "proposed_base_priority": null,
+      "work_blocked": null,
+      "reference_eligible": false,
+      "description_quality": "weak",
+      "category_reason": "The description identifies lost or malfunctioning connectivity.",
+      "priority_reason": "Insufficient information about impact and workarounds; no reference priority is assigned.",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "WEAK-19",
+      "group_id": "weak-19",
+      "text": "IP addresses work, names don't.",
+      "proposed_category": "network",
+      "proposed_base_priority": null,
+      "work_blocked": null,
+      "reference_eligible": false,
+      "description_quality": "weak",
+      "category_reason": "The description identifies lost or malfunctioning connectivity.",
+      "priority_reason": "Insufficient information about impact and workarounds; no reference priority is assigned.",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "WEAK-20",
+      "group_id": "weak-20",
+      "text": "Packets are being lost across the whole connection.",
+      "proposed_category": "network",
+      "proposed_base_priority": null,
+      "work_blocked": null,
+      "reference_eligible": false,
+      "description_quality": "weak",
+      "category_reason": "The description identifies lost or malfunctioning connectivity.",
+      "priority_reason": "Insufficient information about impact and workarounds; no reference priority is assigned.",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "WEAK-21",
+      "group_id": "weak-21",
+      "text": "The wired network won't connect. I'm working over Wi-Fi.",
+      "proposed_category": "network",
+      "proposed_base_priority": "medium",
+      "work_blocked": false,
+      "reference_eligible": false,
+      "description_quality": "weak",
+      "category_reason": "The description identifies lost or malfunctioning connectivity.",
+      "priority_reason": "The description includes an available working workaround.",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "WEAK-22",
+      "group_id": "weak-22",
+      "text": "Without internet I can't send today's settlement. I have no other connection.",
+      "proposed_category": "network",
+      "proposed_base_priority": "high",
+      "work_blocked": true,
+      "reference_eligible": false,
+      "description_quality": "weak",
+      "category_reason": "The description identifies lost or malfunctioning connectivity.",
+      "priority_reason": "An important task is blocked with no available alternative described.",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "WEAK-23",
+      "group_id": "weak-23",
+      "text": "The whole branch has no network. Nobody can take orders, no backup connection.",
+      "proposed_category": "network",
+      "proposed_base_priority": "critical",
+      "work_blocked": true,
+      "reference_eligible": false,
+      "description_quality": "weak",
+      "category_reason": "The description identifies lost or malfunctioning connectivity.",
+      "priority_reason": "An essential service for multiple people is blocked with no fallback.",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "WEAK-24",
+      "group_id": "weak-24",
+      "text": "The program closes when saving.",
+      "proposed_category": "software",
+      "proposed_base_priority": null,
+      "work_blocked": null,
+      "reference_eligible": false,
+      "description_quality": "weak",
+      "category_reason": "The description identifies a malfunctioning program feature.",
+      "priority_reason": "Insufficient information about impact and workarounds; no reference priority is assigned.",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "WEAK-25",
+      "group_id": "weak-25",
+      "text": "CSV export throws an exception.",
+      "proposed_category": "software",
+      "proposed_base_priority": null,
+      "work_blocked": null,
+      "reference_eligible": false,
+      "description_quality": "weak",
+      "category_reason": "The description identifies a malfunctioning program feature.",
+      "priority_reason": "Insufficient information about impact and workarounds; no reference priority is assigned.",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "WEAK-26",
+      "group_id": "weak-26",
+      "text": "The calendar doesn't refresh entries.",
+      "proposed_category": "software",
+      "proposed_base_priority": null,
+      "work_blocked": null,
+      "reference_eligible": false,
+      "description_quality": "weak",
+      "category_reason": "The description identifies a malfunctioning program feature.",
+      "priority_reason": "Insufficient information about impact and workarounds; no reference priority is assigned.",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "WEAK-27",
+      "group_id": "weak-27",
+      "text": "The application freezes when opening a PDF.",
+      "proposed_category": "software",
+      "proposed_base_priority": null,
+      "work_blocked": null,
+      "reference_eligible": false,
+      "description_quality": "weak",
+      "category_reason": "The description identifies a malfunctioning program feature.",
+      "priority_reason": "Insufficient information about impact and workarounds; no reference priority is assigned.",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "WEAK-28",
+      "group_id": "weak-28",
+      "text": "The signing program won't start. Contract due today, only this program is permitted.",
+      "proposed_category": "software",
+      "proposed_base_priority": "high",
+      "work_blocked": true,
+      "reference_eligible": false,
+      "description_quality": "weak",
+      "category_reason": "The description identifies a malfunctioning program feature.",
+      "priority_reason": "An important task is blocked with no available alternative described.",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "WEAK-29",
+      "group_id": "weak-29",
+      "text": "After the update, the sales program crashes for everyone. No orders can be taken, no alternative.",
+      "proposed_category": "software",
+      "proposed_base_priority": "critical",
+      "work_blocked": true,
+      "reference_eligible": false,
+      "description_quality": "weak",
+      "category_reason": "The description identifies a malfunctioning program feature.",
+      "priority_reason": "An essential service for multiple people is blocked with no fallback.",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "WEAK-30",
+      "group_id": "weak-30",
+      "text": "It doesn't save the view settings.",
+      "proposed_category": "software",
+      "proposed_base_priority": null,
+      "work_blocked": null,
+      "reference_eligible": false,
+      "description_quality": "weak",
+      "category_reason": "The description identifies a malfunctioning program feature.",
+      "priority_reason": "Insufficient information about impact and workarounds; no reference priority is assigned.",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "WEAK-31",
+      "group_id": "weak-31",
+      "text": "It doesn't work.",
+      "proposed_category": null,
+      "proposed_base_priority": null,
+      "work_blocked": null,
+      "reference_eligible": false,
+      "description_quality": "weak",
+      "category_reason": "No symptoms that distinguish a category; clarification is required.",
+      "priority_reason": "Insufficient information about impact and workarounds; no reference priority is assigned.",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "WEAK-32",
+      "group_id": "weak-32",
+      "text": "Same thing again.",
+      "proposed_category": null,
+      "proposed_base_priority": null,
+      "work_blocked": null,
+      "reference_eligible": false,
+      "description_quality": "weak",
+      "category_reason": "No symptoms that distinguish a category; clarification is required.",
+      "priority_reason": "Insufficient information about impact and workarounds; no reference priority is assigned.",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "WEAK-33",
+      "group_id": "weak-33",
+      "text": "Urgent!!!",
+      "proposed_category": null,
+      "proposed_base_priority": null,
+      "work_blocked": null,
+      "reference_eligible": false,
+      "description_quality": "weak",
+      "category_reason": "No symptoms that distinguish a category; clarification is required.",
+      "priority_reason": "Insufficient information about impact and workarounds; no reference priority is assigned.",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "WEAK-34",
+      "group_id": "weak-34",
+      "text": "Everything's falling apart.",
+      "proposed_category": null,
+      "proposed_base_priority": null,
+      "work_blocked": null,
+      "reference_eligible": false,
+      "description_quality": "weak",
+      "category_reason": "No symptoms that distinguish a category; clarification is required.",
+      "priority_reason": "Insufficient information about impact and workarounds; no reference priority is assigned.",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "WEAK-35",
+      "group_id": "weak-35",
+      "text": "Really slow.",
+      "proposed_category": null,
+      "proposed_base_priority": null,
+      "work_blocked": null,
+      "reference_eligible": false,
+      "description_quality": "weak",
+      "category_reason": "No symptoms that distinguish a category; clarification is required.",
+      "priority_reason": "Insufficient information about impact and workarounds; no reference priority is assigned.",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "WEAK-36",
+      "group_id": "weak-36",
+      "text": "I can't get in.",
+      "proposed_category": null,
+      "proposed_base_priority": null,
+      "work_blocked": null,
+      "reference_eligible": false,
+      "description_quality": "weak",
+      "category_reason": "No symptoms that distinguish a category; clarification is required.",
+      "priority_reason": "Insufficient information about impact and workarounds; no reference priority is assigned.",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "WEAK-37",
+      "group_id": "weak-37",
+      "text": "An error since this morning.",
+      "proposed_category": null,
+      "proposed_base_priority": null,
+      "work_blocked": null,
+      "reference_eligible": false,
+      "description_quality": "weak",
+      "category_reason": "No symptoms that distinguish a category; clarification is required.",
+      "priority_reason": "Insufficient information about impact and workarounds; no reference priority is assigned.",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "WEAK-38",
+      "group_id": "weak-38",
+      "text": "Can't get anything done.",
+      "proposed_category": null,
+      "proposed_base_priority": null,
+      "work_blocked": null,
+      "reference_eligible": false,
+      "description_quality": "weak",
+      "category_reason": "No symptoms that distinguish a category; clarification is required.",
+      "priority_reason": "Insufficient information about impact and workarounds; no reference priority is assigned.",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "WEAK-39",
+      "group_id": "weak-39",
+      "text": "Still no good after restarting.",
+      "proposed_category": null,
+      "proposed_base_priority": null,
+      "work_blocked": null,
+      "reference_eligible": false,
+      "description_quality": "weak",
+      "category_reason": "No symptoms that distinguish a category; clarification is required.",
+      "priority_reason": "Insufficient information about impact and workarounds; no reference priority is assigned.",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "WEAK-40",
+      "group_id": "weak-40",
+      "text": "That thing keeps disappearing.",
+      "proposed_category": null,
+      "proposed_base_priority": null,
+      "work_blocked": null,
+      "reference_eligible": false,
+      "description_quality": "weak",
+      "category_reason": "No symptoms that distinguish a category; clarification is required.",
+      "priority_reason": "Insufficient information about impact and workarounds; no reference priority is assigned.",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "WEAK-41",
+      "group_id": "weak-41",
+      "text": "When I click, it goes wrong.",
+      "proposed_category": null,
+      "proposed_base_priority": null,
+      "work_blocked": null,
+      "reference_eligible": false,
+      "description_quality": "weak",
+      "category_reason": "No symptoms that distinguish a category; clarification is required.",
+      "priority_reason": "Insufficient information about impact and workarounds; no reference priority is assigned.",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "WEAK-42",
+      "group_id": "weak-42",
+      "text": "It was fine yesterday.",
+      "proposed_category": null,
+      "proposed_base_priority": null,
+      "work_blocked": null,
+      "reference_eligible": false,
+      "description_quality": "weak",
+      "category_reason": "No symptoms that distinguish a category; clarification is required.",
+      "priority_reason": "Insufficient information about impact and workarounds; no reference priority is assigned.",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "WEAK-43",
+      "group_id": "weak-43",
+      "text": "I have the same problem as the others.",
+      "proposed_category": null,
+      "proposed_base_priority": null,
+      "work_blocked": null,
+      "reference_eligible": false,
+      "description_quality": "weak",
+      "category_reason": "No symptoms that distinguish a category; clarification is required.",
+      "priority_reason": "Insufficient information about impact and workarounds; no reference priority is assigned.",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "WEAK-44",
+      "group_id": "weak-44",
+      "text": "Please take a look at this.",
+      "proposed_category": null,
+      "proposed_base_priority": null,
+      "work_blocked": null,
+      "reference_eligible": false,
+      "description_quality": "weak",
+      "category_reason": "No symptoms that distinguish a category; clarification is required.",
+      "priority_reason": "Insufficient information about impact and workarounds; no reference priority is assigned.",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "WEAK-45",
+      "group_id": "weak-45",
+      "text": "It keeps kicking me out.",
+      "proposed_category": null,
+      "proposed_base_priority": null,
+      "work_blocked": null,
+      "reference_eligible": false,
+      "description_quality": "weak",
+      "category_reason": "No symptoms that distinguish a category; clarification is required.",
+      "priority_reason": "Insufficient information about impact and workarounds; no reference priority is assigned.",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "WEAK-46",
+      "group_id": "weak-46",
+      "text": "What's needed isn't there.",
+      "proposed_category": null,
+      "proposed_base_priority": null,
+      "work_blocked": null,
+      "reference_eligible": false,
+      "description_quality": "weak",
+      "category_reason": "No symptoms that distinguish a category; clarification is required.",
+      "priority_reason": "Insufficient information about impact and workarounds; no reference priority is assigned.",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "WEAK-47",
+      "group_id": "weak-47",
+      "text": "It just keeps spinning.",
+      "proposed_category": null,
+      "proposed_base_priority": null,
+      "work_blocked": null,
+      "reference_eligible": false,
+      "description_quality": "weak",
+      "category_reason": "No symptoms that distinguish a category; clarification is required.",
+      "priority_reason": "Insufficient information about impact and workarounds; no reference priority is assigned.",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "WEAK-48",
+      "group_id": "weak-48",
+      "text": "It's red all the time.",
+      "proposed_category": null,
+      "proposed_base_priority": null,
+      "work_blocked": null,
+      "reference_eligible": false,
+      "description_quality": "weak",
+      "category_reason": "No symptoms that distinguish a category; clarification is required.",
+      "priority_reason": "Insufficient information about impact and workarounds; no reference priority is assigned.",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "WEAK-49",
+      "group_id": "weak-49",
+      "text": "It won't go any further.",
+      "proposed_category": null,
+      "proposed_base_priority": null,
+      "work_blocked": null,
+      "reference_eligible": false,
+      "description_quality": "weak",
+      "category_reason": "No symptoms that distinguish a category; clarification is required.",
+      "priority_reason": "Insufficient information about impact and workarounds; no reference priority is assigned.",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "WEAK-50",
+      "group_id": "weak-50",
+      "text": "Help, I don't know what happened.",
+      "proposed_category": null,
+      "proposed_base_priority": null,
+      "work_blocked": null,
+      "reference_eligible": false,
+      "description_quality": "weak",
+      "category_reason": "No symptoms that distinguish a category; clarification is required.",
+      "priority_reason": "Insufficient information about impact and workarounds; no reference priority is assigned.",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": null
+      }
+    }
+  ],
+  "updated_on": "2026-11-01",
+  "expected_count": 170,
+  "expansion": {
+    "source_dataset_id": "pilot-en-v1",
+    "source_snapshot": "snapshots/tickets.en.40.v1.json",
+    "added_examples": 80,
+    "original_examples_approved": 40,
+    "new_examples_pending": 0,
+    "approval_evidence": "Użytkownik w rozmowie: „zatwierdzam te przyklady”. Zatwierdzenie dotyczy 40 istniejących przykładów; nowe 80 nie było wtedy dostępne.",
+    "approval_recorded_at": "2026-11-01T14:19:12+01:00",
+    "generation_instructions_file": "expansion-120.md",
+    "new_examples_approved": 80,
+    "final_approval": {
+      "evidence": "Użytkownik w rozmowie: „tamte tez moga byc potwierdzone”.",
+      "recorded_at": "2026-11-01T14:35:52+01:00",
+      "newly_approved": 80
+    }
+  },
+  "reference_count": 120,
+  "weak_extension": {
+    "added_examples": 50,
+    "reference_examples": 120,
+    "reference_policy": "weak examples are queries only; never KNN references",
+    "category_labels_available": 30,
+    "base_priority_labels_available": 10,
+    "fully_ambiguous_examples": 20,
+    "generation_instructions_file": "weak-170.md",
+    "human_verified": false,
+    "approved_reference_snapshot": "snapshots/tickets.en.120.approved.v2.json"
+  }
+}

@@ -1,0 +1,3693 @@
+{
+  "dataset_id": "paired-pl-en-170",
+  "generated_at": "2026-11-01T13:47:31.671663+00:00",
+  "experiment": "paired_language_translation_pilot",
+  "count": 170,
+  "groups": 158,
+  "labels_mode": "proposed",
+  "human_approved_count": {
+    "pl": 120,
+    "en": 120
+  },
+  "dataset_sha256": {
+    "pl": "60321f0dca837c09d5c8b6616948a2161db9a28837d973ce03f8d2d965791f58",
+    "en": "13e2afc1946fe0d2448e126f5bb9960e0df917139c51a467cb12f94533bb401c"
+  },
+  "conditions": {
+    "model_id": "sentence-transformers/all-MiniLM-L6-v2",
+    "model_revision": "c9745ed1d9f207416be6d2e6f8de32d1f16199bf",
+    "evaluation_script_sha256": "372804f9c6c8e4806edbdbb51a966054f507b5930e9b5e16a5a02016deee9793",
+    "parameters": {
+      "k": 3,
+      "similarity": "cosine",
+      "evaluation": "leave_one_group_out",
+      "device": "cpu",
+      "confidence_threshold": null,
+      "coverage": 1.0,
+      "tie_break": "nearest_then_id",
+      "reference_policy": "reference_eligible_only",
+      "reference_count": 120
+    },
+    "packages": {
+      "sentence-transformers": "5.3.0",
+      "transformers": "5.5.0",
+      "torch": "2.11.0",
+      "numpy": "2.4.4",
+      "huggingface-hub": "1.9.0"
+    },
+    "python": "3.14.0",
+    "platform": "Windows-11-10.0.26200-SP0"
+  },
+  "checks": {
+    "same_ids_groups_labels_and_checkbox": true,
+    "same_evaluation_conditions": true,
+    "source_hashes_match": true,
+    "no_same_group_neighbors": true,
+    "no_weak_examples_in_reference": true
+  },
+  "insufficient_information": {
+    "pl": {
+      "category": {
+        "count": 20,
+        "forced_predictions": 20
+      },
+      "base_priority": {
+        "count": 40,
+        "forced_predictions": 40
+      }
+    },
+    "en": {
+      "category": {
+        "count": 20,
+        "forced_predictions": 20
+      },
+      "base_priority": {
+        "count": 40,
+        "forced_predictions": 40
+      }
+    }
+  },
+  "metrics": {
+    "category": {
+      "pl": {
+        "accuracy": 0.7866666666666666,
+        "macro_f1": 0.7861293786504254,
+        "labels": [
+          "accounts_access",
+          "hardware",
+          "network",
+          "software"
+        ],
+        "confusion_matrix": [
+          [
+            28,
+            1,
+            1,
+            8
+          ],
+          [
+            4,
+            28,
+            5,
+            1
+          ],
+          [
+            2,
+            3,
+            29,
+            3
+          ],
+          [
+            1,
+            1,
+            2,
+            33
+          ]
+        ],
+        "per_class": {
+          "accounts_access": {
+            "precision": 0.8,
+            "recall": 0.7368421052631579,
+            "f1": 0.7671232876712328,
+            "support": 38
+          },
+          "hardware": {
+            "precision": 0.8484848484848485,
+            "recall": 0.7368421052631579,
+            "f1": 0.7887323943661972,
+            "support": 38
+          },
+          "network": {
+            "precision": 0.7837837837837838,
+            "recall": 0.7837837837837838,
+            "f1": 0.7837837837837838,
+            "support": 37
+          },
+          "software": {
+            "precision": 0.7333333333333333,
+            "recall": 0.8918918918918919,
+            "f1": 0.8048780487804879,
+            "support": 37
+          }
+        }
+      },
+      "en": {
+        "accuracy": 0.94,
+        "macro_f1": 0.9394272394272394,
+        "labels": [
+          "accounts_access",
+          "hardware",
+          "network",
+          "software"
+        ],
+        "confusion_matrix": [
+          [
+            35,
+            0,
+            2,
+            1
+          ],
+          [
+            0,
+            38,
+            0,
+            0
+          ],
+          [
+            1,
+            0,
+            36,
+            0
+          ],
+          [
+            1,
+            1,
+            3,
+            32
+          ]
+        ],
+        "per_class": {
+          "accounts_access": {
+            "precision": 0.9459459459459459,
+            "recall": 0.9210526315789473,
+            "f1": 0.9333333333333332,
+            "support": 38
+          },
+          "hardware": {
+            "precision": 0.9743589743589743,
+            "recall": 1.0,
+            "f1": 0.9870129870129869,
+            "support": 38
+          },
+          "network": {
+            "precision": 0.8780487804878049,
+            "recall": 0.972972972972973,
+            "f1": 0.923076923076923,
+            "support": 37
+          },
+          "software": {
+            "precision": 0.9696969696969697,
+            "recall": 0.8648648648648649,
+            "f1": 0.9142857142857143,
+            "support": 37
+          }
+        }
+      },
+      "scored_count": 150,
+      "unscored_count": 20,
+      "accuracy_delta_percentage_points": 15.33333333,
+      "paired_outcomes": {
+        "both_correct": [
+          "ACC-01",
+          "ACC-04",
+          "ACC-05",
+          "ACC-06",
+          "ACC-09",
+          "HW-01",
+          "HW-02",
+          "HW-03",
+          "HW-04",
+          "HW-05",
+          "HW-06",
+          "HW-07",
+          "HW-08",
+          "HW-09",
+          "HW-10",
+          "NET-01",
+          "NET-02",
+          "NET-03",
+          "NET-04",
+          "NET-05",
+          "NET-06",
+          "NET-07",
+          "NET-08",
+          "NET-10",
+          "SW-01",
+          "SW-02",
+          "SW-03",
+          "SW-04",
+          "SW-07",
+          "SW-08",
+          "SW-09",
+          "SW-10",
+          "ACC-11",
+          "ACC-13",
+          "ACC-14",
+          "ACC-15",
+          "ACC-16",
+          "ACC-17",
+          "ACC-18",
+          "ACC-19",
+          "ACC-21",
+          "ACC-22",
+          "ACC-25",
+          "ACC-26",
+          "ACC-27",
+          "ACC-28",
+          "ACC-30",
+          "HW-13",
+          "HW-14",
+          "HW-16",
+          "HW-17",
+          "HW-18",
+          "HW-20",
+          "HW-21",
+          "HW-23",
+          "HW-26",
+          "HW-27",
+          "HW-28",
+          "HW-29",
+          "HW-30",
+          "NET-11",
+          "NET-12",
+          "NET-13",
+          "NET-14",
+          "NET-17",
+          "NET-18",
+          "NET-19",
+          "NET-20",
+          "NET-21",
+          "NET-24",
+          "NET-25",
+          "NET-27",
+          "NET-29",
+          "NET-30",
+          "SW-11",
+          "SW-12",
+          "SW-13",
+          "SW-14",
+          "SW-15",
+          "SW-16",
+          "SW-17",
+          "SW-19",
+          "SW-20",
+          "SW-21",
+          "SW-22",
+          "SW-23",
+          "SW-25",
+          "SW-26",
+          "SW-28",
+          "WEAK-01",
+          "WEAK-02",
+          "WEAK-03",
+          "WEAK-05",
+          "WEAK-06",
+          "WEAK-07",
+          "WEAK-10",
+          "WEAK-11",
+          "WEAK-13",
+          "WEAK-14",
+          "WEAK-16",
+          "WEAK-17",
+          "WEAK-18",
+          "WEAK-19",
+          "WEAK-21",
+          "WEAK-23",
+          "WEAK-24",
+          "WEAK-25",
+          "WEAK-27",
+          "WEAK-28",
+          "WEAK-29",
+          "WEAK-30"
+        ],
+        "pl_only_correct": [
+          "ACC-07",
+          "SW-05",
+          "SW-06",
+          "ACC-12",
+          "SW-18",
+          "SW-30",
+          "WEAK-22"
+        ],
+        "en_only_correct": [
+          "ACC-02",
+          "ACC-03",
+          "ACC-10",
+          "NET-09",
+          "ACC-20",
+          "ACC-23",
+          "ACC-24",
+          "ACC-29",
+          "HW-11",
+          "HW-12",
+          "HW-15",
+          "HW-19",
+          "HW-22",
+          "HW-24",
+          "HW-25",
+          "NET-15",
+          "NET-16",
+          "NET-22",
+          "NET-23",
+          "NET-26",
+          "NET-28",
+          "SW-24",
+          "SW-27",
+          "WEAK-04",
+          "WEAK-08",
+          "WEAK-09",
+          "WEAK-12",
+          "WEAK-15",
+          "WEAK-20",
+          "WEAK-26"
+        ],
+        "both_wrong": [
+          "ACC-08",
+          "SW-29"
+        ],
+        "unscored": [
+          "WEAK-31",
+          "WEAK-32",
+          "WEAK-33",
+          "WEAK-34",
+          "WEAK-35",
+          "WEAK-36",
+          "WEAK-37",
+          "WEAK-38",
+          "WEAK-39",
+          "WEAK-40",
+          "WEAK-41",
+          "WEAK-42",
+          "WEAK-43",
+          "WEAK-44",
+          "WEAK-45",
+          "WEAK-46",
+          "WEAK-47",
+          "WEAK-48",
+          "WEAK-49",
+          "WEAK-50"
+        ]
+      }
+    },
+    "base_priority": {
+      "pl": {
+        "accuracy": 0.4076923076923077,
+        "macro_f1": 0.4278733900730587,
+        "labels": [
+          "low",
+          "medium",
+          "high",
+          "critical"
+        ],
+        "confusion_matrix": [
+          [
+            17,
+            6,
+            2,
+            1
+          ],
+          [
+            19,
+            16,
+            14,
+            2
+          ],
+          [
+            8,
+            13,
+            11,
+            7
+          ],
+          [
+            1,
+            2,
+            2,
+            9
+          ]
+        ],
+        "per_class": {
+          "low": {
+            "precision": 0.37777777777777777,
+            "recall": 0.6538461538461539,
+            "f1": 0.4788732394366198,
+            "support": 26
+          },
+          "medium": {
+            "precision": 0.43243243243243246,
+            "recall": 0.3137254901960784,
+            "f1": 0.36363636363636365,
+            "support": 51
+          },
+          "high": {
+            "precision": 0.3793103448275862,
+            "recall": 0.28205128205128205,
+            "f1": 0.3235294117647059,
+            "support": 39
+          },
+          "critical": {
+            "precision": 0.47368421052631576,
+            "recall": 0.6428571428571429,
+            "f1": 0.5454545454545454,
+            "support": 14
+          }
+        }
+      },
+      "en": {
+        "accuracy": 0.5230769230769231,
+        "macro_f1": 0.52913306782106,
+        "labels": [
+          "low",
+          "medium",
+          "high",
+          "critical"
+        ],
+        "confusion_matrix": [
+          [
+            13,
+            9,
+            3,
+            1
+          ],
+          [
+            7,
+            30,
+            12,
+            2
+          ],
+          [
+            0,
+            17,
+            16,
+            6
+          ],
+          [
+            0,
+            2,
+            3,
+            9
+          ]
+        ],
+        "per_class": {
+          "low": {
+            "precision": 0.65,
+            "recall": 0.5,
+            "f1": 0.5652173913043479,
+            "support": 26
+          },
+          "medium": {
+            "precision": 0.5172413793103449,
+            "recall": 0.5882352941176471,
+            "f1": 0.5504587155963303,
+            "support": 51
+          },
+          "high": {
+            "precision": 0.47058823529411764,
+            "recall": 0.41025641025641024,
+            "f1": 0.4383561643835616,
+            "support": 39
+          },
+          "critical": {
+            "precision": 0.5,
+            "recall": 0.6428571428571429,
+            "f1": 0.5625000000000001,
+            "support": 14
+          }
+        }
+      },
+      "scored_count": 130,
+      "unscored_count": 40,
+      "accuracy_delta_percentage_points": 11.53846154,
+      "paired_outcomes": {
+        "both_correct": [
+          "ACC-01",
+          "ACC-09",
+          "HW-01",
+          "HW-03",
+          "HW-05",
+          "HW-10",
+          "NET-01",
+          "NET-02",
+          "SW-01",
+          "SW-04",
+          "SW-05",
+          "SW-06",
+          "SW-09",
+          "ACC-12",
+          "ACC-17",
+          "ACC-30",
+          "HW-17",
+          "HW-20",
+          "HW-29",
+          "HW-30",
+          "NET-12",
+          "NET-25",
+          "NET-30",
+          "SW-11",
+          "SW-14",
+          "SW-15",
+          "SW-20",
+          "SW-29",
+          "WEAK-08",
+          "WEAK-14",
+          "WEAK-23",
+          "WEAK-29"
+        ],
+        "pl_only_correct": [
+          "ACC-02",
+          "ACC-07",
+          "NET-03",
+          "NET-08",
+          "ACC-13",
+          "ACC-15",
+          "ACC-26",
+          "ACC-29",
+          "HW-11",
+          "HW-12",
+          "HW-14",
+          "HW-16",
+          "HW-21",
+          "NET-14",
+          "NET-26",
+          "NET-28",
+          "SW-12",
+          "SW-18",
+          "SW-25",
+          "SW-26",
+          "SW-27"
+        ],
+        "en_only_correct": [
+          "ACC-03",
+          "ACC-05",
+          "ACC-06",
+          "ACC-08",
+          "HW-04",
+          "HW-06",
+          "HW-09",
+          "NET-06",
+          "NET-07",
+          "SW-03",
+          "SW-07",
+          "SW-08",
+          "SW-10",
+          "ACC-16",
+          "ACC-18",
+          "ACC-21",
+          "ACC-23",
+          "HW-19",
+          "HW-22",
+          "HW-23",
+          "HW-25",
+          "NET-13",
+          "NET-15",
+          "NET-18",
+          "NET-23",
+          "SW-13",
+          "SW-17",
+          "SW-19",
+          "SW-21",
+          "SW-22",
+          "SW-23",
+          "WEAK-07",
+          "WEAK-15",
+          "WEAK-16",
+          "WEAK-22",
+          "WEAK-28"
+        ],
+        "both_wrong": [
+          "ACC-04",
+          "ACC-10",
+          "HW-02",
+          "HW-07",
+          "HW-08",
+          "NET-04",
+          "NET-05",
+          "NET-09",
+          "NET-10",
+          "SW-02",
+          "ACC-11",
+          "ACC-14",
+          "ACC-19",
+          "ACC-20",
+          "ACC-22",
+          "ACC-24",
+          "ACC-25",
+          "ACC-27",
+          "ACC-28",
+          "HW-13",
+          "HW-15",
+          "HW-18",
+          "HW-24",
+          "HW-26",
+          "HW-27",
+          "HW-28",
+          "NET-11",
+          "NET-16",
+          "NET-17",
+          "NET-19",
+          "NET-20",
+          "NET-21",
+          "NET-22",
+          "NET-24",
+          "NET-27",
+          "NET-29",
+          "SW-16",
+          "SW-24",
+          "SW-28",
+          "SW-30",
+          "WEAK-21"
+        ],
+        "unscored": [
+          "WEAK-01",
+          "WEAK-02",
+          "WEAK-03",
+          "WEAK-04",
+          "WEAK-05",
+          "WEAK-06",
+          "WEAK-09",
+          "WEAK-10",
+          "WEAK-11",
+          "WEAK-12",
+          "WEAK-13",
+          "WEAK-17",
+          "WEAK-18",
+          "WEAK-19",
+          "WEAK-20",
+          "WEAK-24",
+          "WEAK-25",
+          "WEAK-26",
+          "WEAK-27",
+          "WEAK-30",
+          "WEAK-31",
+          "WEAK-32",
+          "WEAK-33",
+          "WEAK-34",
+          "WEAK-35",
+          "WEAK-36",
+          "WEAK-37",
+          "WEAK-38",
+          "WEAK-39",
+          "WEAK-40",
+          "WEAK-41",
+          "WEAK-42",
+          "WEAK-43",
+          "WEAK-44",
+          "WEAK-45",
+          "WEAK-46",
+          "WEAK-47",
+          "WEAK-48",
+          "WEAK-49",
+          "WEAK-50"
+        ]
+      }
+    }
+  },
+  "fixed_medium_baseline": {
+    "accuracy": 0.3923076923076923,
+    "macro_f1": 0.1408839779005525,
+    "labels": [
+      "low",
+      "medium",
+      "high",
+      "critical"
+    ],
+    "confusion_matrix": [
+      [
+        0,
+        26,
+        0,
+        0
+      ],
+      [
+        0,
+        51,
+        0,
+        0
+      ],
+      [
+        0,
+        39,
+        0,
+        0
+      ],
+      [
+        0,
+        14,
+        0,
+        0
+      ]
+    ],
+    "per_class": {
+      "low": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "support": 26
+      },
+      "medium": {
+        "precision": 0.3923076923076923,
+        "recall": 1.0,
+        "f1": 0.56353591160221,
+        "support": 51
+      },
+      "high": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "support": 39
+      },
+      "critical": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "support": 14
+      }
+    }
+  },
+  "tokens": {
+    "pl": {
+      "min": 8,
+      "max": 111,
+      "limit": 256,
+      "unknown_count": 0,
+      "unknown_fraction": 0.0
+    },
+    "en": {
+      "min": 5,
+      "max": 51,
+      "limit": 256,
+      "unknown_count": 0,
+      "unknown_fraction": 0.0
+    }
+  },
+  "subsets_with_full_reference_pool": {
+    "original_40": {
+      "count": 40,
+      "metrics": {
+        "category": {
+          "pl": {
+            "accuracy": 0.875,
+            "macro_f1": 0.8708333333333333,
+            "labels": [
+              "accounts_access",
+              "hardware",
+              "network",
+              "software"
+            ],
+            "confusion_matrix": [
+              [
+                6,
+                0,
+                1,
+                3
+              ],
+              [
+                0,
+                10,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                9,
+                1
+              ],
+              [
+                0,
+                0,
+                0,
+                10
+              ]
+            ],
+            "per_class": {
+              "accounts_access": {
+                "precision": 1.0,
+                "recall": 0.6,
+                "f1": 0.7499999999999999,
+                "support": 10
+              },
+              "hardware": {
+                "precision": 1.0,
+                "recall": 1.0,
+                "f1": 1.0,
+                "support": 10
+              },
+              "network": {
+                "precision": 0.9,
+                "recall": 0.9,
+                "f1": 0.9,
+                "support": 10
+              },
+              "software": {
+                "precision": 0.7142857142857143,
+                "recall": 1.0,
+                "f1": 0.8333333333333333,
+                "support": 10
+              }
+            }
+          },
+          "en": {
+            "accuracy": 0.9,
+            "macro_f1": 0.8981165033796613,
+            "labels": [
+              "accounts_access",
+              "hardware",
+              "network",
+              "software"
+            ],
+            "confusion_matrix": [
+              [
+                8,
+                0,
+                1,
+                1
+              ],
+              [
+                0,
+                10,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                10,
+                0
+              ],
+              [
+                0,
+                1,
+                1,
+                8
+              ]
+            ],
+            "per_class": {
+              "accounts_access": {
+                "precision": 1.0,
+                "recall": 0.8,
+                "f1": 0.888888888888889,
+                "support": 10
+              },
+              "hardware": {
+                "precision": 0.9090909090909091,
+                "recall": 1.0,
+                "f1": 0.9523809523809523,
+                "support": 10
+              },
+              "network": {
+                "precision": 0.8333333333333334,
+                "recall": 1.0,
+                "f1": 0.9090909090909091,
+                "support": 10
+              },
+              "software": {
+                "precision": 0.8888888888888888,
+                "recall": 0.8,
+                "f1": 0.8421052631578948,
+                "support": 10
+              }
+            }
+          }
+        },
+        "base_priority": {
+          "pl": {
+            "accuracy": 0.425,
+            "macro_f1": 0.40214957456336764,
+            "labels": [
+              "low",
+              "medium",
+              "high",
+              "critical"
+            ],
+            "confusion_matrix": [
+              [
+                6,
+                2,
+                0,
+                0
+              ],
+              [
+                5,
+                6,
+                5,
+                0
+              ],
+              [
+                2,
+                4,
+                4,
+                2
+              ],
+              [
+                1,
+                1,
+                1,
+                1
+              ]
+            ],
+            "per_class": {
+              "low": {
+                "precision": 0.42857142857142855,
+                "recall": 0.75,
+                "f1": 0.5454545454545454,
+                "support": 8
+              },
+              "medium": {
+                "precision": 0.46153846153846156,
+                "recall": 0.375,
+                "f1": 0.41379310344827586,
+                "support": 16
+              },
+              "high": {
+                "precision": 0.4,
+                "recall": 0.3333333333333333,
+                "f1": 0.3636363636363636,
+                "support": 12
+              },
+              "critical": {
+                "precision": 0.3333333333333333,
+                "recall": 0.25,
+                "f1": 0.28571428571428575,
+                "support": 4
+              }
+            }
+          },
+          "en": {
+            "accuracy": 0.65,
+            "macro_f1": 0.61524209486166,
+            "labels": [
+              "low",
+              "medium",
+              "high",
+              "critical"
+            ],
+            "confusion_matrix": [
+              [
+                5,
+                2,
+                1,
+                0
+              ],
+              [
+                3,
+                12,
+                1,
+                0
+              ],
+              [
+                0,
+                3,
+                7,
+                2
+              ],
+              [
+                0,
+                0,
+                2,
+                2
+              ]
+            ],
+            "per_class": {
+              "low": {
+                "precision": 0.625,
+                "recall": 0.625,
+                "f1": 0.625,
+                "support": 8
+              },
+              "medium": {
+                "precision": 0.7058823529411765,
+                "recall": 0.75,
+                "f1": 0.7272727272727272,
+                "support": 16
+              },
+              "high": {
+                "precision": 0.6363636363636364,
+                "recall": 0.5833333333333334,
+                "f1": 0.6086956521739131,
+                "support": 12
+              },
+              "critical": {
+                "precision": 0.5,
+                "recall": 0.5,
+                "f1": 0.5,
+                "support": 4
+              }
+            }
+          }
+        }
+      },
+      "scored_counts": {
+        "category": 40,
+        "base_priority": 40
+      }
+    },
+    "new_80": {
+      "count": 80,
+      "metrics": {
+        "category": {
+          "pl": {
+            "accuracy": 0.75,
+            "macro_f1": 0.7487373737373738,
+            "labels": [
+              "accounts_access",
+              "hardware",
+              "network",
+              "software"
+            ],
+            "confusion_matrix": [
+              [
+                16,
+                0,
+                0,
+                4
+              ],
+              [
+                2,
+                13,
+                4,
+                1
+              ],
+              [
+                1,
+                3,
+                14,
+                2
+              ],
+              [
+                1,
+                0,
+                2,
+                17
+              ]
+            ],
+            "per_class": {
+              "accounts_access": {
+                "precision": 0.8,
+                "recall": 0.8,
+                "f1": 0.8000000000000002,
+                "support": 20
+              },
+              "hardware": {
+                "precision": 0.8125,
+                "recall": 0.65,
+                "f1": 0.7222222222222223,
+                "support": 20
+              },
+              "network": {
+                "precision": 0.7,
+                "recall": 0.7,
+                "f1": 0.7,
+                "support": 20
+              },
+              "software": {
+                "precision": 0.7083333333333334,
+                "recall": 0.85,
+                "f1": 0.7727272727272727,
+                "support": 20
+              }
+            }
+          },
+          "en": {
+            "accuracy": 0.95,
+            "macro_f1": 0.9497878692646134,
+            "labels": [
+              "accounts_access",
+              "hardware",
+              "network",
+              "software"
+            ],
+            "confusion_matrix": [
+              [
+                19,
+                0,
+                1,
+                0
+              ],
+              [
+                0,
+                20,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                20,
+                0
+              ],
+              [
+                1,
+                0,
+                2,
+                17
+              ]
+            ],
+            "per_class": {
+              "accounts_access": {
+                "precision": 0.95,
+                "recall": 0.95,
+                "f1": 0.9500000000000001,
+                "support": 20
+              },
+              "hardware": {
+                "precision": 1.0,
+                "recall": 1.0,
+                "f1": 1.0,
+                "support": 20
+              },
+              "network": {
+                "precision": 0.8695652173913043,
+                "recall": 1.0,
+                "f1": 0.9302325581395349,
+                "support": 20
+              },
+              "software": {
+                "precision": 1.0,
+                "recall": 0.85,
+                "f1": 0.9189189189189189,
+                "support": 20
+              }
+            }
+          }
+        },
+        "base_priority": {
+          "pl": {
+            "accuracy": 0.4,
+            "macro_f1": 0.42543722183915245,
+            "labels": [
+              "low",
+              "medium",
+              "high",
+              "critical"
+            ],
+            "confusion_matrix": [
+              [
+                10,
+                3,
+                2,
+                1
+              ],
+              [
+                12,
+                9,
+                9,
+                2
+              ],
+              [
+                5,
+                8,
+                7,
+                4
+              ],
+              [
+                0,
+                1,
+                1,
+                6
+              ]
+            ],
+            "per_class": {
+              "low": {
+                "precision": 0.37037037037037035,
+                "recall": 0.625,
+                "f1": 0.4651162790697674,
+                "support": 16
+              },
+              "medium": {
+                "precision": 0.42857142857142855,
+                "recall": 0.28125,
+                "f1": 0.3396226415094339,
+                "support": 32
+              },
+              "high": {
+                "precision": 0.3684210526315789,
+                "recall": 0.2916666666666667,
+                "f1": 0.32558139534883723,
+                "support": 24
+              },
+              "critical": {
+                "precision": 0.46153846153846156,
+                "recall": 0.75,
+                "f1": 0.5714285714285714,
+                "support": 8
+              }
+            }
+          },
+          "en": {
+            "accuracy": 0.4125,
+            "macro_f1": 0.4228281135831087,
+            "labels": [
+              "low",
+              "medium",
+              "high",
+              "critical"
+            ],
+            "confusion_matrix": [
+              [
+                6,
+                7,
+                2,
+                1
+              ],
+              [
+                4,
+                16,
+                10,
+                2
+              ],
+              [
+                0,
+                14,
+                6,
+                4
+              ],
+              [
+                0,
+                2,
+                1,
+                5
+              ]
+            ],
+            "per_class": {
+              "low": {
+                "precision": 0.6,
+                "recall": 0.375,
+                "f1": 0.4615384615384615,
+                "support": 16
+              },
+              "medium": {
+                "precision": 0.41025641025641024,
+                "recall": 0.5,
+                "f1": 0.4507042253521127,
+                "support": 32
+              },
+              "high": {
+                "precision": 0.3157894736842105,
+                "recall": 0.25,
+                "f1": 0.27906976744186046,
+                "support": 24
+              },
+              "critical": {
+                "precision": 0.4166666666666667,
+                "recall": 0.625,
+                "f1": 0.5,
+                "support": 8
+              }
+            }
+          }
+        }
+      },
+      "scored_counts": {
+        "category": 80,
+        "base_priority": 80
+      }
+    },
+    "weak_50": {
+      "count": 50,
+      "metrics": {
+        "category": {
+          "pl": {
+            "accuracy": 0.7666666666666667,
+            "macro_f1": 0.7717086834733893,
+            "labels": [
+              "accounts_access",
+              "hardware",
+              "network",
+              "software"
+            ],
+            "confusion_matrix": [
+              [
+                6,
+                1,
+                0,
+                1
+              ],
+              [
+                2,
+                5,
+                1,
+                0
+              ],
+              [
+                1,
+                0,
+                6,
+                0
+              ],
+              [
+                0,
+                1,
+                0,
+                6
+              ]
+            ],
+            "per_class": {
+              "accounts_access": {
+                "precision": 0.6666666666666666,
+                "recall": 0.75,
+                "f1": 0.7058823529411765,
+                "support": 8
+              },
+              "hardware": {
+                "precision": 0.7142857142857143,
+                "recall": 0.625,
+                "f1": 0.6666666666666666,
+                "support": 8
+              },
+              "network": {
+                "precision": 0.8571428571428571,
+                "recall": 0.8571428571428571,
+                "f1": 0.8571428571428571,
+                "support": 7
+              },
+              "software": {
+                "precision": 0.8571428571428571,
+                "recall": 0.8571428571428571,
+                "f1": 0.8571428571428571,
+                "support": 7
+              }
+            }
+          },
+          "en": {
+            "accuracy": 0.9666666666666667,
+            "macro_f1": 0.9660633484162896,
+            "labels": [
+              "accounts_access",
+              "hardware",
+              "network",
+              "software"
+            ],
+            "confusion_matrix": [
+              [
+                8,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                8,
+                0,
+                0
+              ],
+              [
+                1,
+                0,
+                6,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                7
+              ]
+            ],
+            "per_class": {
+              "accounts_access": {
+                "precision": 0.8888888888888888,
+                "recall": 1.0,
+                "f1": 0.9411764705882353,
+                "support": 8
+              },
+              "hardware": {
+                "precision": 1.0,
+                "recall": 1.0,
+                "f1": 1.0,
+                "support": 8
+              },
+              "network": {
+                "precision": 1.0,
+                "recall": 0.8571428571428571,
+                "f1": 0.923076923076923,
+                "support": 7
+              },
+              "software": {
+                "precision": 1.0,
+                "recall": 1.0,
+                "f1": 1.0,
+                "support": 7
+              }
+            }
+          }
+        },
+        "base_priority": {
+          "pl": {
+            "accuracy": 0.4,
+            "macro_f1": 0.3666666666666667,
+            "labels": [
+              "low",
+              "medium",
+              "high",
+              "critical"
+            ],
+            "confusion_matrix": [
+              [
+                1,
+                1,
+                0,
+                0
+              ],
+              [
+                2,
+                1,
+                0,
+                0
+              ],
+              [
+                1,
+                1,
+                0,
+                1
+              ],
+              [
+                0,
+                0,
+                0,
+                2
+              ]
+            ],
+            "per_class": {
+              "low": {
+                "precision": 0.25,
+                "recall": 0.5,
+                "f1": 0.3333333333333333,
+                "support": 2
+              },
+              "medium": {
+                "precision": 0.3333333333333333,
+                "recall": 0.3333333333333333,
+                "f1": 0.3333333333333333,
+                "support": 3
+              },
+              "high": {
+                "precision": 0.0,
+                "recall": 0.0,
+                "f1": 0.0,
+                "support": 3
+              },
+              "critical": {
+                "precision": 0.6666666666666666,
+                "recall": 1.0,
+                "f1": 0.8,
+                "support": 2
+              }
+            }
+          },
+          "en": {
+            "accuracy": 0.9,
+            "macro_f1": 0.9142857142857143,
+            "labels": [
+              "low",
+              "medium",
+              "high",
+              "critical"
+            ],
+            "confusion_matrix": [
+              [
+                2,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                2,
+                1,
+                0
+              ],
+              [
+                0,
+                0,
+                3,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                2
+              ]
+            ],
+            "per_class": {
+              "low": {
+                "precision": 1.0,
+                "recall": 1.0,
+                "f1": 1.0,
+                "support": 2
+              },
+              "medium": {
+                "precision": 1.0,
+                "recall": 0.6666666666666666,
+                "f1": 0.8,
+                "support": 3
+              },
+              "high": {
+                "precision": 0.75,
+                "recall": 1.0,
+                "f1": 0.8571428571428571,
+                "support": 3
+              },
+              "critical": {
+                "precision": 1.0,
+                "recall": 1.0,
+                "f1": 1.0,
+                "support": 2
+              }
+            }
+          }
+        }
+      },
+      "scored_counts": {
+        "category": 30,
+        "base_priority": 10
+      }
+    }
+  },
+  "paired_predictions": [
+    {
+      "id": "ACC-01",
+      "group_id": "acc-01",
+      "cohort": "reference",
+      "expected_category": "accounts_access",
+      "category_pl": "accounts_access",
+      "category_en": "accounts_access",
+      "expected_base_priority": "low",
+      "base_priority_pl": "low",
+      "base_priority_en": "low"
+    },
+    {
+      "id": "ACC-02",
+      "group_id": "acc-02",
+      "cohort": "reference",
+      "expected_category": "accounts_access",
+      "category_pl": "software",
+      "category_en": "accounts_access",
+      "expected_base_priority": "low",
+      "base_priority_pl": "low",
+      "base_priority_en": "medium"
+    },
+    {
+      "id": "ACC-03",
+      "group_id": "acc-folder-access",
+      "cohort": "reference",
+      "expected_category": "accounts_access",
+      "category_pl": "software",
+      "category_en": "accounts_access",
+      "expected_base_priority": "medium",
+      "base_priority_pl": "low",
+      "base_priority_en": "medium"
+    },
+    {
+      "id": "ACC-04",
+      "group_id": "acc-folder-access",
+      "cohort": "reference",
+      "expected_category": "accounts_access",
+      "category_pl": "accounts_access",
+      "category_en": "accounts_access",
+      "expected_base_priority": "medium",
+      "base_priority_pl": "high",
+      "base_priority_en": "high"
+    },
+    {
+      "id": "ACC-05",
+      "group_id": "acc-05",
+      "cohort": "reference",
+      "expected_category": "accounts_access",
+      "category_pl": "accounts_access",
+      "category_en": "accounts_access",
+      "expected_base_priority": "medium",
+      "base_priority_pl": "low",
+      "base_priority_en": "medium"
+    },
+    {
+      "id": "ACC-06",
+      "group_id": "acc-06",
+      "cohort": "reference",
+      "expected_category": "accounts_access",
+      "category_pl": "accounts_access",
+      "category_en": "accounts_access",
+      "expected_base_priority": "medium",
+      "base_priority_pl": "low",
+      "base_priority_en": "medium"
+    },
+    {
+      "id": "ACC-07",
+      "group_id": "acc-07",
+      "cohort": "reference",
+      "expected_category": "accounts_access",
+      "category_pl": "accounts_access",
+      "category_en": "software",
+      "expected_base_priority": "high",
+      "base_priority_pl": "high",
+      "base_priority_en": "critical"
+    },
+    {
+      "id": "ACC-08",
+      "group_id": "acc-08",
+      "cohort": "reference",
+      "expected_category": "accounts_access",
+      "category_pl": "network",
+      "category_en": "network",
+      "expected_base_priority": "high",
+      "base_priority_pl": "medium",
+      "base_priority_en": "high"
+    },
+    {
+      "id": "ACC-09",
+      "group_id": "acc-09",
+      "cohort": "reference",
+      "expected_category": "accounts_access",
+      "category_pl": "accounts_access",
+      "category_en": "accounts_access",
+      "expected_base_priority": "high",
+      "base_priority_pl": "high",
+      "base_priority_en": "high"
+    },
+    {
+      "id": "ACC-10",
+      "group_id": "acc-10",
+      "cohort": "reference",
+      "expected_category": "accounts_access",
+      "category_pl": "software",
+      "category_en": "accounts_access",
+      "expected_base_priority": "critical",
+      "base_priority_pl": "low",
+      "base_priority_en": "high"
+    },
+    {
+      "id": "HW-01",
+      "group_id": "hw-01",
+      "cohort": "reference",
+      "expected_category": "hardware",
+      "category_pl": "hardware",
+      "category_en": "hardware",
+      "expected_base_priority": "low",
+      "base_priority_pl": "low",
+      "base_priority_en": "low"
+    },
+    {
+      "id": "HW-02",
+      "group_id": "hw-02",
+      "cohort": "reference",
+      "expected_category": "hardware",
+      "category_pl": "hardware",
+      "category_en": "hardware",
+      "expected_base_priority": "low",
+      "base_priority_pl": "medium",
+      "base_priority_en": "high"
+    },
+    {
+      "id": "HW-03",
+      "group_id": "hw-reception-printer",
+      "cohort": "reference",
+      "expected_category": "hardware",
+      "category_pl": "hardware",
+      "category_en": "hardware",
+      "expected_base_priority": "medium",
+      "base_priority_pl": "medium",
+      "base_priority_en": "medium"
+    },
+    {
+      "id": "HW-04",
+      "group_id": "hw-reception-printer",
+      "cohort": "reference",
+      "expected_category": "hardware",
+      "category_pl": "hardware",
+      "category_en": "hardware",
+      "expected_base_priority": "medium",
+      "base_priority_pl": "low",
+      "base_priority_en": "medium"
+    },
+    {
+      "id": "HW-05",
+      "group_id": "hw-05",
+      "cohort": "reference",
+      "expected_category": "hardware",
+      "category_pl": "hardware",
+      "category_en": "hardware",
+      "expected_base_priority": "medium",
+      "base_priority_pl": "medium",
+      "base_priority_en": "medium"
+    },
+    {
+      "id": "HW-06",
+      "group_id": "hw-06",
+      "cohort": "reference",
+      "expected_category": "hardware",
+      "category_pl": "hardware",
+      "category_en": "hardware",
+      "expected_base_priority": "medium",
+      "base_priority_pl": "low",
+      "base_priority_en": "medium"
+    },
+    {
+      "id": "HW-07",
+      "group_id": "hw-07",
+      "cohort": "reference",
+      "expected_category": "hardware",
+      "category_pl": "hardware",
+      "category_en": "hardware",
+      "expected_base_priority": "high",
+      "base_priority_pl": "critical",
+      "base_priority_en": "critical"
+    },
+    {
+      "id": "HW-08",
+      "group_id": "hw-08",
+      "cohort": "reference",
+      "expected_category": "hardware",
+      "category_pl": "hardware",
+      "category_en": "hardware",
+      "expected_base_priority": "high",
+      "base_priority_pl": "medium",
+      "base_priority_en": "medium"
+    },
+    {
+      "id": "HW-09",
+      "group_id": "hw-09",
+      "cohort": "reference",
+      "expected_category": "hardware",
+      "category_pl": "hardware",
+      "category_en": "hardware",
+      "expected_base_priority": "high",
+      "base_priority_pl": "low",
+      "base_priority_en": "high"
+    },
+    {
+      "id": "HW-10",
+      "group_id": "hw-10",
+      "cohort": "reference",
+      "expected_category": "hardware",
+      "category_pl": "hardware",
+      "category_en": "hardware",
+      "expected_base_priority": "critical",
+      "base_priority_pl": "critical",
+      "base_priority_en": "critical"
+    },
+    {
+      "id": "NET-01",
+      "group_id": "net-01",
+      "cohort": "reference",
+      "expected_category": "network",
+      "category_pl": "network",
+      "category_en": "network",
+      "expected_base_priority": "low",
+      "base_priority_pl": "low",
+      "base_priority_en": "low"
+    },
+    {
+      "id": "NET-02",
+      "group_id": "net-02",
+      "cohort": "reference",
+      "expected_category": "network",
+      "category_pl": "network",
+      "category_en": "network",
+      "expected_base_priority": "low",
+      "base_priority_pl": "low",
+      "base_priority_en": "low"
+    },
+    {
+      "id": "NET-03",
+      "group_id": "net-meeting-room-b",
+      "cohort": "reference",
+      "expected_category": "network",
+      "category_pl": "network",
+      "category_en": "network",
+      "expected_base_priority": "medium",
+      "base_priority_pl": "medium",
+      "base_priority_en": "low"
+    },
+    {
+      "id": "NET-04",
+      "group_id": "net-meeting-room-b",
+      "cohort": "reference",
+      "expected_category": "network",
+      "category_pl": "network",
+      "category_en": "network",
+      "expected_base_priority": "medium",
+      "base_priority_pl": "high",
+      "base_priority_en": "low"
+    },
+    {
+      "id": "NET-05",
+      "group_id": "net-05",
+      "cohort": "reference",
+      "expected_category": "network",
+      "category_pl": "network",
+      "category_en": "network",
+      "expected_base_priority": "medium",
+      "base_priority_pl": "high",
+      "base_priority_en": "low"
+    },
+    {
+      "id": "NET-06",
+      "group_id": "net-06",
+      "cohort": "reference",
+      "expected_category": "network",
+      "category_pl": "network",
+      "category_en": "network",
+      "expected_base_priority": "medium",
+      "base_priority_pl": "high",
+      "base_priority_en": "medium"
+    },
+    {
+      "id": "NET-07",
+      "group_id": "net-07",
+      "cohort": "reference",
+      "expected_category": "network",
+      "category_pl": "network",
+      "category_en": "network",
+      "expected_base_priority": "high",
+      "base_priority_pl": "medium",
+      "base_priority_en": "high"
+    },
+    {
+      "id": "NET-08",
+      "group_id": "net-08",
+      "cohort": "reference",
+      "expected_category": "network",
+      "category_pl": "network",
+      "category_en": "network",
+      "expected_base_priority": "high",
+      "base_priority_pl": "high",
+      "base_priority_en": "medium"
+    },
+    {
+      "id": "NET-09",
+      "group_id": "net-09",
+      "cohort": "reference",
+      "expected_category": "network",
+      "category_pl": "software",
+      "category_en": "network",
+      "expected_base_priority": "high",
+      "base_priority_pl": "low",
+      "base_priority_en": "medium"
+    },
+    {
+      "id": "NET-10",
+      "group_id": "net-10",
+      "cohort": "reference",
+      "expected_category": "network",
+      "category_pl": "network",
+      "category_en": "network",
+      "expected_base_priority": "critical",
+      "base_priority_pl": "medium",
+      "base_priority_en": "high"
+    },
+    {
+      "id": "SW-01",
+      "group_id": "sw-01",
+      "cohort": "reference",
+      "expected_category": "software",
+      "category_pl": "software",
+      "category_en": "software",
+      "expected_base_priority": "low",
+      "base_priority_pl": "low",
+      "base_priority_en": "low"
+    },
+    {
+      "id": "SW-02",
+      "group_id": "sw-02",
+      "cohort": "reference",
+      "expected_category": "software",
+      "category_pl": "software",
+      "category_en": "software",
+      "expected_base_priority": "low",
+      "base_priority_pl": "medium",
+      "base_priority_en": "medium"
+    },
+    {
+      "id": "SW-03",
+      "group_id": "sw-reports-pdf",
+      "cohort": "reference",
+      "expected_category": "software",
+      "category_pl": "software",
+      "category_en": "software",
+      "expected_base_priority": "medium",
+      "base_priority_pl": "high",
+      "base_priority_en": "medium"
+    },
+    {
+      "id": "SW-04",
+      "group_id": "sw-reports-pdf",
+      "cohort": "reference",
+      "expected_category": "software",
+      "category_pl": "software",
+      "category_en": "software",
+      "expected_base_priority": "medium",
+      "base_priority_pl": "medium",
+      "base_priority_en": "medium"
+    },
+    {
+      "id": "SW-05",
+      "group_id": "sw-05",
+      "cohort": "reference",
+      "expected_category": "software",
+      "category_pl": "software",
+      "category_en": "hardware",
+      "expected_base_priority": "medium",
+      "base_priority_pl": "medium",
+      "base_priority_en": "medium"
+    },
+    {
+      "id": "SW-06",
+      "group_id": "sw-06",
+      "cohort": "reference",
+      "expected_category": "software",
+      "category_pl": "software",
+      "category_en": "network",
+      "expected_base_priority": "medium",
+      "base_priority_pl": "medium",
+      "base_priority_en": "medium"
+    },
+    {
+      "id": "SW-07",
+      "group_id": "sw-07",
+      "cohort": "reference",
+      "expected_category": "software",
+      "category_pl": "software",
+      "category_en": "software",
+      "expected_base_priority": "high",
+      "base_priority_pl": "critical",
+      "base_priority_en": "high"
+    },
+    {
+      "id": "SW-08",
+      "group_id": "sw-08",
+      "cohort": "reference",
+      "expected_category": "software",
+      "category_pl": "software",
+      "category_en": "software",
+      "expected_base_priority": "high",
+      "base_priority_pl": "medium",
+      "base_priority_en": "high"
+    },
+    {
+      "id": "SW-09",
+      "group_id": "sw-09",
+      "cohort": "reference",
+      "expected_category": "software",
+      "category_pl": "software",
+      "category_en": "software",
+      "expected_base_priority": "high",
+      "base_priority_pl": "high",
+      "base_priority_en": "high"
+    },
+    {
+      "id": "SW-10",
+      "group_id": "sw-10",
+      "cohort": "reference",
+      "expected_category": "software",
+      "category_pl": "software",
+      "category_en": "software",
+      "expected_base_priority": "critical",
+      "base_priority_pl": "high",
+      "base_priority_en": "critical"
+    },
+    {
+      "id": "ACC-11",
+      "group_id": "acc-11",
+      "cohort": "reference",
+      "expected_category": "accounts_access",
+      "category_pl": "accounts_access",
+      "category_en": "accounts_access",
+      "expected_base_priority": "low",
+      "base_priority_pl": "medium",
+      "base_priority_en": "medium"
+    },
+    {
+      "id": "ACC-12",
+      "group_id": "acc-12",
+      "cohort": "reference",
+      "expected_category": "accounts_access",
+      "category_pl": "accounts_access",
+      "category_en": "network",
+      "expected_base_priority": "low",
+      "base_priority_pl": "low",
+      "base_priority_en": "low"
+    },
+    {
+      "id": "ACC-13",
+      "group_id": "acc-13",
+      "cohort": "reference",
+      "expected_category": "accounts_access",
+      "category_pl": "accounts_access",
+      "category_en": "accounts_access",
+      "expected_base_priority": "low",
+      "base_priority_pl": "low",
+      "base_priority_en": "medium"
+    },
+    {
+      "id": "ACC-14",
+      "group_id": "acc-14",
+      "cohort": "reference",
+      "expected_category": "accounts_access",
+      "category_pl": "accounts_access",
+      "category_en": "accounts_access",
+      "expected_base_priority": "low",
+      "base_priority_pl": "medium",
+      "base_priority_en": "critical"
+    },
+    {
+      "id": "ACC-15",
+      "group_id": "acc-orion-folder",
+      "cohort": "reference",
+      "expected_category": "accounts_access",
+      "category_pl": "accounts_access",
+      "category_en": "accounts_access",
+      "expected_base_priority": "medium",
+      "base_priority_pl": "medium",
+      "base_priority_en": "high"
+    },
+    {
+      "id": "ACC-16",
+      "group_id": "acc-orion-folder",
+      "cohort": "reference",
+      "expected_category": "accounts_access",
+      "category_pl": "accounts_access",
+      "category_en": "accounts_access",
+      "expected_base_priority": "medium",
+      "base_priority_pl": "high",
+      "base_priority_en": "medium"
+    },
+    {
+      "id": "ACC-17",
+      "group_id": "acc-17",
+      "cohort": "reference",
+      "expected_category": "accounts_access",
+      "category_pl": "accounts_access",
+      "category_en": "accounts_access",
+      "expected_base_priority": "medium",
+      "base_priority_pl": "medium",
+      "base_priority_en": "medium"
+    },
+    {
+      "id": "ACC-18",
+      "group_id": "acc-18",
+      "cohort": "reference",
+      "expected_category": "accounts_access",
+      "category_pl": "accounts_access",
+      "category_en": "accounts_access",
+      "expected_base_priority": "medium",
+      "base_priority_pl": "low",
+      "base_priority_en": "medium"
+    },
+    {
+      "id": "ACC-19",
+      "group_id": "acc-19",
+      "cohort": "reference",
+      "expected_category": "accounts_access",
+      "category_pl": "accounts_access",
+      "category_en": "accounts_access",
+      "expected_base_priority": "medium",
+      "base_priority_pl": "low",
+      "base_priority_en": "low"
+    },
+    {
+      "id": "ACC-20",
+      "group_id": "acc-20",
+      "cohort": "reference",
+      "expected_category": "accounts_access",
+      "category_pl": "software",
+      "category_en": "accounts_access",
+      "expected_base_priority": "medium",
+      "base_priority_pl": "low",
+      "base_priority_en": "high"
+    },
+    {
+      "id": "ACC-21",
+      "group_id": "acc-21",
+      "cohort": "reference",
+      "expected_category": "accounts_access",
+      "category_pl": "accounts_access",
+      "category_en": "accounts_access",
+      "expected_base_priority": "medium",
+      "base_priority_pl": "high",
+      "base_priority_en": "medium"
+    },
+    {
+      "id": "ACC-22",
+      "group_id": "acc-22",
+      "cohort": "reference",
+      "expected_category": "accounts_access",
+      "category_pl": "accounts_access",
+      "category_en": "accounts_access",
+      "expected_base_priority": "medium",
+      "base_priority_pl": "high",
+      "base_priority_en": "high"
+    },
+    {
+      "id": "ACC-23",
+      "group_id": "acc-23",
+      "cohort": "reference",
+      "expected_category": "accounts_access",
+      "category_pl": "software",
+      "category_en": "accounts_access",
+      "expected_base_priority": "high",
+      "base_priority_pl": "low",
+      "base_priority_en": "high"
+    },
+    {
+      "id": "ACC-24",
+      "group_id": "acc-24",
+      "cohort": "reference",
+      "expected_category": "accounts_access",
+      "category_pl": "software",
+      "category_en": "accounts_access",
+      "expected_base_priority": "high",
+      "base_priority_pl": "low",
+      "base_priority_en": "medium"
+    },
+    {
+      "id": "ACC-25",
+      "group_id": "acc-25",
+      "cohort": "reference",
+      "expected_category": "accounts_access",
+      "category_pl": "accounts_access",
+      "category_en": "accounts_access",
+      "expected_base_priority": "high",
+      "base_priority_pl": "low",
+      "base_priority_en": "critical"
+    },
+    {
+      "id": "ACC-26",
+      "group_id": "acc-26",
+      "cohort": "reference",
+      "expected_category": "accounts_access",
+      "category_pl": "accounts_access",
+      "category_en": "accounts_access",
+      "expected_base_priority": "high",
+      "base_priority_pl": "high",
+      "base_priority_en": "medium"
+    },
+    {
+      "id": "ACC-27",
+      "group_id": "acc-month-end-folder",
+      "cohort": "reference",
+      "expected_category": "accounts_access",
+      "category_pl": "accounts_access",
+      "category_en": "accounts_access",
+      "expected_base_priority": "high",
+      "base_priority_pl": "medium",
+      "base_priority_en": "medium"
+    },
+    {
+      "id": "ACC-28",
+      "group_id": "acc-month-end-folder",
+      "cohort": "reference",
+      "expected_category": "accounts_access",
+      "category_pl": "accounts_access",
+      "category_en": "accounts_access",
+      "expected_base_priority": "high",
+      "base_priority_pl": "low",
+      "base_priority_en": "medium"
+    },
+    {
+      "id": "ACC-29",
+      "group_id": "acc-29",
+      "cohort": "reference",
+      "expected_category": "accounts_access",
+      "category_pl": "software",
+      "category_en": "accounts_access",
+      "expected_base_priority": "critical",
+      "base_priority_pl": "critical",
+      "base_priority_en": "high"
+    },
+    {
+      "id": "ACC-30",
+      "group_id": "acc-30",
+      "cohort": "reference",
+      "expected_category": "accounts_access",
+      "category_pl": "accounts_access",
+      "category_en": "accounts_access",
+      "expected_base_priority": "critical",
+      "base_priority_pl": "critical",
+      "base_priority_en": "critical"
+    },
+    {
+      "id": "HW-11",
+      "group_id": "hw-11",
+      "cohort": "reference",
+      "expected_category": "hardware",
+      "category_pl": "network",
+      "category_en": "hardware",
+      "expected_base_priority": "low",
+      "base_priority_pl": "low",
+      "base_priority_en": "high"
+    },
+    {
+      "id": "HW-12",
+      "group_id": "hw-12",
+      "cohort": "reference",
+      "expected_category": "hardware",
+      "category_pl": "network",
+      "category_en": "hardware",
+      "expected_base_priority": "low",
+      "base_priority_pl": "low",
+      "base_priority_en": "medium"
+    },
+    {
+      "id": "HW-13",
+      "group_id": "hw-13",
+      "cohort": "reference",
+      "expected_category": "hardware",
+      "category_pl": "hardware",
+      "category_en": "hardware",
+      "expected_base_priority": "low",
+      "base_priority_pl": "high",
+      "base_priority_en": "medium"
+    },
+    {
+      "id": "HW-14",
+      "group_id": "hw-14",
+      "cohort": "reference",
+      "expected_category": "hardware",
+      "category_pl": "hardware",
+      "category_en": "hardware",
+      "expected_base_priority": "low",
+      "base_priority_pl": "low",
+      "base_priority_en": "high"
+    },
+    {
+      "id": "HW-15",
+      "group_id": "hw-terminal-4-reader",
+      "cohort": "reference",
+      "expected_category": "hardware",
+      "category_pl": "accounts_access",
+      "category_en": "hardware",
+      "expected_base_priority": "medium",
+      "base_priority_pl": "low",
+      "base_priority_en": "high"
+    },
+    {
+      "id": "HW-16",
+      "group_id": "hw-terminal-4-reader",
+      "cohort": "reference",
+      "expected_category": "hardware",
+      "category_pl": "hardware",
+      "category_en": "hardware",
+      "expected_base_priority": "medium",
+      "base_priority_pl": "medium",
+      "base_priority_en": "high"
+    },
+    {
+      "id": "HW-17",
+      "group_id": "hw-17",
+      "cohort": "reference",
+      "expected_category": "hardware",
+      "category_pl": "hardware",
+      "category_en": "hardware",
+      "expected_base_priority": "medium",
+      "base_priority_pl": "medium",
+      "base_priority_en": "medium"
+    },
+    {
+      "id": "HW-18",
+      "group_id": "hw-18",
+      "cohort": "reference",
+      "expected_category": "hardware",
+      "category_pl": "hardware",
+      "category_en": "hardware",
+      "expected_base_priority": "medium",
+      "base_priority_pl": "high",
+      "base_priority_en": "high"
+    },
+    {
+      "id": "HW-19",
+      "group_id": "hw-19",
+      "cohort": "reference",
+      "expected_category": "hardware",
+      "category_pl": "software",
+      "category_en": "hardware",
+      "expected_base_priority": "medium",
+      "base_priority_pl": "low",
+      "base_priority_en": "medium"
+    },
+    {
+      "id": "HW-20",
+      "group_id": "hw-20",
+      "cohort": "reference",
+      "expected_category": "hardware",
+      "category_pl": "hardware",
+      "category_en": "hardware",
+      "expected_base_priority": "medium",
+      "base_priority_pl": "medium",
+      "base_priority_en": "medium"
+    },
+    {
+      "id": "HW-21",
+      "group_id": "hw-21",
+      "cohort": "reference",
+      "expected_category": "hardware",
+      "category_pl": "hardware",
+      "category_en": "hardware",
+      "expected_base_priority": "medium",
+      "base_priority_pl": "medium",
+      "base_priority_en": "critical"
+    },
+    {
+      "id": "HW-22",
+      "group_id": "hw-22",
+      "cohort": "reference",
+      "expected_category": "hardware",
+      "category_pl": "network",
+      "category_en": "hardware",
+      "expected_base_priority": "medium",
+      "base_priority_pl": "low",
+      "base_priority_en": "medium"
+    },
+    {
+      "id": "HW-23",
+      "group_id": "hw-23",
+      "cohort": "reference",
+      "expected_category": "hardware",
+      "category_pl": "hardware",
+      "category_en": "hardware",
+      "expected_base_priority": "high",
+      "base_priority_pl": "low",
+      "base_priority_en": "high"
+    },
+    {
+      "id": "HW-24",
+      "group_id": "hw-24",
+      "cohort": "reference",
+      "expected_category": "hardware",
+      "category_pl": "accounts_access",
+      "category_en": "hardware",
+      "expected_base_priority": "high",
+      "base_priority_pl": "medium",
+      "base_priority_en": "medium"
+    },
+    {
+      "id": "HW-25",
+      "group_id": "hw-25",
+      "cohort": "reference",
+      "expected_category": "hardware",
+      "category_pl": "network",
+      "category_en": "hardware",
+      "expected_base_priority": "high",
+      "base_priority_pl": "critical",
+      "base_priority_en": "high"
+    },
+    {
+      "id": "HW-26",
+      "group_id": "hw-26",
+      "cohort": "reference",
+      "expected_category": "hardware",
+      "category_pl": "hardware",
+      "category_en": "hardware",
+      "expected_base_priority": "high",
+      "base_priority_pl": "medium",
+      "base_priority_en": "critical"
+    },
+    {
+      "id": "HW-27",
+      "group_id": "hw-loading-gate-charger",
+      "cohort": "reference",
+      "expected_category": "hardware",
+      "category_pl": "hardware",
+      "category_en": "hardware",
+      "expected_base_priority": "high",
+      "base_priority_pl": "critical",
+      "base_priority_en": "medium"
+    },
+    {
+      "id": "HW-28",
+      "group_id": "hw-loading-gate-charger",
+      "cohort": "reference",
+      "expected_category": "hardware",
+      "category_pl": "hardware",
+      "category_en": "hardware",
+      "expected_base_priority": "high",
+      "base_priority_pl": "medium",
+      "base_priority_en": "medium"
+    },
+    {
+      "id": "HW-29",
+      "group_id": "hw-29",
+      "cohort": "reference",
+      "expected_category": "hardware",
+      "category_pl": "hardware",
+      "category_en": "hardware",
+      "expected_base_priority": "critical",
+      "base_priority_pl": "critical",
+      "base_priority_en": "critical"
+    },
+    {
+      "id": "HW-30",
+      "group_id": "hw-30",
+      "cohort": "reference",
+      "expected_category": "hardware",
+      "category_pl": "hardware",
+      "category_en": "hardware",
+      "expected_base_priority": "critical",
+      "base_priority_pl": "critical",
+      "base_priority_en": "critical"
+    },
+    {
+      "id": "NET-11",
+      "group_id": "net-11",
+      "cohort": "reference",
+      "expected_category": "network",
+      "category_pl": "network",
+      "category_en": "network",
+      "expected_base_priority": "low",
+      "base_priority_pl": "medium",
+      "base_priority_en": "medium"
+    },
+    {
+      "id": "NET-12",
+      "group_id": "net-12",
+      "cohort": "reference",
+      "expected_category": "network",
+      "category_pl": "network",
+      "category_en": "network",
+      "expected_base_priority": "low",
+      "base_priority_pl": "low",
+      "base_priority_en": "low"
+    },
+    {
+      "id": "NET-13",
+      "group_id": "net-13",
+      "cohort": "reference",
+      "expected_category": "network",
+      "category_pl": "network",
+      "category_en": "network",
+      "expected_base_priority": "low",
+      "base_priority_pl": "high",
+      "base_priority_en": "low"
+    },
+    {
+      "id": "NET-14",
+      "group_id": "net-14",
+      "cohort": "reference",
+      "expected_category": "network",
+      "category_pl": "network",
+      "category_en": "network",
+      "expected_base_priority": "low",
+      "base_priority_pl": "low",
+      "base_priority_en": "medium"
+    },
+    {
+      "id": "NET-15",
+      "group_id": "net-training-room-c",
+      "cohort": "reference",
+      "expected_category": "network",
+      "category_pl": "hardware",
+      "category_en": "network",
+      "expected_base_priority": "medium",
+      "base_priority_pl": "low",
+      "base_priority_en": "medium"
+    },
+    {
+      "id": "NET-16",
+      "group_id": "net-training-room-c",
+      "cohort": "reference",
+      "expected_category": "network",
+      "category_pl": "software",
+      "category_en": "network",
+      "expected_base_priority": "medium",
+      "base_priority_pl": "low",
+      "base_priority_en": "low"
+    },
+    {
+      "id": "NET-17",
+      "group_id": "net-17",
+      "cohort": "reference",
+      "expected_category": "network",
+      "category_pl": "network",
+      "category_en": "network",
+      "expected_base_priority": "medium",
+      "base_priority_pl": "low",
+      "base_priority_en": "critical"
+    },
+    {
+      "id": "NET-18",
+      "group_id": "net-18",
+      "cohort": "reference",
+      "expected_category": "network",
+      "category_pl": "network",
+      "category_en": "network",
+      "expected_base_priority": "medium",
+      "base_priority_pl": "critical",
+      "base_priority_en": "medium"
+    },
+    {
+      "id": "NET-19",
+      "group_id": "net-19",
+      "cohort": "reference",
+      "expected_category": "network",
+      "category_pl": "network",
+      "category_en": "network",
+      "expected_base_priority": "medium",
+      "base_priority_pl": "high",
+      "base_priority_en": "high"
+    },
+    {
+      "id": "NET-20",
+      "group_id": "net-20",
+      "cohort": "reference",
+      "expected_category": "network",
+      "category_pl": "network",
+      "category_en": "network",
+      "expected_base_priority": "medium",
+      "base_priority_pl": "high",
+      "base_priority_en": "high"
+    },
+    {
+      "id": "NET-21",
+      "group_id": "net-21",
+      "cohort": "reference",
+      "expected_category": "network",
+      "category_pl": "network",
+      "category_en": "network",
+      "expected_base_priority": "medium",
+      "base_priority_pl": "high",
+      "base_priority_en": "high"
+    },
+    {
+      "id": "NET-22",
+      "group_id": "net-22",
+      "cohort": "reference",
+      "expected_category": "network",
+      "category_pl": "hardware",
+      "category_en": "network",
+      "expected_base_priority": "medium",
+      "base_priority_pl": "low",
+      "base_priority_en": "low"
+    },
+    {
+      "id": "NET-23",
+      "group_id": "net-23",
+      "cohort": "reference",
+      "expected_category": "network",
+      "category_pl": "hardware",
+      "category_en": "network",
+      "expected_base_priority": "high",
+      "base_priority_pl": "critical",
+      "base_priority_en": "high"
+    },
+    {
+      "id": "NET-24",
+      "group_id": "net-24",
+      "cohort": "reference",
+      "expected_category": "network",
+      "category_pl": "network",
+      "category_en": "network",
+      "expected_base_priority": "high",
+      "base_priority_pl": "medium",
+      "base_priority_en": "medium"
+    },
+    {
+      "id": "NET-25",
+      "group_id": "net-25",
+      "cohort": "reference",
+      "expected_category": "network",
+      "category_pl": "network",
+      "category_en": "network",
+      "expected_base_priority": "high",
+      "base_priority_pl": "high",
+      "base_priority_en": "high"
+    },
+    {
+      "id": "NET-26",
+      "group_id": "net-26",
+      "cohort": "reference",
+      "expected_category": "network",
+      "category_pl": "software",
+      "category_en": "network",
+      "expected_base_priority": "high",
+      "base_priority_pl": "high",
+      "base_priority_en": "medium"
+    },
+    {
+      "id": "NET-27",
+      "group_id": "net-field-office-uplink",
+      "cohort": "reference",
+      "expected_category": "network",
+      "category_pl": "network",
+      "category_en": "network",
+      "expected_base_priority": "high",
+      "base_priority_pl": "medium",
+      "base_priority_en": "critical"
+    },
+    {
+      "id": "NET-28",
+      "group_id": "net-field-office-uplink",
+      "cohort": "reference",
+      "expected_category": "network",
+      "category_pl": "accounts_access",
+      "category_en": "network",
+      "expected_base_priority": "high",
+      "base_priority_pl": "high",
+      "base_priority_en": "critical"
+    },
+    {
+      "id": "NET-29",
+      "group_id": "net-29",
+      "cohort": "reference",
+      "expected_category": "network",
+      "category_pl": "network",
+      "category_en": "network",
+      "expected_base_priority": "critical",
+      "base_priority_pl": "medium",
+      "base_priority_en": "medium"
+    },
+    {
+      "id": "NET-30",
+      "group_id": "net-30",
+      "cohort": "reference",
+      "expected_category": "network",
+      "category_pl": "network",
+      "category_en": "network",
+      "expected_base_priority": "critical",
+      "base_priority_pl": "critical",
+      "base_priority_en": "critical"
+    },
+    {
+      "id": "SW-11",
+      "group_id": "sw-11",
+      "cohort": "reference",
+      "expected_category": "software",
+      "category_pl": "software",
+      "category_en": "software",
+      "expected_base_priority": "low",
+      "base_priority_pl": "low",
+      "base_priority_en": "low"
+    },
+    {
+      "id": "SW-12",
+      "group_id": "sw-12",
+      "cohort": "reference",
+      "expected_category": "software",
+      "category_pl": "software",
+      "category_en": "software",
+      "expected_base_priority": "low",
+      "base_priority_pl": "low",
+      "base_priority_en": "medium"
+    },
+    {
+      "id": "SW-13",
+      "group_id": "sw-13",
+      "cohort": "reference",
+      "expected_category": "software",
+      "category_pl": "software",
+      "category_en": "software",
+      "expected_base_priority": "low",
+      "base_priority_pl": "critical",
+      "base_priority_en": "low"
+    },
+    {
+      "id": "SW-14",
+      "group_id": "sw-14",
+      "cohort": "reference",
+      "expected_category": "software",
+      "category_pl": "software",
+      "category_en": "software",
+      "expected_base_priority": "low",
+      "base_priority_pl": "low",
+      "base_priority_en": "low"
+    },
+    {
+      "id": "SW-15",
+      "group_id": "sw-contacts-csv",
+      "cohort": "reference",
+      "expected_category": "software",
+      "category_pl": "software",
+      "category_en": "software",
+      "expected_base_priority": "medium",
+      "base_priority_pl": "medium",
+      "base_priority_en": "medium"
+    },
+    {
+      "id": "SW-16",
+      "group_id": "sw-contacts-csv",
+      "cohort": "reference",
+      "expected_category": "software",
+      "category_pl": "software",
+      "category_en": "software",
+      "expected_base_priority": "medium",
+      "base_priority_pl": "critical",
+      "base_priority_en": "high"
+    },
+    {
+      "id": "SW-17",
+      "group_id": "sw-17",
+      "cohort": "reference",
+      "expected_category": "software",
+      "category_pl": "software",
+      "category_en": "software",
+      "expected_base_priority": "medium",
+      "base_priority_pl": "high",
+      "base_priority_en": "medium"
+    },
+    {
+      "id": "SW-18",
+      "group_id": "sw-18",
+      "cohort": "reference",
+      "expected_category": "software",
+      "category_pl": "software",
+      "category_en": "accounts_access",
+      "expected_base_priority": "medium",
+      "base_priority_pl": "medium",
+      "base_priority_en": "low"
+    },
+    {
+      "id": "SW-19",
+      "group_id": "sw-19",
+      "cohort": "reference",
+      "expected_category": "software",
+      "category_pl": "software",
+      "category_en": "software",
+      "expected_base_priority": "medium",
+      "base_priority_pl": "low",
+      "base_priority_en": "medium"
+    },
+    {
+      "id": "SW-20",
+      "group_id": "sw-20",
+      "cohort": "reference",
+      "expected_category": "software",
+      "category_pl": "software",
+      "category_en": "software",
+      "expected_base_priority": "medium",
+      "base_priority_pl": "medium",
+      "base_priority_en": "medium"
+    },
+    {
+      "id": "SW-21",
+      "group_id": "sw-21",
+      "cohort": "reference",
+      "expected_category": "software",
+      "category_pl": "software",
+      "category_en": "software",
+      "expected_base_priority": "medium",
+      "base_priority_pl": "high",
+      "base_priority_en": "medium"
+    },
+    {
+      "id": "SW-22",
+      "group_id": "sw-22",
+      "cohort": "reference",
+      "expected_category": "software",
+      "category_pl": "software",
+      "category_en": "software",
+      "expected_base_priority": "medium",
+      "base_priority_pl": "low",
+      "base_priority_en": "medium"
+    },
+    {
+      "id": "SW-23",
+      "group_id": "sw-23",
+      "cohort": "reference",
+      "expected_category": "software",
+      "category_pl": "software",
+      "category_en": "software",
+      "expected_base_priority": "high",
+      "base_priority_pl": "critical",
+      "base_priority_en": "high"
+    },
+    {
+      "id": "SW-24",
+      "group_id": "sw-24",
+      "cohort": "reference",
+      "expected_category": "software",
+      "category_pl": "network",
+      "category_en": "software",
+      "expected_base_priority": "high",
+      "base_priority_pl": "medium",
+      "base_priority_en": "medium"
+    },
+    {
+      "id": "SW-25",
+      "group_id": "sw-25",
+      "cohort": "reference",
+      "expected_category": "software",
+      "category_pl": "software",
+      "category_en": "software",
+      "expected_base_priority": "high",
+      "base_priority_pl": "high",
+      "base_priority_en": "medium"
+    },
+    {
+      "id": "SW-26",
+      "group_id": "sw-26",
+      "cohort": "reference",
+      "expected_category": "software",
+      "category_pl": "software",
+      "category_en": "software",
+      "expected_base_priority": "high",
+      "base_priority_pl": "high",
+      "base_priority_en": "medium"
+    },
+    {
+      "id": "SW-27",
+      "group_id": "sw-roster-publication",
+      "cohort": "reference",
+      "expected_category": "software",
+      "category_pl": "accounts_access",
+      "category_en": "software",
+      "expected_base_priority": "high",
+      "base_priority_pl": "high",
+      "base_priority_en": "medium"
+    },
+    {
+      "id": "SW-28",
+      "group_id": "sw-roster-publication",
+      "cohort": "reference",
+      "expected_category": "software",
+      "category_pl": "software",
+      "category_en": "software",
+      "expected_base_priority": "high",
+      "base_priority_pl": "medium",
+      "base_priority_en": "medium"
+    },
+    {
+      "id": "SW-29",
+      "group_id": "sw-29",
+      "cohort": "reference",
+      "expected_category": "software",
+      "category_pl": "network",
+      "category_en": "network",
+      "expected_base_priority": "critical",
+      "base_priority_pl": "critical",
+      "base_priority_en": "critical"
+    },
+    {
+      "id": "SW-30",
+      "group_id": "sw-30",
+      "cohort": "reference",
+      "expected_category": "software",
+      "category_pl": "software",
+      "category_en": "network",
+      "expected_base_priority": "critical",
+      "base_priority_pl": "high",
+      "base_priority_en": "medium"
+    },
+    {
+      "id": "WEAK-01",
+      "group_id": "weak-01",
+      "cohort": "weak",
+      "expected_category": "accounts_access",
+      "category_pl": "accounts_access",
+      "category_en": "accounts_access",
+      "expected_base_priority": null,
+      "base_priority_pl": "high",
+      "base_priority_en": "high"
+    },
+    {
+      "id": "WEAK-02",
+      "group_id": "weak-02",
+      "cohort": "weak",
+      "expected_category": "accounts_access",
+      "category_pl": "accounts_access",
+      "category_en": "accounts_access",
+      "expected_base_priority": null,
+      "base_priority_pl": "medium",
+      "base_priority_en": "medium"
+    },
+    {
+      "id": "WEAK-03",
+      "group_id": "weak-03",
+      "cohort": "weak",
+      "expected_category": "accounts_access",
+      "category_pl": "accounts_access",
+      "category_en": "accounts_access",
+      "expected_base_priority": null,
+      "base_priority_pl": "medium",
+      "base_priority_en": "medium"
+    },
+    {
+      "id": "WEAK-04",
+      "group_id": "weak-04",
+      "cohort": "weak",
+      "expected_category": "accounts_access",
+      "category_pl": "software",
+      "category_en": "accounts_access",
+      "expected_base_priority": null,
+      "base_priority_pl": "low",
+      "base_priority_en": "medium"
+    },
+    {
+      "id": "WEAK-05",
+      "group_id": "weak-05",
+      "cohort": "weak",
+      "expected_category": "accounts_access",
+      "category_pl": "accounts_access",
+      "category_en": "accounts_access",
+      "expected_base_priority": null,
+      "base_priority_pl": "critical",
+      "base_priority_en": "low"
+    },
+    {
+      "id": "WEAK-06",
+      "group_id": "weak-06",
+      "cohort": "weak",
+      "expected_category": "accounts_access",
+      "category_pl": "accounts_access",
+      "category_en": "accounts_access",
+      "expected_base_priority": null,
+      "base_priority_pl": "medium",
+      "base_priority_en": "medium"
+    },
+    {
+      "id": "WEAK-07",
+      "group_id": "weak-07",
+      "cohort": "weak",
+      "expected_category": "accounts_access",
+      "category_pl": "accounts_access",
+      "category_en": "accounts_access",
+      "expected_base_priority": "low",
+      "base_priority_pl": "medium",
+      "base_priority_en": "low"
+    },
+    {
+      "id": "WEAK-08",
+      "group_id": "weak-08",
+      "cohort": "weak",
+      "expected_category": "accounts_access",
+      "category_pl": "hardware",
+      "category_en": "accounts_access",
+      "expected_base_priority": "medium",
+      "base_priority_pl": "medium",
+      "base_priority_en": "medium"
+    },
+    {
+      "id": "WEAK-09",
+      "group_id": "weak-09",
+      "cohort": "weak",
+      "expected_category": "hardware",
+      "category_pl": "network",
+      "category_en": "hardware",
+      "expected_base_priority": null,
+      "base_priority_pl": "low",
+      "base_priority_en": "medium"
+    },
+    {
+      "id": "WEAK-10",
+      "group_id": "weak-10",
+      "cohort": "weak",
+      "expected_category": "hardware",
+      "category_pl": "hardware",
+      "category_en": "hardware",
+      "expected_base_priority": null,
+      "base_priority_pl": "low",
+      "base_priority_en": "low"
+    },
+    {
+      "id": "WEAK-11",
+      "group_id": "weak-11",
+      "cohort": "weak",
+      "expected_category": "hardware",
+      "category_pl": "hardware",
+      "category_en": "hardware",
+      "expected_base_priority": null,
+      "base_priority_pl": "low",
+      "base_priority_en": "low"
+    },
+    {
+      "id": "WEAK-12",
+      "group_id": "weak-12",
+      "cohort": "weak",
+      "expected_category": "hardware",
+      "category_pl": "accounts_access",
+      "category_en": "hardware",
+      "expected_base_priority": null,
+      "base_priority_pl": "low",
+      "base_priority_en": "high"
+    },
+    {
+      "id": "WEAK-13",
+      "group_id": "weak-13",
+      "cohort": "weak",
+      "expected_category": "hardware",
+      "category_pl": "hardware",
+      "category_en": "hardware",
+      "expected_base_priority": null,
+      "base_priority_pl": "critical",
+      "base_priority_en": "high"
+    },
+    {
+      "id": "WEAK-14",
+      "group_id": "weak-14",
+      "cohort": "weak",
+      "expected_category": "hardware",
+      "category_pl": "hardware",
+      "category_en": "hardware",
+      "expected_base_priority": "low",
+      "base_priority_pl": "low",
+      "base_priority_en": "low"
+    },
+    {
+      "id": "WEAK-15",
+      "group_id": "weak-15",
+      "cohort": "weak",
+      "expected_category": "hardware",
+      "category_pl": "accounts_access",
+      "category_en": "hardware",
+      "expected_base_priority": "medium",
+      "base_priority_pl": "low",
+      "base_priority_en": "medium"
+    },
+    {
+      "id": "WEAK-16",
+      "group_id": "weak-16",
+      "cohort": "weak",
+      "expected_category": "hardware",
+      "category_pl": "hardware",
+      "category_en": "hardware",
+      "expected_base_priority": "high",
+      "base_priority_pl": "medium",
+      "base_priority_en": "high"
+    },
+    {
+      "id": "WEAK-17",
+      "group_id": "weak-17",
+      "cohort": "weak",
+      "expected_category": "network",
+      "category_pl": "network",
+      "category_en": "network",
+      "expected_base_priority": null,
+      "base_priority_pl": "medium",
+      "base_priority_en": "medium"
+    },
+    {
+      "id": "WEAK-18",
+      "group_id": "weak-18",
+      "cohort": "weak",
+      "expected_category": "network",
+      "category_pl": "network",
+      "category_en": "network",
+      "expected_base_priority": null,
+      "base_priority_pl": "high",
+      "base_priority_en": "high"
+    },
+    {
+      "id": "WEAK-19",
+      "group_id": "weak-19",
+      "cohort": "weak",
+      "expected_category": "network",
+      "category_pl": "network",
+      "category_en": "network",
+      "expected_base_priority": null,
+      "base_priority_pl": "medium",
+      "base_priority_en": "medium"
+    },
+    {
+      "id": "WEAK-20",
+      "group_id": "weak-20",
+      "cohort": "weak",
+      "expected_category": "network",
+      "category_pl": "accounts_access",
+      "category_en": "network",
+      "expected_base_priority": null,
+      "base_priority_pl": "low",
+      "base_priority_en": "high"
+    },
+    {
+      "id": "WEAK-21",
+      "group_id": "weak-21",
+      "cohort": "weak",
+      "expected_category": "network",
+      "category_pl": "network",
+      "category_en": "network",
+      "expected_base_priority": "medium",
+      "base_priority_pl": "low",
+      "base_priority_en": "high"
+    },
+    {
+      "id": "WEAK-22",
+      "group_id": "weak-22",
+      "cohort": "weak",
+      "expected_category": "network",
+      "category_pl": "network",
+      "category_en": "accounts_access",
+      "expected_base_priority": "high",
+      "base_priority_pl": "critical",
+      "base_priority_en": "high"
+    },
+    {
+      "id": "WEAK-23",
+      "group_id": "weak-23",
+      "cohort": "weak",
+      "expected_category": "network",
+      "category_pl": "network",
+      "category_en": "network",
+      "expected_base_priority": "critical",
+      "base_priority_pl": "critical",
+      "base_priority_en": "critical"
+    },
+    {
+      "id": "WEAK-24",
+      "group_id": "weak-24",
+      "cohort": "weak",
+      "expected_category": "software",
+      "category_pl": "software",
+      "category_en": "software",
+      "expected_base_priority": null,
+      "base_priority_pl": "high",
+      "base_priority_en": "medium"
+    },
+    {
+      "id": "WEAK-25",
+      "group_id": "weak-25",
+      "cohort": "weak",
+      "expected_category": "software",
+      "category_pl": "software",
+      "category_en": "software",
+      "expected_base_priority": null,
+      "base_priority_pl": "medium",
+      "base_priority_en": "medium"
+    },
+    {
+      "id": "WEAK-26",
+      "group_id": "weak-26",
+      "cohort": "weak",
+      "expected_category": "software",
+      "category_pl": "hardware",
+      "category_en": "software",
+      "expected_base_priority": null,
+      "base_priority_pl": "medium",
+      "base_priority_en": "medium"
+    },
+    {
+      "id": "WEAK-27",
+      "group_id": "weak-27",
+      "cohort": "weak",
+      "expected_category": "software",
+      "category_pl": "software",
+      "category_en": "software",
+      "expected_base_priority": null,
+      "base_priority_pl": "medium",
+      "base_priority_en": "medium"
+    },
+    {
+      "id": "WEAK-28",
+      "group_id": "weak-28",
+      "cohort": "weak",
+      "expected_category": "software",
+      "category_pl": "software",
+      "category_en": "software",
+      "expected_base_priority": "high",
+      "base_priority_pl": "low",
+      "base_priority_en": "high"
+    },
+    {
+      "id": "WEAK-29",
+      "group_id": "weak-29",
+      "cohort": "weak",
+      "expected_category": "software",
+      "category_pl": "software",
+      "category_en": "software",
+      "expected_base_priority": "critical",
+      "base_priority_pl": "critical",
+      "base_priority_en": "critical"
+    },
+    {
+      "id": "WEAK-30",
+      "group_id": "weak-30",
+      "cohort": "weak",
+      "expected_category": "software",
+      "category_pl": "software",
+      "category_en": "software",
+      "expected_base_priority": null,
+      "base_priority_pl": "high",
+      "base_priority_en": "low"
+    },
+    {
+      "id": "WEAK-31",
+      "group_id": "weak-31",
+      "cohort": "weak",
+      "expected_category": null,
+      "category_pl": "accounts_access",
+      "category_en": "accounts_access",
+      "expected_base_priority": null,
+      "base_priority_pl": "low",
+      "base_priority_en": "medium"
+    },
+    {
+      "id": "WEAK-32",
+      "group_id": "weak-32",
+      "cohort": "weak",
+      "expected_category": null,
+      "category_pl": "network",
+      "category_en": "software",
+      "expected_base_priority": null,
+      "base_priority_pl": "medium",
+      "base_priority_en": "medium"
+    },
+    {
+      "id": "WEAK-33",
+      "group_id": "weak-33",
+      "cohort": "weak",
+      "expected_category": null,
+      "category_pl": "software",
+      "category_en": "accounts_access",
+      "expected_base_priority": null,
+      "base_priority_pl": "medium",
+      "base_priority_en": "high"
+    },
+    {
+      "id": "WEAK-34",
+      "group_id": "weak-34",
+      "cohort": "weak",
+      "expected_category": null,
+      "category_pl": "accounts_access",
+      "category_en": "hardware",
+      "expected_base_priority": null,
+      "base_priority_pl": "low",
+      "base_priority_en": "low"
+    },
+    {
+      "id": "WEAK-35",
+      "group_id": "weak-35",
+      "cohort": "weak",
+      "expected_category": null,
+      "category_pl": "network",
+      "category_en": "network",
+      "expected_base_priority": null,
+      "base_priority_pl": "low",
+      "base_priority_en": "medium"
+    },
+    {
+      "id": "WEAK-36",
+      "group_id": "weak-36",
+      "cohort": "weak",
+      "expected_category": null,
+      "category_pl": "accounts_access",
+      "category_en": "accounts_access",
+      "expected_base_priority": null,
+      "base_priority_pl": "medium",
+      "base_priority_en": "medium"
+    },
+    {
+      "id": "WEAK-37",
+      "group_id": "weak-37",
+      "cohort": "weak",
+      "expected_category": null,
+      "category_pl": "accounts_access",
+      "category_en": "software",
+      "expected_base_priority": null,
+      "base_priority_pl": "critical",
+      "base_priority_en": "high"
+    },
+    {
+      "id": "WEAK-38",
+      "group_id": "weak-38",
+      "cohort": "weak",
+      "expected_category": null,
+      "category_pl": "accounts_access",
+      "category_en": "hardware",
+      "expected_base_priority": null,
+      "base_priority_pl": "medium",
+      "base_priority_en": "critical"
+    },
+    {
+      "id": "WEAK-39",
+      "group_id": "weak-39",
+      "cohort": "weak",
+      "expected_category": null,
+      "category_pl": "software",
+      "category_en": "software",
+      "expected_base_priority": null,
+      "base_priority_pl": "medium",
+      "base_priority_en": "low"
+    },
+    {
+      "id": "WEAK-40",
+      "group_id": "weak-40",
+      "cohort": "weak",
+      "expected_category": null,
+      "category_pl": "accounts_access",
+      "category_en": "hardware",
+      "expected_base_priority": null,
+      "base_priority_pl": "high",
+      "base_priority_en": "low"
+    },
+    {
+      "id": "WEAK-41",
+      "group_id": "weak-41",
+      "cohort": "weak",
+      "expected_category": null,
+      "category_pl": "hardware",
+      "category_en": "software",
+      "expected_base_priority": null,
+      "base_priority_pl": "medium",
+      "base_priority_en": "low"
+    },
+    {
+      "id": "WEAK-42",
+      "group_id": "weak-42",
+      "cohort": "weak",
+      "expected_category": null,
+      "category_pl": "accounts_access",
+      "category_en": "software",
+      "expected_base_priority": null,
+      "base_priority_pl": "low",
+      "base_priority_en": "critical"
+    },
+    {
+      "id": "WEAK-43",
+      "group_id": "weak-43",
+      "cohort": "weak",
+      "expected_category": null,
+      "category_pl": "hardware",
+      "category_en": "accounts_access",
+      "expected_base_priority": null,
+      "base_priority_pl": "high",
+      "base_priority_en": "medium"
+    },
+    {
+      "id": "WEAK-44",
+      "group_id": "weak-44",
+      "cohort": "weak",
+      "expected_category": null,
+      "category_pl": "accounts_access",
+      "category_en": "accounts_access",
+      "expected_base_priority": null,
+      "base_priority_pl": "low",
+      "base_priority_en": "critical"
+    },
+    {
+      "id": "WEAK-45",
+      "group_id": "weak-45",
+      "cohort": "weak",
+      "expected_category": null,
+      "category_pl": "network",
+      "category_en": "accounts_access",
+      "expected_base_priority": null,
+      "base_priority_pl": "low",
+      "base_priority_en": "low"
+    },
+    {
+      "id": "WEAK-46",
+      "group_id": "weak-46",
+      "cohort": "weak",
+      "expected_category": null,
+      "category_pl": "network",
+      "category_en": "hardware",
+      "expected_base_priority": null,
+      "base_priority_pl": "critical",
+      "base_priority_en": "critical"
+    },
+    {
+      "id": "WEAK-47",
+      "group_id": "weak-47",
+      "cohort": "weak",
+      "expected_category": null,
+      "category_pl": "hardware",
+      "category_en": "hardware",
+      "expected_base_priority": null,
+      "base_priority_pl": "low",
+      "base_priority_en": "low"
+    },
+    {
+      "id": "WEAK-48",
+      "group_id": "weak-48",
+      "cohort": "weak",
+      "expected_category": null,
+      "category_pl": "accounts_access",
+      "category_en": "hardware",
+      "expected_base_priority": null,
+      "base_priority_pl": "low",
+      "base_priority_en": "low"
+    },
+    {
+      "id": "WEAK-49",
+      "group_id": "weak-49",
+      "cohort": "weak",
+      "expected_category": null,
+      "category_pl": "hardware",
+      "category_en": "network",
+      "expected_base_priority": null,
+      "base_priority_pl": "medium",
+      "base_priority_en": "critical"
+    },
+    {
+      "id": "WEAK-50",
+      "group_id": "weak-50",
+      "cohort": "weak",
+      "expected_category": null,
+      "category_pl": "software",
+      "category_en": "hardware",
+      "expected_base_priority": null,
+      "base_priority_pl": "low",
+      "base_priority_en": "critical"
+    }
+  ],
+  "sources": {
+    "pl_report": "C:\\Users\\domin\\Desktop\\Projects\\IssueTracker\\backend\\data\\pilot\\comparison\\pl\\report.json",
+    "en_report": "C:\\Users\\domin\\Desktop\\Projects\\IssueTracker\\backend\\data\\pilot\\comparison\\en\\report.json",
+    "pl_dataset": "C:\\Users\\domin\\Desktop\\Projects\\IssueTracker\\backend\\data\\pilot\\tickets.json",
+    "en_dataset": "C:\\Users\\domin\\Desktop\\Projects\\IssueTracker\\backend\\data\\pilot\\tickets.en.json"
+  },
+  "previous_comparison": {
+    "count": 120,
+    "generated_at": "2026-11-01T13:30:42.184277+00:00",
+    "metrics": {
+      "category": {
+        "pl": {
+          "accuracy": 0.7916666666666666,
+          "macro_f1": 0.7919817927170868,
+          "labels": [
+            "accounts_access",
+            "hardware",
+            "network",
+            "software"
+          ],
+          "confusion_matrix": [
+            [
+              22,
+              0,
+              1,
+              7
+            ],
+            [
+              2,
+              23,
+              4,
+              1
+            ],
+            [
+              1,
+              3,
+              23,
+              3
+            ],
+            [
+              1,
+              0,
+              2,
+              27
+            ]
+          ],
+          "per_class": {
+            "accounts_access": {
+              "precision": 0.8461538461538461,
+              "recall": 0.7333333333333333,
+              "f1": 0.7857142857142856,
+              "support": 30
+            },
+            "hardware": {
+              "precision": 0.8846153846153846,
+              "recall": 0.7666666666666667,
+              "f1": 0.8214285714285715,
+              "support": 30
+            },
+            "network": {
+              "precision": 0.7666666666666667,
+              "recall": 0.7666666666666667,
+              "f1": 0.7666666666666667,
+              "support": 30
+            },
+            "software": {
+              "precision": 0.7105263157894737,
+              "recall": 0.9,
+              "f1": 0.7941176470588235,
+              "support": 30
+            }
+          }
+        },
+        "en": {
+          "accuracy": 0.9333333333333333,
+          "macro_f1": 0.9326437765174339,
+          "labels": [
+            "accounts_access",
+            "hardware",
+            "network",
+            "software"
+          ],
+          "confusion_matrix": [
+            [
+              27,
+              0,
+              2,
+              1
+            ],
+            [
+              0,
+              30,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              30,
+              0
+            ],
+            [
+              1,
+              1,
+              3,
+              25
+            ]
+          ],
+          "per_class": {
+            "accounts_access": {
+              "precision": 0.9642857142857143,
+              "recall": 0.9,
+              "f1": 0.9310344827586207,
+              "support": 30
+            },
+            "hardware": {
+              "precision": 0.967741935483871,
+              "recall": 1.0,
+              "f1": 0.9836065573770492,
+              "support": 30
+            },
+            "network": {
+              "precision": 0.8571428571428571,
+              "recall": 1.0,
+              "f1": 0.923076923076923,
+              "support": 30
+            },
+            "software": {
+              "precision": 0.9615384615384616,
+              "recall": 0.8333333333333334,
+              "f1": 0.8928571428571429,
+              "support": 30
+            }
+          }
+        }
+      },
+      "base_priority": {
+        "pl": {
+          "accuracy": 0.4083333333333333,
+          "macro_f1": 0.42415572232645404,
+          "labels": [
+            "low",
+            "medium",
+            "high",
+            "critical"
+          ],
+          "confusion_matrix": [
+            [
+              16,
+              5,
+              2,
+              1
+            ],
+            [
+              17,
+              15,
+              14,
+              2
+            ],
+            [
+              7,
+              12,
+              11,
+              6
+            ],
+            [
+              1,
+              2,
+              2,
+              7
+            ]
+          ],
+          "per_class": {
+            "low": {
+              "precision": 0.3902439024390244,
+              "recall": 0.6666666666666666,
+              "f1": 0.4923076923076923,
+              "support": 24
+            },
+            "medium": {
+              "precision": 0.4411764705882353,
+              "recall": 0.3125,
+              "f1": 0.3658536585365854,
+              "support": 48
+            },
+            "high": {
+              "precision": 0.3793103448275862,
+              "recall": 0.3055555555555556,
+              "f1": 0.3384615384615385,
+              "support": 36
+            },
+            "critical": {
+              "precision": 0.4375,
+              "recall": 0.5833333333333334,
+              "f1": 0.5,
+              "support": 12
+            }
+          }
+        },
+        "en": {
+          "accuracy": 0.49166666666666664,
+          "macro_f1": 0.489052614052614,
+          "labels": [
+            "low",
+            "medium",
+            "high",
+            "critical"
+          ],
+          "confusion_matrix": [
+            [
+              11,
+              9,
+              3,
+              1
+            ],
+            [
+              7,
+              28,
+              11,
+              2
+            ],
+            [
+              0,
+              17,
+              13,
+              6
+            ],
+            [
+              0,
+              2,
+              3,
+              7
+            ]
+          ],
+          "per_class": {
+            "low": {
+              "precision": 0.6111111111111112,
+              "recall": 0.4583333333333333,
+              "f1": 0.5238095238095238,
+              "support": 24
+            },
+            "medium": {
+              "precision": 0.5,
+              "recall": 0.5833333333333334,
+              "f1": 0.5384615384615384,
+              "support": 48
+            },
+            "high": {
+              "precision": 0.43333333333333335,
+              "recall": 0.3611111111111111,
+              "f1": 0.39393939393939387,
+              "support": 36
+            },
+            "critical": {
+              "precision": 0.4375,
+              "recall": 0.5833333333333334,
+              "f1": 0.5,
+              "support": 12
+            }
+          }
+        }
+      }
+    }
+  }
+}

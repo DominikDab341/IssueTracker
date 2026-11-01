@@ -58,6 +58,17 @@ Słownik pilotażu i jego wyniki nie zmieniają aplikacji ani danych demonstracy
 Po ręcznym przeglądzie tryb `--labels reviewed` używa zatwierdzonych etykiet
 i odmawia oceny, jeśli jakiś rekord pozostaje `pending`.
 
+Porównanie języków z 2026-11-01 zachowuje polskie pliki i dodaje tłumaczenia
+tych samych 40 przypadków w `backend/data/pilot/tickets.en.json` oraz czytelny
+podgląd w `review.en.md`. Oba języki przeliczono tym samym skryptem i snapshotem
+MiniLM, bez strojenia. Accuracy kategorii: PL **60%**, EN **67,5%**;
+priorytetu bazowego: PL **37,5%**, EN **50%**. Poprawa nie obejmuje wszystkich
+klas; etykiety i tłumaczenia nadal oczekują na ręczny przegląd.
+[Pełne porównanie](backend/data/pilot/comparison/report.md) zawiera macro-F1,
+wyniki per klasa i przewidywania według ID, a
+[opis tłumaczenia](backend/data/pilot/translation-en.md) podaje pochodzenie
+i polecenia odtworzenia. Pierwotny raport w `results/` zachowano bez zmian.
+
 Testy pilotażu, bez bazy i modelu:
 
 ```powershell
@@ -597,3 +608,35 @@ nie ma jeszcze osobnego wolumenu ani przypiętej wersji (E9.5).
 
 Formalny opis pracy należy ujednolicić z wdrożoną, zatwierdzoną zmianą
 Celery na FastAPI `BackgroundTasks` i powyższymi ograniczeniami.
+
+---
+
+## Aktualizacja pilotażu — 120 zgłoszeń PL/EN, 2026-11-01
+
+`backend/data/pilot/tickets.json` i `tickets.en.json` zawierają po 120 sparowanych zgłoszeń, po 30 na kategorię. Pierwotne 40 zatwierdzono na podstawie decyzji użytkownika; nowe 80 oczekuje na przegląd. Historyczne fragmenty powyżej opisują wcześniejszy etap 40 przypadków.
+
+| Zadanie | Accuracy PL | Accuracy EN | Macro-F1 PL | Macro-F1 EN |
+|---|---:|---:|---:|---:|
+| Kategoria | 79,2% | 93,3% | 0,792 | 0,933 |
+| Priorytet bazowy | 40,8% | 49,2% | 0,424 | 0,489 |
+
+Użyto tego samego snapshotu modelu, k=3 i wykluczenia grup incydentów. Wyniki kolejnych przebiegów są dopisywane na dole tych samych plików Markdown: [porównanie PL/EN](backend/data/pilot/comparison/report.md), [raport PL](backend/data/pilot/comparison/pl/report.md), [raport EN](backend/data/pilot/comparison/en/report.md) i [pierwotny raport PL](backend/data/pilot/results/report.md). Każda nowa sekcja wskazuje pełny JSON; `runs/` zachowuje wcześniejsze przebiegi.
+
+[Opis rozszerzenia](backend/data/pilot/expansion-120.md) zawiera kopie źródeł, zakres zatwierdzenia i trzy polecenia odtwarzania pomiaru oraz porównania. `compare_pilot_languages.py` uruchamia się po pomiarach PL i EN, bez ponownego ładowania modelu. Porównanie 40/120 zmienia również pulę referencji i nie jest testem poprawy na stałym zbiorze.
+
+---
+
+## Końcowy pomiar tej serii — 170 opisów PL/EN, 2026-11-01
+
+Na prośbę użytkownika zakończono rozszerzanie bieżącego pilotażu na 170 opisach w każdym języku. Wszystkie wcześniejsze 120 zatwierdzono i pozostawiono jako referencję. Dodano 50 krótkich, słabo opisanych zgłoszeń, wyłącznie jako zapytania testowe, z osobnymi wynikami. Ich adnotacje i tłumaczenia pozostają do przeglądu.
+
+| Zakres | Zadanie | Ocenione | Accuracy PL | Accuracy EN |
+|---|---|---:|---:|---:|
+| Nowe 50 | Kategoria | 30/50 | 76,7% | 96,7% |
+| Nowe 50 | Priorytet bazowy | 10/50 | 40,0% | 90,0% |
+| Całe 170 | Kategoria | 150/170 | 78,7% | 94,0% |
+| Całe 170 | Priorytet bazowy | 130/170 | 40,8% | 52,3% |
+
+Brak ustalalnej etykiety jest zapisany jako null i pomijany w metrykach z jawnym mianownikiem. Model wymusił kategorię także dla wszystkich 20 nieoznaczalnych opisów oraz priorytet dla wszystkich 40 opisów bez informacji o wpływie. Takich odpowiedzi nie zaliczamy jako poprawnych rozpoznań.
+
+Wyniki poprzednich 120 pozostały takie same; nowe 50 nie trafiło do referencji. [Raport porównawczy](backend/data/pilot/comparison/report.md) dopisano pod wcześniejszymi wynikami. [Opis ostatniej partii](backend/data/pilot/weak-170.md) zawiera metodę, pochodzenie, pełne mianowniki i polecenia odtworzenia. Kopie danych i JSON-y wcześniejszych przebiegów zachowano. Przeszło 20 testów pilotażu i priorytetów.

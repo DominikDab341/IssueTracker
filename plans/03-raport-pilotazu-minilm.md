@@ -95,3 +95,37 @@ Oczekiwane etykiety oznaczają etykiety wybranego trybu, a nie automatycznie pra
 Pełne przewidywania, sąsiedzi, rozkłady etykiet, wersje bibliotek i metadane znajdują się w [report.json](../backend/data/pilot/results/report.json).
 Każda grupa jest wykluczana w całości z referencji. Nie ma oddzielnego testu końcowego.
 Obecna aplikacja i jej baza nie są zmieniane przez ten skrypt.
+
+---
+
+## Kolejny pomiar — 2026-11-01, 120 zgłoszeń PL i EN
+
+Zbiory rozszerzono do 120 odpowiadających sobie zgłoszeń w każdym języku, po 30 na kategorię i 108 grup incydentów. Użytkownik zatwierdził pierwotne 40 przykładów w obu wersjach; nowe 80 pozostaje do przeglądu. Pomiar używa trybu `proposed`, bez zmiany proponowanych etykiet.
+
+| Zadanie | Accuracy PL | Accuracy EN | Macro-F1 PL | Macro-F1 EN |
+|---|---:|---:|---:|---:|
+| Kategoria | 79,2% | 93,3% | 0,792 | 0,933 |
+| Priorytet bazowy | 40,8% | 49,2% | 0,424 | 0,489 |
+
+Zachowano snapshot MiniLM `c9745ed1d9f207416be6d2e6f8de32d1f16199bf`, k=3, kosinus, głosowanie większościowe i wykluczenie całej grupy incydentu. Stałe medium daje 40% accuracy i macro-F1 0,143. Nie strojono progów ani parametrów.
+
+Wyniki nie stanowią końcowego testu. Względem 40 przykładów zmieniły się zarazem oceniane przypadki i pula referencji. Pełne [porównanie](../backend/data/pilot/comparison/report.md) zawiera też wyniki pierwotnych 40 przypadków przy nowej puli sąsiadów. Priorytet bazowy pozostaje wyraźnie słabszym zadaniem niż kategoria.
+
+Nowe wyniki dopisano na dole istniejących raportów, zachowując stare sekcje. Oryginalne dane 40 i stan 120 są w `backend/data/pilot/snapshots/`; stare JSON-y pomiarów zachowano w katalogach `runs/`. [Opis rozszerzenia](../backend/data/pilot/expansion-120.md) zawiera metadane i polecenia odtwarzania.
+
+---
+
+## Ostatni pomiar tej serii — 2026-11-01, 120 referencji i 50 słabych opisów
+
+Użytkownik zatwierdził pozostałe 80 przykładów. Wszystkie wcześniejsze 120 jest approved. Dodano 50 nowych par PL/EN jako zapytania do tej stałej referencji, bez dopisywania ich do sąsiadów KNN. Nowe adnotacje są proposed/pending. Snapshot, k=3, kosinus i głosowanie zachowano.
+
+| Zakres | Zadanie | Ocenione | Accuracy PL | Accuracy EN | Macro-F1 PL | Macro-F1 EN |
+|---|---|---:|---:|---:|---:|---:|
+| Nowe 50 | Kategoria | 30/50 | 76,7% | 96,7% | 0,772 | 0,966 |
+| Nowe 50 | Priorytet bazowy | 10/50 | 40,0% | 90,0% | 0,367 | 0,914 |
+| Całe 170 | Kategoria | 150/170 | 78,7% | 94,0% | 0,786 | 0,939 |
+| Całe 170 | Priorytet bazowy | 130/170 | 40,8% | 52,3% | 0,428 | 0,529 |
+
+Nie wymyślano etykiet dla niejednoznacznych tekstów: 20 opisów nie pozwala ustalić kategorii, a 40 priorytetu. Są oznaczone null i nie wchodzą do mianownika accuracy/F1. W obu językach klasyfikator mimo to wymusił odpowiednio 20 kategorii i 40 priorytetów. Obecny wynik uwidacznia potrzebę doprecyzowania takich opisów; nie potwierdza poprawności tych wymuszonych odpowiedzi.
+
+Metryki na oryginalnych 120 odtworzono bez zmian. Nowe wyniki dopisano pod poprzednimi w istniejących raportach. [Pełne porównanie](../backend/data/pilot/comparison/report.md) i [protokół ostatniej partii](../backend/data/pilot/weak-170.md) zachowują mianowniki, podzbiory, kopie źródeł i wyniki JSON. Wzrost do 300 nie jest już zakresem tego pilotażu; 170 to decyzja o zakresie, a nie dowód wystarczającej próby wynikający z 93,3%.

@@ -572,3 +572,13 @@ W opisie aspektu inżynierskiego należy zastąpić kolejki zadań asynchroniczn
 ## Pierwszy pakiet prac
 
 Zaczynamy od **etapów 1–2**: uruchomienia i naprawy obecnego API, a następnie zastąpienia Celery przez `BackgroundTasks`. Pozostałe etapy realizujemy po uzyskaniu i sprawdzeniu tego fundamentu.
+
+---
+
+## Aktualizacja po ostatniej partii pilotażu — 2026-11-01
+
+Użytkownik zatwierdził wszystkie wcześniejsze 120 przykładów i zlecił ostatnie 50 słabo opisanych par. Dla bieżącego pilotażu zastępuje to wstępny cel 300 rozmiarem 170 na język: 120 zatwierdzonych referencji oraz 50 zapytań poza referencją. Model i parametry pozostały te same. Dane i wyniki wcześniejszych etapów zachowano; raporty Markdown są uzupełniane przez dopisywanie.
+
+Nowych 50 nie należy wykorzystywać jako referencji ani tworzyć dla niejasnych opisów fikcyjnych etykiet. Kategorie są ustalalne w 30, priorytety w 10; pozostałe adnotacje mają null. [Ostatni pomiar](../backend/data/pilot/weak-170.md) podaje wyniki osobno dla słabych opisów i całych 170 oraz liczbę wymuszonych odpowiedzi.
+
+E4.1–E4.3 mają teraz materiał pilotażowy w tym zakresie. Rozdzielenie walidacji i niezależnego testu, protokół RAG oraz pozostałe zadania etapu 4 wymagają osobnego domknięcia. Wynik 93,3% na poprzedniej syntetycznej próbce nie zastępuje tych elementów.

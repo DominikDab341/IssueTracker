@@ -119,3 +119,13 @@ W planie implementacji dodano przypomnienia dla asystenta przy poszczególnych e
 Pierwotny przegląd obejmował składnię 16 plików Pythona przy niedostępnym Dockerze. Po etapie 1 Docker działa, obrazy API/workera/Flower zostały zbudowane, a podstawowe API i migracje sprawdzono w integracji. Wynik 13 testów dotyczy fundamentu etapu 1, nie jakości klasyfikacji ani funkcji zaplanowanych na kolejne etapy.
 
 Po etapie 2 przeszło 26 testów lokalnie i w zbudowanym obrazie Docker. Testy obejmują stany, błędy modelu i zapisu, atomowość, równoległe ponowienia, edycję podczas obliczeń, wyścig z przyjęciem, nieaktualne wyniki, pole ręcznego priorytetu, pracę w wątku i kilka kolejnych zgłoszeń. Rzeczywisty proces Uvicorn zwrócił HTTP podczas powolnego embeddingu, został wymuszenie przerwany, a po restarcie rozpoznał przerwanie i wykonał jawne ponowienie. Próba drugiego procesu nie zmieniła zadań działającego API. Osobna próba prawdziwego MiniLM zakończyła dwa zadania z embeddingami 384. Nowe API Compose zwróciło 200 dla listy, szczegółów i OpenAPI, 404 dla nieistniejącego zadania oraz 422 dla błędnego formularza; 10 rekordów demonstracyjnych pozostało zachowanych. Nie mierzono jakości KNN ani nie implementowano ról, korekt kategorii, frontendu czy LLM.
+
+---
+
+## Aktualizacja zakresu pilotażu — 2026-11-01
+
+Zgodnie z decyzją użytkownika bieżąca seria pomiarów kończy się na 170 opisach na język, zamiast wstępnego celu 300: 120 zatwierdzonych referencji i 50 krótkich, słabo opisanych zapytań. Nowe 50 nie trafia do referencji; ich adnotacje i tłumaczenia oczekują na przegląd. Brak wystarczającej informacji jest oznaczony null.
+
+Na nowych 50 kategorię można zaproponować w 30 przypadkach (accuracy PL 76,7%, EN 96,7%), a priorytet w 10 (PL 40%, EN 90%). KNN wymusza odpowiedź również na nieoznaczalnych tekstach: 20 kategorii i 40 priorytetów w każdym języku. Wyniki na poprzednich 120 odtworzono bez zmian. Szczegóły i historia są w [raporcie pilotażu](03-raport-pilotazu-minilm.md).
+
+Zakończenie generowania jest decyzją zakresową autora. Wysokie accuracy na syntetycznych danych nie rozstrzyga jakości na danych organizacji. Podział końcowej ewaluacji, dobór parametrów na walidacji i przygotowanie źródeł oraz pytań RAG pozostają osobnymi zadaniami.
