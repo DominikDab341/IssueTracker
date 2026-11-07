@@ -80,13 +80,19 @@ async def reclassify_legacy():
             if active:
                 raise ValueError("Istnieją aktywne zadania; zakończ je przed przeklasyfikowaniem historii.")
             prediction = await classify(ticket.text, session)
-            if prediction.category == "unknown":
+            if prediction.category_review_reason == "no_references":
                 raise ValueError("Brak aktywnych referencji; najpierw wykonaj import.")
-            ticket.predicted_category = ticket.category = prediction.category
+            ticket.category = prediction.category
+            ticket.predicted_category = prediction.predicted_category or prediction.category
             ticket.predicted_category_version = ticket.content_version
             ticket.base_priority = prediction.base_priority
             ticket.automatic_priority = prediction.automatic_priority
             ticket.classification_version = prediction.classification_version
+            ticket.predicted_base_priority = prediction.predicted_base_priority or prediction.base_priority
+            ticket.category_score, ticket.priority_score = prediction.category_score, prediction.priority_score
+            ticket.category_review_reason = prediction.category_review_reason
+            ticket.priority_review_reason = prediction.priority_review_reason
+            ticket.review_version = ticket.content_version
             ticket.embedding_vector, ticket.embedding_version = prediction.vector, ticket.content_version
             update_effective_priority(ticket)
             await session.commit()

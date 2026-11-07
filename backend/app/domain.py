@@ -24,6 +24,7 @@ class PrioritySource(StrEnum):
     WORK_BLOCKED = "work_blocked"
     AUTOMATIC = "automatic"
     FALLBACK = "fallback"
+    ESCALATION = "escalation"
 
 
 class TaskState(StrEnum):
@@ -52,3 +53,9 @@ class ClassificationPrediction:
     automatic_priority: Priority | None
     vector: list[float]
     classification_version: str | None = None
+    predicted_category: str | None = None
+    predicted_base_priority: Priority | None = None
+    category_score: float | None = None
+    priority_score: float | None = None
+    category_review_reason: str | None = None
+    priority_review_reason: str | None = None

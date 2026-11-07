@@ -1,12 +1,13 @@
 """Operacje na zgłoszeniach i granice ich transakcji."""
 import anyio
-from sqlalchemy import select
+from sqlalchemy import or_, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.domain import ACTIVE_TASK_STATES, RETRYABLE_ERRORS, Category, Priority, TaskErrorCode, TaskState
-from app.models.models import AssignmentHistory, ClassificationTask, Ticket, User
+from app.models.models import AssignmentHistory, ClassificationReference, ClassificationTask, Ticket, User
 from app.services.access import Role, available_tickets, require_active, require_roles
 from app.services.classifier import find_similar_open_tickets
+from app.services.classifier import APPROVED_TICKET_SOURCE
 from app.services.errors import ConflictError, ForbiddenError, InvalidInputError, NotFoundError
 from app.services.priorities import update_effective_priority
 from app.services.tasks import create_task, fail_task, lock_task, now
@@ -84,7 +85,9 @@ class TicketService:
             query = query.where(Ticket.priority == priority)
         if needs_review is not None:
             require_roles(self.actor, Role.STAFF, Role.ADMIN)
-            query = query.where((Ticket.category == "unknown") if needs_review else (Ticket.category != "unknown"))
+            review = or_(Ticket.category == "unknown", (Ticket.review_version == Ticket.content_version)
+                         & Ticket.priority_review_reason.is_not(None))
+            query = query.where(review if needs_review else ~review)
         result = await self.db.execute(query.limit(limit).offset(offset))
         tickets = []
         for ticket, state in result.all():
@@ -269,3 +272,45 @@ class TicketService:
         ticket.manual_category_by_id, ticket.manual_category_at = self.actor.id, now()
         await self._commit(ticket)
         return ticket
+
+    async def reference(self, ticket_id: int):
+        require_roles(self.actor, Role.STAFF, Role.ADMIN)
+        ticket = await self._get(ticket_id)
+        return await self.db.scalar(select(ClassificationReference).where(
+            ClassificationReference.source_ticket_id == ticket.id,
+            ClassificationReference.source_content_version == ticket.content_version))
+
+    async def approve_reference(self, ticket_id: int, *, category: Category, base_priority: Priority,
+                                expected_content_version: int):
+        require_roles(self.actor, Role.STAFF, Role.ADMIN)
+        ticket = await self._get(ticket_id, locked=True)
+        actor = await self.db.scalar(select(User).where(User.id == self.actor.id).with_for_update(read=True)
+                                     .execution_options(populate_existing=True))
+        if actor is None:
+            raise ForbiddenError("Konto zatwierdzającego nie jest już dostępne.")
+        require_roles(actor, Role.STAFF, Role.ADMIN)
+        if actor.role != Role.ADMIN and ticket.assignee_id != actor.id:
+            raise ForbiddenError("Referencję może zatwierdzić aktualny wykonawca albo administrator.")
+        if ticket.status != TicketStatus.RESOLVED:
+            raise ConflictError("Do referencji można zatwierdzić tylko rozwiązane zgłoszenie.")
+        if type(expected_content_version) is not int or expected_content_version != ticket.content_version:
+            raise ConflictError("Wersja opisu zmieniła się. Odczytaj aktualną treść.")
+        try:
+            category, base_priority = Category(category), Priority(base_priority)
+        except (ValueError, TypeError):
+            raise InvalidInputError("Wybierz poprawną kategorię i priorytet bazowy.") from None
+        if not ticket.classification_current or ticket.embedding_vector is None:
+            raise ConflictError("Zgłoszenie nie ma aktualnego embeddingu; referencja nie została dodana.")
+        if await self.db.scalar(select(ClassificationReference.id).where(
+            ClassificationReference.source_ticket_id == ticket.id,
+            ClassificationReference.source_content_version == ticket.content_version)):
+            raise ConflictError("Ta wersja zgłoszenia została już zatwierdzona jako referencja.")
+        reference = ClassificationReference(
+            text=ticket.text, category=category, base_priority=base_priority,
+            embedding_vector=list(ticket.embedding_vector), source=APPROVED_TICKET_SOURCE,
+            source_key=f"ticket:{ticket.id}:v{ticket.content_version}", source_ticket_id=ticket.id,
+            source_content_version=ticket.content_version, approved_by_id=actor.id, approved_at=now())
+        self.db.add(reference)
+        await self.db.commit()
+        await self.db.refresh(reference)
+        return reference

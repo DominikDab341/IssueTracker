@@ -2,8 +2,8 @@ import { useState } from 'react';
 import { Link, useParams } from 'react-router';
 import { useAuth } from './auth';
 import { ActionForm, Badge, ErrorBox, Loading, Options, TicketBadges, useResource } from './components';
-import { categories, date, permissions, person, priorities, sources, taskStates } from './labels';
-import type { User } from './types';
+import { categories, date, permissions, person, priorities, reviewReasons, sources, taskStates } from './labels';
+import type { ReferenceApproval, Ticket, User } from './types';
 import { useTicket } from './useTicket';
 import TicketEditor from './TicketEditor';
 
@@ -16,6 +16,25 @@ function Assignment({ id, reload, onFailure }: { id: number; reload: () => void;
     {data?.length === 0 && <p className="hint">Brak aktywnych, zaakceptowanych kont obsługi na tej stronie.</p>}
     <div className="button-row"><button type="button" className="secondary" disabled={offset === 0 || loading} onClick={() => setOffset(o => o - 100)}>Poprzednie osoby</button><button type="button" className="secondary" disabled={loading || !data || data.length < 100} onClick={() => setOffset(o => o + 100)}>Kolejne osoby</button></div>
   </ActionForm>;
+}
+
+function ReferenceReview({ ticket, canApprove, reload }: { ticket: Ticket; canApprove: boolean; reload: () => void }) {
+  const { api } = useAuth();
+  const [revision, setRevision] = useState(0);
+  const { data, loading, error } = useResource<ReferenceApproval | null>(`/tickets/${ticket.id}/reference`, revision);
+  return <section className="panel"><h2>Przykład referencyjny</h2><ErrorBox error={error} />
+    {loading ? <Loading /> : data ? <><p className="success">Zatwierdzono do klasyfikacji nowych zgłoszeń.</p>
+      <p>{categories[data.category]} · {priorities[data.base_priority]}</p>
+      <p className="hint">{person(data.approved_by_id)} · {date(data.approved_at)} · wersja opisu {data.source_content_version}</p>
+      <p className="hint">Późniejsza korekta zgłoszenia nie zmienia automatycznie zatwierdzonego przykładu.</p></> : canApprove && !error ?
+      <ActionForm title="Zatwierdź rozwiązane zgłoszenie" submit="Dodaj do referencji" action={form => api(`/tickets/${ticket.id}/reference`, {
+        method: 'POST', body: JSON.stringify({ category: form.get('category'), base_priority: form.get('base_priority'), expected_content_version: ticket.content_version }),
+      })} onSuccess={() => { setRevision(value => value + 1); reload(); }}>
+        <p className="hint">Sprawdź opis i wybierz etykiety bazowe. Ta decyzja rozszerza wiedzę klasyfikatorów; nie zmienia priorytetu końcowego sprawy.</p>
+        <label>Kategoria referencyjna<select name="category" required defaultValue=""><option value="">Wybierz kategorię</option><Options values={Object.fromEntries(Object.entries(categories).filter(([key]) => key !== 'unknown'))} /></select></label>
+        <label>Priorytet bazowy referencji<select name="base_priority" required defaultValue=""><option value="">Wybierz priorytet bazowy</option><Options values={Object.fromEntries(Object.entries(priorities).filter(([key]) => key !== 'unknown'))} /></select></label>
+      </ActionForm> : !error && <p className="hint">Zgłoszenie nie zostało zatwierdzone jako referencja. Może to zrobić aktualny wykonawca lub administrator.</p>}
+  </section>;
 }
 
 export default function TicketDetail() {
@@ -53,7 +72,8 @@ export default function TicketDetail() {
     <section className="panel"><div className="section-heading"><h2>Klasyfikacja</h2><Badge tone={task?.state === 'failed' ? 'review' : ''}>{task ? taskStates[task.state] : ticket.current_task_state ? taskStates[ticket.current_task_state] : 'Brak zadania'}</Badge></div>
       <p className="muted">Stan zadania jest niezależny od statusu zgłoszenia.</p>
       {task?.state === 'failed' && <div className="notice error" role="alert">{task.error_code === 'interrupted' ? 'Przetwarzanie zostało przerwane. ' : ''}{task.error || 'Nie udało się zakończyć klasyfikacji.'}</div>}
-      {ticket.needs_review && <p className="notice">Do weryfikacji: kategoria wymaga oceny osoby obsługującej.</p>}
+      {ticket.category === 'unknown' && <p className="notice">Do weryfikacji: kategoria wymaga oceny osoby obsługującej. {ticket.review_version === ticket.content_version && reviewReasons[ticket.category_review_reason || '']}</p>}
+      {ticket.priority_needs_review && <p className="notice">Priorytet bazowy wymaga weryfikacji. {reviewReasons[ticket.priority_review_reason || '']} Zachowano propozycję modelu; obowiązujący priorytet uwzględnia pozostałe decyzje i reguły.</p>}
       {!ticket.classification_current && <p className="hint">Brak aktualnego wyniku modelu dla bieżącej wersji opisu.</p>}
       <dl className="facts"><dt>Przewidywanie modelu</dt><dd>{ticket.predicted_category ? categories[ticket.predicted_category] || 'Wynik ze starego słownika' : 'Brak wyniku'}{ticket.predicted_category_version !== null && ` · wersja ${ticket.predicted_category_version}`}</dd>
         <dt>Kategoria operacyjna</dt><dd>{categories[ticket.category] || ticket.category}</dd>
@@ -64,10 +84,13 @@ export default function TicketDetail() {
       </ActionForm>}
     </section>
     {(ticket.resolution_note || ticket.rejection_reason) && <section className="panel"><h2>{ticket.resolution_note ? 'Opis rozwiązania' : 'Powód odrzucenia'}</h2><p className="ticket-text">{ticket.resolution_note || ticket.rejection_reason}</p><p className="hint">{person(ticket.resolution_note ? ticket.resolved_by_id : ticket.rejected_by_id)} · {date(ticket.resolution_note ? ticket.resolved_at : ticket.rejected_at)}</p></section>}
+    {ticket.status === 'resolved' && user.role !== 'reporter' && <ReferenceReview ticket={ticket} canApprove={can.approveReference} reload={reload} />}
     <section className="panel"><h2>Możliwe duplikaty</h2><p className="hint">Sugestie podobnych aktywnych spraw dostępnych dla Twojego konta. Podobieństwo tekstu nie potwierdza duplikatu.</p>
       {duplicates.length ? <ul className="duplicates">{duplicates.map(item => <li key={item.id}><Link to={`/tickets/${item.id}`}>#{item.id} · {item.text}</Link><span className="hint">Podobieństwo tekstu: {Math.round(item.similarity * 100)}%</span></li>)}</ul> : <p className="muted">Brak sugestii dla aktualnego wyniku klasyfikacji.</p>}
     </section></div>
     <aside className="detail-aside"><section className="panel"><h2>Informacje o sprawie</h2><dl className="facts vertical"><dt>Autor</dt><dd>{ticket.author_id ? person(ticket.author_id) : 'Autor historyczny nieznany'}</dd><dt>Osoba obsługująca</dt><dd>{person(ticket.assignee_id)}</dd><dt>Priorytet</dt><dd>{priorities[ticket.priority]}<small>{sources[ticket.priority_source] || ticket.priority_source}</small></dd><dt>Priorytet bazowy modelu</dt><dd>{ticket.base_priority ? priorities[ticket.base_priority] : 'Brak wyniku'}</dd>
+      {ticket.predicted_base_priority && ticket.priority_needs_review && <><dt>Propozycja do oceny</dt><dd>{priorities[ticket.predicted_base_priority]}</dd></>}
+      {ticket.escalation_reason && <><dt>Eskalacja</dt><dd>{ticket.escalation_reason}<small>{date(ticket.escalated_at || null)}</small></dd></>}
       {ticket.manual_priority_by_id && <><dt>Decyzja o priorytecie</dt><dd>{person(ticket.manual_priority_by_id)}<small>{date(ticket.manual_priority_at)}</small></dd></>}
       <dt>Ostatnia aktualizacja</dt><dd>{date(ticket.updated_at)}</dd></dl></section>
       <section className="panel"><h2>Działania</h2><div className="stack">

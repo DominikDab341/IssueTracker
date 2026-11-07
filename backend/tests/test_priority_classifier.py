@@ -37,3 +37,10 @@ class PriorityClassifierTests(unittest.TestCase):
         self.assertTrue(version.startswith("helpdesk-v1:"))
         result, _ = priority.predict_priority("Any new ticket", self.references[:1], **self.options)
         self.assertEqual(result, "low")
+
+    def test_unknown_terms_are_distinguished_from_a_model_score(self):
+        result = priority.predict_priority_details("qzxvxxqz", self.references, **self.options)
+        self.assertFalse(result.has_known_terms)
+        self.assertIsNotNone(result.label)
+        self.assertGreaterEqual(result.score, 0)
+        self.assertLessEqual(result.score, 1)

@@ -22,7 +22,7 @@ class HelpdeskRuntimeTests(ApiTestCase):
         self.assertIn(result["base_priority"], ("low", "medium", "high", "critical"))
         self.assertEqual(result["priority"], "critical")
         self.assertEqual(result["priority_source"], "work_blocked")
-        self.assertTrue(result["classification_version"].startswith("helpdesk-v1:"))
+        self.assertTrue(result["classification_version"].startswith("helpdesk-v2:"))
         async with self.sessions() as db:
             self.assertEqual(await db.scalar(text("SELECT count(*) FROM classification_references")), 120)
             self.assertEqual(await db.scalar(text("SELECT count(*) FROM tickets")), 1)

@@ -98,6 +98,16 @@ class TicketResponse(BaseModel):
     embedding_version: int | None
     classification_current: bool
     needs_review: bool
+    priority_needs_review: bool
+    predicted_base_priority: str | None
+    category_score: float | None
+    priority_score: float | None
+    category_review_reason: str | None
+    priority_review_reason: str | None
+    review_version: int | None
+    escalation_min_priority: str | None
+    escalated_at: datetime | None
+    escalation_reason: str | None
     current_task_state: TaskState | None = None
     current_task_id: str | None
     base_priority: str | None
@@ -115,6 +125,12 @@ class ClassificationResultResponse(BaseModel):
     base_priority: Priority | None
     automatic_priority: Priority | None
     classification_version: str | None = None
+    accepted_category: str | None = None
+    predicted_base_priority: Priority | None = None
+    category_score: float | None = None
+    priority_score: float | None = None
+    category_review_reason: str | None = None
+    priority_review_reason: str | None = None
 
 
 class TaskStatusResponse(BaseModel):
@@ -161,6 +177,24 @@ class CategoryUpdate(BaseModel):
     model_config = ConfigDict(extra="forbid")
     category: Category
     expected_content_version: int = Field(gt=0, strict=True)
+
+
+class ReferenceApproval(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+    category: Category
+    base_priority: Priority
+    expected_content_version: int = Field(gt=0, strict=True)
+
+
+class ReferenceResponse(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+    id: int
+    category: str
+    base_priority: str
+    source_ticket_id: int
+    source_content_version: int
+    approved_by_id: int
+    approved_at: datetime
 
 
 class AssignmentResponse(BaseModel):

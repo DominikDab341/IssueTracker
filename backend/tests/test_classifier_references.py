@@ -51,7 +51,7 @@ class ClassifierReferenceTests(ApiTestCase):
             await self.process(ticket["current_task_id"])
         result = (await self.client.get(f"/tickets/{ticket['id']}")).json()
         self.assertEqual(result["base_priority"], "critical")
-        self.assertTrue(result["classification_version"].startswith("helpdesk-v1:"))
+        self.assertTrue(result["classification_version"].startswith("helpdesk-v2:"))
         task = (await self.client.get(f"/tickets/{ticket['id']}/task/{ticket['current_task_id']}")).json()
         self.assertEqual(task["result"]["classification_version"], result["classification_version"])
 

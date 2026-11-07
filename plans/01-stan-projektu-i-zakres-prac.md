@@ -1,5 +1,17 @@
 # Stan projektu i zakres prac
 
+**Aktualizacja pakietu etapów 4–5 (2026-11-07):** wdrożono zatwierdzanie
+rozwiązanych ticketów do osobnego źródła approved_ticket z autorem, datą i wersją
+opisu, bez nadpisywania pilotażu. KNN i TF-IDF korzystają z obu źródeł.
+Są niezależne flagi weryfikacji kategorii i priorytetu, zachowane surowe propozycje
+i konfigurowalne progi wybrane na walidacji. Reguła 3 różnych autorów / 24 h
+nadaje trwałe minimum high podobnym aktywnym sprawom i respektuje administratora
+oraz checkbox. Pomiar duplikatów na grupach pilotażu zachowano z małą liczebnością
+par dodatnich i ograniczeniami; kandydat z niższym progiem nie został wdrożony
+z powodu regresji precision na diagnostyce. Przeszły 144 testy backendu,
+13 testów React i oba buildy Docker. Niezależny test końcowy i RAG pozostają
+poza tym pakietem. Bieżące polecenia i API opisuje README.
+
 **Aktualizacja 2026-11-07 — operacyjna klasyfikacja helpdesku:** na zlecenie
 użytkownika podłączono 120 zatwierdzonych angielskich przykładów pilotażowych
 jako źródło `pilot_en_120_v1`. Kategorię wyznacza MiniLM + KNN (k=3), a priorytet

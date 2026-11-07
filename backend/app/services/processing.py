@@ -11,6 +11,7 @@ from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker
 from app.domain import ACTIVE_TASK_STATES, ClassificationPrediction, TaskErrorCode, TaskState
 from app.models.models import ClassificationTask
 from app.services.priorities import update_effective_priority
+from app.services.escalation import apply_escalation
 from app.services.tasks import fail_task, lock_task, lock_ticket, now
 from app.ticket_status import ACTIVE_STATUSES
 
@@ -106,6 +107,9 @@ class ProcessingRuntime:
 
     async def _save_result(self, task_id: str, prediction: ClassificationPrediction):
         async with self.sessions() as db:
+            # Serialize group updates before taking ticket locks, including other
+            # runtimes used by integration tests. HTTP decisions lock one ticket.
+            await db.execute(text("SELECT pg_advisory_xact_lock(49011204)"))
             ticket, task = await self._locked(db, task_id)
             if task is None or task.state != TaskState.RUNNING or task.run_id != self.run_id:
                 return
@@ -113,20 +117,30 @@ class ProcessingRuntime:
                 fail_task(task, TaskErrorCode.OBSOLETE, "Wynik pominięto: zgłoszenie zmieniło treść lub zakończono jego obsługę.")
                 await db.commit()
                 return
-            ticket.predicted_category = prediction.category
+            ticket.predicted_category = prediction.predicted_category or prediction.category
             ticket.predicted_category_version = task.content_version
             if not ticket.manual_category_current:
                 ticket.category = prediction.category
             ticket.base_priority = prediction.base_priority
             ticket.classification_version = prediction.classification_version
             ticket.automatic_priority = prediction.automatic_priority
+            ticket.predicted_base_priority = prediction.predicted_base_priority or prediction.base_priority
+            ticket.category_score, ticket.priority_score = prediction.category_score, prediction.priority_score
+            ticket.category_review_reason = prediction.category_review_reason
+            ticket.priority_review_reason = prediction.priority_review_reason
+            ticket.review_version = task.content_version
             ticket.embedding_vector = prediction.vector
             ticket.embedding_version = task.content_version
             update_effective_priority(ticket)
+            await apply_escalation(db, ticket)
             task.result = {
-                "category": prediction.category, "base_priority": ticket.base_priority,
+                "category": ticket.predicted_category, "accepted_category": prediction.category,
+                "base_priority": ticket.base_priority, "predicted_base_priority": ticket.predicted_base_priority,
                 "automatic_priority": ticket.automatic_priority,
                 "classification_version": prediction.classification_version,
+                "category_score": prediction.category_score, "priority_score": prediction.priority_score,
+                "category_review_reason": prediction.category_review_reason,
+                "priority_review_reason": prediction.priority_review_reason,
             }
             task.state = TaskState.SUCCEEDED
             task.finished_at = now()

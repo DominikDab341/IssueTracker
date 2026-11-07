@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "selected": {
+    "category_min_similarity": 0.22,
+    "category_min_vote_share": 0.6666666666666666,
+    "priority_min_score": 0.38,
+    "duplicate_min_similarity": 0.67,
+    "duplicate_same_category": false
+  },
+  "deployment": {
+    "category_min_similarity": 0.22,
+    "category_min_vote_share": 0.6666666666666666,
+    "priority_min_score": 0.38,
+    "duplicate_min_similarity": 0.75,
+    "duplicate_same_category": true
+  },
+  "model_revision": "c9745ed1d9f207416be6d2e6f8de32d1f16199bf",
+  "dataset_sha256": "faf92de8a6a02799b8c48a33d8c24136ca66c8eaf06fb210174d2473c50eda6a"
+}

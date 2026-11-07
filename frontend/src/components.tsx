@@ -13,7 +13,8 @@ export function Badge({ children, tone = '' }: { children: ReactNode; tone?: str
 export function TicketBadges({ ticket }: { ticket: Ticket }) {
   return <div className="badges"><Badge tone={ticket.status}>{statuses[ticket.status]}</Badge>
     <Badge tone={ticket.priority}>{priorities[ticket.priority] ?? 'Nieustalony'}</Badge>
-    <Badge tone={ticket.needs_review ? 'review' : ''}>{categories[ticket.category] ?? ticket.category}</Badge></div>;
+    <Badge tone={ticket.category === 'unknown' ? 'review' : ''}>{categories[ticket.category] ?? ticket.category}</Badge>
+    {ticket.priority_needs_review && <Badge tone="review">Priorytet do weryfikacji</Badge>}</div>;
 }
 export function TaskLabel({ ticket }: { ticket: Ticket }) {
   return <span>{ticket.current_task_state ? taskStates[ticket.current_task_state] : 'Brak zadania'}{!ticket.classification_current && ticket.current_task_state === 'succeeded' ? ' · wynik nieaktualny' : ''}</span>;

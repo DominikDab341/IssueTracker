@@ -5,7 +5,14 @@ export const categories: Record<string, string> = { accounts_access: 'Konta i up
 export const priorities: Record<string, string> = { low: 'Niski', medium: 'Średni', high: 'Wysoki', critical: 'Krytyczny', unknown: 'Nieustalony' };
 export const roles = { reporter: 'Zgłaszający', staff: 'Obsługa', admin: 'Administrator' };
 export const taskStates = { pending: 'Oczekuje', running: 'W toku', succeeded: 'Zakończone', failed: 'Błąd' };
-export const sources: Record<string, string> = { administrator: 'Decyzja administratora', work_blocked: 'Blokada pracy', automatic: 'Klasyfikacja automatyczna', fallback: 'Tymczasowy', legacy: 'Dane historyczne' };
+export const sources: Record<string, string> = { administrator: 'Decyzja administratora', work_blocked: 'Blokada pracy', automatic: 'Klasyfikacja automatyczna', fallback: 'Tymczasowy', legacy: 'Dane historyczne', escalation: 'Eskalacja podobnych zgłoszeń' };
+export const reviewReasons: Record<string, string> = {
+  no_references: 'Brak przykładów referencyjnych.',
+  low_category_similarity: 'Opis słabo pasuje do przykładów kategorii.',
+  split_category_vote: 'Podobne przykłady wskazują różne kategorie.',
+  no_known_priority_terms: 'Opis nie zawiera słów rozpoznawanych przez klasyfikator priorytetu.',
+  low_priority_score: 'Wynik klasyfikatora priorytetu jest zbyt słaby do automatycznej decyzji.',
+};
 export function date(value: string | null) {
   return value ? new Intl.DateTimeFormat('pl-PL', { dateStyle: 'medium', timeStyle: 'short' }).format(new Date(value)) : '—';
 }
@@ -26,6 +33,7 @@ export function permissions(user: User, ticket: Ticket, task?: Task | null) {
     reject: (admin && active(ticket)) || (staff && ticket.status === 'reported'),
     priority: admin,
     category: admin || assigned,
+    approveReference: ticket.status === 'resolved' && (admin || assigned),
     retry: active(ticket) && task?.current === true && task.state === 'failed'
       && ['processing_failed', 'interrupted'].includes(task.error_code ?? '')
       && (admin || (own && ticket.status === 'reported' && ticket.assignee_id === null)

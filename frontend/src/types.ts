@@ -15,6 +15,11 @@ export interface Ticket {
   manual_category_by_id: number | null; manual_category_at: string | null;
   manual_priority_by_id: number | null; manual_priority_at: string | null;
   base_priority: string | null; created_at: string; updated_at: string;
+  predicted_base_priority?: string | null; priority_needs_review?: boolean;
+  category_score?: number | null; priority_score?: number | null;
+  category_review_reason?: string | null; priority_review_reason?: string | null;
+  review_version?: number | null;
+  escalation_min_priority?: string | null; escalated_at?: string | null; escalation_reason?: string | null;
   resolution_note: string | null; resolved_by_id: number | null; resolved_at: string | null;
   rejection_reason: string | null; rejected_by_id: number | null; rejected_at: string | null;
 }
@@ -23,3 +28,7 @@ export interface Task {
   error_code: string | null; error: string | null;
 }
 export interface Duplicate { id: number; text: string; similarity: number }
+export interface ReferenceApproval {
+  id: number; category: string; base_priority: string; source_ticket_id: number;
+  source_content_version: number; approved_by_id: number; approved_at: string;
+}

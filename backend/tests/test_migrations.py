@@ -70,7 +70,7 @@ class MigrationTests(unittest.TestCase):
             with self.assertRaisesRegex(RuntimeError, "Cofanie migracji"):
                 command.downgrade(config, "93aaf01f792a")
             with engine.connect() as connection:
-                self.assertEqual(connection.scalar(text("SELECT version_num FROM alembic_version")), "e5b000000001")
+                self.assertEqual(connection.scalar(text("SELECT version_num FROM alembic_version")), "e5c000000001")
         finally:
             command.upgrade(config, "head")
             engine.dispose()

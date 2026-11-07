@@ -37,10 +37,11 @@ Endpoint LLM powstanie w kolejnych etapach.
 ## Bieżąca klasyfikacja — 2026-11-07
 
 Nowe zgłoszenia klasyfikujemy na podstawie **120 zatwierdzonych angielskich
-przykładów** z pilotażu. Opisy zgłoszeń należy podawać po angielsku.
+przykładów** z pilotażu oraz osobno zatwierdzonych rozwiązanych ticketów.
+Opisy zgłoszeń należy podawać po angielsku.
 MiniLM + KNN (`k=3`) wybiera kategorię, a TF-IDF + regresja logistyczna
 (`C=100`, słowa i pary słów) przewiduje priorytet bazowy. Obie metody korzystają
-wyłącznie ze źródła `pilot_en_120_v1` w `classification_references`.
+ze źródeł `pilot_en_120_v1` i `approved_ticket` w `classification_references`.
 Stare referencje demonstracyjne pozostają w bazie i są wykluczone z klasyfikacji.
 
 | Kod API | Kategoria |
@@ -62,9 +63,78 @@ TF-IDF jest uczony leniwie w wątku procesu, a następnie używany z pamięci.
 Zmiana tekstów lub etykiet aktywnej referencji powoduje ponowny trening.
 `classification_version` w zgłoszeniu i wyniku zadania zawiera odcisk wersji
 referencji i konfiguracji. Nowe tickety, checkbox i priorytety administratora
-nie stają się danymi treningowymi. Priorytet końcowy zachowuje kolejność:
-administrator → blokada pracy (`critical`) → klasyfikator → zastępcze `medium`.
-Próg odmowy dla niejasnych opisów nie jest jeszcze walidowany ani wdrożony.
+nie stają się automatycznie danymi treningowymi. Priorytet końcowy zachowuje kolejność:
+administrator → blokada pracy (`critical`) → wynik automatyczny z trwałym minimum
+eskalacji `high` → zastępcze `medium`.
+
+### Zatwierdzanie rozwiązanych zgłoszeń
+
+Aktualny wykonawca lub administrator zatwierdza przez `POST /tickets/{id}/reference`
+osobno wybraną kategorię i priorytet **bazowy**, z `expected_content_version`.
+Zatwierdzenie wymaga statusu resolved i aktualnego embeddingu. Powstaje kopia
+tekstu, wektora i etykiet z autorem, datą oraz wersją opisu. Nie zmienia ona
+statusu, priorytetu końcowego ani przewidywań operacyjnego ticketu. Kolejne
+zatwierdzenie tej samej wersji daje 409. `GET /tickets/{id}/reference` zwraca
+metadane obsłudze / administratorowi; reporter nie ma dostępu. Późniejsza
+korekta kategorii ticketu nie zmienia zatwierdzonej kopii. Formularz i stan
+zatwierdzenia są dostępne w szczegółach rozwiązanej sprawy. TF-IDF uczy się
+rozszerzonego zbioru przy kolejnym zadaniu; oryginalne 120 pozostaje niezmienne.
+
+```json
+{"category":"network","base_priority":"high","expected_content_version":1}
+```
+
+### Weryfikacja kategorii i priorytetu
+
+Surowe propozycje, wyniki dopasowania, przyczyny odmowy i wersja tekstu są
+zapisywane osobno. Odrzucona kategoria daje operacyjne unknown, a odrzucony
+priorytet bazowy pozostaje null; propozycja jest w predicted_base_priority.
+Zadanie kończy się succeeded, a filtr needs_review obejmuje oba rodzaje
+weryfikacji. Reguły administratora, checkboxa i eskalacji zachowują pierwszeństwo.
+Stare przyczyny nie są aktualne po edycji opisu. `classification_version`
+helpdesk-v2 zawiera odcisk treningu i zastosowanej polityki.
+
+Progi wyznaczono z grupowej walidacji 120 approved EN: podobieństwo kategorii
+co najmniej 0,22, udział głosów co najmniej 2/3 i wynik TF-IDF co najmniej 0,38.
+Opis bez słów znanych TF-IDF również kieruje priorytet do weryfikacji. Wynik
+modelu nie jest skalibrowanym prawdopodobieństwem poprawności. Próg priorytetu
+nie odrzucił przykładów w tej walidacji; nie oznacza to skutecznej detekcji
+każdego niejasnego opisu.
+
+### Duplikaty i eskalacja
+
+[Pomiar par i polityk](backend/data/pilot/decision-policies/report.md) porównuje
+filtr kategorii i jego brak, z rozdzieleniem grup incydentów. Każda część ma
+6 dodatnich i 1764 ujemne pary, wyprowadzone z istniejących group_id.
+To ograniczona diagnostyka syntetyczna, a nie niezależny test końcowy.
+Na wydzielonej próbie dotychczasowa polityka >0,75 / ta sama kategoria daje
+precision 71,4%, recall 83,3% (5 TP, 2 FP, 1 FN). Kandydat >0,67 / bez filtra
+z walidacji pogorszył precision do 46,2%, więc nie wdrożono go i nie dostrajano
+do tej próby. Sugestie pozostają doradcze, liczone przez GET na aktualnych,
+dostępnych dla użytkownika aktywnych ticketach.
+
+Eskalacja obejmuje podobne aktywne zgłoszenia tej samej kategorii, od co
+najmniej 3 różnych autorów, utworzone w ostatnich 24 godzinach. Każda para
+w grupie musi przekraczać próg 0,85; nie łączymy grup łańcuchowo przez pośredni
+podobny ticket. To konserwatywne ustawienie operacyjne sprawdzone scenariuszami,
+nie statystycznie dobrany próg wspólnej awarii na danych organizacji.
+Wszystkie zgłoszenia grupy otrzymują trwałe minimum high z czasem, powodem
+i wewnętrznym materiałem audytowym. Nieaktualne embeddingi, zakończone sprawy
+i brak autora nie wchodzą do grupy. Zamknięcie innych spraw, upływ okna ani
+ponowna klasyfikacja nie cofają minimum; administrator może obniżyć końcowy
+priorytet. Aktualizacje grupy i wynik zadania są atomowe. Reporter nie otrzymuje
+identyfikatorów cudzych ticketów / autorów z materiału audytowego.
+
+Parametry mają odpowiedniki środowiskowe: K_NEIGHBORS, CATEGORY_MIN_SIMILARITY,
+CATEGORY_MIN_VOTE_SHARE, PRIORITY_MIN_SCORE, DUPLICATE_MIN_SIMILARITY,
+DUPLICATE_SAME_CATEGORY, MAX_DUPLICATE_SUGGESTIONS, ESCALATION_ENABLED,
+ESCALATION_MIN_USERS, ESCALATION_WINDOW_HOURS i ESCALATION_MIN_SIMILARITY.
+Domyślne progi weryfikacji i duplikatów są w decision-policies/policy.json.
+Odtworzenie pomiaru bez bazy:
+
+```powershell
+.venv/Scripts/python.exe backend/scripts/evaluate_decision_policies.py
+```
 
 Aktualizacja istniejącej instalacji (z kopią zapasową bazy, przy zatrzymanym API):
 
@@ -189,9 +259,9 @@ Rozszerzenia API dla frontendu:
 **Historyczny zakres etapu 6:** pominięto docelowy słownik kategorii, próg pewności
 KNN, zatwierdzanie referencji, strojenie i eskalację. Słownik zastąpiono
 czterema kategoriami helpdesku w aktualizacji 2026-11-07 opisanej powyżej.
-„Do weryfikacji” oznacza obecnie kategorię `unknown`, również podczas oczekiwania
-na obliczenia. Stan zadania i status sprawy są prezentowane osobno. Nie jest to
-jeszcze ocena pewności oparta na walidacji. Duplikaty zachowują dotychczasowe
+„Do weryfikacji” obejmuje obecnie kategorię `unknown` oraz niezależną flagę
+priorytetu. Progi i ograniczenia walidacji opisano na początku README.
+Stan zadania i status sprawy są prezentowane osobno. Duplikaty zachowują dotychczasowe
 obliczenia i są sugestiami z odnośnikami, bez automatycznej decyzji.
 
 Weryfikacja frontendu:
@@ -325,8 +395,9 @@ odczyty i sugestie duplikatów, również przez alias DELETE. Przyszłe wyszukiw
 i RAG powinny korzystać z tej samej reguły. Dependency `get_assistant_user`
 sprawdza dostęp obsługi i administratora; rzeczywisty endpoint LLM nadal
 pozostaje do implementacji. Priorytet ręczny ma autora i czas ostatniej decyzji.
-Korekta kategorii jest dostępna; jej integracja z zatwierdzaniem rozwiązanego
-zgłoszenia do referencji pozostaje w E5.12–E5.13.
+Korekta kategorii i zatwierdzanie rozwiązanego zgłoszenia do referencji są
+osobnymi operacjami. Zatwierdzenie zapisuje niezmienną kopię, a późniejsza korekta
+operacyjna jej automatycznie nie aktualizuje.
 
 Korekta zapisuje osobno `manual_category`, `manual_category_version`,
 `manual_category_by_id` i `manual_category_at`. Pole `category` jest kategorią
@@ -348,9 +419,8 @@ i unieważnia dotychczasową korektę (`manual_category_current=false`). Metadan
 ostatniej korekty i ostatniego przewidywania pozostają ze starszą wersją;
 nowa klasyfikacja może zapisać nową kategorię. Taki sam opis i zmiana samego
 checkboxa zachowują korektę. Dawne wyniki modelu są też dostępne w zadaniach
-danej wersji. Docelowy polski słownik helpdesku i sprawdzenie zatwierdzonych
-referencji nadal należą do późniejszych prac; dawnych kategorii nie mapujemy
-automatycznie na nowe.
+danej wersji. Słownik helpdesku, weryfikacja i zatwierdzanie referencji są już wdrożone;
+dawne kategorie zachowano w historii i przeklasyfikowano na podstawie tekstu.
 
 ## Uruchomienie przez Docker Compose
 
@@ -578,8 +648,8 @@ wyłącznie z aktywnego źródła w `classification_references`.
 Nowe zgłoszenia, wyniki klasyfikacji, checkbox, zmiany priorytetu i statusu
 nie rozszerzają ani nie zmieniają referencji. Priorytet bazowy `critical`
 pozostaje prawidłową etykietą; końcowe `critical` nadane checkboxem innej
-sprawy nie staje się etykietą bazową kolejnych zgłoszeń. Docelowe zatwierdzanie etykiet rozwiązanego
-zgłoszenia przez uprawnioną osobę pozostaje w etapie 5.
+sprawy nie staje się etykietą bazową kolejnych zgłoszeń. Zatwierdzanie etykiet rozwiązanego zgłoszenia przez uprawnioną osobę
+realizuje osobny endpoint reference i formularz w szczegółach sprawy.
 
 | Wartość API | Nazwa polska | Dozwolone następne statusy |
 |---|---|---|
@@ -595,9 +665,10 @@ Końcowe zgłoszenia pozostają w historii; powrót problemu wymaga nowego
 zgłoszenia. Reguły ról i przypisań są egzekwowane także
 przez przestarzały alias DELETE. Zmiana statusu nie uruchamia klasyfikacji.
 Duplikaty uwzględniają trzy aktywne statusy. Stara eskalacja procentowa
-została usunięta. Eskalację podobnych aktywnych zgłoszeń w oknie czasowym
-dołączymy w etapie 5, aby liczyć różne osoby zamiast liczby rekordów.
-Strojenie KNN i docelowa eskalacja nadal wymagają etapu 5.
+została zastąpiona regułą podobnych aktywnych zgłoszeń w oknie czasowym,
+która liczy różnych autorów zamiast liczby rekordów.
+Aktualna polityka weryfikacji i trwała eskalacja są opisane w bieżącym
+wariancie klasyfikacji na początku README.
 
 Opis zgłoszenia nie może być pusty i ma limit **256 tokenów z tokenami
 specjalnymi**, sprawdzany tokenizerem `sentence-transformers/all-MiniLM-L6-v2`

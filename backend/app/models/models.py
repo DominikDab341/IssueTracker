@@ -1,5 +1,5 @@
 from datetime import datetime
-from sqlalchemy import Boolean, ForeignKey, Index, Integer, String, Text, DateTime, func, CheckConstraint, UniqueConstraint, text as sql_text
+from sqlalchemy import Boolean, Float, ForeignKey, Index, Integer, String, Text, DateTime, func, CheckConstraint, UniqueConstraint, text as sql_text
 from sqlalchemy.dialects.postgresql import JSONB
 from sqlalchemy.orm import Mapped, mapped_column
 from app.database.database import Base
@@ -21,6 +21,10 @@ class Ticket(Base):
                         name="ck_ticket_manual_category"),
         CheckConstraint("category IN ('unknown', 'accounts_access', 'hardware', 'network', 'software')",
                         name="ck_ticket_category"),
+        CheckConstraint("escalation_min_priority IS NULL OR escalation_min_priority = 'high'", name="ck_ticket_escalation_min"),
+        CheckConstraint("(escalation_min_priority IS NULL AND escalated_at IS NULL AND escalation_reason IS NULL) OR "
+                        "(escalation_min_priority IS NOT NULL AND escalated_at IS NOT NULL AND escalation_reason IS NOT NULL)",
+                        name="ck_ticket_escalation_metadata"),
         CheckConstraint("(manual_category IS NULL AND manual_category_version IS NULL AND "
                         "manual_category_by_id IS NULL AND manual_category_at IS NULL) OR "
                         "(manual_category IS NOT NULL AND manual_category_version IS NOT NULL AND "
@@ -42,6 +46,16 @@ class Ticket(Base):
     category: Mapped[str] = mapped_column(String(50), nullable=False)
     legacy_category: Mapped[str | None] = mapped_column(String(50))
     classification_version: Mapped[str | None] = mapped_column(String(100))
+    predicted_base_priority: Mapped[str | None] = mapped_column(String(20))
+    category_score: Mapped[float | None] = mapped_column(Float)
+    priority_score: Mapped[float | None] = mapped_column(Float)
+    category_review_reason: Mapped[str | None] = mapped_column(String(100))
+    priority_review_reason: Mapped[str | None] = mapped_column(String(100))
+    review_version: Mapped[int | None] = mapped_column(Integer)
+    escalation_min_priority: Mapped[str | None] = mapped_column(String(20))
+    escalated_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
+    escalation_reason: Mapped[str | None] = mapped_column(Text)
+    escalation_evidence: Mapped[dict | None] = mapped_column(JSONB)
     predicted_category: Mapped[str | None] = mapped_column(String(50))
     predicted_category_version: Mapped[int | None] = mapped_column(Integer)
     manual_category: Mapped[str | None] = mapped_column(String(50))
@@ -77,7 +91,11 @@ class Ticket(Base):
 
     @property
     def needs_review(self) -> bool:
-        return self.category == "unknown"
+        return self.category == "unknown" or self.priority_needs_review
+
+    @property
+    def priority_needs_review(self) -> bool:
+        return self.review_version == self.content_version and self.priority_review_reason is not None
 
 
 class User(Base):
@@ -140,6 +158,10 @@ class ClassificationReference(Base):
         CheckConstraint("btrim(category) <> '' AND category <> 'unknown'",
                         name="ck_reference_category"),
         UniqueConstraint("source", "source_key", name="uq_reference_source_key"),
+        UniqueConstraint("source_ticket_id", "source_content_version", name="uq_reference_ticket_version"),
+        CheckConstraint("source <> 'approved_ticket' OR (source_ticket_id IS NOT NULL AND "
+                        "source_content_version IS NOT NULL AND source_content_version > 0 AND approved_by_id IS NOT NULL AND approved_at IS NOT NULL)",
+                        name="ck_reference_approval"),
     )
     id: Mapped[int] = mapped_column(primary_key=True)
     text: Mapped[str] = mapped_column(Text)
@@ -148,4 +170,8 @@ class ClassificationReference(Base):
     embedding_vector: Mapped[list[float]] = mapped_column(Vector(384))
     source: Mapped[str] = mapped_column(String(50))
     source_key: Mapped[str] = mapped_column(String(100))
+    source_ticket_id: Mapped[int | None] = mapped_column(ForeignKey("tickets.id"))
+    source_content_version: Mapped[int | None] = mapped_column(Integer)
+    approved_by_id: Mapped[int | None] = mapped_column(ForeignKey("users.id"))
+    approved_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
