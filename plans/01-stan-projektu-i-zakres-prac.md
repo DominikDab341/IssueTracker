@@ -1,5 +1,18 @@
 # Stan projektu i zakres prac
 
+**Aktualizacja 2026-11-07 — operacyjna klasyfikacja helpdesku:** na zlecenie
+użytkownika podłączono 120 zatwierdzonych angielskich przykładów pilotażowych
+jako źródło `pilot_en_120_v1`. Kategorię wyznacza MiniLM + KNN (k=3), a priorytet
+bazowy TF-IDF + regresja logistyczna (C=100). API i React używają kategorii
+accounts_access/hardware/network/software. To zastępuje wcześniejsze założenie
+KNN dla obu zadań; opis formalny pracy wymaga uwzględnienia tego rozdzielenia.
+50 słabych opisów nie trafia do referencji. Nowe zgłoszenia nie są automatycznie
+danymi treningowymi. Migracja zachowuje stare etykiety w legacy_category;
+10 lokalnych zgłoszeń przeklasyfikowano na podstawie tekstu. Potwierdzono 122
+testy backendu, 11 testów React, build obu obrazów i klasyfikację nowego
+angielskiego opisu w kontenerze. Aktualny proces i polecenia są na początku README.
+Wcześniejsze wpisy poniżej dokumentują historię projektu.
+
 Raport pomiaru: [Pilotaż MiniLM — 2026-10-28](03-raport-pilotazu-minilm.md).
 
 **Pilotaż etapu 4 (2026-10-28):** przygotowano instrukcję etykietowania,

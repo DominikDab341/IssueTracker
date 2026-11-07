@@ -80,7 +80,7 @@ class ApiTestCase(unittest.IsolatedAsyncioTestCase):
         self.assertEqual(response.status_code, 201, response.text)
         return response.json()["ticket"]
 
-    async def add_ticket(self, status="reported", category="bug", priority="medium", embedding=None, created_at=None):
+    async def add_ticket(self, status="reported", category="software", priority="medium", embedding=None, created_at=None):
         async with self.sessions() as session:
             ticket = Ticket(text="Problem z aplikacją.", status=status, category=category, priority=priority,
                             author_id=self.user.id,
@@ -93,12 +93,12 @@ class ApiTestCase(unittest.IsolatedAsyncioTestCase):
             await session.refresh(ticket)
             return ticket.id
 
-    async def add_reference(self, category="bug", base_priority="low", embedding=None):
+    async def add_reference(self, category="software", base_priority="low", embedding=None):
         async with self.sessions() as session:
             reference = ClassificationReference(
                 text="Sprawdzony przykład.", category=category, base_priority=base_priority,
                 embedding_vector=embedding if embedding is not None else [1.0] + [0.0] * 383,
-                source="test", source_key=str(uuid4()),
+                source="pilot_en_120_v1", source_key=str(uuid4()),
             )
             session.add(reference)
             await session.commit()
@@ -149,9 +149,9 @@ class TicketApiTests(ApiTestCase):
 
     async def test_filters_pagination_and_stable_order(self):
         date = datetime(2026, 1, 1, tzinfo=timezone.utc)
-        ids = [await self.add_ticket(category="bug", priority="high", created_at=date) for _ in range(4)]
-        await self.add_ticket(status="rejected", category="feature", priority="low", created_at=date)
-        url = "/tickets/?status=reported&category=bug&priority=high&limit=2"
+        ids = [await self.add_ticket(category="software", priority="high", created_at=date) for _ in range(4)]
+        await self.add_ticket(status="rejected", category="hardware", priority="low", created_at=date)
+        url = "/tickets/?status=reported&category=software&priority=high&limit=2"
         first = (await self.client.get(url)).json()
         second = (await self.client.get(url + "&offset=2")).json()
         self.assertEqual([t["id"] for t in first + second], list(reversed(ids)))
@@ -222,7 +222,7 @@ class TicketApiTests(ApiTestCase):
         for status in ["resolved", "rejected", "cancelled"]:
             await self.add_ticket(status=status, embedding=vector)
         async with self.sessions() as session:
-            result = await find_similar_open_tickets(source, vector, "bug", session, actor=self.user)
+            result = await find_similar_open_tickets(source, vector, "software", session, actor=self.user)
             self.assertEqual({row["id"] for row in result}, set(active))
             self.assertTrue(all(row["similarity"] == 1.0 for row in result))
 
@@ -231,18 +231,12 @@ class TicketApiTests(ApiTestCase):
         vector = SimpleNamespace(tolist=lambda: [1.0] + [0.0] * 383)
         model = SimpleNamespace(encode=lambda value: vector)
         with patch.object(seed_db, "engine", self.engine), patch.object(seed_db, "get_model", return_value=model) as load:
-            await seed_db.seed_tickets(self.user.email)
+            await seed_db.seed_tickets()
             first = (await self.client.get("/tickets/?limit=100")).json()
-            self.assertEqual(len(first), 10)
-            self.assertTrue(all(ticket["status"] == "reported" for ticket in first))
-            self.assertTrue(all(ticket["classification_current"] for ticket in first))
+            self.assertEqual(first, [])
             async with self.sessions() as session:
                 references = await session.scalar(text("SELECT count(*) FROM classification_references"))
-                self.assertEqual(references, 10)
-            seeded = first[0]
-            await self.client.patch(f"/tickets/{seeded['id']}", json={"work_blocked": True})
-            restored = await self.client.patch(f"/tickets/{seeded['id']}", json={"work_blocked": False})
-            self.assertEqual(restored.json()["ticket"]["priority"], seeded["priority"])
+                self.assertEqual(references, 120)
             first = (await self.client.get("/tickets/?limit=100")).json()
             load.reset_mock()
             await seed_db.seed_tickets()
@@ -258,8 +252,8 @@ class TicketApiTests(ApiTestCase):
             await seed_db.seed_tickets()
         self.assertEqual((await self.client.get("/tickets/")).json(), before)
         async with self.sessions() as session:
-            self.assertEqual(await session.scalar(text("SELECT count(*) FROM classification_references")), 10)
-            self.assertEqual(await session.scalar(text("SELECT count(*) FROM classification_references WHERE source='sample_tickets'")), 10)
+            self.assertEqual(await session.scalar(text("SELECT count(*) FROM classification_references")), 120)
+            self.assertEqual(await session.scalar(text("SELECT count(*) FROM classification_references WHERE source='pilot_en_120_v1'")), 120)
 
     async def test_seed_default_adds_only_references_and_no_unowned_tickets(self):
         from scripts import seed_db
@@ -268,7 +262,7 @@ class TicketApiTests(ApiTestCase):
             await seed_db.seed_tickets()
         async with self.sessions() as session:
             self.assertEqual(await session.scalar(text("SELECT count(*) FROM tickets")), 0)
-            self.assertEqual(await session.scalar(text("SELECT count(*) FROM classification_references")), 10)
+            self.assertEqual(await session.scalar(text("SELECT count(*) FROM classification_references")), 120)
 
 
 if __name__ == "__main__":

@@ -28,7 +28,7 @@ class MigrationTests(unittest.TestCase):
                             CAST(:vector AS vector), 1, 1)
                 """), {"vector": str([1.0] + [0.0] * 383)})
                 before = connection.scalar(text("SELECT row_to_json(tickets) FROM tickets"))
-            command.upgrade(config, "head")
+            command.upgrade(config, "e2b000000001")
             with engine.connect() as connection:
                 after = connection.scalar(text("SELECT row_to_json(tickets) FROM tickets"))
                 self.assertEqual({key: after[key] for key in before}, before)
@@ -38,6 +38,7 @@ class MigrationTests(unittest.TestCase):
                 self.assertEqual(connection.scalar(text("SELECT count(*) FROM users")), 0)
                 self.assertEqual(connection.scalar(text("SELECT count(*) FROM assignment_history")), 0)
         finally:
+            command.upgrade(config, "head")
             engine.dispose()
 
     def test_empty_schema_legacy_guard_mapping_and_metadata(self):
@@ -61,7 +62,7 @@ class MigrationTests(unittest.TestCase):
             command.upgrade(migration_config({"open": "reported", "resolved": "resolved", "closed": "cancelled"}), "head")
             with engine.connect() as connection:
                 self.assertEqual(set(connection.scalars(text("SELECT status FROM tickets"))), {"reported", "resolved", "cancelled"})
-                self.assertEqual(connection.scalar(text("SELECT count(*) FROM tickets WHERE text='Stary opis' AND category='bug' AND priority='high'")), 3)
+                self.assertEqual(connection.scalar(text("SELECT count(*) FROM tickets WHERE text='Stary opis' AND category='unknown' AND legacy_category='bug' AND priority='high'")), 3)
                 self.assertEqual(connection.scalar(text("SELECT count(*) FROM tickets WHERE work_blocked=false AND content_version=1 AND embedding_version IS NULL AND current_task_id IS NULL AND automatic_priority='high' AND base_priority IS NULL AND manual_priority IS NULL AND priority_source='legacy'")), 3)
                 self.assertEqual(connection.scalar(text("SELECT count(*) FROM classification_tasks")), 0)
                 self.assertEqual(connection.scalar(text("SELECT count(*) FROM classification_references")), 0)
@@ -69,8 +70,9 @@ class MigrationTests(unittest.TestCase):
             with self.assertRaisesRegex(RuntimeError, "Cofanie migracji"):
                 command.downgrade(config, "93aaf01f792a")
             with engine.connect() as connection:
-                self.assertEqual(connection.scalar(text("SELECT version_num FROM alembic_version")), "e2b000000001")
+                self.assertEqual(connection.scalar(text("SELECT version_num FROM alembic_version")), "e5b000000001")
         finally:
+            command.upgrade(config, "head")
             engine.dispose()
 
     def test_category_migration_preserves_legacy_data_and_guards_downgrade(self):
@@ -85,7 +87,7 @@ class MigrationTests(unittest.TestCase):
                 connection.execute(text("INSERT INTO tickets (text, category, priority, legacy_unowned) "
                                         "VALUES ('Dawny problem', 'feature', 'high', true)"))
                 before = connection.scalar(text("SELECT row_to_json(tickets) FROM tickets"))
-            command.upgrade(config, "head")
+            command.upgrade(config, "e2b000000001")
             with engine.begin() as connection:
                 after = connection.scalar(text("SELECT row_to_json(tickets) FROM tickets"))
                 self.assertEqual({key: after[key] for key in before}, before)
@@ -96,6 +98,7 @@ class MigrationTests(unittest.TestCase):
             with engine.connect() as connection:
                 self.assertEqual(connection.scalar(text("SELECT version_num FROM alembic_version")), "e2b000000001")
         finally:
+            command.upgrade(config, "head")
             engine.dispose()
 
 

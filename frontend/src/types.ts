@@ -7,6 +7,7 @@ export interface User {
 export interface Ticket {
   id: number; text: string; author_id: number | null; assignee_id: number | null;
   status: Status; category: string; priority: string; priority_source: string;
+  legacy_category?: string | null; classification_version?: string | null;
   work_blocked: boolean; content_version: number; classification_current: boolean;
   current_task_id: string | null; current_task_state: TaskState | null; needs_review: boolean;
   predicted_category: string | null; predicted_category_version: number | null;

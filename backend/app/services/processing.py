@@ -118,6 +118,7 @@ class ProcessingRuntime:
             if not ticket.manual_category_current:
                 ticket.category = prediction.category
             ticket.base_priority = prediction.base_priority
+            ticket.classification_version = prediction.classification_version
             ticket.automatic_priority = prediction.automatic_priority
             ticket.embedding_vector = prediction.vector
             ticket.embedding_version = task.content_version
@@ -125,6 +126,7 @@ class ProcessingRuntime:
             task.result = {
                 "category": prediction.category, "base_priority": ticket.base_priority,
                 "automatic_priority": ticket.automatic_priority,
+                "classification_version": prediction.classification_version,
             }
             task.state = TaskState.SUCCEEDED
             task.finished_at = now()

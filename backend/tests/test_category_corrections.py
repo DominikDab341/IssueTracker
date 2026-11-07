@@ -12,11 +12,11 @@ from app.services.errors import InvalidInputError
 from app.services.tickets import TicketService
 
 VECTOR = [1.0] + [0.0] * 383
-PREDICTION = ClassificationPrediction("bug", Priority.HIGH, Priority.HIGH, VECTOR)
+PREDICTION = ClassificationPrediction("software", Priority.HIGH, Priority.HIGH, VECTOR)
 
 
 class CategoryCorrectionTests(ApiTestCase):
-    async def correct(self, ticket, category="feature", actor=None):
+    async def correct(self, ticket, category="hardware", actor=None):
         return await self.client.patch(f"/tickets/{ticket['id']}/category",
                                         json={"category": category, "expected_content_version": ticket["content_version"]},
                                         headers=self.headers(actor or self.admin))
@@ -34,21 +34,21 @@ class CategoryCorrectionTests(ApiTestCase):
         ticket = await self.create()
         path = f"/tickets/{ticket['id']}/category"
         for body in [{}, {"category": None}, {"category": ""}, {"category": "unknown"}, {"category": "other"},
-                     {"category": " bug "}, {"category": 1}, {"category": "bug", "manual_category_by_id": self.user.id},
-                     {"category": "bug", "content_version": 99}]:
+                     {"category": " bug "}, {"category": 1}, {"category": "software", "manual_category_by_id": self.user.id},
+                     {"category": "software", "content_version": 99}]:
             payload = {"expected_content_version": ticket["content_version"], **body}
             self.assertEqual((await self.client.patch(path, json=payload, headers=self.admin_headers)).status_code, 422, str(body))
-        self.assertEqual((await self.client.patch(path, json={"category": "bug"}, headers=self.admin_headers)).status_code, 422)
+        self.assertEqual((await self.client.patch(path, json={"category": "software"}, headers=self.admin_headers)).status_code, 422)
         for version in [None, 0, -1, True, "1", 1.0]:
-            payload = {"category": "bug", "expected_content_version": version}
+            payload = {"category": "software", "expected_content_version": version}
             self.assertEqual((await self.client.patch(path, json=payload, headers=self.admin_headers)).status_code, 422, str(version))
-        self.assertEqual((await self.client.patch("/tickets/999999/category", json={"category": "bug", "expected_content_version": 1}, headers=self.admin_headers)).status_code, 404)
+        self.assertEqual((await self.client.patch("/tickets/999999/category", json={"category": "software", "expected_content_version": 1}, headers=self.admin_headers)).status_code, 404)
         async with self.sessions() as db:
             with self.assertRaises(InvalidInputError):
                 await TicketService(db, self.admin).correct_category(ticket["id"], "other", expected_content_version=1)
             for version in [None, 0, -1, True, "1", 1.0]:
                 with self.assertRaises(InvalidInputError):
-                    await TicketService(db, self.admin).correct_category(ticket["id"], "bug", expected_content_version=version)
+                    await TicketService(db, self.admin).correct_category(ticket["id"], "software", expected_content_version=version)
         self.assertIsNone((await self.detail(ticket))["manual_category"])
 
     async def test_stale_view_cannot_correct_new_text_before_or_after_classification(self):
@@ -58,25 +58,25 @@ class CategoryCorrectionTests(ApiTestCase):
                 edit = await self.client.patch(f"/tickets/{old_view['id']}", json={"text": "Potrzebuję nowej funkcji eksportu do CSV."})
                 self.assertEqual(edit.status_code, 200)
                 task_id = edit.json()["task_id"]
-                prediction = replace(PREDICTION, category="feature")
+                prediction = replace(PREDICTION, category="hardware")
                 if classify_first:
                     await self.run_classification(task_id, prediction)
                 before = await self.detail(old_view)
-                stale = await self.correct(old_view, "performance")
+                stale = await self.correct(old_view, "network")
                 self.assertEqual(stale.status_code, 409, stale.text)
                 self.assertEqual(await self.detail(old_view), before)
                 if not classify_first:
                     await self.run_classification(task_id, prediction)
                 current = await self.detail(old_view)
                 self.assertEqual(current["content_version"], 2)
-                self.assertEqual(current["category"], "feature")
-                self.assertEqual(current["predicted_category"], "feature")
+                self.assertEqual(current["category"], "hardware")
+                self.assertEqual(current["predicted_category"], "hardware")
                 self.assertIsNone(current["manual_category"])
                 self.assertFalse(current["manual_category_current"])
-                valid = await self.correct(current, "performance")
+                valid = await self.correct(current, "network")
                 self.assertEqual(valid.status_code, 200, valid.text)
                 self.assertEqual(valid.json()["manual_category_version"], 2)
-                self.assertEqual(valid.json()["category"], "performance")
+                self.assertEqual(valid.json()["category"], "network")
 
     async def test_version_is_checked_after_waiting_for_concurrent_edit_lock(self):
         old_view = await self.create()
@@ -130,8 +130,8 @@ class CategoryCorrectionTests(ApiTestCase):
         reassigned = await self.client.patch(f"/tickets/{ticket['id']}/assignee", json={"assignee_id": other_staff.id}, headers=self.admin_headers)
         self.assertEqual(reassigned.status_code, 200)
         self.assertEqual((await self.correct(ticket, actor=self.user)).status_code, 403)
-        self.assertEqual((await self.correct(ticket, "performance", actor=other_staff)).status_code, 200)
-        self.assertEqual((await self.correct(ticket, "bug")).status_code, 200)
+        self.assertEqual((await self.correct(ticket, "network", actor=other_staff)).status_code, 200)
+        self.assertEqual((await self.correct(ticket, "software")).status_code, 200)
 
     async def test_correction_keeps_priority_workflow_tasks_embedding_and_references(self):
         await self.add_reference()
@@ -144,7 +144,7 @@ class CategoryCorrectionTests(ApiTestCase):
         async with self.sessions() as db:
             reference = await db.scalar(text("SELECT jsonb_agg(to_jsonb(classification_references)) FROM classification_references"))
             vector = list((await db.get(Ticket, ticket["id"])).embedding_vector)
-        for category in ("bug", "performance", "feature"):
+        for category in ("software", "network", "hardware"):
             response = await self.correct(ticket, category)
             self.assertEqual(response.status_code, 200)
             current = response.json()
@@ -164,7 +164,7 @@ class CategoryCorrectionTests(ApiTestCase):
         self.mock_delay.assert_called_once()
         state = (await self.client.get(f"/tickets/{ticket['id']}/task/{ticket['current_task_id']}")).json()
         self.assertEqual(state["state"], "succeeded")
-        self.assertEqual(state["result"]["category"], "bug")
+        self.assertEqual(state["result"]["category"], "software")
 
     async def test_running_prediction_and_manual_correction_both_completion_orders(self):
         # Opóźniony model oraz wynik zakończony przed korektą muszą dać ten sam stan.
@@ -189,20 +189,20 @@ class CategoryCorrectionTests(ApiTestCase):
             if first == "prediction":
                 self.assertEqual((await self.correct(ticket)).status_code, 200)
             current = await self.detail(ticket)
-            self.assertEqual(current["category"], "feature")
-            self.assertEqual(current["predicted_category"], "bug")
+            self.assertEqual(current["category"], "hardware")
+            self.assertEqual(current["predicted_category"], "software")
             self.assertEqual(current["predicted_category_version"], 1)
             self.assertTrue(current["manual_category_current"])
             state = (await self.client.get(f"/tickets/{ticket['id']}/task/{ticket['current_task_id']}")).json()
             self.assertEqual(state["state"], "succeeded")
-            self.assertEqual(state["result"]["category"], "bug")
+            self.assertEqual(state["result"]["category"], "software")
 
     async def test_unknown_prediction_cannot_erase_manual_category(self):
         ticket = await self.create()
         self.assertEqual((await self.correct(ticket)).status_code, 200)
         await self.run_classification(ticket["current_task_id"], replace(PREDICTION, category="unknown", base_priority=None, automatic_priority=None))
         current = await self.detail(ticket)
-        self.assertEqual(current["category"], "feature")
+        self.assertEqual(current["category"], "hardware")
         self.assertEqual(current["predicted_category"], "unknown")
         self.assertEqual(current["priority_source"], "fallback")
         self.assertEqual(current["priority"], "medium")
@@ -217,8 +217,8 @@ class CategoryCorrectionTests(ApiTestCase):
         self.assertEqual(retry.status_code, 202)
         await self.run_classification(retry.json()["task_id"])
         current = await self.detail(ticket)
-        self.assertEqual(current["category"], "feature")
-        self.assertEqual(current["predicted_category"], "bug")
+        self.assertEqual(current["category"], "hardware")
+        self.assertEqual(current["predicted_category"], "software")
         self.assertEqual(current["priority"], "low")
         self.assertEqual(current["priority_source"], "administrator")
 
@@ -242,9 +242,9 @@ class CategoryCorrectionTests(ApiTestCase):
         for field in ("manual_category", "manual_category_version", "manual_category_by_id", "manual_category_at"):
             self.assertEqual(current[field], correction.json()[field])
         self.assertEqual(current["predicted_category_version"], 1)
-        await self.run_classification(edited.json()["task_id"], replace(PREDICTION, category="performance"))
+        await self.run_classification(edited.json()["task_id"], replace(PREDICTION, category="network"))
         current = await self.detail(ticket)
-        self.assertEqual(current["category"], "performance")
+        self.assertEqual(current["category"], "network")
         self.assertEqual(current["predicted_category_version"], 2)
         self.assertFalse(current["manual_category_current"])
         self.assertTrue(current["classification_current"])
@@ -253,7 +253,7 @@ class CategoryCorrectionTests(ApiTestCase):
         ticket = await self.create()
         async with self.sessions() as db:
             stored = await db.get(Ticket, ticket["id"])
-            stored.manual_category = "feature"
+            stored.manual_category = "hardware"
             with self.assertRaises(IntegrityError):
                 await db.commit()
         self.assertEqual((await self.correct(ticket)).status_code, 200)

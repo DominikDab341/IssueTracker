@@ -9,7 +9,7 @@ from app.api.schemas import (
     AssignmentUpdate, AssignmentResponse, CategoryUpdate, PriorityUpdate,
     SuggestedDuplicate,
 )
-from app.domain import Priority
+from app.domain import Category, Priority
 from app.services.processing import ProcessingRuntime
 from app.services.tickets import TicketService
 from app.ticket_status import TicketStatus
@@ -41,7 +41,7 @@ async def manual_priority(ticket_id: int, body: PriorityUpdate, service: TicketS
 @router.get("/", response_model=list[TicketResponse])
 async def get_tickets(
     status: TicketStatus | None = None,
-    category: Annotated[str | None, Query(min_length=1, max_length=50)] = None,
+    category: Category | Literal["unknown"] | None = None,
     priority: Priority | Literal["unknown"] | None = None,
     needs_review: bool | None = None,
     limit: Annotated[int, Query(ge=1, le=100)] = 20,

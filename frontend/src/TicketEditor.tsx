@@ -27,6 +27,7 @@ export default function TicketEditor({ ticket, onSaved, onConflict }: { ticket?:
   }
   return <form onSubmit={save} className="ticket-editor"><ErrorBox error={error} /><fieldset disabled={busy}>
     <label>Opis problemu<textarea name="text" defaultValue={ticket?.text || ''} rows={7} maxLength={10000} required placeholder="Opisz, co się dzieje, od kiedy występuje problem i jakie kroki zostały już wykonane." /></label>
+    <p className="hint">Opisz problem po angielsku. Podaj wpływ na pracę, liczbę dotkniętych osób i dostępne obejście.</p>
     <p className="hint">Limit wynosi 256 tokenów, sprawdzanych przez serwer. Nie wpisuj haseł ani innych sekretów.</p>
     <label className="check blocked-check"><input type="checkbox" checked={blocked} onChange={e => setBlocked(e.target.checked)} /><span><strong>Nie mogę kontynuować pracy</strong><small>Problem uniemożliwia wykonywanie obowiązków.</small></span></label>
     {ticket?.priority_source === 'administrator' ? <p className="notice">Priorytet ustalił administrator. Zmiana blokady pracy zachowa jego decyzję.</p> : blocked && <p className="notice">Blokada pracy nada zgłoszeniu priorytet krytyczny.</p>}

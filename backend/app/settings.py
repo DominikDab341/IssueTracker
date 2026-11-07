@@ -7,6 +7,8 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 class Settings(BaseSettings):
     DATABASE_URL: str
     MODEL_NAME: str = "all-MiniLM-L6-v2"
+    MODEL_REVISION: str = "c9745ed1d9f207416be6d2e6f8de32d1f16199bf"
+    CLASSIFICATION_REFERENCE_SOURCE: str = "pilot_en_120_v1"
     ALLOWED_EMAIL_DOMAIN: str = Field(default="mail.com", pattern=r"^[A-Za-z0-9.-]+$")
     JWT_SECRET_KEY: SecretStr | None = None
     ACCESS_TOKEN_EXPIRE_MINUTES: int = Field(default=30, ge=1, le=1440)

@@ -7,7 +7,8 @@ from sentence_transformers import SentenceTransformer
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.domain import ClassificationPrediction, Priority
+from app.domain import Category, ClassificationPrediction
+from app.services.priority_classifier import predict_priority
 from app.models.models import ClassificationReference, Ticket
 from app.settings import settings
 from app.ticket_status import ACTIVE_STATUSES
@@ -22,7 +23,7 @@ def get_model() -> SentenceTransformer:
     global _model
     with _model_lock:
         if _model is None:
-            _model = SentenceTransformer(settings.MODEL_NAME)
+            _model = SentenceTransformer(settings.MODEL_NAME, revision=settings.MODEL_REVISION)
     return _model
 
 
@@ -41,21 +42,29 @@ async def classify(text: str, db: AsyncSession) -> ClassificationPrediction:
     distance = ClassificationReference.embedding_vector.cosine_distance(vector)
     
     knn_query = (
-        select(ClassificationReference.category, ClassificationReference.base_priority)
+        select(ClassificationReference.source_key, ClassificationReference.text,
+               ClassificationReference.category, ClassificationReference.base_priority)
+        .where(ClassificationReference.source == settings.CLASSIFICATION_REFERENCE_SOURCE,
+               ClassificationReference.category.in_(list(Category)))
         .order_by(distance, ClassificationReference.id)
-        .limit(K_NEIGHBORS)
     )
     
     knn_result = await db.execute(knn_query)
-    neighbors = knn_result.all()
+    references = knn_result.mappings().all()
+    neighbors = references[:K_NEIGHBORS]
 
     if not neighbors:
         return ClassificationPrediction(category="unknown", base_priority=None, automatic_priority=None, vector=vector)
 
-    category = Counter(n.category for n in neighbors).most_common(1)[0][0]
-    base_priority = Priority(Counter(n.base_priority for n in neighbors).most_common(1)[0][0])
+    category = Counter(n["category"] for n in neighbors).most_common(1)[0][0]
+    references = sorted([dict(row) for row in references], key=lambda row: row["source_key"])
+    base_priority, version = await anyio.to_thread.run_sync(
+        lambda: predict_priority(text, references,
+                                 source=settings.CLASSIFICATION_REFERENCE_SOURCE,
+                                 model_name=settings.MODEL_NAME, model_revision=settings.MODEL_REVISION))
 
-    return ClassificationPrediction(category=category, base_priority=base_priority, automatic_priority=base_priority, vector=vector)
+    return ClassificationPrediction(category=category, base_priority=base_priority, automatic_priority=base_priority,
+                                    vector=vector, classification_version=version)
 
 
 

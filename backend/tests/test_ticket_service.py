@@ -38,8 +38,8 @@ class TicketServiceTests(ApiTestCase):
             self.assertIsNone(ticket.resolved_at)
 
     async def test_each_runtime_uses_its_injected_classifier(self):
-        first_classifier = AsyncMock(return_value=ClassificationPrediction("feature", Priority.LOW, Priority.LOW, VECTOR))
-        second_classifier = AsyncMock(return_value=ClassificationPrediction("bug", Priority.HIGH, Priority.HIGH, VECTOR))
+        first_classifier = AsyncMock(return_value=ClassificationPrediction("hardware", Priority.LOW, Priority.LOW, VECTOR))
+        second_classifier = AsyncMock(return_value=ClassificationPrediction("software", Priority.HIGH, Priority.HIGH, VECTOR))
         first_runtime = ProcessingRuntime(self.sessions, classifier=first_classifier)
         second_runtime = ProcessingRuntime(self.sessions, classifier=second_classifier)
         tickets = []
@@ -55,5 +55,5 @@ class TicketServiceTests(ApiTestCase):
         async with self.sessions() as session:
             first = await session.get(Ticket, tickets[0])
             second = await session.get(Ticket, tickets[1])
-            self.assertEqual((first.category, first.priority), ("feature", "low"))
-            self.assertEqual((second.category, second.priority), ("bug", "high"))
+            self.assertEqual((first.category, first.priority), ("hardware", "low"))
+            self.assertEqual((second.category, second.priority), ("software", "high"))

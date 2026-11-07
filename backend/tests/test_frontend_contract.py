@@ -33,7 +33,7 @@ class FrontendContractTests(ApiTestCase):
         self.assertEqual(ticket, detail)
         self.assertEqual((await self.client.get("/tickets/?needs_review=true")).status_code, 403)
         self.client.headers.update(self.headers(self.user))
-        known = await self.add_ticket(category="bug")
+        known = await self.add_ticket(category="software")
         review = (await self.client.get("/tickets/?needs_review=true")).json()
         self.assertEqual([row["id"] for row in review], [ticket["id"]])
         self.assertEqual([row["id"] for row in (await self.client.get("/tickets/?needs_review=false")).json()], [known])

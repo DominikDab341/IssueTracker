@@ -27,7 +27,7 @@ async def prepare():
         for role in ("reporter", "staff", "admin"):
             db.add(User(email=f"{role}@mail.com", password_hash=password_hasher.hash(PASSWORD),
                         role=role, is_approved=True, is_active=True, approved_at=now()))
-        db.add(ClassificationReference(text="Nie działa drukarka.", category="bug", base_priority="medium",
+        db.add(ClassificationReference(text="Nie działa drukarka.", category="software", base_priority="medium",
                                        embedding_vector=[1.0] + [0.0] * 383, source="browser-test", source_key="1"))
         await db.commit()
     await engine.dispose()

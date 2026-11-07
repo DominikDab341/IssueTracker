@@ -1,7 +1,7 @@
 import type { Ticket, User, Task } from './types';
 
 export const statuses = { reported: 'Zgłoszony', accepted: 'Przyjęty', in_progress: 'W trakcie', resolved: 'Rozwiązany', rejected: 'Odrzucony', cancelled: 'Anulowany' };
-export const categories: Record<string, string> = { bug: 'Błąd', performance: 'Wydajność', feature: 'Nowa funkcja', unknown: 'Do weryfikacji' };
+export const categories: Record<string, string> = { accounts_access: 'Konta i uprawnienia', hardware: 'Sprzęt', network: 'Sieć i łączność', software: 'Oprogramowanie', unknown: 'Do weryfikacji' };
 export const priorities: Record<string, string> = { low: 'Niski', medium: 'Średni', high: 'Wysoki', critical: 'Krytyczny', unknown: 'Nieustalony' };
 export const roles = { reporter: 'Zgłaszający', staff: 'Obsługa', admin: 'Administrator' };
 export const taskStates = { pending: 'Oczekuje', running: 'W toku', succeeded: 'Zakończone', failed: 'Błąd' };

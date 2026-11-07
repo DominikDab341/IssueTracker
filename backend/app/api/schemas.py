@@ -76,6 +76,8 @@ class TicketResponse(BaseModel):
     manual_priority_at: datetime | None
     text: str
     category: str
+    legacy_category: str | None
+    classification_version: str | None
     predicted_category: str | None
     predicted_category_version: int | None
     manual_category: str | None
@@ -112,6 +114,7 @@ class ClassificationResultResponse(BaseModel):
     category: str
     base_priority: Priority | None
     automatic_priority: Priority | None
+    classification_version: str | None = None
 
 
 class TaskStatusResponse(BaseModel):

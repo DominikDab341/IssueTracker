@@ -14,7 +14,7 @@ from app.ticket_status import TicketStatus
 from scripts.import_ticket_authors import import_authors
 
 VECTOR = [1.0] + [0.0] * 383
-PREDICTION = ClassificationPrediction("bug", Priority.LOW, Priority.LOW, VECTOR)
+PREDICTION = ClassificationPrediction("software", Priority.LOW, Priority.LOW, VECTOR)
 
 
 class AuthorizationTests(ApiTestCase):
@@ -358,9 +358,9 @@ class AuthorizationTests(ApiTestCase):
         another = await self.report(vector=True)
         await self.report(self.other_reporter, vector=True)
         async with self.sessions() as db:
-            rows = await find_similar_open_tickets(own["id"], VECTOR, "bug", db, actor=self.reporter)
+            rows = await find_similar_open_tickets(own["id"], VECTOR, "software", db, actor=self.reporter)
             self.assertEqual([r["id"] for r in rows], [another["id"]])
-            rows = await find_similar_open_tickets(own["id"], VECTOR, "bug", db, actor=self.user)
+            rows = await find_similar_open_tickets(own["id"], VECTOR, "software", db, actor=self.user)
             self.assertEqual(len(rows), 2)
         response = await self.client.request("DELETE", f"/tickets/{own['id']}", json={"status": "cancelled"}, headers=self.reporter_headers)
         self.assertEqual(response.status_code, 200)
@@ -420,7 +420,7 @@ class AuthorizationTests(ApiTestCase):
 
     async def test_legacy_import_is_explicit_atomic_and_cannot_overwrite(self):
         async with self.sessions() as db:
-            legacy = Ticket(text="Stary opis", category="bug", priority="medium", legacy_unowned=True)
+            legacy = Ticket(text="Stary opis", category="software", priority="medium", legacy_unowned=True)
             db.add(legacy)
             await db.commit()
             ticket_id = legacy.id
@@ -438,6 +438,6 @@ class AuthorizationTests(ApiTestCase):
             with self.assertRaises(InvalidInputError):
                 await import_authors(db, {str(ticket_id): self.other_reporter.email})
         async with self.sessions() as db:
-            db.add(Ticket(text="Bez autora", category="bug", priority="medium"))
+            db.add(Ticket(text="Bez autora", category="software", priority="medium"))
             with self.assertRaises(IntegrityError):
                 await db.commit()

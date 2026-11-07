@@ -34,6 +34,56 @@ oraz testy jej zapisu podczas klasyfikacji.
 Etap 6 dodaje polski frontend React z obsługą kont i procesu zgłoszeń.
 Endpoint LLM powstanie w kolejnych etapach.
 
+## Bieżąca klasyfikacja — 2026-11-07
+
+Nowe zgłoszenia klasyfikujemy na podstawie **120 zatwierdzonych angielskich
+przykładów** z pilotażu. Opisy zgłoszeń należy podawać po angielsku.
+MiniLM + KNN (`k=3`) wybiera kategorię, a TF-IDF + regresja logistyczna
+(`C=100`, słowa i pary słów) przewiduje priorytet bazowy. Obie metody korzystają
+wyłącznie ze źródła `pilot_en_120_v1` w `classification_references`.
+Stare referencje demonstracyjne pozostają w bazie i są wykluczone z klasyfikacji.
+
+| Kod API | Kategoria |
+|---|---|
+| `accounts_access` | Konta i uprawnienia |
+| `hardware` | Sprzęt |
+| `network` | Sieć i łączność |
+| `software` | Oprogramowanie |
+
+`unknown` oznacza kategorię do weryfikacji. API korekty i filtrów odrzuca dawne
+`bug`, `performance`, `feature`. Migracja zachowuje dawną kategorię w
+`legacy_category`, ustawia operacyjną na `unknown` i unieważnia aktualność
+starego embeddingu. Dawne ręczne korekty pozostają w historii, ale nie
+nadpisują klasyfikacji z nowego słownika. Statusy, autorzy i ręczne priorytety
+pozostają zachowane. Polecenie `--reclassify-legacy` nadaje nowe etykiety
+na podstawie tekstu, bez arbitralnego mapowania starych kodów.
+
+TF-IDF jest uczony leniwie w wątku procesu, a następnie używany z pamięci.
+Zmiana tekstów lub etykiet aktywnej referencji powoduje ponowny trening.
+`classification_version` w zgłoszeniu i wyniku zadania zawiera odcisk wersji
+referencji i konfiguracji. Nowe tickety, checkbox i priorytety administratora
+nie stają się danymi treningowymi. Priorytet końcowy zachowuje kolejność:
+administrator → blokada pracy (`critical`) → klasyfikator → zastępcze `medium`.
+Próg odmowy dla niejasnych opisów nie jest jeszcze walidowany ani wdrożony.
+
+Aktualizacja istniejącej instalacji (z kopią zapasową bazy, przy zatrzymanym API):
+
+```powershell
+docker compose stop api frontend
+docker compose build api frontend
+docker compose up -d postgres
+docker compose run --rm api python -m alembic -c app/alembic.ini upgrade head
+docker compose run --rm api python scripts/seed_db.py --reclassify-legacy
+docker compose up -d api frontend
+```
+
+Seed nie tworzy zgłoszeń użytkowników, jest powtarzalny i nie nadpisuje
+istniejącej wersji referencji zmienioną treścią. 50 słabych opisów `pending`
+pozostaje poza referencją i treningiem. Model MiniLM ma przypięty snapshot;
+Compose zachowuje jego cache w wolumenie `modelcache`.
+Wynik 86,7% dotyczy opisanej niżej walidacji na danych syntetycznych,
+nie jest gwarancją trafności na nowych zgłoszeniach.
+
 ## Polski pilotaż danych (etap 4)
 
 W `backend/data/pilot/` znajduje się 40 syntetycznych zgłoszeń, po 10 na
@@ -136,9 +186,9 @@ Rozszerzenia API dla frontendu:
   i stan zadania są odczytywane jednym zapytaniem, aby zakończone zadanie nie
   było pokazywane ze starszym wynikiem klasyfikacji.
 
-**Pominięte zależności etapów 4–5:** docelowy słownik kategorii, próg pewności
-KNN, zatwierdzanie referencji, strojenie i eskalacja. Interfejs używa obecnych
-`bug`/`performance`/`feature`, wyświetlanych jako Błąd/Wydajność/Nowa funkcja.
+**Historyczny zakres etapu 6:** pominięto docelowy słownik kategorii, próg pewności
+KNN, zatwierdzanie referencji, strojenie i eskalację. Słownik zastąpiono
+czterema kategoriami helpdesku w aktualizacji 2026-11-07 opisanej powyżej.
 „Do weryfikacji” oznacza obecnie kategorię `unknown`, również podczas oczekiwania
 na obliczenia. Stan zadania i status sprawy są prezentowane osobno. Nie jest to
 jeszcze ocena pewności oparta na walidacji. Duplikaty zachowują dotychczasowe
@@ -222,7 +272,7 @@ administrator jest nieaktywny. Nowe konta przechodzą rejestrację i akceptację
 | `PATCH /tickets/{id}/assignee` | Administrator wskazuje `assignee_id` aktywnego, zaakceptowanego konta `staff` |
 | `GET /tickets/{id}/assignments` | Historia przypisań dla obsługi i administratora |
 | `PATCH /tickets/{id}/priority` | Administrator podaje `priority`: `low`, `medium`, `high`, `critical` |
-| `PATCH /tickets/{id}/category` | Aktualny wykonawca lub administrator podaje `category` (`bug`, `performance`, `feature`) i wymagane `expected_content_version` z odczytanego zgłoszenia |
+| `PATCH /tickets/{id}/category` | Aktualny wykonawca lub administrator podaje `category` (`accounts_access`, `hardware`, `network`, `software`) i wymagane `expected_content_version` z odczytanego zgłoszenia |
 
 Adres jest walidowany składniowo i normalizowany do małych liter. Domena
 rejestracji musi być dokładnie zgodna z konfiguracją; subdomeny i nazwy
@@ -287,7 +337,7 @@ jest korekta ręczna. Korekta nie zmienia priorytetu, statusu, zadań, embedding
 ani referencji KNN. Dla tej samej wersji tekstu zadanie zachowuje korektę.
 
 Żądanie korekty zawiera kategorię i wersję opisu widzianą przez użytkownika,
-np. `{"category":"performance","expected_content_version":1}`. Wersja jest
+np. `{"category":"network","expected_content_version":1}`. Wersja jest
 wymaganą dodatnią liczbą całkowitą. Serwer porównuje ją z aktualną wersją po
 zablokowaniu zgłoszenia. Niezgodność zwraca 409 bez zapisania korekty; klient
 musi odczytać nowy opis i ponownie ocenić kategorię. Chroni to również przed
@@ -327,12 +377,11 @@ docker compose up -d api --remove-orphans
 ```
 
 Migracje Alembic są jedynym sposobem tworzenia i zmiany schematu.
-Seed uzupełnia osobną tabelę referencji KNN z 10 dawnymi angielskimi przykładami
-z `backend/data/sample_tickets.json`. Opcjonalne `--author-email konto@mail.com` dodaje
-także zgłoszenia demonstracyjne do pustej tabeli, z jawnym zaakceptowanym autorem.
-Nie tworzy schematu i nie nadpisuje istniejących zgłoszeń ani referencji. Kategorie
-`bug`, `performance`, `feature` pozostają na tym etapie; polski zbiór
-helpdesku IT powstanie później. Pierwsze pobranie tokenizera i modelu
+Seed uzupełnia osobną tabelę referencji ze 120 zatwierdzonymi angielskimi
+przykładami z `backend/data/pilot/tickets.en.json`. Nie tworzy zgłoszeń
+użytkowników ani schematu i nie nadpisuje istniejących referencji.
+Opcja `--reclassify-legacy` przeklasyfikowuje opisy ze starego słownika.
+Pierwsze pobranie tokenizera i modelu
 wymaga dostępu do Hugging Face. Model jest ładowany leniwie w wątku procesu API.
 
 API: [Swagger](http://localhost:8000/docs). PostgreSQL jest dostępny lokalnie
@@ -524,12 +573,12 @@ decyzji jest chronione przed zadaniem; endpoint administratora zapisuje autora
 i czas. Korekta kategorii ma osobną wersję treści, autora i czas. Zatwierdzanie
 etykiet rozwiązanego zgłoszenia do referencji nadal należy do etapu 5.
 
-KNN przewiduje kategorię i priorytet bazowy wyłącznie z `classification_references`.
+KNN przewiduje kategorię, a TF-IDF + regresja logistyczna priorytet bazowy
+wyłącznie z aktywnego źródła w `classification_references`.
 Nowe zgłoszenia, wyniki klasyfikacji, checkbox, zmiany priorytetu i statusu
 nie rozszerzają ani nie zmieniają referencji. Priorytet bazowy `critical`
 pozostaje prawidłową etykietą; końcowe `critical` nadane checkboxem innej
-sprawy nie staje się etykietą bazową kolejnych zgłoszeń. Zbiór demonstracyjny
-nie ma jeszcze oceny jakości; docelowe zatwierdzanie etykiet rozwiązanego
+sprawy nie staje się etykietą bazową kolejnych zgłoszeń. Docelowe zatwierdzanie etykiet rozwiązanego
 zgłoszenia przez uprawnioną osobę pozostaje w etapie 5.
 
 | Wartość API | Nazwa polska | Dozwolone następne statusy |
@@ -640,3 +689,40 @@ Na prośbę użytkownika zakończono rozszerzanie bieżącego pilotażu na 170 o
 Brak ustalalnej etykiety jest zapisany jako null i pomijany w metrykach z jawnym mianownikiem. Model wymusił kategorię także dla wszystkich 20 nieoznaczalnych opisów oraz priorytet dla wszystkich 40 opisów bez informacji o wpływie. Takich odpowiedzi nie zaliczamy jako poprawnych rozpoznań.
 
 Wyniki poprzednich 120 pozostały takie same; nowe 50 nie trafiło do referencji. [Raport porównawczy](backend/data/pilot/comparison/report.md) dopisano pod wcześniejszymi wynikami. [Opis ostatniej partii](backend/data/pilot/weak-170.md) zawiera metodę, pochodzenie, pełne mianowniki i polecenia odtworzenia. Kopie danych i JSON-y wcześniejszych przebiegów zachowano. Przeszło 20 testów pilotażu i priorytetów.
+
+## Proste metody poprawy priorytetu — 2026-11-07
+
+Głównym językiem eksperymentu jest **angielski**. Porównano 11 wariantów KNN
+oraz regresję logistyczną na embeddingach MiniLM i na TF-IDF słów (po cztery
+wartości C). Parametry dobierano wyłącznie na 120 zatwierdzonych referencjach,
+stosując zagnieżdżoną walidację z rozdzieleniem grup incydentów: 5 foldów
+zewnętrznych i 4 wewnętrzne. Słownik TF-IDF również powstaje wyłącznie na
+treningu danego foldu. Nowe 50 opisów nie uczestniczy w doborze.
+
+| Priorytet EN: zagnieżdżona walidacja na 120 przykładach | Obecne KNN | Dobór prostej metody |
+|---|---:|---:|
+| Accuracy | 53,3% | 86,7% |
+| Macro-F1 | 0,514 | 0,804 |
+| High/critical przewidziane jako low/medium | 19/48 | 3/48 |
+| Poprawne rozpoznanie dokładnie critical | 5/12 | 5/12 |
+
+Wybrano TF-IDF + regresję logistyczną, C=100, we wszystkich pięciu foldach EN.
+W odtworzonym protokole historycznym wynik wynosi 85,4% zamiast 52,3%
+(130 ocenialnych priorytetów ze 170 opisów). To osobny pomiar od powyższej
+walidacji. Na słabych opisach EN występuje regresja 9/10 → 8/10; 40 opisów
+bez ustalalnego priorytetu pomijamy. Dane są syntetyczne, a nowe etykiety
+pozostają pending. Wynik nie stanowi jakości potwierdzonej na danych organizacji.
+
+[Pełny raport i konfiguracje](backend/data/pilot/priority-methods/report.md)
+zawierają także wyniki PL, podziały, metryki klas i zmienione decyzje. Skrypt
+nie zmienia aplikacji ani wcześniejszych raportów; wdrożenie tej metody
+wymaga osobnego treningu na zatwierdzonych referencjach.
+
+Odtworzenie pomiaru (model domyślnie z lokalnego cache; opcjonalnie `--allow-download`):
+
+```powershell
+.venv/Scripts/python.exe backend/scripts/evaluate_priority_methods.py
+Push-Location backend
+../.venv/Scripts/python.exe -m unittest tests.test_priority_methods tests.test_pilot_dataset -v
+Pop-Location
+```

@@ -47,7 +47,11 @@ class PilotDatasetTests(unittest.TestCase):
         self.assertEqual(english["language"], "en")
         self.assertNotEqual(english["dataset_id"], self.dataset["dataset_id"])
         source = english["provenance"]["translation"]
-        self.assertEqual(source["source_sha256"], hashlib.sha256(DEFAULT_DATASET.read_bytes()).hexdigest())
+        # Git może przepisać LF na CRLF na Windows; treść źródła pozostaje ta sama.
+        source_bytes = DEFAULT_DATASET.read_bytes()
+        lf_bytes = source_bytes.replace(b"\r\n", b"\n")
+        self.assertIn(source["source_sha256"], {hashlib.sha256(value).hexdigest()
+                                             for value in (source_bytes, lf_bytes, lf_bytes.replace(b"\n", b"\r\n"))})
         self.assertFalse(source["human_verified"])
         self.assertEqual({row["id"] for row in translated}, {row["id"] for row in self.dataset["examples"]})
         originals = {row["id"]: row for row in self.dataset["examples"]}

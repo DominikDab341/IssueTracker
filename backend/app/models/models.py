@@ -4,7 +4,7 @@ from sqlalchemy.dialects.postgresql import JSONB
 from sqlalchemy.orm import Mapped, mapped_column
 from app.database.database import Base
 from pgvector.sqlalchemy import Vector
-from app.domain import PrioritySource, TaskState
+from app.domain import Category, PrioritySource, TaskState
 from app.ticket_status import TicketStatus
 
 
@@ -16,8 +16,11 @@ class Ticket(Base):
             name="ck_ticket_status"
         ),
         CheckConstraint("author_id IS NOT NULL OR legacy_unowned", name="ck_ticket_author"),
-        CheckConstraint("manual_category IS NULL OR manual_category IN ('bug', 'performance', 'feature')",
+        CheckConstraint("manual_category IS NULL OR manual_category IN ('bug', 'performance', 'feature', "
+                        "'accounts_access', 'hardware', 'network', 'software')",
                         name="ck_ticket_manual_category"),
+        CheckConstraint("category IN ('unknown', 'accounts_access', 'hardware', 'network', 'software')",
+                        name="ck_ticket_category"),
         CheckConstraint("(manual_category IS NULL AND manual_category_version IS NULL AND "
                         "manual_category_by_id IS NULL AND manual_category_at IS NULL) OR "
                         "(manual_category IS NOT NULL AND manual_category_version IS NOT NULL AND "
@@ -37,6 +40,8 @@ class Ticket(Base):
     manual_priority_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
     text: Mapped[str] = mapped_column(String, nullable=False)
     category: Mapped[str] = mapped_column(String(50), nullable=False)
+    legacy_category: Mapped[str | None] = mapped_column(String(50))
+    classification_version: Mapped[str | None] = mapped_column(String(100))
     predicted_category: Mapped[str | None] = mapped_column(String(50))
     predicted_category_version: Mapped[int | None] = mapped_column(Integer)
     manual_category: Mapped[str | None] = mapped_column(String(50))
@@ -68,7 +73,7 @@ class Ticket(Base):
 
     @property
     def manual_category_current(self) -> bool:
-        return self.manual_category is not None and self.manual_category_version == self.content_version
+        return self.manual_category in set(Category) and self.manual_category_version == self.content_version
 
     @property
     def needs_review(self) -> bool:

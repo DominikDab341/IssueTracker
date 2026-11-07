@@ -4,10 +4,11 @@ from enum import StrEnum
 
 
 class Category(StrEnum):
-    """Obecny słownik prototypu; docelowe kategorie helpdesku należą do etapu 4."""
-    BUG = "bug"
-    PERFORMANCE = "performance"
-    FEATURE = "feature"
+    """Kategorie helpdesku IT, wspólne dla API i zatwierdzonych referencji."""
+    ACCOUNTS_ACCESS = "accounts_access"
+    HARDWARE = "hardware"
+    NETWORK = "network"
+    SOFTWARE = "software"
 
 
 class Priority(StrEnum):
@@ -50,3 +51,4 @@ class ClassificationPrediction:
     base_priority: Priority | None
     automatic_priority: Priority | None
     vector: list[float]
+    classification_version: str | None = None

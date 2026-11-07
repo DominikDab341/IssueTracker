@@ -7,18 +7,43 @@ Raport pomiaru etapu 4: [Pilotaż MiniLM — 2026-10-28](03-raport-pilotazu-mini
 `data/`, `scripts/` i `tests/` poniżej odnoszą się teraz do `backend/`.
 Aktualne polecenia uruchamiania znajdują się w głównym README.
 
-Plan zaktualizowany na dzień: 2026-10-25.
+Plan zaktualizowany na dzień: **2026-11-07**.
 
 Temat pracy: **System klasyfikacji zgłoszeń z wykorzystaniem embeddingów tekstowych, bazy wektorowej i asystenta konwersacyjnego opartego na RAG**.
 
 Plan opisuje kolejność wykonania, konkretne zadania i kryteria ukończenia. Punktem wyjścia jest [stan projektu i zakres prac](01-stan-projektu-i-zakres-prac.md). W etapie 2 Celery zastąpiono przez FastAPI `BackgroundTasks`; Redis i Flower usunięto. Zależności od późniejszych etapów są oznaczone jako blockery przy zadaniach.
+
+## Audyt wykonania — 2026-11-07
+
+Przegląd porównuje wymagania z aktualnym kodem, artefaktami danych i zapisanymi wynikami weryfikacji. W tym audycie zmieniono wyłącznie ten plan; nie dopasowywano kodu do dawnych zapisów.
+
+**Oznaczenia:** `[x]` — cel wykonany w aktualnym, uzgodnionym zakresie; różnice lub przeniesienie pracy opisano przy zadaniu jako **edit:**. `[ ]` — praca niewykonana lub częściowa; notatka oddziela gotową część od konkretnych braków. Zaznaczenie podstawowego frontendu nie oznacza ukończenia progu pewności backendu ani czatu.
+
+**Aktualny wariant:** 120 zatwierdzonych angielskich referencji, MiniLM + KNN k=3 dla kategorii, TF-IDF + regresja logistyczna C=100 dla priorytetu; 50 słabych opisów poza treningiem; cztery kategorie helpdesku w API i React. Wcześniejsze opisy KNN dla priorytetu i polskiego zbioru operacyjnego należy czytać z tymi aktualizacjami.
+
+**Dowody weryfikacji:** [122 testy backendu](../backend/test-results-helpdesk.log), 11 testów React i buildy obu obrazów z ostatniego wdrożenia; [porównanie metod priorytetu](../backend/data/pilot/priority-methods/report.md), [protokół danych](../backend/data/pilot/weak-170.md) oraz [aktualna instrukcja](../README.md). Nie uruchamiano ponownie testów przy samej edycji planu.
+
+| Etap | Wykonane / wszystkie | Stan |
+|---|---:|---|
+| 1 | 9/9 | Ukończony |
+| 2 | 12/12 | Ukończony |
+| 3 | 13/13 | Ukończony fundament kont i uprawnień |
+| 4 | 4/10 | Dane startowe gotowe; niezależny test, duplikaty i RAG otwarte |
+| 5 | 6/13 | Klasyfikacja i korekty działają; brak progu, eskalacji i zatwierdzania ticketów |
+| 6 | 9/9 | Ukończony frontend podstawowy; próg backendu w E5.3 |
+| 7 | 0/8 | Niewykonane wyszukiwanie RAG |
+| 8 | 0/11 | Niewykonane LLM i czat |
+| 9 | 3/9 | Panel i instrukcja gotowe; pełne uruchomienie z LLM otwarte |
+| 10 | 0/10 | Pilotaż i walidacja klasyfikacji gotowe; końcowa ewaluacja otwarta |
+
+**Najbliższe otwarte prace:** niezależny test i oznaczone pary duplikatów (E4.4–E4.5), próg odmowy / pewności (E5.3), konfiguracja progów (E5.4), eskalacja (E5.6), ocena filtra kategorii duplikatów (E5.7), zatwierdzanie rozwiązanych ticketów do referencji (E5.12), a następnie oba wyszukiwania i asystent (etapy 7–8). Wynik 86,7% jest wynikiem walidacji na danych syntetycznych, nie ukończonym testem końcowym.
 
 ## Ustalenia i otwarte decyzje
 
 - **Aktualizacja po review (2026-10-25):** użytkownik wybrał oddzielenie referencji KNN od operacyjnych zgłoszeń teraz, a eskalację po wdrożeniu kont. Dodano `classification_references` i seed przykładów demonstracyjnych z oryginalnymi kategoriami i priorytetami bazowymi. Stara eskalacja procentowa została usunięta. Wyniki automatyczne, checkbox, ręczny priorytet i zmiany statusu nie aktualizują referencji; nie kopiujemy do niej starych priorytetów. Nie oznacza to ukończenia E5.12: zatwierdzanie etykiet rozwiązanego zgłoszenia wymaga kont i kontroli uprawnień. Parametry reguły wielu różnych zgłaszających pozostają do wdrożenia w E5.6 po etapie 3.
 
 - **Ograniczenie planowania:** czas przygotowania pracy jest ograniczony. Wybieramy możliwie prosty wariant spełniający uzgodniony zakres, koncentrując się na działającej integracji, klasyfikacji, RAG i rzetelnej ewaluacji. Dodatkowe funkcje wymagają uzasadnienia i nie są automatycznie dopisywane do podstawowego zakresu.
-- **Ustalono:** zgłoszenia i pytania do asystenta będą w języku polskim. Dane referencyjne, walidacyjne i testowe należy przygotować w tym języku.
+- **Ustalono:** zgłoszenia i pytania do asystenta będą w języku polskim. Dane referencyjne, walidacyjne i testowe należy przygotować w tym języku. **edit:** w działającej klasyfikacji podstawowy język zgłoszeń i referencji to angielski; polski zachowano w porównaniu. Interfejs pozostaje polski. Zmiana ta nie oznacza wdrożenia ani sprawdzenia języka przyszłego czatu RAG.
 - **Ustalono:** cały interfejs użytkownika będzie po polsku, w tym formularze, przyciski, statusy, komunikaty walidacji i błędów, panel administratora oraz czat. Pytania i odpowiedzi asystenta również są po polsku.
 - **Ustalono:** użytkownik sam rejestruje konto, podając e-mail i własne hasło; logowanie odbywa się adresem e-mail. Rejestracja wymaga dozwolonej domeny, początkowo `mail.com`, przechowywanej w konfiguracji. Konto oczekuje na akceptację administratora; przed akceptacją nie może zalogować się ani korzystać z chronionych funkcji.
 - **Ustalono:** podczas akceptacji konta administrator musi jawnie nadać jedną z trzech ról: zgłaszający, osoba obsługująca albo administrator. Konto oczekujące nie ma nadanej roli; nie przypisujemy domyślnie roli zgłaszającego. Akceptację i nadanie roli zapisujemy razem. Rejestracja nie pozwala samodzielnie wybrać roli.
@@ -36,9 +61,9 @@ Plan opisuje kolejność wykonania, konkretne zadania i kryteria ukończenia. Pu
 - **Wstępnie przyjęto:** cztery kategorie helpdesku IT: **Konta i uprawnienia**, **Sprzęt**, **Sieć i łączność**, **Oprogramowanie**. Podział należy sprawdzić na przykładowych danych; może zostać doprecyzowany przed zamrożeniem zbiorów do ewaluacji.
 - **Wstępnie przyjęto:** polski zbiór zgłoszeń helpdesku IT przygotujemy samodzielnie. Plan nie zakłada dostępu do rzeczywistych zgłoszeń organizacji. Wstępny rozmiar to 300 zgłoszeń, około 75 na każdą z czterech kategorii, oraz 30 pytań do ewaluacji RAG i porównania wyszukiwania wektorowego z pełnotekstowym. Obie metody oceniamy na tych samych pytaniach; pulę 30 pytań dzielimy na walidację i test. Ręczną weryfikację treści, kategorii i priorytetu bazowego każdego przykładu wykonuje samodzielnie autor pracy. Nie planujemy drugiego oceniającego; ograniczenie to należy opisać przy interpretacji wyników. Pochodzenie i sposób przygotowania danych trzeba udokumentować; dane referencyjne, walidacyjne i testowe pozostają rozdzielone.
 - **Ustalono:** przy tworzeniu przykładów możemy wspierać się LLM. Treść, kategorię i priorytet bazowy każdego przykładu sprawdzamy ręcznie przed dopuszczeniem do zbioru; propozycja generatora nie jest automatycznie etykietą wzorcową. Zapisujemy model generatora, instrukcje, ustawienia i pochodzenie danych. Jest to osobna decyzja od odłożonego wyboru LLM i sposobu udostępnienia asystenta RAG.
-- **Ustalono:** cztery poziomy priorytetu: **Niski** (`low`), **Średni** (`medium`), **Wysoki** (`high`), **Krytyczny** (`critical`). Ich znaczenie opisano poniżej. KNN przewiduje priorytet bazowy na podstawie oznaczonych przykładów; reguły eskalacji opisano osobno, a szczegóły grupowania podobnych awarii wymagają doprecyzowania w etapie 5.
+- **Ustalono:** cztery poziomy priorytetu: **Niski** (`low`), **Średni** (`medium`), **Wysoki** (`high`), **Krytyczny** (`critical`). Ich znaczenie opisano poniżej. KNN przewiduje priorytet bazowy na podstawie oznaczonych przykładów; reguły eskalacji opisano osobno, a szczegóły grupowania podobnych awarii wymagają doprecyzowania w etapie 5. **edit:** operacyjny priorytet bazowy wyznacza TF-IDF + regresja logistyczna, a KNN wyznacza kategorię. Reguły pierwszeństwa pozostają bez zmian; eskalacja jest nadal zadaniem E5.6.
 - **Ustalono:** formularz zawiera opis i dodatkowe pole dotyczące możliwości kontynuowania pracy. Osobą zgłaszającą jest automatycznie zalogowany użytkownik; formularz nie wymaga wybierania ani wpisywania autora.
-- **Ustalono:** dodatkowym polem jest checkbox **„Nie mogę kontynuować pracy”**. Przy braku ręcznej decyzji administratora zaznaczenie oznacza blokadę pracy i nadaje najwyższy priorytet `critical`; przy niezaznaczonym polu priorytet bazowy wyznacza KNN. Reguła działa także dla pojedynczego zgłaszającego i nie wymaga awarii obejmującej wiele osób.
+- **Ustalono:** dodatkowym polem jest checkbox **„Nie mogę kontynuować pracy”**. Przy braku ręcznej decyzji administratora zaznaczenie oznacza blokadę pracy i nadaje najwyższy priorytet `critical`; przy niezaznaczonym polu priorytet bazowy wyznacza KNN. Reguła działa także dla pojedynczego zgłaszającego i nie wymaga awarii obejmującej wiele osób. **edit:** przy niezaznaczonym checkboxie priorytet modelu pochodzi teraz z TF-IDF + regresji logistycznej zamiast KNN.
 - **Ustalono:** administrator ma mieć endpoint umożliwiający ręczną zmianę priorytetu zgłoszenia. Decyzja administratora jest nadrzędna wobec checkboxa, KNN i automatycznej eskalacji; może obniżyć priorytet mimo zaznaczonego pola. Ponowna klasyfikacja nie nadpisuje tej decyzji.
 - **Ustalono:** zgłaszający widzi historię wyłącznie własnych zgłoszeń, dodaje nowe i może sam anulować własne zgłoszenie przed przypisaniem wykonawcy. Osoba obsługująca i administrator widzą wszystkie zgłoszenia oraz mogą korzystać z asystenta LLM. Zgłaszający nie ma dostępu do asystenta.
 - **Ustalono:** anulowanie przez zgłaszającego jest dostępne tylko w statusie Zgłoszony, gdy zgłoszenie nie ma wykonawcy, i nie wymaga zatwierdzenia. Po przypisaniu wykonawcy ta możliwość jest całkowicie zablokowana; nie przewidujemy mechanizmu próśb o anulowanie.
@@ -64,8 +89,8 @@ Plan opisuje kolejność wykonania, konkretne zadania i kryteria ukończenia. Pu
 - **Ustalono:** przy słabym dopasowaniu KNN nie wymuszamy kategorii; wynik klasyfikacji otrzymuje oznaczenie **Do weryfikacji**. To osobna informacja od statusu obsługi zgłoszenia i stanu wykonania zadania. Ręczne uzupełnienie kategorii przysługuje aktualnie przypisanemu wykonawcy i administratorowi zgodnie z E5.13.
 - **Ustalono:** przy niewiarygodnym przewidywaniu priorytetu bazowego przyjmujemy tymczasowo Średni (`medium`). Wartość zastępczą oznaczamy osobno od przewidywania KNN i zachowujemy potrzebę weryfikacji. Decyzja administratora, checkbox i zapisana eskalacja mają pierwszeństwo; wartość tymczasowa nie jest zatwierdzoną etykietą referencyjną.
 - **Ustalono:** wykrywanie potencjalnych duplikatów zwraca sugestie podobnych aktywnych zgłoszeń. System nie scala ani nie odrzuca zgłoszeń automatycznie. Decyzję podejmuje obsługa lub administrator zgodnie z uprawnieniami do zmiany statusu; sugestia nie rozszerza tych uprawnień.
-- **Konsekwencja implementacyjna:** obecne kategorie `bug`, `performance`, `feature` i reguły eskalacji trzeba dostosować do docelowej dziedziny. Nie zakładamy automatycznego przypisania starych przykładów do nowych kategorii.
-- **Stan kodu:** istniejące przykłady zgłoszeń są angielskie; polskie dane i ich obsługa nie zostały jeszcze zaimplementowane ani zweryfikowane.
+- **Konsekwencja implementacyjna:** obecne kategorie `bug`, `performance`, `feature` i reguły eskalacji trzeba dostosować do docelowej dziedziny. Nie zakładamy automatycznego przypisania starych przykładów do nowych kategorii. **edit:** zamianę słownika zakończono migracją i ponowną klasyfikacją opisów; stare etykiety zachowano w historii, bez mapowania ich na sztywno.
+- **Stan kodu:** istniejące przykłady zgłoszeń są angielskie; polskie dane i ich obsługa nie zostały jeszcze zaimplementowane ani zweryfikowane. **edit:** stan historyczny; obecnie istnieją sparowane dane PL/EN, raporty obu języków i import zatwierdzonych 120 EN do aplikacji.
 
 ## Przyjęte znaczenie priorytetów
 
@@ -230,6 +255,9 @@ Sprawdzono tworzenie schematu od zera, odmowę migracji starych danych bez decyz
 
 - [x] **E1.1** Uruchomić PostgreSQL/pgvector i obecne API; zapisać wymagane zmienne środowiskowe w pliku przykładowym bez sekretów.
 - [x] **E1.2** Uporządkować inicjalizację bazy: migracje Alembic jako sposób tworzenia schematu, osobny skrypt danych początkowych. Wyeliminować rozbieżności między migracjami i `create_all` w skrypcie seedującym.
+
+  **edit:** Seed importuje teraz 120 zatwierdzonych referencji EN, bez tworzenia fikcyjnych zgłoszeń użytkowników. Migracje nadal są jedyną metodą zmiany schematu. Dowody: `backend/scripts/seed_db.py`, `backend/tests/test_api.py`.
+
 - [x] **E1.3** Zaimplementować `GET /tickets/{ticket_id}` wraz z odpowiedzią 404 dla nieistniejącego zgłoszenia.
 - [x] **E1.4** Naprawić przekazywanie sesji bazy do zamykania zgłoszenia. Ustalić jeden spójny sposób zamykania i zachowanie istniejącego endpointu `DELETE`, który obecnie nie usuwa rekordu.
 - [x] **E1.5** Ujednolicić modele odpowiedzi i błędy. Wdrożyć sześć ustalonych statusów: Zgłoszony, Przyjęty, W trakcie, Rozwiązany, Odrzucony, Anulowany. Zablokować przejścia ze stanów Rozwiązany, Odrzucony i Anulowany dla wszystkich ról; wdrożyć przyjętą macierz przejść w aktywnej obsłudze i zablokować cofanie statusu, również W trakcie → Przyjęty. Zmiana wykonawcy zachowuje bieżący status. Przygotować migrację obecnych `open`, `resolved`, `closed` bez arbitralnego przypisywania istniejących rekordów do nieznanych etapów obsługi. Nie zwracać przypadkowo wektora embeddingu w odpowiedziach operacji na zgłoszeniach. **Wykonane:** reguły ról i zachowanie statusu przy zmianie wykonawcy wdrożono w etapie 3 i potwierdzono testami.
@@ -276,6 +304,9 @@ Sprawdzono tworzenie schematu od zera, odmowę migracji starych danych bez decyz
 - [x] **E2.3** Dodać do modelu zgłoszenia i kontraktu API pole logiczne odpowiadające checkboxowi „Nie mogę kontynuować pracy”, z migracją dla istniejących danych. Zapisywać zgłoszenie, wartość pola i rekord oczekującego zadania w jednej transakcji; przy zaznaczeniu i braku ręcznej decyzji administratora od razu ustawić priorytet końcowy `critical`. Po zatwierdzeniu dodawać wykonanie przez `BackgroundTasks.add_task`.
 - [x] **E2.4** Przenieść logikę wykonania z `app/celery_app.py` do serwisu przetwarzania. Zadanie ma otrzymywać identyfikatory i otwierać własną sesję bazy, niezależną od sesji żądania HTTP.
 - [x] **E2.5** Zapewnić przejścia pending → running → succeeded albo failed, atomowy zapis wyniku i stanu zadania oraz pierwszeństwo ręcznego priorytetu przed checkboxem i wynikiem automatycznym. **Wykonane:** przewidywanie kategorii i jego wersja są zapisywane osobno od ręcznej korekty z autorem, czasem i wersją treści. Zadanie dla tej samej wersji nie nadpisuje korekty, ale wynik zadania zachowuje rzeczywiste przewidywanie KNN. Sprawdzono oba porządki zapisu, wynik unknown, ponowienie błędu, unieważnienie korekty po zmianie opisu i zachowanie przy checkboxie. Endpoint administratora do priorytetu zapisuje autora i czas; zatwierdzanie etykiet do referencji pozostaje osobnym E5.12.
+
+  **edit:** Priorytet bazowy wyznacza teraz TF-IDF + regresja logistyczna; KNN pozostał dla kategorii. Do zgłoszenia i wyniku zadania dodano `classification_version`. Zachowano atomowy zapis, niezależność korekt i pierwszeństwo decyzji administratora. Dowody: `processing.py`, `priority_classifier.py`, `test_helpdesk_runtime.py`.
+
 - [x] **E2.6** Przenieść ładowanie modelu i obliczanie embeddingów poza pętlę obsługującą żądania. Ustalić ograniczenie równoległych obliczeń i bezpieczne współdzielenie modelu.
 - [x] **E2.7** Zaimplementować odczyt statusu z PostgreSQL; sprawdzać zgodność identyfikatora zadania i zgłoszenia. Nieistniejące zadanie ma dawać 404.
 - [x] **E2.8** Dodać możliwość ręcznego ponowienia nieudanej lub przerwanej klasyfikacji aktualnej wersji opisu. Uprawnienia egzekwować zgodnie z etapem 3: autor własnego nieprzypisanego zgłoszenia w statusie Zgłoszony, bieżący wykonawca w statusach Przyjęty i W trakcie oraz administrator dla każdego aktywnego zgłoszenia. Odmówić ponowienia dla statusów końcowych, trwającego zadania, nieuprawnionej osoby i poprawnie zakończonej klasyfikacji, także z wynikiem Do weryfikacji. Zabezpieczyć przed równoległym uruchomieniem dwóch zadań dla tej samej wersji zgłoszenia i zapisem wyniku zadania dotyczącego starszej treści. Sprawdzić utratę uprawnienia przez autora po przypisaniu i poprzedniego wykonawcę po zmianie opiekuna, nie zmieniać statusu sprawy ani ręcznego priorytetu administratora. **Wykonane:** role i aktualne przypisanie są egzekwowane; test pełnego błędu i ponowienia dla wszystkich aktywnych statusów potwierdza zachowanie ręcznego priorytetu, autora i czasu decyzji oraz statusu obsługi.
@@ -301,9 +332,9 @@ Sprawdzono tworzenie schematu od zera, odmowę migracji starych danych bez decyz
 
 **Stan po implementacji (2026-10-25):** wykonano backend E3.1–E3.13. Dodano użytkowników, Argon2id, OAuth2/Bearer JWT (30 minut), rejestrację wyłącznie w skonfigurowanej domenie, atomową akceptację z obowiązkowym wyborem roli, zarządzanie rolą i aktywnością, wspólne filtrowanie dostępnych zgłoszeń, autorów decyzji, przypisania i ich historię. Każde chronione żądanie ponownie odczytuje aktualną rolę i stan konta z bazy. Autor może tworzyć, edytować i anulować własne zgłoszenia zgodnie z ograniczeniami także wtedy, gdy jego konto ma rolę obsługi lub administratora. Administrator przypisuje aktywne konto obsługi przez osobny endpoint; samodzielne przyjęcie przez PATCH statusu jest operacją obsługi.
 
-**Dawne dane:** migracja e3a000000001 zachowuje wszystkie dawne pola i jawnie oznacza rekordy bez autora jako legacy_unowned. Są dostępne wyłącznie obsłudze i administratorowi. Skrypt scripts/import_ticket_authors.py wykonuje atomowy import jawnego mapowania identyfikator → e-mail istniejącego zaakceptowanego konta, bez nadpisywania autora. Nie przypisano fikcyjnych autorów ani historycznych decyzji. Nowe API wymaga autora wynikającego z tokenu; seed domyślnie uzupełnia referencje, a utworzenie zgłoszeń demonstracyjnych wymaga --author-email.
+**Dawne dane:** migracja e3a000000001 zachowuje wszystkie dawne pola i jawnie oznacza rekordy bez autora jako legacy_unowned. Są dostępne wyłącznie obsłudze i administratorowi. Skrypt scripts/import_ticket_authors.py wykonuje atomowy import jawnego mapowania identyfikator → e-mail istniejącego zaakceptowanego konta, bez nadpisywania autora. Nie przypisano fikcyjnych autorów ani historycznych decyzji. Nowe API wymaga autora wynikającego z tokenu. **edit:** obecny seed importuje wyłącznie 120 referencji EN; nie tworzy ticketów i nie obsługuje już --author-email.
 
-**Granice etapu:** przygotowano dependency dostępu do przyszłego LLM. W późniejszym domknięciu E2.5 wdrożono podstawową korektę kategorii z E5.13. Zatwierdzanie referencji, pełna integracja korekt z tym zatwierdzaniem i eskalacja pozostają w etapie 5. Podstawowy endpoint priorytetu administratora ma autora i czas decyzji; nie oznacza to ukończenia całego E5.9 z przyszłą eskalacją. Frontend użyje Bearer JWT w pamięci, bez refresh tokenów.
+**Granice etapu:** przygotowano dependency dostępu do przyszłego LLM. W późniejszym domknięciu E2.5 wdrożono podstawową korektę kategorii z E5.13. Zatwierdzanie referencji, pełna integracja korekt z tym zatwierdzaniem i eskalacja pozostają w etapie 5. Endpoint priorytetu administratora ma autora i czas decyzji. **edit:** E5.9 uznano za ukończone dla aktualnego klasyfikatora; integrację przyszłej eskalacji pozostawiono w E5.6. Frontend użyje Bearer JWT w pamięci, bez refresh tokenów.
 
 ### Przypomnienie dla asystenta
 
@@ -312,6 +343,9 @@ Rejestracja, domena, akceptacja z wyborem roli, pierwszy administrator i macierz
 ### Zadania
 
 - [x] **E3.1** Wdrożyć ustaloną macierz ról: zgłaszający widzi własne zgłoszenia, dodaje je, edytuje opis i checkbox tylko w statusie Zgłoszony oraz sam anuluje własne nieprzypisane zgłoszenie w tym statusie; po przypisaniu wykonawcy anulowanie jest całkowicie zablokowane. Obsługa i administrator widzą wszystkie zgłoszenia i korzystają z LLM. Odrzucenie w statusie Zgłoszony przysługuje obsłudze i administratorowi, a w statusach Przyjęty i W trakcie wyłącznie administratorowi. Obsługa samodzielnie przyjmuje nowe zgłoszenie, a administrator może przypisać i zmienić wykonawcę. Rozpocząć realizację i oznaczyć sprawę jako Rozwiązany mogą wyłącznie aktualny wykonawca oraz administrator. Po przyjęciu żadna rola nie może zmieniać pierwotnego opisu; rozwiązanie zapisuje się osobno. Zgłaszający nie może korzystać z czatu ani nadawać statusu Odrzucony. Korektę kategorii realizować zgodnie z E5.13. Egzekwować przyjętą macierz przejść, blokadę cofania statusu oraz ustalone uprawnienia do ponowienia zgodnie z E2.8.
+
+  **edit:** Ukończono macierz ról i przygotowano `get_assistant_user` / `require_assistant_access` dla przyszłego LLM. Nie oznacza to istnienia endpointu rozmowy ani czatu; te elementy pozostają otwarte w etapie 8.
+
 - [x] **E3.2** Dodać model użytkownika i migrację: identyfikator, unikalny adres e-mail używany do logowania, hash hasła, opcjonalna rola przed akceptacją, stan akceptacji, aktywność i znaczniki czasu. Konto oczekujące ma pozostawać bez roli, a konto zaakceptowane musi mieć jedną z trzech ustalonych ról. Odróżnić oczekiwanie na zatwierdzenie od dezaktywacji wcześniej zaakceptowanego konta; zapisywać administratora i czas akceptacji.
 - [x] **E3.3** Dodać autora i opcjonalnego opiekuna zgłoszenia. Przygotować migrację lub kontrolowany import dla istniejących rekordów bez autora.
 - [x] **E3.4** Dodać samodzielną rejestrację e-mailem i własnym hasłem oraz hashowanie i weryfikację haseł. Walidować adres, unikalność i dokładną zgodność jego domeny z konfiguracją, początkowo `mail.com`; nie akceptować innej domeny przez samo częściowe dopasowanie nazwy. Nowe konto ma oczekiwać na zatwierdzenie i nie może samodzielnie wybrać uprzywilejowanej roli. Zaimplementować logowanie adresem e-mail w ramach OAuth2, wydawanie JWT wyłącznie zaakceptowanym aktywnym kontom oraz odczyt bieżącego użytkownika. Ustalić czas ważności tokenu i sposób jego używania przez frontend. Sprawdzić rejestrację z dozwoloną i niedozwoloną domeną, niepoprawny adres, powtórzony e-mail i próbę nadania sobie roli przez żądanie API.
@@ -333,7 +367,7 @@ Rejestracja, domena, akceptacja z wyborem roli, pierwszy administrator i macierz
 
 ## Etap 4. Dane referencyjne i projekt ewaluacji
 
-**Pilotaż (2026-10-28):** wykonano pierwszą część E4.1–E4.3 i walidację
+**Historyczny pilotaż (2026-10-28; aktualny stan poniżej w edit):** wykonano pierwszą część E4.1–E4.3 i walidację
 formatu próbki z E4.10: 40 propozycji, instrukcja etykietowania i pochodzenie,
 stan przeglądu autora oraz odtwarzalny skrypt `backend/scripts/evaluate_pilot.py`.
 Diagnostyka k=3 bez całej grupy parafraz: accuracy kategorii 60% i priorytetu
@@ -355,16 +389,43 @@ ręczny przegląd, docelowy zbiór 300, podział danych i pytania RAG.
 
 ### Zadania
 
-- [ ] **E4.1** Przygotować własny polski zbiór zgłoszeń helpdesku IT ze wsparciem LLM i ręczną weryfikacją przykładów: przyjąć wstępnie 300 zgłoszeń, około 75 na każdą z czterech kategorii, oraz zaplanować rozkład priorytetów i realistyczne scenariusze problemów informatycznych. Sprawdzić jakość obowiązkowego modelu `all-MiniLM-L6-v2` na niewielkiej próbce polskich tekstów przed przygotowaniem całego zbioru i docelowej konfiguracji; udokumentować ograniczenia językowe.
-- [ ] **E4.2** Doprecyzować wstępnie przyjęte kategorie: Konta i uprawnienia, Sprzęt, Sieć i łączność, Oprogramowanie. Przygotować instrukcję etykietowania zgodną z przyjętymi znaczeniami priorytetów Niski, Średni, Wysoki i Krytyczny, z przykładami przypadków granicznych oraz postępowaniem przy niewystarczającej informacji o wpływie problemu. Kategorię przypisywać według opisanego problemu, bez wymagania znajomości jego przyczyny technicznej; ustalić rozstrzyganie zgłoszeń pasujących do kilku kategorii. Uporządkować sposób zastąpienia obecnych kategorii `bug`, `performance`, `feature` w danych i konfiguracji.
-- [ ] **E4.3** Przygotować samodzielnie zgłoszenia z etykietami zgodnie z instrukcją etykietowania, z dopuszczonym wsparciem LLM. Ręcznie sprawdzić treść, kategorię i priorytet bazowy każdego przykładu przed dopuszczeniem do danych referencyjnych, walidacyjnych lub testowych; zapisać wynik weryfikacji i ewentualne korekty względem propozycji generatora. Udokumentować pochodzenie każdego przykładu i sposób przygotowania: ręczny lub wspomagany LLM. Weryfikację wykonuje samodzielnie autor pracy; nie planujemy drugiego oceniającego. Przypadki niejednoznaczne rozstrzygać zgodnie z instrukcją etykietowania, zapisując uzasadnienie lub wykluczając przykład, jeśli informacji nie wystarcza. Brak niezależnego drugiego oceniającego opisać jako ograniczenie badania; nie przedstawiać przygotowanych danych jako rzeczywistych zgłoszeń organizacji. Przy wykorzystaniu generatora zapisać jego model, ustawienia i instrukcje tworzenia danych. Usunąć ewentualne dane osobowe i sekrety z materiału badawczego oraz opisać ograniczenia samodzielnie przygotowanego zbioru w ewaluacji.
+- [x] **E4.1** Przygotować własny polski zbiór zgłoszeń helpdesku IT ze wsparciem LLM i ręczną weryfikacją przykładów: przyjąć wstępnie 300 zgłoszeń, około 75 na każdą z czterech kategorii, oraz zaplanować rozkład priorytetów i realistyczne scenariusze problemów informatycznych. Sprawdzić jakość obowiązkowego modelu `all-MiniLM-L6-v2` na niewielkiej próbce polskich tekstów przed przygotowaniem całego zbioru i docelowej konfiguracji; udokumentować ograniczenia językowe.
+
+  **edit:** Wykonane w zmienionym, uzgodnionym zakresie: zamiast 300 polskich zgłoszeń przygotowano 170 sparowanych opisów PL/EN — 120 zatwierdzonych przykładów referencyjnych i 50 słabych opisów diagnostycznych poza treningiem. Operacyjnym językiem klasyfikacji jest EN, PL służy porównaniu. Sprawdzono obowiązkowy MiniLM i opisano ograniczenia językowe. Dane RAG pozostają osobnym E4.8. Dowody: `backend/data/pilot/weak-170.md`, `comparison/report.md`.
+
+- [x] **E4.2** Doprecyzować wstępnie przyjęte kategorie: Konta i uprawnienia, Sprzęt, Sieć i łączność, Oprogramowanie. Przygotować instrukcję etykietowania zgodną z przyjętymi znaczeniami priorytetów Niski, Średni, Wysoki i Krytyczny, z przykładami przypadków granicznych oraz postępowaniem przy niewystarczającej informacji o wpływie problemu. Kategorię przypisywać według opisanego problemu, bez wymagania znajomości jego przyczyny technicznej; ustalić rozstrzyganie zgłoszeń pasujących do kilku kategorii. Uporządkować sposób zastąpienia obecnych kategorii `bug`, `performance`, `feature` w danych i konfiguracji.
+
+  **edit:** Gotowa instrukcja etykietowania zawiera przypadki graniczne, wpływ na pracę, obejścia i brak wystarczających informacji. Cztery kategorie wdrożono w API, ORM, filtrach, ręcznych korektach i React. Stare etykiety zachowano w `legacy_category`, a 10 lokalnych zgłoszeń przeklasyfikowano z opisów zamiast stosować arbitralne mapowanie. Dowody: `labeling-guide.md`, migracja `e5b000000001`, `test_helpdesk_migration.py`.
+
+- [x] **E4.3** Przygotować samodzielnie zgłoszenia z etykietami zgodnie z instrukcją etykietowania, z dopuszczonym wsparciem LLM. Ręcznie sprawdzić treść, kategorię i priorytet bazowy każdego przykładu przed dopuszczeniem do danych referencyjnych, walidacyjnych lub testowych; zapisać wynik weryfikacji i ewentualne korekty względem propozycji generatora. Udokumentować pochodzenie każdego przykładu i sposób przygotowania: ręczny lub wspomagany LLM. Weryfikację wykonuje samodzielnie autor pracy; nie planujemy drugiego oceniającego. Przypadki niejednoznaczne rozstrzygać zgodnie z instrukcją etykietowania, zapisując uzasadnienie lub wykluczając przykład, jeśli informacji nie wystarcza. Brak niezależnego drugiego oceniającego opisać jako ograniczenie badania; nie przedstawiać przygotowanych danych jako rzeczywistych zgłoszeń organizacji. Przy wykorzystaniu generatora zapisać jego model, ustawienia i instrukcje tworzenia danych. Usunąć ewentualne dane osobowe i sekrety z materiału badawczego oraz opisać ograniczenia samodzielnie przygotowanego zbioru w ewaluacji.
+
+  **edit:** Ukończone dla uzgodnionego zbioru startowego: 120 przykładów w obu językach ma zapisane zatwierdzenie użytkownika, etykiety, recenzenta i datę. 50 opisów `pending` pozostaje wyłącznie materiałem eksploracyjnym i nie jest dopuszczone do referencji ani końcowego testu. Instrukcje i syntetyczne pochodzenie są zapisane; dokładny identyfikator generatora i parametry były niedostępne i uczciwie oznaczono ten brak zamiast je odtwarzać. Jeżeli nowe 50 ma wejść do końcowej oceny, wymaga osobnego przeglądu w E4.4. Dowody: `tickets.en.json`, `generation.md`, `weak-170.md`, `test_pilot_dataset.py`.
+
 - [ ] **E4.4** Rozdzielić dane na referencyjne, walidacyjne i testowe; utrwalić podział oraz ziarno losowania. Duplikaty i bliskie parafrazy tego samego przypadku nie mogą trafić do różnych części.
+
+  **edit:** Częściowo: istnieją `group_id`, niezmienne snapshoty, ziarno 20261107 i zapisane podziały zagnieżdżonej walidacji grupowej 5×4. Słabe 50 nie trafia do treningu. Brakuje zamrożonego, niezależnego testu końcowego z zatwierdzonymi etykietami; wcześniejsze wyniki pilotażu i walidacji nie zastępują tego testu. Dowody: `evaluate_priority_methods.py`, `priority-methods/report.json`, `test_priority_methods.py`.
+
 - [ ] **E4.5** Przygotować pary lub grupy duplikatów oraz podobnych, ale odrębnych zgłoszeń, umożliwiające pomiar fałszywych alarmów.
+
+  **edit:** Częściowo: grupa incydentu pozwala wykluczać parafrazy z referencji badanego opisu. Brakuje osobnego, oznaczonego zbioru par duplikat / podobny, ale odrębny problem oraz pomiaru fałszywych alarmów. Testy techniczne pgvector nie są oceną precision/recall duplikatów.
+
 - [ ] **E4.6** Przygotować osobne scenariusze reguły checkboxa i eskalacji z kontrolowaną liczbą aktywnych zgłoszeń oraz różnych zgłaszających. Uwzględnić scenariusze eskalacji w każdej z czterech kategorii: Konta i uprawnienia, Sprzęt, Sieć i łączność oraz Oprogramowanie. Uwzględnić podobne zgłoszenia od wielu osób, wielokrotne zgłoszenia jednej osoby, podobne treści opisujące odrębne awarie, sprawy zakończone, granice okna czasowego i progu liczby użytkowników oraz ręczny priorytet administratora. Uwzględnić przypadek, w którym KNN przewiduje niższy priorytet, ale zaznaczenie „Nie mogę kontynuować pracy” nadaje `critical`. Rozdzielić jakość przewidywania priorytetu bazowego i poprawność zastosowania reguł biznesowych w ocenie.
+
+  **edit:** Częściowo: testy obejmują checkbox, cztery priorytety, brak referencji i pierwszeństwo administratora, również w trakcie klasyfikacji. Nie ma scenariuszy eskalacji na 3 różnych zgłaszających / 24 godziny, jej trwałości ani równoległych decyzji z tą regułą. Priorytet modelu pochodzi obecnie z TF-IDF, nie KNN. Dowody: `test_priorities.py`, `test_processing.py`, `test_helpdesk_runtime.py`.
+
 - [ ] **E4.7** Przygotować ręcznie oznaczony zbiór startowy KNN i kontrolowane rozszerzanie go o rozwiązane zgłoszenia z osobno zatwierdzonymi etykietami. Zgłoszenia aktywne, odrzucone i anulowane nie trafiają do referencji operacyjnej. Automatyczne przewidywanie, przyjęcie do realizacji i priorytet końcowy nadany regułą nie zatwierdzają etykiety wzorcowej. Zatwierdzenie kategorii i priorytetu bazowego udostępnić aktualnie przypisanemu wykonawcy oraz administratorowi. Ustalić dostęp do referencji i zakres informacji ujawnianych użytkownikowi.
+
+  **edit:** Częściowo: gotowy jest zatwierdzony zbiór startowy 120 EN, odrębna tabela referencji, powtarzalny import i wykluczenie zwykłych ticketów z uczenia. Brakuje procesu zatwierdzania rozwiązanych zgłoszeń przez wykonawcę / administratora oraz kontrolowanego rozszerzania referencji z takich decyzji (E5.12).
+
 - [ ] **E4.8** Przygotować wstępnie 30 pytań do RAG, rozdzielonych na część walidacyjną i testową, z oczekiwanymi źródłami, kluczowymi faktami oraz przypadkami bez odpowiedzi i bez dostępu do źródeł. Uwzględnić opis nowego problemu wymagający wyszukania podobnych rozwiązanych spraw i streszczenia ich rozwiązań; w zbiorze kontekstu zapewnić ręcznie sprawdzone opisy rozwiązań. Dodać przypadki kilku odmiennych sposobów rozwiązania oraz braku rozwiązanych spraw mimo istnienia podobnych aktywnych zgłoszeń. Dla pytań o pełne zestawienia i liczby oczekiwać informacji o zakresie asystenta, a nie liczby wywnioskowanej z ograniczonego kontekstu. Te same pytania i oczekiwane źródła wykorzystać w porównaniu wyszukiwania wektorowego i pełnotekstowego.
 - [ ] **E4.9** Zdefiniować metryki: accuracy i macro-F1 osobno dla kategorii i priorytetu, macierze pomyłek, precision/recall duplikatów, trafność wyszukiwania oraz ocenę poprawności i oparcia odpowiedzi na źródłach.
-- [ ] **E4.10** Dodać walidację formatu danych, kontrolę duplikujących się identyfikatorów i skrypty importu umożliwiające odtworzenie zbioru.
+
+  **edit:** Częściowo: zaimplementowano accuracy, macro-F1, metryki klas, macierze pomyłek, jawne mianowniki i liczbę wymuszonych odpowiedzi przy brakujących etykietach; porównanie priorytetu mierzy też zaniżenia pilnych spraw. Nadal potrzebne są protokoły precision/recall duplikatów, trafności wyszukiwania i rubryka oceny odpowiedzi RAG.
+
+- [x] **E4.10** Dodać walidację formatu danych, kontrolę duplikujących się identyfikatorów i skrypty importu umożliwiające odtworzenie zbioru.
+
+  **edit:** Gotowe dla aktualnego zbioru: walidacja formatu, ID, treści, grup, etykiet i zatwierdzeń; snapshoty i hashe; import wyłącznie 120 approved EN pod źródłem `pilot_en_120_v1`. Ponowny import nie tworzy duplikatów ani ticketów i odmawia nadpisania zmienionej wersji. Dowody: `evaluate_pilot.py`, `seed_db.py`, `test_pilot_dataset.py`, `test_api.py`.
+
 
 ### Kryteria ukończenia
 
@@ -386,19 +447,58 @@ ręczny przegląd, docelowy zbiór 300, podział danych i pytania RAG.
 
 ### Zadania
 
-- [ ] **E5.1** Uporządkować zapis embeddingów: model i jego wersja, wymiar wektora, powiązanie z wersją tekstu oraz regeneracja po zmianie treści. Dla krótkich zgłoszeń stosować jeden embedding na zgłoszenie i sprawdzić, czy walidacja długości zapobiega obcięciu treści przez model.
-- [ ] **E5.2** Ograniczyć KNN do ustalonego zbioru referencyjnego. Wykluczyć bieżące zgłoszenie, brakujące wektory i etykiety `unknown`.
+- [x] **E5.1** Uporządkować zapis embeddingów: model i jego wersja, wymiar wektora, powiązanie z wersją tekstu oraz regeneracja po zmianie treści. Dla krótkich zgłoszeń stosować jeden embedding na zgłoszenie i sprawdzić, czy walidacja długości zapobiega obcięciu treści przez model.
+
+  **edit:** Model MiniLM ma przypiętą rewizję w ustawieniach, wektor ma wymiar 384, a `embedding_version` wiąże go z `content_version`. Zapisano też odcisk konfiguracji i referencji w `classification_version`, zamiast dodawać oddzielne kolumny nazwy i rewizji modelu przy każdym wektorze. Edycja unieważnia aktualność wyniku i uruchamia regenerację; tokenizer odrzuca wejścia ponad 256 tokenów. Dowody: `settings.py`, `models.py`, `text_validation.py`, `test_processing.py`.
+
+- [x] **E5.2** Ograniczyć KNN do ustalonego zbioru referencyjnego. Wykluczyć bieżące zgłoszenie, brakujące wektory i etykiety `unknown`.
+
+  **edit:** KNN korzysta wyłącznie z odrębnej tabeli i aktywnego źródła `pilot_en_120_v1`, z filtrem czterech poprawnych kategorii. Embedding referencji jest wymagany przez schemat. Bieżący ticket nie staje się przykładem przez samo utworzenie; stare źródło demonstracyjne jest pomijane. Te same zatwierdzone opisy uczą klasyfikator priorytetu TF-IDF. Dowody: `classifier.py`, `test_classifier_references.py`.
+
 - [ ] **E5.3** Zdefiniować zachowanie przy pustym zbiorze, liczbie przykładów mniejszej od `k`, remisie głosów i zbyt słabym dopasowaniu. Przy słabym dopasowaniu nie wymuszać kategorii, lecz zapisać oznaczenie wyniku Do weryfikacji wraz z przyczyną i wersją tekstu. Oddzielić je od biznesowego statusu zgłoszenia i stanu zadania; poprawnie zakończone obliczenie wymagające weryfikacji nie ma stanu failed. Próg dopasowania dobrać na walidacji. Umożliwić ręczne uzupełnienie kategorii zgodnie z E5.13, zachowując przewidywanie KNN i oddzielne zatwierdzanie referencji. Przy niewiarygodnym przewidywaniu priorytetu bazowego używać tymczasowo Średniego, zapisując źródło wartości zastępczej i potrzebę weryfikacji osobno od przewidywania KNN. Sprawdzić Średni bez innych reguł, Wysoki po eskalacji, Krytyczny z checkboxem oraz zachowanie dowolnego ręcznego priorytetu administratora. Wartości zastępczej nie traktować jako zatwierdzonej etykiety referencyjnej ani poprawnego przewidywania KNN.
+
+  **edit:** Częściowo: pusty zbiór daje unknown / brak priorytetu modelu i jawny fallback medium; mniejsza liczba sąsiadów i remis mają zdefiniowane zachowanie. Korekta kategorii jest oddzielna, a status sprawy i zadania niezależny. Nadal brak walidowanego progu słabego dopasowania / odmowy oraz oznaczenia niewiarygodnego priorytetu; obecne modele wymuszają odpowiedź, jeśli referencje istnieją. Eskalacja nie jest wdrożona.
+
 - [ ] **E5.4** Przenieść `k`, próg akceptacji, próg duplikatów i parametry eskalacji do jawnej konfiguracji. Rozróżnić podobieństwo kosinusowe od odległości; opisać kierunek porównań.
-- [ ] **E5.5** Przygotować skrypt do porównania konfiguracji KNN na walidacji i zapisywania wyników. Dobrać parametry kategorii i priorytetu na podstawie metryk.
+
+  **edit:** Częściowo: konfigurowalne są model, rewizja i źródło referencji. KNN k=3, próg odległości duplikatów <0.25 (podobieństwo >0.75) i limit 5 pozostają stałymi w kodzie. Brakuje konfiguracji progu akceptacji i parametrów eskalacji; zadania nie uznajemy za zakończone.
+
+- [x] **E5.5** Przygotować skrypt do porównania konfiguracji KNN na walidacji i zapisywania wyników. Dobrać parametry kategorii i priorytetu na podstawie metryk.
+
+  **edit:** Wykonano porównanie 11 konfiguracji KNN oraz 8 wariantów regresji na embeddingach / TF-IDF, z metrykami i zapisem podziałów. Dla priorytetu wybrano TF-IDF + regresję logistyczną C=100 zamiast stroić wyłącznie KNN. Kategorię pozostawiono przy k=3 i oceniono osobno; nie przeprowadzono osobnego doboru jej k ani progu — próg pozostaje otwartym E5.3. Dowody: `evaluate_priority_methods.py`, `priority-methods/report.md`, `test_priority_methods.py`.
+
 - [ ] **E5.6** Dostosować eskalację do helpdesku IT zamiast obecnego ograniczenia do `bug` i `performance`: przy podobnych aktywnych zgłoszeniach od co najmniej 3 różnych użytkowników, utworzonych w ostatnich 24 godzinach, podnosić priorytet automatyczny co najmniej do Wysokiego, bez obniżania Krytycznego. Aktualizować wszystkie podobne aktywne zgłoszenia z tego okna, także wcześniejsze, respektując osobno ich ręczne priorytety administratora. Liczyć unikalnych autorów, bez zwiększania liczebności przez wielokrotne zgłoszenia tej samej osoby. Liczbę użytkowników i długość okna przenieść do konfiguracji i sprawdzić na walidacji. Objąć regułą wszystkie cztery kategorie: Konta i uprawnienia, Sprzęt, Sieć i łączność oraz Oprogramowanie. Ustalić regułę grupowania podobnych spraw i sposób uwzględnienia bieżącego zgłoszenia. Sprawdzać warunki po udanej klasyfikacji nowego zgłoszenia, po ponownej klasyfikacji zmienionego opisu oraz po udanym ponowieniu zadania. Przed eskalacją sprawdzać aktualną wersję treści i bieżące aktywne statusy; wynik nieaktualnego zadania nie uruchamia eskalacji. Wykluczyć porównanie zgłoszenia z samym sobą i dobrać próg podobieństwa na walidacji. Zapisywać osobno priorytet bazowy KNN, minimum eskalacji Wysoki, czas i przyczynę zastosowania reguły. Nie cofać eskalacji po spadku liczby aktywnych spraw, upływie okna ani automatycznym przeliczeniu; obniżenie umożliwia wyłącznie nadrzędna decyzja administratora. Nie nadpisywać ręcznego priorytetu administratora, także niższego, ani obniżać priorytetu wymuszonego checkboxem. Sprawdzić przypadki małej bazy, podniesienie priorytetów wcześniejszych spraw, trwałość eskalacji po ustaniu warunków i restarcie oraz równoległą zmianę statusu lub priorytetu administratora. Odróżnić wspólną awarię od niezależnych problemów o podobnej treści. Eskalacja nie zmienia statusu ani nie scala zgłoszeń.
+
+  **edit:** Niewykonane: stara eskalacja procentowa została usunięta, a nowa reguła wielu zgłaszających nie istnieje w aktualnym kodzie. Wyższa trafność TF-IDF ani checkbox critical nie zastępują eskalacji.
+
 - [ ] **E5.7** Uruchamiać wykrywanie duplikatów po uzyskaniu embeddingu nowego lub edytowanego zgłoszenia. Ustalić, czy filtr tej samej kategorii poprawia wyniki, czy ukrywa duplikaty błędnie sklasyfikowane. Wynik ma charakter sugestii i nie powoduje automatycznego scalenia ani odrzucenia zgłoszenia.
-- [ ] **E5.8** Udostępnić sugestie duplikatów z identyfikatorem, dostępną użytkownikowi treścią i podobieństwem; egzekwować uprawnienia do każdego wyniku. Ustalić sposób odczytu sugestii przez frontend i oznaczać wyniki jako potencjalne duplikaty wymagające oceny człowieka. Decyzja o odrzuceniu pozostaje osobną operacją z obowiązkowym powodem i kontrolą roli oraz statusu zgodnie z E3.13. Samo podobieństwo nie potwierdza, że zgłoszenia dotyczą tej samej awarii. Sprawdzić, że wykrycie duplikatu nie zmienia statusu i nie usuwa ani nie scala rekordów.
-- [ ] **E5.9** Dodać endpoint ręcznej zmiany priorytetu przez administratora, np. `PATCH /tickets/{ticket_id}/priority`, z walidacją jednego z czterech poziomów i kontrolą uprawnień. Zapisać decyzję administratora osobno wraz z autorem i czasem zmiany; ma ona pierwszeństwo przed checkboxem, KNN i automatyczną eskalacją. Chronić ją przed nadpisaniem przez zadanie kończące się równolegle, ponowną klasyfikację oraz zmianę treści lub checkboxa. Oddzielić przewidywanie KNN, efekt reguł oraz zmianę administratora, aby umożliwić analizę błędów i kontrolowaną aktualizację danych referencyjnych. Ręczną korektę kategorii realizować oddzielnie zgodnie z zadaniem E5.13.
+
+  **edit:** Częściowo: sugestie są obliczane na żądanie przez GET /tickets/{id}/duplicates, a React odświeża je wraz z zadaniem, więc nowe i edytowane zgłoszenia dostają sugestie po zapisaniu aktualnego embeddingu. Nie zapisujemy listy duplikatów w zadaniu w tle. Brakuje porównania jakości z filtrem tej samej kategorii i bez niego; filtr obecnie pozostaje włączony.
+
+- [x] **E5.8** Udostępnić sugestie duplikatów z identyfikatorem, dostępną użytkownikowi treścią i podobieństwem; egzekwować uprawnienia do każdego wyniku. Ustalić sposób odczytu sugestii przez frontend i oznaczać wyniki jako potencjalne duplikaty wymagające oceny człowieka. Decyzja o odrzuceniu pozostaje osobną operacją z obowiązkowym powodem i kontrolą roli oraz statusu zgodnie z E3.13. Samo podobieństwo nie potwierdza, że zgłoszenia dotyczą tej samej awarii. Sprawdzić, że wykrycie duplikatu nie zmienia statusu i nie usuwa ani nie scala rekordów.
+
+  **edit:** Sugestie są dostępne przez osobny GET i widok szczegółów, zawierają ID, dozwoloną treść i podobieństwo. Dostęp respektuje rolę i własność; nieaktualne embeddingi i nieaktywne statusy są pomijane. Wyniki są doradcze i nie zmieniają rekordów ani statusów. Dowody: `classifier.py`, `useTicket.ts`, `TicketDetail.tsx`, `test_frontend_contract.py`, `test_authorization.py`.
+
+- [x] **E5.9** Dodać endpoint ręcznej zmiany priorytetu przez administratora, np. `PATCH /tickets/{ticket_id}/priority`, z walidacją jednego z czterech poziomów i kontrolą uprawnień. Zapisać decyzję administratora osobno wraz z autorem i czasem zmiany; ma ona pierwszeństwo przed checkboxem, KNN i automatyczną eskalacją. Chronić ją przed nadpisaniem przez zadanie kończące się równolegle, ponowną klasyfikację oraz zmianę treści lub checkboxa. Oddzielić przewidywanie KNN, efekt reguł oraz zmianę administratora, aby umożliwić analizę błędów i kontrolowaną aktualizację danych referencyjnych. Ręczną korektę kategorii realizować oddzielnie zgodnie z zadaniem E5.13.
+
+  **edit:** Endpoint administratora, cztery priorytety, autor i czas decyzji oraz ochrona przed checkboxem i równoległą klasyfikacją są gotowe. Wynik automatyczny pochodzi obecnie z TF-IDF zamiast KNN. Testy potwierdzają zachowanie decyzji przy edycji i ponowieniach. Integrację z przyszłą eskalacją weryfikujemy w E5.6; brak tej osobnej reguły nie oznacza braku endpointu priorytetu. Dowody: `priorities.py`, `tickets.py`, `test_processing.py`, `test_authorization.py`.
+
 - [ ] **E5.10** Sprawdzić przypadki graniczne KNN, eskalacji i duplikatów oraz cały przepływ zadania w tle. Zapisać wybraną konfigurację i wyniki walidacyjne.
+
+  **edit:** Częściowo: pełny przepływ i błędy zadania w tle, aktualność wektorów, podstawowe filtry duplikatów oraz konfiguracja i wyniki walidacji klasyfikatorów są sprawdzone. Brakuje przypadków eskalacji i oceny jakości duplikatów na oznaczonych parach.
+
 - [ ] **E5.11** Wdrożyć przyjętą macierz wpływu statusów: oddzielne filtry dla zatwierdzonych przykładów KNN, aktywnych duplikatów i eskalacji (Zgłoszony, Przyjęty, W trakcie) oraz historycznego kontekstu RAG. Sprawdzić, że zmiana statusu nie uruchamia KNN, zakończone zadanie nie zmienia biznesowego statusu sprawy, a rozwiązane, odrzucone i anulowane zgłoszenia przestają uczestniczyć w mechanizmach aktywnych awarii. Oddzielić zatwierdzenie przykładu referencyjnego od rozwiązania zgłoszenia i od ręcznej zmiany priorytetu końcowego.
+
+  **edit:** Częściowo: referencje są oddzielone od ticketów, duplikaty uwzględniają tylko aktywne statusy, status nie uruchamia klasyfikacji, a spóźniony wynik nie przywraca zakończonej sprawy. Nie istnieją jeszcze filtry eskalacji ani kontekst historyczny RAG; zatwierdzanie referencji pozostaje E5.12.
+
 - [ ] **E5.12** Dodać zatwierdzanie rozwiązanego zgłoszenia jako przykładu referencyjnego przez jego aktualnie przypisanego wykonawcę lub administratora. Zapisywać osobno zatwierdzoną kategorię, priorytet bazowy, wersję treści, autora i czas zatwierdzenia; sprawdzać aktualność embeddingu i poprawność etykiet. Nie nadpisywać priorytetu końcowego ani statusu sprawy. Zabezpieczyć przed wielokrotnym dodaniem tego samego przykładu i odmówić zatwierdzenia aktywnej, odrzuconej albo anulowanej sprawy oraz żądania nieuprawnionego użytkownika. Sprawdzić utratę uprawnienia przez poprzedniego wykonawcę po zmianie przypisania.
-- [ ] **E5.13** Dodać endpoint ręcznej korekty kategorii, np. `PATCH /tickets/{ticket_id}/category`, dla aktualnego wykonawcy i administratora. Sprawdzać przynależność kategorii do słownika oraz zapisywać korektę, autora, czas i wersję treści osobno od przewidywania KNN. Zabezpieczyć korektę przed przypadkowym nadpisaniem przez zadanie dla tej samej wersji tekstu. Korekta nie zatwierdza referencji ani nie zmienia statusu i ręcznie ustalonego priorytetu. Sprawdzić odmowę dla zgłaszającego, nieprzypisanej obsługi i poprzedniego wykonawcy oraz zachowanie przy późniejszej edycji treści i wcześniej zatwierdzonym przykładzie referencyjnym. **Częściowo wykonane przy domknięciu E2.5 (2026-10-25):** endpoint, uprawnienia, przewidywanie KNN, wersjonowana korekta i jej autor/czas, ochrona przed zadaniem, testy ponowień i edycji oraz niezależność od istniejącej referencji są gotowe. Obecny słownik prototypu to bug/performance/feature; nie mapujemy go automatycznie na helpdesk. Pozostają docelowy słownik z etapu 4 i scenariusz korekty po osobnym zatwierdzeniu referencji z E5.12. Nie zaznaczamy całego zadania przed ich wykonaniem.
+
+  **edit:** Niewykonane: import zatwierdzonego pliku pilotażu jest gotowy, ale nie ma endpointu / procesu zatwierdzania rozwiązanych ticketów wraz z autorem, czasem i wersją decyzji. Tych mechanizmów nie utożsamiamy.
+
+- [x] **E5.13** Dodać endpoint ręcznej korekty kategorii, np. `PATCH /tickets/{ticket_id}/category`, dla aktualnego wykonawcy i administratora. Sprawdzać przynależność kategorii do słownika oraz zapisywać korektę, autora, czas i wersję treści osobno od przewidywania KNN. Zabezpieczyć korektę przed przypadkowym nadpisaniem przez zadanie dla tej samej wersji tekstu. Korekta nie zatwierdza referencji ani nie zmienia statusu i ręcznie ustalonego priorytetu. Sprawdzić odmowę dla zgłaszającego, nieprzypisanej obsługi i poprzedniego wykonawcy oraz zachowanie przy późniejszej edycji treści i wcześniej zatwierdzonym przykładzie referencyjnym.
+
+  **edit:** Ukończono operacyjną korektę dla czterech kategorii helpdesku, wraz z kontrolą wersji, uprawnieniami, autorem/czasem i ochroną przed nadpisaniem. Test `test_correction_keeps_priority_workflow_tasks_embedding_and_references` porównuje całą tabelę referencji przed i po korekcie, potwierdzając jej niezależność również od już zapisanych przykładów. Nie wymuszamy wdrożenia E5.12, aby uznać gotowy endpoint korekty; specyficzne wyścigi przyszłego procesu zatwierdzania pozostają w E5.12. Dowody: `test_category_corrections.py`, `test_classifier_references.py`.
+
 
 ### Kryteria ukończenia
 
@@ -420,8 +520,14 @@ Przygotować prosty widok listy, szczegółów i formularza na podstawie ustalon
 
 - [x] **E6.1** Utworzyć aplikację React, routing, konfigurację adresu API oraz wspólną obsługę żądań i błędów. Wszystkie etykiety, formularze, przyciski, prezentowane statusy i komunikaty dla użytkownika przygotować po polsku; zapewnić czytelne polskie komunikaty także dla błędów walidacji API. Dostosować CORS backendu do ustalonych adresów aplikacji.
 - [x] **E6.2** Zbudować rejestrację e-mailem i własnym hasłem, logowanie adresem e-mail, wylogowanie i odczyt bieżącego użytkownika. W formularzu rejestracji wskazywać wymaganą domenę z konfiguracji i obsługiwać błędy walidacji backendu. Po rejestracji pokazać informację o oczekiwaniu na akceptację administratora bez automatycznego logowania; obsłużyć odmowę logowania konta niezaakceptowanego lub nieaktywnego. Zaimplementować ustalony sposób używania tokenu oraz obsługę wygaśnięcia sesji.
-- [ ] **E6.3** Zbudować historię własnych zgłoszeń dla zgłaszającego oraz listę wszystkich zgłoszeń dla obsługi i administratora, z filtrami i paginacją. Osobno pokazywać status procesu, stan wykonania zadania i oznaczenie klasyfikacji Do weryfikacji; nie przedstawiać niepewnej kategorii jako zatwierdzonej. Obsłudze i administratorowi umożliwić filtrowanie spraw wymagających weryfikacji i przejście do uzupełnienia kategorii zgodnie z uprawnieniami. Anulowane sprawy zachowywać w historii z ich statusem.
+- [x] **E6.3** Zbudować historię własnych zgłoszeń dla zgłaszającego oraz listę wszystkich zgłoszeń dla obsługi i administratora, z filtrami i paginacją. Osobno pokazywać status procesu, stan wykonania zadania i oznaczenie klasyfikacji Do weryfikacji; nie przedstawiać niepewnej kategorii jako zatwierdzonej. Obsłudze i administratorowi umożliwić filtrowanie spraw wymagających weryfikacji i przejście do uzupełnienia kategorii zgodnie z uprawnieniami. Anulowane sprawy zachowywać w historii z ich statusem.
+
+  **edit:** Ukończono zakres interfejsu: listy zgodne z rolą, historię, filtry, paginację, osobne stany zadania i sprawy, filtr needs_review i przejście do korekty. Do weryfikacji oznacza obecnie unknown, a nie ocenę pewności modelu. Walidowany próg i wykrywanie niepewnych przewidywań pozostają otwartym zadaniem backendu E5.3; nie dopisujemy go do gotowego widoku listy. Dowody: `TicketList.tsx`, `TicketDetail.tsx`, `test_frontend_contract.py`.
+
 - [x] **E6.4** Dodać formularz tworzenia zgłoszenia z opisem oraz checkboxem „Nie mogę kontynuować pracy”. Zgłaszający może edytować oba pola wyłącznie we własnym zgłoszeniu w statusie Zgłoszony; po przyjęciu pola są zablokowane. Przy braku ręcznej decyzji administratora zaznaczenie nadaje priorytet końcowy `critical`, a brak zaznaczenia pozostawia wyznaczenie priorytetu bazowego KNN. Autor jest automatycznie przypisywany przez backend na podstawie zalogowanego konta. Zapewnić walidację i prezentację błędów API, w tym przy przyjęciu zgłoszenia przez obsługę podczas otwartego formularza edycji. Przy ręcznie nadanym priorytecie pokazywać jego źródło i zachować decyzję administratora.
+
+  **edit:** Formularz pozostaje po polsku, ale prosi o opis po angielsku oraz informacje o wpływie i obejściu. Priorytet bazowy wyznacza TF-IDF + regresja logistyczna zamiast KNN; checkbox i nadrzędna decyzja administratora działają zgodnie z pierwotnym kontraktem.
+
 - [x] **E6.5** Dodać widok szczegółów: treść, autor, opiekun, status, kategoria, priorytet i sugestie duplikatów. Po przyjęciu wyświetlać pierwotny opis tylko do odczytu dla wszystkich ról; opis rozwiązania prezentować osobno. Przy odrzucaniu udostępnić uprawnionej roli formularz obowiązkowego krótkiego powodu i obsłużyć błędy walidacji API. Zapisany powód odrzucenia wyświetlać osobno w szczegółach, także zgłaszającemu, z autorem i czasem decyzji.
 - [x] **E6.6** Dodać odpytywanie o zadanie z ograniczoną częstotliwością; zatrzymywać je po zakończeniu zadania lub opuszczeniu widoku. Obsłużyć błąd i przerwanie oraz przycisk ponowienia dla autora przed przypisaniem, aktualnego wykonawcy podczas obsługi i administratora dla aktywnych zgłoszeń. Nie wyświetlać ponowienia dla statusów końcowych, poprawnie zakończonego zadania ani samego oznaczenia Do weryfikacji. Obsłużyć odmowę API, gdy przypisanie lub status zmieniły się podczas otwartego widoku.
 - [x] **E6.7** Udostępnić akcje zgodne z rolą: przycisk „Anuluj zgłoszenie” dla autora wyłącznie w statusie Zgłoszony bez wykonawcy, przycisk „Przyjmij zgłoszenie” dla obsługi oraz przypisanie i zmianę wykonawcy dla administratora. Po przypisaniu nie udostępniać zgłaszającemu anulowania ani prośby o anulowanie. Odrzucenie udostępnić obsłudze i administratorowi według ustalonej macierzy przejść. Rozpoczęcie i zakończenie realizacji udostępnić wyłącznie aktualnemu wykonawcy oraz administratorowi; przy zakończeniu wymagać formularza krótkiego opisu rozwiązania i wyświetlać zapisaną notatkę w szczegółach zgłoszenia. Ręczną zmianę priorytetu udostępnić administratorowi, a korektę kategorii aktualnemu wykonawcy i administratorowi, z rozróżnieniem przewidywania modelu i korekty. Backend nadal sprawdza uprawnienia niezależnie od widoczności przycisków, również gdy wykonawca został przypisany podczas otwartego widoku zgłaszającego.
@@ -430,7 +536,7 @@ Przygotować prosty widok listy, szczegółów i formularza na podstawie ustalon
 
 **Wynik implementacji (2026-10-25):** działa React/TypeScript/Vite, routing, polskie formularze i błędy, sesja tylko w pamięci, listy, szczegóły, akcje ról, panel akceptacji kont, odpytywanie co 3 s i kontener Nginx w Compose. Dodano publiczną konfigurację domeny, bezpieczny odczyt duplikatów i katalog aktywnej obsługi dla administratora. Test przeglądarkowy na osobnym PostgreSQL/pgvector obejmował zgłaszającego oraz obsługę: dodanie i edycja blokady pracy, sugestia duplikatu, przyjęcie, korekta kategorii, rozpoczęcie, rozwiązanie i odczyt notatki przez autora. Encoder w teście był kontrolowany; nie oceniano jakości modelu. Build lokalny i kontenerowy, 91 testów backendu oraz 11 testów React przeszły.
 
-**E6.3 częściowo wykonane / pominięta zależność:** lista, filtry, paginacja, niezależne statusy zadania/sprawy, filtr Do weryfikacji i przejście do korekty są gotowe. Obecnie Do weryfikacji oznacza wyłącznie kategorię unknown. Próg pewności KNN i docelowy słownik zależą od niedokończonych etapów 4–5; zgodnie z poleceniem użytkownika pominięto ich implementację. Nie oznaczamy całego E6.3 jako ukończonego. Duplikaty prezentujemy doradczo z odnośnikami, na dotychczasowym kontrakcie, bez automatycznego scalania. Nie rozszerzono zakresu o LLM ani zatwierdzanie referencji.
+**edit (audyt 2026-11-07):** E6.3 uznano za ukończone w zakresie interfejsu, z jawnym ograniczeniem needs_review do unknown. Cztery kategorie helpdesku są już wdrożone. Walidowany próg pewności i odmowę klasyfikacji nadal trzeba wykonać w E5.3. Duplikaty pozostają doradcze; LLM i zatwierdzanie nowych referencji nie są częścią ukończonego frontendu podstawowego.
 
 ### Kryteria ukończenia
 
@@ -455,6 +561,9 @@ Przygotować prosty widok listy, szczegółów i formularza na podstawie ustalon
 - [ ] **E7.2** Zaimplementować semantyczne wyszukiwanie zgłoszeń: embedding pytania, odległość kosinusowa, limit wyników i próg przydatności kontekstu.
 - [ ] **E7.3** Zaimplementować wyszukiwanie pełnotekstowe PostgreSQL dla polskich zgłoszeń: wybrać i opisać tokenizację oraz obsługę odmiany wyrazów, przygotować reprezentację tekstu do wyszukiwania, ranking oraz indeks i migrację. Zweryfikować działanie na polskich znakach i formach fleksyjnych.
 - [ ] **E7.4** Stosować filtry uprawnień przed wyborem najlepszych wyników w obu metodach. Uwzględnić aktualny status zgłoszenia i aktualność embeddingu.
+
+  **edit:** Częściowo przygotowany fundament: wspólny filtr available_tickets działa dla zwykłych odczytów i duplikatów. Właściwe dwa mechanizmy wyszukiwania RAG jeszcze nie istnieją, więc nie uznajemy za gotowe ich filtrowania ani testów.
+
 - [ ] **E7.5** Ustalić sposób aktualizacji danych wyszukiwawczych po edycji zgłoszenia i dodaniu opisu rozwiązania, tak aby obie metody korzystały z odpowiadającej sobie wersji treści. Jawnie rozdzielić tekst używany do klasyfikacji od danych dołączanych do kontekstu RAG; jeśli opis rozwiązania zostanie objęty rankingiem, zapewnić ten sam zakres wyszukiwanych pól dla obu metod. Dodanie notatki o rozwiązaniu nie uruchamia ponownie klasyfikacji pierwotnego problemu.
 - [ ] **E7.6** Zmierzyć czas zapytań wektorowych i ocenić potrzebę indeksu HNSW lub IVFFlat. Jeśli zostanie dodany indeks przybliżony, sprawdzić wpływ na trafność i zapisać parametry. Brak potrzeby indeksu na małym zbiorze uzasadnić pomiarem.
 - [ ] **E7.7** Przygotować wspólne reguły budowy kontekstu: kolejność wyników, usuwanie powtórzeń, identyfikatory źródeł, statusy i limit długości. Dla rozwiązanych zgłoszeń dołączać zapisany opis rozwiązania, wyraźnie odróżniony od pierwotnego opisu problemu. Dla pytania o sposoby rozwiązania podobnego problemu zastosować filtr Rozwiązany przed wyborem najlepszych wyników, tak samo w wyszukiwaniu wektorowym i pełnotekstowym; do kontekstu dołączać opisy problemu i rozwiązania oraz identyfikatory źródeł. Zachować możliwość przeszukiwania innych statusów przy ogólnych pytaniach o zgłoszenia. Docelowy budżet tokenów ustalić po wyborze LLM w etapie 8.
@@ -512,15 +621,42 @@ Przed końcowym sprawdzeniem Compose ustalić docelowe środowisko demonstracji,
 
 ### Zadania
 
-- [ ] **E9.1** Zbudować panel administratora: lista kont, widok rejestracji oczekujących na akceptację, formularz zatwierdzania z obowiązkowym wyborem jednej z trzech ról, późniejsza zmiana ról i aktywacja/dezaktywacja. Nie wybierać roli automatycznie; obsłużyć walidację API przy próbie akceptacji bez roli. Wyświetlać stan akceptacji osobno od aktywności konta, a brak roli dla kont oczekujących jako oczekiwanie na jej nadanie. Nie dodawać resetowania zapomnianego hasła ani odnośnika do odzyskiwania dostępu na ekranie logowania.
-- [ ] **E9.2** Dopracować samodzielne przyjmowanie zgłoszeń przez obsługę, przypisywanie i zmianę wykonawcy przez administratora oraz widoki dostępne poszczególnym rolom. Zweryfikować respektowanie bieżącej roli i aktywności zalogowanego użytkownika. Przypadek dezaktywacji wykonawcy mającego aktywne zgłoszenia pozostaje poza zakresem.
+- [x] **E9.1** Zbudować panel administratora: lista kont, widok rejestracji oczekujących na akceptację, formularz zatwierdzania z obowiązkowym wyborem jednej z trzech ról, późniejsza zmiana ról i aktywacja/dezaktywacja. Nie wybierać roli automatycznie; obsłużyć walidację API przy próbie akceptacji bez roli. Wyświetlać stan akceptacji osobno od aktywności konta, a brak roli dla kont oczekujących jako oczekiwanie na jej nadanie. Nie dodawać resetowania zapomnianego hasła ani odnośnika do odzyskiwania dostępu na ekranie logowania.
+
+  **edit:** Panel został już wykonany w etapie 6 (`AdminUsers.tsx`) z backendem etapu 3. Ma listę i filtr oczekujących, jawny wybór roli, akceptację, zmianę ról i aktywności, rozdzielone stany konta oraz polskie błędy. Nie powielamy implementacji tylko dlatego, że plan umieszcza panel również w etapie 9.
+
+- [x] **E9.2** Dopracować samodzielne przyjmowanie zgłoszeń przez obsługę, przypisywanie i zmianę wykonawcy przez administratora oraz widoki dostępne poszczególnym rolom. Zweryfikować respektowanie bieżącej roli i aktywności zalogowanego użytkownika. Przypadek dezaktywacji wykonawcy mającego aktywne zgłoszenia pozostaje poza zakresem.
+
+  **edit:** Funkcje są już dostępne w etapach 3 i 6: przyjęcie przez obsługę, przypisanie / zmiana wykonawcy przez administratora i widoki zgodne z uprawnieniami. API odczytuje aktualną rolę i aktywność, a frontend odświeża konto przy powrocie do okna i co 30 s. Dowody: `tickets.py`, `auth.tsx`, `TicketDetail.tsx`, `test_authorization.py`, `frontend/src/permissions.test.ts`.
+
 - [ ] **E9.3** Ujednolicić polskie komunikaty, nawigację, formularze oraz widoki na mniejszych ekranach; sprawdzić podstawową obsługę klawiaturą. Zweryfikować polskie nazwy i komunikaty w rejestracji, logowaniu, zgłoszeniach, panelu administratora i czacie, także przy błędach i pustych wynikach.
+
+  **edit:** Częściowo: polskie komunikaty, nawigacja, formularze i układy responsywne istnieją dla obecnych ekranów. Brakuje czatu oraz udokumentowanego całościowego sprawdzenia małych ekranów i obsługi klawiaturą; nie zaznaczamy pełnego zadania.
+
 - [ ] **E9.4** Uporządkować Compose obejmujące PostgreSQL/pgvector, FastAPI i frontend. Usługę LLM umieścić w Compose albo skonfigurować połączenie z nią zgodnie z decyzją E8.1. Dodać sprawdzanie gotowości, potrzebne wolumeny i konfigurację uruchomienia bez deweloperskiego przeładowywania kodu; udokumentować zależności pozostające poza Compose.
+
+  **edit:** Częściowo: Compose uruchamia PostgreSQL/pgvector, API i frontend bez reload/workers; są wolumeny danych/modelu, kontrola gotowości PostgreSQL i proxy Nginx. Brakuje wariantu LLM i końcowego sprawdzenia gotowości całego potoku zgodnie z E8.1.
+
 - [ ] **E9.5** Uporządkować pobieranie i przechowywanie modelu embeddingów: wersję, cache i pierwsze uruchomienie. Dla samodzielnie uruchamianego LLM zapewnić analogiczną obsługę; dla zdalnej usługi skonfigurować adres i ewentualne dane dostępowe poza kodem. Sprawdzić zachowanie przy braku modelu, sieci lub dostępności usługi według wybranego wariantu.
-- [ ] **E9.6** Przygotować instrukcję pierwszego uruchomienia: konfiguracja, migracje, pierwszy administrator, import danych i uruchomienie usług. Oddzielić dane demonstracyjne od testowych.
+
+  **edit:** Częściowo: rewizja MiniLM jest przypięta, cache zachowuje wolumen modelcache, a pierwsze pobranie / uruchomienie sprawdzono w kontenerze. Są obsługa niedostępnego tokenizera i błędu modelu. Brakuje odpowiedniego rozwiązania dla nieustalonego LLM i testów dostępności tej usługi.
+
+- [x] **E9.6** Przygotować instrukcję pierwszego uruchomienia: konfiguracja, migracje, pierwszy administrator, import danych i uruchomienie usług. Oddzielić dane demonstracyjne od testowych.
+
+  **edit:** Instrukcja w README zawiera konfigurację, migracje, komendę pierwszego administratora, import referencji i uruchomienie usług. Zamiast dodawać syntetyczne tickety demonstracyjne, importujemy tylko 120 approved EN; 50 pending pozostaje poza treningiem. Baza testowa ma osobny Compose, nazwę i port. Odtwarzanie eksperymentów opisano osobno.
+
 - [ ] **E9.7** Uruchomić system na pustej bazie według instrukcji, a następnie sprawdzić restart i zachowanie danych oraz przerwanych zadań.
+
+  **edit:** Częściowo: migracje pustej bazy, import i powtarzalność, restart procesu oraz rozpoznawanie przerwanych zadań mają testy; lokalną istniejącą bazę zmigrowano z zachowaniem 10 ticketów, a obrazy zbudowano i uruchomiono. Nie odnotowano pełnego ręcznego przejścia instrukcji od pustej bazy z całym docelowym systemem i LLM.
+
 - [ ] **E9.8** Wykonać scenariusze dla trzech ról: zgłaszający dodaje zgłoszenie i obserwuje historię; obsługa przyjmuje i realizuje zgłoszenie oraz pyta LLM; administrator zarządza kontami i ręcznie zmienia priorytet. Sprawdzić samodzielne anulowanie przed przypisaniem, blokadę anulowania po przypisaniu i wyścig anulowania z przyjęciem; osobno sprawdzić odrzucenie przez obsługę lub administratora, widoczność statusów i brak dostępu zgłaszającego do czatu.
+
+  **edit:** Częściowo: scenariusze uprawnień, obsługi zgłoszeń i decyzji administratora mają testy API; zgłaszającego i obsługę sprawdzono wcześniej w przeglądarce. Nie wykonano części z pytaniem do LLM ani kompletnych scenariuszy trzech ról z czatem.
+
 - [ ] **E9.9** Sprawdzić odmowę dostępu przez bezpośrednie żądania API, awarie LLM i błędy przetwarzania; poprawić wykryte błędy przed zamrożeniem wersji do badań.
+
+  **edit:** Częściowo: odmowy bezpośrednich żądań API, awarie klasyfikacji, rollbacki, przerwanie i ponowienie są testowane. Brakuje testów awarii LLM i zamrożenia pełnej wersji badawczej.
+
 
 ### Kryteria ukończenia
 
@@ -541,15 +677,36 @@ Przed końcowym uruchomieniem sprawdzić, czy podziały danych, rubryka oceny, o
 ### Zadania
 
 - [ ] **E10.1** Zamrozić wersję kodu, dane, podział zbiorów, konfigurację KNN, progi, indeksy, prompt i model LLM. Zapisać identyfikator rewizji kodu, wersje zależności i parametry sprzętu.
+
+  **edit:** Częściowo: wyniki klasyfikacji zapisują rewizję modelu, hashe danych/skryptu, wersje bibliotek, ziarno i podziały. Nie zamrożono pełnego systemu, niezależnego testu, progów duplikatów, indeksów ani konfiguracji RAG/LLM.
+
 - [ ] **E10.2** Przygotować skrypty uruchamiające eksperymenty oraz format wyników i metadanych. Zapewnić odtworzenie bazy lub jej stanu dla każdego przebiegu.
+
+  **edit:** Częściowo: są odtwarzalne skrypty evaluate_pilot.py, compare_pilot_languages.py i evaluate_priority_methods.py, raporty JSON/Markdown oraz snapshoty danych. Klasyfikacyjne eksperymenty odtwarzają dane z plików i nie używają bazy aplikacji. Skrypty i metadane przebiegów wyszukiwania / RAG jeszcze nie istnieją.
+
 - [ ] **E10.3** Ocenić kategorię i priorytet na zbiorze testowym: accuracy, macro-F1, wyniki per klasa, macierze pomyłek oraz udział zgłoszeń skierowanych do weryfikacji. Raportować pokrycie, aby odrzucanie trudnych przypadków nie zawyżało pozornie jakości.
+
+  **edit:** Częściowo: kategorię i priorytet oceniono na pilotażu, z metrykami klas, macierzami, mianownikami i zagnieżdżoną walidacją grupową priorytetu. Dla EN uzyskano 86,7% accuracy i 0,804 macro-F1 w walidacji TF-IDF. To nie jest niezależny test końcowy; potrzebne są nowe zatwierdzone dane z E4.4 i ocena mechanizmu odmowy po E5.3.
+
 - [ ] **E10.4** Osobno ocenić poprawność reguły checkboxa, eskalację na ustalonych scenariuszach i duplikaty na oznaczonych parach lub grupach. Nie traktować wymuszenia `critical` przez formularz jako poprawnego przewidywania KNN. Nie dodawać przewidywań z testu do zbioru referencyjnego podczas pomiaru.
+
+  **edit:** Częściowo: checkbox oceniono oddzielnie testami reguł, a wyniki klasyfikacji nie zasilają referencji. Brakuje ewaluacji nowej eskalacji oraz precision/recall duplikatów na oznaczonych parach; poprawne testy integracyjne nie zastępują tego pomiaru.
+
 - [ ] **E10.5** Porównać trafność wyszukiwania wektorowego i pełnotekstowego, np. przez Recall@k i MRR, dla tych samych pytań i dostępnych źródeł.
 - [ ] **E10.6** Porównać odpowiedzi RAG przy identycznym modelu, prompcie, budżecie kontekstu i ustawieniach generowania. Parametry specyficzne dla wyszukiwania dobrać wcześniej na walidacji i ujawnić w opisie eksperymentu.
 - [ ] **E10.7** Ocenić poprawność, kompletność, oparcie na źródłach, poprawność odnośników i zachowanie przy braku danych według wcześniej ustalonej rubryki. Zapisać sposób oceny, oceniających i ograniczenia subiektywności.
 - [ ] **E10.8** Zmierzyć osobno czas embeddingu, wyszukiwania, generowania i całej odpowiedzi. Oddzielić pierwsze uruchomienie modelu od kolejnych wywołań; powtórzyć pomiary, aby pokazać zmienność.
+
+  **edit:** Częściowo: pilotaż zapisuje jednorazowe czasy ładowania i obliczania embeddingów. Brakuje powtarzanych pomiarów wyszukiwania, generowania i całej odpowiedzi oraz rozdzielenia zimnego / rozgrzanego potoku RAG.
+
 - [ ] **E10.9** Przygotować tabele, wykresy i analizę reprezentatywnych błędów oraz ograniczeń: język i wielkość zbioru, etykietowanie i ręczna weryfikacja przez samego autora bez drugiego oceniającego, wybrany model i wariant udostępnienia LLM, indeksy i zadania w procesie API.
+
+  **edit:** Częściowo: gotowe są tabele i analiza pomyłek klasyfikacji, ograniczenia syntetycznego zbioru, języka, małej liczby critical i etykietowania przez jednego autora. Brakuje pełnych wykresów / analiz dotyczących wyszukiwania, indeksów i wybranego wariantu LLM.
+
 - [ ] **E10.10** Opracować rozdział ewaluacji, wnioski i scenariusz demonstracji. Uzupełnić README o odtwarzanie eksperymentów i sprawdzić powiązanie wyników z zapisanymi artefaktami.
+
+  **edit:** Częściowo: README opisuje odtwarzanie eksperymentów i odsyła do zapisanych raportów. Rozdział ewaluacji całej pracy, końcowe wnioski i demonstracja z RAG nie są jeszcze ukończone.
+
 
 ### Kryteria ukończenia
 
@@ -581,4 +738,4 @@ Użytkownik zatwierdził wszystkie wcześniejsze 120 przykładów i zlecił osta
 
 Nowych 50 nie należy wykorzystywać jako referencji ani tworzyć dla niejasnych opisów fikcyjnych etykiet. Kategorie są ustalalne w 30, priorytety w 10; pozostałe adnotacje mają null. [Ostatni pomiar](../backend/data/pilot/weak-170.md) podaje wyniki osobno dla słabych opisów i całych 170 oraz liczbę wymuszonych odpowiedzi.
 
-E4.1–E4.3 mają teraz materiał pilotażowy w tym zakresie. Rozdzielenie walidacji i niezależnego testu, protokół RAG oraz pozostałe zadania etapu 4 wymagają osobnego domknięcia. Wynik 93,3% na poprzedniej syntetycznej próbce nie zastępuje tych elementów.
+Historycznie E4.1–E4.3 miały materiał pilotażowy w tym zakresie. **edit (2026-11-07):** zadania te uznano za ukończone dla uzgodnionych danych startowych i opisanych wyjątków; przegląd 50 pending przed końcową oceną, niezależny test oraz protokół RAG pozostają otwarte zgodnie z E4.4 i E4.8–E4.9. Wynik 93,3% na poprzedniej syntetycznej próbce nie zastępuje tych elementów.

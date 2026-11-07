@@ -2,6 +2,7 @@ fastapi
 uvicorn
 anyio
 sentence-transformers
+scikit-learn
 transformers
 pydantic
 pydantic-settings

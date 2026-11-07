@@ -13,7 +13,7 @@ from app.services.processing import ProcessingRuntime
 
 
 VECTOR = [1.0] + [0.0] * 383
-PREDICTION = ClassificationPrediction(category="feature", base_priority=Priority.LOW,
+PREDICTION = ClassificationPrediction(category="hardware", base_priority=Priority.LOW,
                                       automatic_priority=Priority.HIGH, vector=VECTOR)
 
 
@@ -195,7 +195,7 @@ class ProcessingTests(ApiTestCase):
         self.assertEqual((await self.client.post(f"/tickets/{ticket['id']}/classification/retry")).status_code, 409)
 
     async def test_thread_responsiveness_serial_computation_and_sequential_tickets(self):
-        await self.add_reference(category="feature", base_priority="low", embedding=VECTOR)
+        await self.add_reference(category="hardware", base_priority="low", embedding=VECTOR)
         first, second = await self.new(), await self.new()
         entered, release = Event(), Event()
         lock = Lock()
