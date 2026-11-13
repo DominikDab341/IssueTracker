@@ -11,6 +11,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.domain import Category, ClassificationPrediction
 from app.services.priority_classifier import predict_priority_details
+from app.services.priority_information import POLICY_VERSION, needs_priority_information
 from app.models.models import ClassificationReference, Ticket
 from app.settings import settings
 from app.ticket_status import ACTIVE_STATUSES
@@ -76,8 +77,11 @@ async def classify(text: str, db: AsyncSession) -> ClassificationPrediction:
                                  model_name=settings.MODEL_NAME, model_revision=settings.MODEL_REVISION))
     priority_reason = ("no_known_priority_terms" if not priority.has_known_terms else
                        "low_priority_score" if priority.score < settings.PRIORITY_MIN_SCORE else None)
+    if priority_reason is None and needs_priority_information(text):
+        priority_reason = "sparse_priority_information"
     accepted_priority = None if priority_reason else priority.label
     policy = {"training": priority.version, "k": settings.K_NEIGHBORS,
+              "priority_information_policy": POLICY_VERSION,
               "category_min_similarity": settings.CATEGORY_MIN_SIMILARITY,
               "category_min_vote_share": settings.CATEGORY_MIN_VOTE_SHARE,
               "priority_min_score": settings.PRIORITY_MIN_SCORE,

@@ -1,0 +1,9 @@
+{
+  "schema_version": 1,
+  "files_sha256": {
+    "report.json": "b851bd691013f120822ca75575c35dd9c0e340e0c6380b73ad565fb6954cc15e",
+    "report.md": "b51cc489f738e4d2475f7a2302282e9993f11dfa5f2448074742b2e40bd672b3",
+    "query-vectors.npy": "1a3072745e4e4143f327ffb463de764fed53f388e02776aa1bd5b99e337e0d01",
+    "priority-model.joblib": "a88b260f81342e8881fe6dbfc439a85b3cb41ae40ef03ebe3fb0e62066e938fe"
+  }
+}

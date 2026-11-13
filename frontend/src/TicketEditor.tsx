@@ -26,8 +26,11 @@ export default function TicketEditor({ ticket, onSaved, onConflict }: { ticket?:
     } finally { setBusy(false); }
   }
   return <form onSubmit={save} className="ticket-editor"><ErrorBox error={error} /><fieldset disabled={busy}>
-    <label>Opis problemu<textarea name="text" defaultValue={ticket?.text || ''} rows={7} maxLength={10000} required placeholder="Opisz, co się dzieje, od kiedy występuje problem i jakie kroki zostały już wykonane." /></label>
-    <p className="hint">Opisz problem po angielsku. Podaj wpływ na pracę, liczbę dotkniętych osób i dostępne obejście.</p>
+    <label>Opis problemu<textarea name="text" aria-describedby="ticket-description-guide" defaultValue={ticket?.text || ''} rows={7} maxLength={10000} required placeholder="Opisz, co się dzieje, od kiedy występuje problem i jakie kroki zostały już wykonane." /></label>
+    <div id="ticket-description-guide" className="hint">
+      <p>Napisz po angielsku. Podaj urządzenie lub usługę i konkretny objaw. Dopisz, jakie zadanie jest utrudnione, kogo dotyczy problem i czy jest działające obejście.</p>
+      <p lang="en">The office printer jams. The spare printer works, but printing orders takes longer.</p>
+    </div>
     <p className="hint">Limit wynosi 256 tokenów, sprawdzanych przez serwer. Nie wpisuj haseł ani innych sekretów.</p>
     <label className="check blocked-check"><input type="checkbox" checked={blocked} onChange={e => setBlocked(e.target.checked)} /><span><strong>Nie mogę kontynuować pracy</strong><small>Problem uniemożliwia wykonywanie obowiązków.</small></span></label>
     {ticket?.priority_source === 'administrator' ? <p className="notice">Priorytet ustalił administrator. Zmiana blokady pracy zachowa jego decyzję.</p> : blocked && <p className="notice">Blokada pracy nada zgłoszeniu priorytet krytyczny.</p>}

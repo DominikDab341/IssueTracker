@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "event": "human_approval",
+  "scope": "first_eight_cases_only",
+  "user_instruction": "Akceptuj to",
+  "recorded_at": "2026-11-07T18:23:34+00:00",
+  "reviewer": "autor pracy (użytkownik rozmowy)",
+  "case_ids": [
+    "FINAL-EN-001",
+    "FINAL-EN-002",
+    "FINAL-EN-003",
+    "FINAL-EN-004",
+    "FINAL-EN-005",
+    "FINAL-EN-006",
+    "FINAL-EN-007",
+    "FINAL-EN-008"
+  ],
+  "proposed_snapshot_sha256": "3b1f01f8b0ce63515f6a044a48a2489766095089f86ccf59b8035e4a60ebd782",
+  "approved_snapshot_sha256": "c13881e1df3fd77a67029ce39b25d9e7b7e952a7ebeccb7352bd82af43bc454a",
+  "note": "Zatwierdzenie treści i proponowanych etykiet istniejących 8 przypadków. Nie obejmuje przyszłych przypadków."
+}

@@ -1,0 +1,1243 @@
+{
+  "schema_version": 1,
+  "dataset_id": "helpdesk-final-en-v1-candidates",
+  "language": "en",
+  "purpose": "independent_synthetic_test_candidates",
+  "target_count": 60,
+  "status": "complete_candidates_8_approved_52_pending",
+  "provenance": {
+    "method": "llm_assisted_synthetic",
+    "generator": "OpenAI Codex assistant in this conversation",
+    "exact_model_id": null,
+    "sampling_parameters": null,
+    "generated_on": "2026-11-07",
+    "human_approved": false,
+    "notes": "New synthetic incidents written after freezing the classifier. The authoring assistant has seen the pilot; incident separation and author review do not establish real-world or independent-generator validity. No classifier predictions were generated.",
+    "human_review_summary": {
+      "approved": 8,
+      "pending": 52,
+      "note": "Pierwsza próbka zatwierdzona w rozmowie; nowe 52 propozycje wymagają osobnego przeglądu."
+    }
+  },
+  "examples": [
+    {
+      "id": "FINAL-EN-001",
+      "group_id": "final-en-incident-001",
+      "text": "The API accepts the service account's token, but rejects the inventory upload with 'required scope inventory.write is missing'. Downloading the inventory still works. I have to publish tonight's stock correction before dispatch starts; this upload is the only supported route and nobody available can issue a token with that scope.",
+      "proposed_category": "accounts_access",
+      "proposed_base_priority": "high",
+      "reference_eligible": false,
+      "category_reason": "Jawna odmowa uprawnienia w zakresie tokenu, mimo poprawnego uwierzytelnienia.",
+      "priority_reason": "Ważna operacja jest zablokowana, a opis wyklucza dostępne obejście; nie podano awarii blokującej wiele osób.",
+      "novelty_note": "Nowy incydent dotyczący zakresu tokenu konta usługowego, a nie parafraza istniejącej sprawy o folder, rolę użytkownika lub logowanie do VPN.",
+      "review": {
+        "status": "approved",
+        "category": "accounts_access",
+        "base_priority": "high",
+        "reviewer": "autor pracy (użytkownik rozmowy)",
+        "reviewed_at": "2026-11-07T18:23:34+00:00",
+        "notes": "Jawne zatwierdzenie pierwszej próbki w rozmowie: „Akceptuj to”. Bez zmian treści i etykiet.",
+        "method": "explicit_chat_approval",
+        "approval_event": "initial-sample-approval.json"
+      }
+    },
+    {
+      "id": "FINAL-EN-002",
+      "group_id": "final-en-incident-002",
+      "text": "Signing into the engineering wiki from my loan laptop is refused with 'access policy requires a managed device'. My account opens the same pages through the approved virtual desktop. I can finish the design review there, although switching between the virtual desktop and my local drawings is cumbersome.",
+      "proposed_category": "accounts_access",
+      "proposed_base_priority": "medium",
+      "reference_eligible": false,
+      "category_reason": "Dostęp odrzuca jawna polityka warunkowa konta i urządzenia, nie zerwanie połączenia.",
+      "priority_reason": "Praca jest utrudniona, ale działa zatwierdzony pulpit wirtualny.",
+      "novelty_note": "Nowy przypadek warunkowego dostępu zależnego od zarządzania urządzeniem, z odrębnym obejściem.",
+      "review": {
+        "status": "approved",
+        "category": "accounts_access",
+        "base_priority": "medium",
+        "reviewer": "autor pracy (użytkownik rozmowy)",
+        "reviewed_at": "2026-11-07T18:23:34+00:00",
+        "notes": "Jawne zatwierdzenie pierwszej próbki w rozmowie: „Akceptuj to”. Bez zmian treści i etykiet.",
+        "method": "explicit_chat_approval",
+        "approval_event": "initial-sample-approval.json"
+      }
+    },
+    {
+      "id": "FINAL-EN-003",
+      "group_id": "final-en-incident-003",
+      "text": "The display on the desk's USB power meter has become very faint. Its physical digits are difficult to read even with nothing connected. The dock and all attached equipment work normally; I only use that meter out of curiosity and none of my duties needs its readings.",
+      "proposed_category": "hardware",
+      "proposed_base_priority": "low",
+      "reference_eligible": false,
+      "category_reason": "Objaw dotyczy fizycznego wyświetlacza osobnego przyrządu, niezależnie od aplikacji.",
+      "priority_reason": "Drobna wada nie ogranicza żadnego zadania służbowego.",
+      "novelty_note": "Nowy fizyczny przyrząd pomiarowy; nie dotyczy pikseli monitora ani kontrolki klawiatury z pilotażu.",
+      "review": {
+        "status": "approved",
+        "category": "hardware",
+        "base_priority": "low",
+        "reviewer": "autor pracy (użytkownik rozmowy)",
+        "reviewed_at": "2026-11-07T18:23:34+00:00",
+        "notes": "Jawne zatwierdzenie pierwszej próbki w rozmowie: „Akceptuj to”. Bez zmian treści i etykiet.",
+        "method": "explicit_chat_approval",
+        "approval_event": "initial-sample-approval.json"
+      }
+    },
+    {
+      "id": "FINAL-EN-004",
+      "group_id": "final-en-incident-004",
+      "text": "The cooling unit for the server cabinet has seized: its fans do not turn and the hardware panel reports an over-temperature shutdown. The hosts have powered themselves off. Every operator in the distribution centre has lost the picking service, so no orders can be released, and the standby cabinet is unavailable.",
+      "proposed_category": "hardware",
+      "proposed_base_priority": "critical",
+      "reference_eligible": false,
+      "category_reason": "Opisano zatrzymane wentylatory i ochronne wyłączenie sprzętu z powodu temperatury.",
+      "priority_reason": "Niedostępna kluczowa usługa zatrzymała pracę całego zespołu; brak dostępnego zastępstwa.",
+      "novelty_note": "Nowa awaria chłodzenia szafy, odrębna od zasilacza, UPS i macierzy z pilotażu.",
+      "review": {
+        "status": "approved",
+        "category": "hardware",
+        "base_priority": "critical",
+        "reviewer": "autor pracy (użytkownik rozmowy)",
+        "reviewed_at": "2026-11-07T18:23:34+00:00",
+        "notes": "Jawne zatwierdzenie pierwszej próbki w rozmowie: „Akceptuj to”. Bez zmian treści i etykiet.",
+        "method": "explicit_chat_approval",
+        "approval_event": "initial-sample-approval.json"
+      }
+    },
+    {
+      "id": "FINAL-EN-005",
+      "group_id": "final-en-incident-005",
+      "text": "Connections using IPv6 stall in several unrelated applications on the office link, whereas their IPv4 connections complete. IT gave me an approved IPv4-only proxy, and the vendor portals work through it. I can continue checking deliveries, but I have to launch a separate browser for those portals.",
+      "proposed_category": "network",
+      "proposed_base_priority": "medium",
+      "reference_eligible": false,
+      "category_reason": "Wspólny problem transmisji IPv6 w niezależnych aplikacjach przy działającym IPv4.",
+      "priority_reason": "Utrudnienie ma działające, zatwierdzone obejście przez proxy.",
+      "novelty_note": "Nowy przypadek różnicy osiągalności IPv6/IPv4, nie parafraza utraty Wi-Fi, DNS lub tunelu VPN.",
+      "review": {
+        "status": "approved",
+        "category": "network",
+        "base_priority": "medium",
+        "reviewer": "autor pracy (użytkownik rozmowy)",
+        "reviewed_at": "2026-11-07T18:23:34+00:00",
+        "notes": "Jawne zatwierdzenie pierwszej próbki w rozmowie: „Akceptuj to”. Bez zmian treści i etykiet.",
+        "method": "explicit_chat_approval",
+        "approval_event": "initial-sample-approval.json"
+      }
+    },
+    {
+      "id": "FINAL-EN-006",
+      "group_id": "final-en-incident-006",
+      "text": "My test workstation can reach everything on its own subnet, but connections to all three instruments on the lab subnet time out. Those instruments answer from a workstation already on their subnet; traffic from mine stops at the gateway. I need to run the acceptance tests from this licensed workstation today, and there is no approved alternative connection or offline procedure.",
+      "proposed_category": "network",
+      "proposed_base_priority": "high",
+      "reference_eligible": false,
+      "category_reason": "Zawodzi komunikacja między podsieciami do kilku urządzeń, które są lokalnie osiągalne.",
+      "priority_reason": "Ważne testy jednego stanowiska są zablokowane bez dopuszczonego obejścia.",
+      "novelty_note": "Nowy incydent komunikacji między podsieciami laboratorium; nie ten sam incydent co niedostępne łącza do centrali.",
+      "review": {
+        "status": "approved",
+        "category": "network",
+        "base_priority": "high",
+        "reviewer": "autor pracy (użytkownik rozmowy)",
+        "reviewed_at": "2026-11-07T18:23:34+00:00",
+        "notes": "Jawne zatwierdzenie pierwszej próbki w rozmowie: „Akceptuj to”. Bez zmian treści i etykiet.",
+        "method": "explicit_chat_approval",
+        "approval_event": "initial-sample-approval.json"
+      }
+    },
+    {
+      "id": "FINAL-EN-007",
+      "group_id": "final-en-incident-007",
+      "text": "The meeting recorder puts the wrong day of the week in suggested filenames, although the numeric date is correct. I name each recording myself before saving it. Recording, playback and saving all work, and this has not delayed or complicated any of my tasks.",
+      "proposed_category": "software",
+      "proposed_base_priority": "low",
+      "reference_eligible": false,
+      "category_reason": "Program generuje niepoprawną część proponowanej nazwy pliku.",
+      "priority_reason": "Drobna nieprawidłowość nie utrudnia pracy; ręczne nazywanie było normalnym sposobem pracy.",
+      "novelty_note": "Nowy błąd generowania nazwy nagrania; nie parafraza wyglądu ikon, sortowania list ani awarii eksportu.",
+      "review": {
+        "status": "approved",
+        "category": "software",
+        "base_priority": "low",
+        "reviewer": "autor pracy (użytkownik rozmowy)",
+        "reviewed_at": "2026-11-07T18:23:34+00:00",
+        "notes": "Jawne zatwierdzenie pierwszej próbki w rozmowie: „Akceptuj to”. Bez zmian treści i etykiet.",
+        "method": "explicit_chat_approval",
+        "approval_event": "initial-sample-approval.json"
+      }
+    },
+    {
+      "id": "FINAL-EN-008",
+      "group_id": "final-en-incident-008",
+      "text": "The capacity planner now assigns the same loading bay to every truck in a time slot, even when the dispatchers enter different available bays. It saves these conflicting allocations without an error. All dispatchers have had to stop releasing loading instructions because the output is unusable; this is our only authorised allocation system and there is no manual fallback.",
+      "proposed_category": "software",
+      "proposed_base_priority": "critical",
+      "reference_eligible": false,
+      "category_reason": "Aplikacja zapisuje błędny wynik alokacji mimo różnych poprawnych danych wejściowych.",
+      "priority_reason": "Błędne działanie kluczowej usługi zablokowało pracę całego zespołu bez zastępstwa.",
+      "novelty_note": "Nowy błąd logiczny przydzielania zasobu, odrębny od awarii procesu i błędów zapisu zamówień w pilotażu.",
+      "review": {
+        "status": "approved",
+        "category": "software",
+        "base_priority": "critical",
+        "reviewer": "autor pracy (użytkownik rozmowy)",
+        "reviewed_at": "2026-11-07T18:23:34+00:00",
+        "notes": "Jawne zatwierdzenie pierwszej próbki w rozmowie: „Akceptuj to”. Bez zmian treści i etykiet.",
+        "method": "explicit_chat_approval",
+        "approval_event": "initial-sample-approval.json"
+      }
+    },
+    {
+      "proposed_category": "accounts_access",
+      "proposed_base_priority": "low",
+      "text": "My supplier guest account is already active and opens every project I need. Its original invitation still appears under pending invitations in our access portal. There is nothing left for me to accept and the old entry has no effect on my work; please remove that obsolete invitation when convenient.",
+      "category_reason": "Zgłoszenie dotyczy stanu zaproszenia konta gościa przy poprawnym dostępie.",
+      "priority_reason": "Nieaktualny wpis nie utrudnia pracy ani uprawnień.",
+      "novelty_note": "Porządkowanie zaproszenia gościa, odrębne od nazw kont i przypisania do zespołu w pilotażu.",
+      "id": "FINAL-EN-009",
+      "group_id": "final-en-incident-009",
+      "reference_eligible": false,
+      "origin_batch": "batches/remaining-52.proposed.json",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": ""
+      }
+    },
+    {
+      "proposed_category": "accounts_access",
+      "proposed_base_priority": "low",
+      "text": "The security page lists my two working passkeys under the same device nickname. Both keys authenticate successfully, and I identify them by the serial numbers shown alongside them. I can use all company services as usual; I would just like the account's key names to be easier to distinguish.",
+      "category_reason": "Nazwy zarejestrowanych metod uwierzytelniania należą do administracji konta.",
+      "priority_reason": "Działające klucze i dostępne numery pozwalają pracować bez utrudnienia.",
+      "novelty_note": "Odrębny incydent opisów dwóch działających passkeys, bez utraty lub odrzucenia klucza.",
+      "id": "FINAL-EN-010",
+      "group_id": "final-en-incident-010",
+      "reference_eligible": false,
+      "origin_batch": "batches/remaining-52.proposed.json",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": ""
+      }
+    },
+    {
+      "proposed_category": "accounts_access",
+      "proposed_base_priority": "low",
+      "text": "A completed contractor engagement remains in my account's list of expired access packages. It is clearly marked expired and grants no access. My current packages are active and all my tasks work normally. Could the obsolete package be archived from my account history view?",
+      "category_reason": "Historia wygasłego pakietu uprawnień dotyczy konta i jego dostępu.",
+      "priority_reason": "Wpis jest informacyjny, nie daje dostępu i nie wpływa na obowiązki.",
+      "novelty_note": "Historia wygasłego pakietu kontraktora, nie próba korzystania z aktywnej roli projektu.",
+      "id": "FINAL-EN-011",
+      "group_id": "final-en-incident-011",
+      "reference_eligible": false,
+      "origin_batch": "batches/remaining-52.proposed.json",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": ""
+      }
+    },
+    {
+      "proposed_category": "accounts_access",
+      "proposed_base_priority": "medium",
+      "text": "The access system says my temporary research entitlement is awaiting an approver who has left the team. I can do the analysis with the same authorised dataset in the department's supervised workspace, but I have to reserve a session each morning instead of opening it at my own desk.",
+      "category_reason": "Wstrzymane nadanie uprawnienia z powodu ścieżki zatwierdzania dostępu.",
+      "priority_reason": "Dostępna jest legalna alternatywa, lecz wymaga codziennej rezerwacji.",
+      "novelty_note": "Nowy incydent procesu zatwierdzania czasowego uprawnienia do zbioru badawczego.",
+      "id": "FINAL-EN-012",
+      "group_id": "final-en-incident-012",
+      "reference_eligible": false,
+      "origin_batch": "batches/remaining-52.proposed.json",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": ""
+      }
+    },
+    {
+      "proposed_category": "accounts_access",
+      "proposed_base_priority": "medium",
+      "text": "My dashboard role no longer includes permission to download the management summary: the download action explicitly reports 'report.download denied'. I can still use the authorised scheduled delivery of that same summary to my mailbox. The daily report goes out, but waiting for the scheduled copy makes my preparation slower.",
+      "category_reason": "Operacja jest jawnie zabroniona przez brak konkretnego uprawnienia.",
+      "priority_reason": "Zadanie da się ukończyć dzięki działającej dostawie harmonogramowej.",
+      "novelty_note": "Uprawnienie pobierania gotowego podsumowania i niezależna dostawa mailowa, nie błąd eksportu aplikacji.",
+      "id": "FINAL-EN-013",
+      "group_id": "final-en-incident-013",
+      "reference_eligible": false,
+      "origin_batch": "batches/remaining-52.proposed.json",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": ""
+      }
+    },
+    {
+      "proposed_category": "accounts_access",
+      "proposed_base_priority": "medium",
+      "text": "The records system refuses my delegated approval with 'delegation has expired'. I still have the original responsibility holder available: she approves the items herself while I review the supporting documents. We can process requests, but the extra handoff is delaying each one. Please restore the delegation period.",
+      "category_reason": "Wygasłe upoważnienie do działania w imieniu innej osoby.",
+      "priority_reason": "Oryginalna osoba może zatwierdzać, więc istnieje obejście kosztem dodatkowej obsługi.",
+      "novelty_note": "Nowa delegacja czasowa i dostępny pierwotny zatwierdzający, odrębna od cofniętej roli płatniczej.",
+      "id": "FINAL-EN-014",
+      "group_id": "final-en-incident-014",
+      "reference_eligible": false,
+      "origin_batch": "batches/remaining-52.proposed.json",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": ""
+      }
+    },
+    {
+      "proposed_category": "accounts_access",
+      "proposed_base_priority": "medium",
+      "text": "Opening our internal web tool via its bookmark signs me in, but the identity provider refuses the requested application consent. The approved version inside our managed remote workspace already has that consent and works for my tasks. I use that workspace for now, although transferring my working notes into it takes extra time.",
+      "category_reason": "Jawna odmowa zgody aplikacyjnej przez dostawcę tożsamości po zalogowaniu.",
+      "priority_reason": "Zatwierdzone środowisko zastępcze działa, lecz wymaga dodatkowych czynności.",
+      "novelty_note": "Nowy incydent zgody aplikacyjnej OAuth, nie polityka zarządzania urządzeniem z próbki 002.",
+      "id": "FINAL-EN-015",
+      "group_id": "final-en-incident-015",
+      "reference_eligible": false,
+      "origin_batch": "batches/remaining-52.proposed.json",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": ""
+      }
+    },
+    {
+      "proposed_category": "accounts_access",
+      "proposed_base_priority": "high",
+      "text": "The lab upload client presents its machine certificate, but the authentication gateway rejects it as an expired machine identity. The instrument still measures correctly. I must deliver the certified calibration record this afternoon, and the gateway permits neither password authentication nor an upload from another computer. No one available can renew that identity.",
+      "category_reason": "Bramka odrzuca wygasłe poświadczenie tożsamości maszyny.",
+      "priority_reason": "Wymagana dostawa dokumentacji jest zablokowana bez dostępnej alternatywy.",
+      "novelty_note": "Nowe uwierzytelnienie certyfikatem urządzenia, odrębne od zakresu tokenu w 001.",
+      "id": "FINAL-EN-016",
+      "group_id": "final-en-incident-016",
+      "reference_eligible": false,
+      "origin_batch": "batches/remaining-52.proposed.json",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": ""
+      }
+    },
+    {
+      "proposed_category": "accounts_access",
+      "proposed_base_priority": "high",
+      "text": "I can authenticate to the encryption-key vault, but retrieving the archive key returns 'principal not permitted to use this key'. I am the engineer assigned to restore one client's archived drawings today. Without that key the restore cannot proceed, and there is no other authorised key holder or unencrypted copy available.",
+      "category_reason": "Jawna odmowa uprawnienia do klucza po poprawnym uwierzytelnieniu.",
+      "priority_reason": "Ważne odtworzenie danych jednego klienta jest zablokowane bez obejścia.",
+      "novelty_note": "Nowe uprawnienie do użycia klucza szyfrującego, nie brak dostępu do folderu.",
+      "id": "FINAL-EN-017",
+      "group_id": "final-en-incident-017",
+      "reference_eligible": false,
+      "origin_batch": "batches/remaining-52.proposed.json",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": ""
+      }
+    },
+    {
+      "proposed_category": "accounts_access",
+      "proposed_base_priority": "high",
+      "text": "Our source-control server rejects my push with 'branch role may not create release tags'. Reading the repository and pushing my development branch both succeed. I am responsible for the signed release required by the customer this evening; nobody else on this shift may create the tag, and delivery without it is not accepted.",
+      "category_reason": "Brak uprawnienia do konkretnej operacji na gałęzi, nie awaria transmisji Git.",
+      "priority_reason": "Ważne wydanie jest zablokowane, a opis wyklucza zastępczego uprawnionego wykonawcę.",
+      "novelty_note": "Nowa operacja tworzenia tagu, odrębna od wygasłego członkostwa organizacji i braku kopii kodu.",
+      "id": "FINAL-EN-018",
+      "group_id": "final-en-incident-018",
+      "reference_eligible": false,
+      "origin_batch": "batches/remaining-52.proposed.json",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": ""
+      }
+    },
+    {
+      "proposed_category": "accounts_access",
+      "proposed_base_priority": "high",
+      "text": "I changed my primary company email address and the document-verification service now refuses the federation assertion: 'subject is not linked to an enrolled identity'. Other company sign-ins work. I have to verify a client's signed submission today; this service is mandatory and the duty team cannot relink the identity or perform the verification for me.",
+      "category_reason": "Odmowa powiązania tożsamości federacyjnej z kontem usługi.",
+      "priority_reason": "Konkretne ważne zadanie nie ma dostępnej alternatywy ani zastępcy.",
+      "novelty_note": "Nowe niepowiązane subject federacji, nie tylko nieaktualna wyświetlana nazwa konta.",
+      "id": "FINAL-EN-019",
+      "group_id": "final-en-incident-019",
+      "reference_eligible": false,
+      "origin_batch": "batches/remaining-52.proposed.json",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": ""
+      }
+    },
+    {
+      "proposed_category": "accounts_access",
+      "proposed_base_priority": "critical",
+      "text": "Since the central federation certificate rollover, every registrar receives 'identity assertion signature is not trusted' from the sign-in gateway. The identity team confirms that the new signing identity has not been authorised by the registry service. Registration is stopped across all our offices, and local or emergency accounts are not supported.",
+      "category_reason": "Jawnie niezaufana tożsamość podpisująca asercję blokuje uwierzytelnianie.",
+      "priority_reason": "Kluczowa usługa rejestracji jest niedostępna dla wielu biur bez awaryjnego logowania.",
+      "novelty_note": "Nowy incydent zaufania podpisu federacji po rotacji, nie wyłączenie kont zespołu.",
+      "id": "FINAL-EN-020",
+      "group_id": "final-en-incident-020",
+      "reference_eligible": false,
+      "origin_batch": "batches/remaining-52.proposed.json",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": ""
+      }
+    },
+    {
+      "proposed_category": "accounts_access",
+      "proposed_base_priority": "critical",
+      "text": "Every operator in the certificate-issuing team can sign in, but the key service refuses each request with 'issuance group is denied signing-key use'. No certificates can be issued to customers anywhere in the team. The previous group was removed during an access-policy change and no alternate signing identity or offline issuance is available.",
+      "category_reason": "Jawna odmowa uprawnienia całej grupie do klucza podpisującego.",
+      "priority_reason": "Cały zespół nie może realizować podstawowej usługi, bez alternatywnego trybu.",
+      "novelty_note": "Nowy zbiorowy brak uprawnienia do klucza usługi wydawania certyfikatów, bez awarii logowania.",
+      "id": "FINAL-EN-021",
+      "group_id": "final-en-incident-021",
+      "reference_eligible": false,
+      "origin_batch": "batches/remaining-52.proposed.json",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": ""
+      }
+    },
+    {
+      "proposed_category": "hardware",
+      "proposed_base_priority": "low",
+      "text": "One of the rubber feet has come off the office document camera. The other feet keep it stable on my desk, its image is clear, and I can demonstrate documents normally. It is not slipping or exposing any electronics; I am requesting a replacement foot during routine maintenance.",
+      "category_reason": "Brak fizycznej stopki urządzenia przy sprawnym obrazie.",
+      "priority_reason": "Urządzenie pozostaje stabilne i wszystkie zadania można wykonywać normalnie.",
+      "novelty_note": "Nowa drobna wada mechaniczna kamery dokumentowej, nie czarny obraz kamery laptopa.",
+      "id": "FINAL-EN-022",
+      "group_id": "final-en-incident-022",
+      "reference_eligible": false,
+      "origin_batch": "batches/remaining-52.proposed.json",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": ""
+      }
+    },
+    {
+      "proposed_category": "hardware",
+      "proposed_base_priority": "low",
+      "text": "There is a shallow scratch on the plastic bezel outside the touchscreen of the reception kiosk. The glass is intact, the scratch does not cover the display, and touch input works over the entire screen. Visitor registration continues exactly as before; the mark is cosmetic.",
+      "category_reason": "Kosmetyczne uszkodzenie obudowy fizycznego kiosku.",
+      "priority_reason": "Rejestracja i dotyk działają bez ograniczeń.",
+      "novelty_note": "Nowy fizyczny bezel kiosku, nie wada obrazu monitora lub pęknięcie zawiasu.",
+      "id": "FINAL-EN-023",
+      "group_id": "final-en-incident-023",
+      "reference_eligible": false,
+      "origin_batch": "batches/remaining-52.proposed.json",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": ""
+      }
+    },
+    {
+      "proposed_category": "hardware",
+      "proposed_base_priority": "medium",
+      "text": "The label printer's automatic cutter has a broken lever, confirmed by its stand-alone test. It still prints readable labels. The stock has a perforation that our procedure allows us to tear by hand, so parcels are being labelled, but doing that individually slows the packing desk.",
+      "category_reason": "Mechanizm odcinania nie działa również w samodzielnym teście urządzenia.",
+      "priority_reason": "Dozwolone ręczne odrywanie pozwala pracować, lecz spowalnia pakowanie.",
+      "novelty_note": "Nowy uszkodzony odcinak przy poprawnym drukowaniu, nie zacięcie lub brak podawania papieru.",
+      "id": "FINAL-EN-024",
+      "group_id": "final-en-incident-024",
+      "reference_eligible": false,
+      "origin_batch": "batches/remaining-52.proposed.json",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": ""
+      }
+    },
+    {
+      "proposed_category": "hardware",
+      "proposed_base_priority": "medium",
+      "text": "The plug on my USB Ethernet adapter is visibly bent and loses contact on two different laptops. I have disconnected that adapter and the laptop's built-in Wi-Fi works for our systems. I can handle my cases, but I need to stay near the wireless access point instead of using my usual desk.",
+      "category_reason": "Widoczne uszkodzenie fizycznego złącza powtarza się na różnych komputerach.",
+      "priority_reason": "Działa alternatywny interfejs, choć wymaga zmiany miejsca pracy.",
+      "novelty_note": "Nowe uszkodzenie adaptera, odrębne od niedziałającego gniazda sieciowego w ścianie.",
+      "id": "FINAL-EN-025",
+      "group_id": "final-en-incident-025",
+      "reference_eligible": false,
+      "origin_batch": "batches/remaining-52.proposed.json",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": ""
+      }
+    },
+    {
+      "proposed_category": "hardware",
+      "proposed_base_priority": "medium",
+      "text": "A strip of the pen display has stopped detecting the stylus, including in its built-in diagnostic grid. The desktop mouse still controls the whole application and I can finish the drawing with it. Freehand annotations are much slower that way, but the file can be delivered.",
+      "category_reason": "Martwy obszar wejścia jest widoczny w diagnostyce sprzętu.",
+      "priority_reason": "Mysz umożliwia ukończenie pracy kosztem wydajności.",
+      "novelty_note": "Nowy częściowy brak detekcji rysika, nie awaria klawiszy lub mikrofonu.",
+      "id": "FINAL-EN-026",
+      "group_id": "final-en-incident-026",
+      "reference_eligible": false,
+      "origin_batch": "batches/remaining-52.proposed.json",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": ""
+      }
+    },
+    {
+      "proposed_category": "hardware",
+      "proposed_base_priority": "medium",
+      "text": "Our receipt printer produces very pale lines even on its own self-test after a fresh roll is loaded. The engineer's diagnostic identifies a worn thermal head. I can issue acceptable receipts on the spare unit at the end of the counter, but walking to it for every transaction is slowing service.",
+      "category_reason": "Potwierdzone zużycie głowicy termicznej i wada testu bez komputera.",
+      "priority_reason": "Zapasowa drukarka pozwala obsługiwać transakcje z dodatkowym nakładem czasu.",
+      "novelty_note": "Nowy fizyczny problem jakości nadruku, nie mechanizm papieru ani błąd drukowania w aplikacji.",
+      "id": "FINAL-EN-027",
+      "group_id": "final-en-incident-027",
+      "reference_eligible": false,
+      "origin_batch": "batches/remaining-52.proposed.json",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": ""
+      }
+    },
+    {
+      "proposed_category": "hardware",
+      "proposed_base_priority": "medium",
+      "text": "The workstation's hardware setup reports a depleted real-time-clock battery and loses its clock settings after power is disconnected. Our approved start-up checklist lets me set the time manually, after which the workstation and required tools work correctly. I can complete my work, but this extra setup is needed each morning.",
+      "category_reason": "Diagnostyka wskazuje baterię zegara sprzętowego i utratę ustawień po odłączeniu zasilania.",
+      "priority_reason": "Zatwierdzone ustawienie czasu przy starcie przywraca normalną pracę.",
+      "novelty_note": "Nowa bateria RTC, odrębna od rozładowanego akumulatora terminala i awarii ładowarki.",
+      "id": "FINAL-EN-028",
+      "group_id": "final-en-incident-028",
+      "reference_eligible": false,
+      "origin_batch": "batches/remaining-52.proposed.json",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": ""
+      }
+    },
+    {
+      "proposed_category": "hardware",
+      "proposed_base_priority": "high",
+      "text": "My refreshable Braille display no longer raises any cells, even during its stand-alone self-test. Its power indicator is on, and reconnecting it does not help. I need that tactile output to review today's customer documents; there is no compatible spare or accessible alternative for this task at my workstation.",
+      "category_reason": "Fizyczne komórki urządzenia nie działają także w samodzielnym teście.",
+      "priority_reason": "Niezbędne zadanie jednej osoby jest zablokowane bez dostępnej alternatywy.",
+      "novelty_note": "Nowa awaria monitora brajlowskiego, odrębna od ekranów i urządzeń skanujących w pilotażu.",
+      "id": "FINAL-EN-029",
+      "group_id": "final-en-incident-029",
+      "reference_eligible": false,
+      "origin_batch": "batches/remaining-52.proposed.json",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": ""
+      }
+    },
+    {
+      "proposed_category": "hardware",
+      "proposed_base_priority": "high",
+      "text": "The cutting plotter reports a snapped carriage belt and cannot move its head in its own maintenance mode. I need to produce the approved equipment stencils for the installation scheduled this afternoon. Hand-cut copies do not meet the tolerance, and we have neither another plotter nor an available external supplier today.",
+      "category_reason": "Mechanicznie uszkodzony pas blokuje ruch także w trybie serwisowym sprzętu.",
+      "priority_reason": "Ważne przygotowanie instalacji nie ma zgodnego obejścia ani dostępnego zastępstwa.",
+      "novelty_note": "Nowy ploter tnący i jego napęd, nie drukarka etykiet ani podajnik skanera.",
+      "id": "FINAL-EN-030",
+      "group_id": "final-en-incident-030",
+      "reference_eligible": false,
+      "origin_batch": "batches/remaining-52.proposed.json",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": ""
+      }
+    },
+    {
+      "proposed_category": "hardware",
+      "proposed_base_priority": "high",
+      "text": "The archival tape drive has a cartridge jammed in its loading mechanism; its front-panel eject test ends with a mechanical error. I must restore a specific legal archive for today's review. This is the only drive that can read those tapes, and there is no disk copy or replacement drive available.",
+      "category_reason": "Mechanizm ładowania napędu taśmowego zgłasza błąd bez udziału aplikacji.",
+      "priority_reason": "Ważne odtworzenie archiwum jest niemożliwe bez sprzętu zastępczego lub kopii.",
+      "novelty_note": "Nowy mechanizm napędu taśmowego, nie uszkodzony dysk komputera lub niedostępna macierz.",
+      "id": "FINAL-EN-031",
+      "group_id": "final-en-incident-031",
+      "reference_eligible": false,
+      "origin_batch": "batches/remaining-52.proposed.json",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": ""
+      }
+    },
+    {
+      "proposed_category": "hardware",
+      "proposed_base_priority": "high",
+      "text": "The workstation's pre-boot hardware diagnostics reports an internal TPM failure. The encrypted engineering volume therefore stays locked even though my credentials are valid. I have to finish the controlled design on that volume today; the recovery material is unavailable and the file is not held on any other device.",
+      "category_reason": "Awarię modułu sprzętowego potwierdza diagnostyka przed startem systemu.",
+      "priority_reason": "Wymagana dokumentacja jest niedostępna bez klucza odzyskiwania i kopii.",
+      "novelty_note": "Nowy potwierdzony błąd TPM, odrębny od odmowy użycia klucza przez uprawnienia konta.",
+      "id": "FINAL-EN-032",
+      "group_id": "final-en-incident-032",
+      "reference_eligible": false,
+      "origin_batch": "batches/remaining-52.proposed.json",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": ""
+      }
+    },
+    {
+      "proposed_category": "hardware",
+      "proposed_base_priority": "high",
+      "text": "The contactless encoder at my desk cannot write a badge and reports an antenna-coil fault in its own test. The booking software still works, but I need to issue the configured access badge for a technician's visit today. Temporary paper passes are not allowed for this visit, and no other encoder is available on site.",
+      "category_reason": "Samodzielny test wskazuje fizyczną usterkę cewki enkodera.",
+      "priority_reason": "Ważne wydanie identyfikatora nie ma dopuszczonej alternatywy.",
+      "novelty_note": "Nowe urządzenie zapisujące identyfikatory, nie czytnik kart terminala ani program uprawnień.",
+      "id": "FINAL-EN-033",
+      "group_id": "final-en-incident-033",
+      "reference_eligible": false,
+      "origin_batch": "batches/remaining-52.proposed.json",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": ""
+      }
+    },
+    {
+      "proposed_category": "hardware",
+      "proposed_base_priority": "critical",
+      "text": "A storage-controller diagnostic reports failed cache protection and has put the production database volumes into hardware-enforced read-only mode. Every checkout desk can view items but cannot complete a sale. The standby controller is also unavailable, and there is no alternate checkout service, so the entire store has stopped selling.",
+      "category_reason": "Potwierdzona usterka kontrolera sprzętowo blokuje zapis na wolumenach.",
+      "priority_reason": "Kluczowa usługa sprzedaży zatrzymała wszystkie stanowiska bez zastępstwa.",
+      "novelty_note": "Nowa awaria ochrony cache i tryb tylko do odczytu, nie brak zasilania macierzy.",
+      "id": "FINAL-EN-034",
+      "group_id": "final-en-incident-034",
+      "reference_eligible": false,
+      "origin_batch": "batches/remaining-52.proposed.json",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": ""
+      }
+    },
+    {
+      "proposed_category": "network",
+      "proposed_base_priority": "low",
+      "text": "A route-checking tool shows asterisks for an intermediate hop on the way to our hosted tools, but the destination answers and all the tools work normally. File transfers complete and calls are clear. I am asking whether that missing diagnostic response is expected; it has not interrupted any work.",
+      "category_reason": "Brakuje odpowiedzi diagnostycznej w ścieżce sieciowej, przy osiągalnym celu.",
+      "priority_reason": "Nie ma wpływu na wykonywanie zadań lub jakość usług.",
+      "novelty_note": "Nowa obserwacja odpowiedzi pośredniego hopu, nie zerwanie lub opóźnienie logowania do Wi-Fi.",
+      "id": "FINAL-EN-035",
+      "group_id": "final-en-incident-035",
+      "reference_eligible": false,
+      "origin_batch": "batches/remaining-52.proposed.json",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": ""
+      }
+    },
+    {
+      "proposed_category": "network",
+      "proposed_base_priority": "low",
+      "text": "The desk link negotiates at 100 Mbps rather than the 1 Gbps shown for neighbouring desks. It is stable, and our measured file transfers and calls meet all of my work requirements. No task is delayed or unavailable; please check the negotiated rate when there is time.",
+      "category_reason": "Zgłoszenie dotyczy parametrów zestawionego łącza sieciowego.",
+      "priority_reason": "Opis wprost wskazuje brak ograniczeń i opóźnień pracy.",
+      "novelty_note": "Nowa obserwacja negocjacji prędkości bez wpływu na zadania, nie wolny transfer wymagający przeprowadzki.",
+      "id": "FINAL-EN-036",
+      "group_id": "final-en-incident-036",
+      "reference_eligible": false,
+      "origin_batch": "batches/remaining-52.proposed.json",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": ""
+      }
+    },
+    {
+      "proposed_category": "network",
+      "proposed_base_priority": "low",
+      "text": "The discovery list on the office network advertises the same meeting display twice under two network names. Either entry reaches the same display and screen sharing works normally. I do not lose any time or functionality; could the duplicate network advertisement be cleaned up during maintenance?",
+      "category_reason": "Powtarza się ogłoszenie usługi w sieci przy sprawnej komunikacji z urządzeniem.",
+      "priority_reason": "Duplikat informacyjny nie utrudnia korzystania z usługi.",
+      "novelty_note": "Nowe powielone ogłoszenie wykrywania usługi, nie błąd listy dokumentów aplikacji.",
+      "id": "FINAL-EN-037",
+      "group_id": "final-en-incident-037",
+      "reference_eligible": false,
+      "origin_batch": "batches/remaining-52.proposed.json",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": ""
+      }
+    },
+    {
+      "proposed_category": "network",
+      "proposed_base_priority": "medium",
+      "text": "SSH connections to our hosted repository time out from the office, while the provider's HTTPS endpoint is reachable and accepts my account. Changing the approved repository URL to HTTPS lets me fetch and push. I can deliver the work, but I have to adjust several local project configurations until the SSH path is restored.",
+      "category_reason": "Zawodzi osiągalność jednego transportu przy działającym drugim, bez odmowy uprawnień.",
+      "priority_reason": "Zmiana na dozwolony transport umożliwia pracę z dodatkową konfiguracją.",
+      "novelty_note": "Nowy problem ścieżki SSH przy działającym HTTPS, odrębny od braku uprawnienia do tagu.",
+      "id": "FINAL-EN-038",
+      "group_id": "final-en-incident-038",
+      "reference_eligible": false,
+      "origin_batch": "batches/remaining-52.proposed.json",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": ""
+      }
+    },
+    {
+      "proposed_category": "network",
+      "proposed_base_priority": "medium",
+      "text": "The presentation receivers are reachable by their IP addresses, but discovery packets are not crossing from our wired VLAN to their VLAN. Entering a receiver's address manually connects reliably and lets training continue. We now have to look up an address for each room instead of using automatic discovery.",
+      "category_reason": "Nie działa przekazywanie ruchu wykrywania pomiędzy VLAN-ami; połączenie bezpośrednie działa.",
+      "priority_reason": "Ręczny adres jest działającym obejściem, lecz wymaga dodatkowej czynności.",
+      "novelty_note": "Nowy brak przekazywania odkrywania urządzeń między VLAN-ami, nie awaria samych odbiorników.",
+      "id": "FINAL-EN-039",
+      "group_id": "final-en-incident-039",
+      "reference_eligible": false,
+      "origin_batch": "batches/remaining-52.proposed.json",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": ""
+      }
+    },
+    {
+      "proposed_category": "network",
+      "proposed_base_priority": "medium",
+      "text": "The site's web gateway sends requests back to the same proxy repeatedly, and several browsers report a proxy loop for unrelated external sites. IT's approved bypass profile reaches those sites correctly. I can process the supplier requests using that profile, although I have to switch profiles for internal sites.",
+      "category_reason": "Wspólny problem trasy przez pośredniczącą bramkę występuje w wielu przeglądarkach.",
+      "priority_reason": "Zatwierdzony profil obejścia pozwala realizować zadania z dodatkowym przełączaniem.",
+      "novelty_note": "Nowa pętla proxy, odrębna od różnicy IPv6/IPv4 i rozwiązywania nazw DNS.",
+      "id": "FINAL-EN-040",
+      "group_id": "final-en-incident-040",
+      "reference_eligible": false,
+      "origin_batch": "batches/remaining-52.proposed.json",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": ""
+      }
+    },
+    {
+      "proposed_category": "network",
+      "proposed_base_priority": "medium",
+      "text": "The link to the rendering cluster drops large network frames, while small probes and the same transfer over the approved lower-MTU profile succeed. I can send the assets with that profile and the jobs run, but I must apply it separately for each connection. Authentication and the remote application are working.",
+      "category_reason": "Problem transmisji zależy od wielkości ramek i ustawienia MTU, bez błędu aplikacji.",
+      "priority_reason": "Działa zatwierdzony profil przesyłania, choć wymaga ręcznej obsługi połączeń.",
+      "novelty_note": "Nowy incydent MTU na ścieżce do klastra, nie zrywany tunel VPN z pilotażu.",
+      "id": "FINAL-EN-041",
+      "group_id": "final-en-incident-041",
+      "reference_eligible": false,
+      "origin_batch": "batches/remaining-52.proposed.json",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": ""
+      }
+    },
+    {
+      "proposed_category": "network",
+      "proposed_base_priority": "high",
+      "text": "My desk phone registers with the switchboard, but no media packets get through the route between this desk subnet and the call service. Calls connect with silence in both directions; a network trace confirms the missing RTP traffic. I must conduct scheduled interviews from this extension today, and forwarding, another desk and a mobile connection are unavailable.",
+      "category_reason": "Sygnalizacja działa, a ruch medialny na ścieżce sieciowej nie dociera.",
+      "priority_reason": "Ważne rozmowy jednej osoby są zablokowane bez dostępnego kanału zastępczego.",
+      "novelty_note": "Nowy problem osobnej ścieżki RTP, nie mikrofon urządzenia i nie utrata pakietów całego łącza.",
+      "id": "FINAL-EN-042",
+      "group_id": "final-en-incident-042",
+      "reference_eligible": false,
+      "origin_batch": "batches/remaining-52.proposed.json",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": ""
+      }
+    },
+    {
+      "proposed_category": "network",
+      "proposed_base_priority": "high",
+      "text": "The certified measurement workstation cannot contact either approved time server: their NTP requests time out at the site firewall, although ordinary web traffic passes. The validation procedure requires network time synchronisation before a certified run and forbids setting the clock by hand. I need that run today; no other synchronisation route or certified workstation is available.",
+      "category_reason": "Nieosiągalny jest ruch do serwerów czasu, przy działających innych usługach sieci.",
+      "priority_reason": "Wymagany pomiar jest zablokowany, a procedura wyklucza ręczne obejście.",
+      "novelty_note": "Nowy blokowany protokół NTP, odrębny od sprzętowej baterii zegara.",
+      "id": "FINAL-EN-043",
+      "group_id": "final-en-incident-043",
+      "reference_eligible": false,
+      "origin_batch": "batches/remaining-52.proposed.json",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": ""
+      }
+    },
+    {
+      "proposed_category": "network",
+      "proposed_base_priority": "high",
+      "text": "Traffic from our secure workstation loops between two routers instead of reaching the external evidence portal; the trace repeats the same two hops until it expires. The portal is reachable from its provider's network. I must submit today's evidence bundle from this workstation, and the rules prohibit another connection or device for that submission.",
+      "category_reason": "Zaobserwowana pętla routingu uniemożliwia dotarcie do celu.",
+      "priority_reason": "Ważna terminowa wysyłka nie ma dopuszczonej alternatywnej ścieżki.",
+      "novelty_note": "Nowa pętla pomiędzy routerami do konkretnego portalu, nie niedostępne wszystkie usługi centrali.",
+      "id": "FINAL-EN-044",
+      "group_id": "final-en-incident-044",
+      "reference_eligible": false,
+      "origin_batch": "batches/remaining-52.proposed.json",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": ""
+      }
+    },
+    {
+      "proposed_category": "network",
+      "proposed_base_priority": "high",
+      "text": "The supplier's IPv6-only endpoint has no reachable route from our testing network; traces end at the border router. Their service is up and our local services work. I need to complete the required interoperability test today, but the approved test device cannot use a tunnel, an IPv4 substitute or another network.",
+      "category_reason": "Brak trasy do sieci docelowej IPv6, bez objawu błędu aplikacji lub uwierzytelnienia.",
+      "priority_reason": "Ważny test nie może zostać wykonany inną dozwoloną drogą.",
+      "novelty_note": "Nowy endpoint wyłącznie IPv6 bez obejścia, odrębny incydent od utrudnienia kilku aplikacji w 005.",
+      "id": "FINAL-EN-045",
+      "group_id": "final-en-incident-045",
+      "reference_eligible": false,
+      "origin_batch": "batches/remaining-52.proposed.json",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": ""
+      }
+    },
+    {
+      "proposed_category": "network",
+      "proposed_base_priority": "critical",
+      "text": "The market-data multicast feed has stopped reaching every dealing desk. The network team sees the feed arrive at the edge but no multicast packets leave the core towards the desks; sign-in and ordinary websites still work. All traders have stopped accepting orders because live prices are required, and the backup feed uses the same failed route.",
+      "category_reason": "Kluczowy strumień nie jest przekazywany przez sieć, mimo działającego logowania i WWW.",
+      "priority_reason": "Brak wymaganych danych blokuje wszystkich traderów, bez niezależnej ścieżki zapasowej.",
+      "novelty_note": "Nowa zbiorowa awaria routingu multicastu, nie całkowity brak Internetu lub DNS.",
+      "id": "FINAL-EN-046",
+      "group_id": "final-en-incident-046",
+      "reference_eligible": false,
+      "origin_batch": "batches/remaining-52.proposed.json",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": ""
+      }
+    },
+    {
+      "proposed_category": "network",
+      "proposed_base_priority": "critical",
+      "text": "A broadcast storm is saturating the office switches: their port counters rise continuously and packets to every local business service are being dropped. All departments in this building have had to stop handling work. The incident team has not yet isolated the loop, and no separate working network or offline process is available.",
+      "category_reason": "Masowy ruch rozgłoszeniowy przeciąża przełączniki i powoduje utratę transmisji.",
+      "priority_reason": "Zablokowane są wszystkie działy budynku i nie ma alternatywnego trybu pracy.",
+      "novelty_note": "Nowa burza rozgłoszeniowa w LAN, nie awaria połączenia oddziału z centralą.",
+      "id": "FINAL-EN-047",
+      "group_id": "final-en-incident-047",
+      "reference_eligible": false,
+      "origin_batch": "batches/remaining-52.proposed.json",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": ""
+      }
+    },
+    {
+      "proposed_category": "software",
+      "proposed_base_priority": "low",
+      "text": "The application's About window still prints the previous patch number, although the installed build and its fixes are verified as current. That text is only in the About window. All operations and saved files behave correctly, and I do not need the displayed number for any of my tasks.",
+      "category_reason": "Niepoprawny tekst wersji jest generowany w oknie aplikacji.",
+      "priority_reason": "Informacyjny błąd nie wpływa na żadne zadanie ani zapis danych.",
+      "novelty_note": "Nowy nieaktualny numer w oknie About, nie język miesiąca lub kolor motywu.",
+      "id": "FINAL-EN-048",
+      "group_id": "final-en-incident-048",
+      "reference_eligible": false,
+      "origin_batch": "batches/remaining-52.proposed.json",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": ""
+      }
+    },
+    {
+      "proposed_category": "software",
+      "proposed_base_priority": "low",
+      "text": "When I move the pointer out of a row in the asset viewer, its hover highlight sometimes stays on until the next click. The row's data remains readable and selecting, editing and saving work correctly. This visual residue has not delayed my work or changed any data.",
+      "category_reason": "Błąd stanu wizualnego wiersza dotyczy działania interfejsu programu.",
+      "priority_reason": "Wada wizualna nie ogranicza operacji ani tempa pracy.",
+      "novelty_note": "Nowy stan podświetlenia po wyjściu kursora, nie rozmyte ikony i nie sortowanie dokumentów.",
+      "id": "FINAL-EN-049",
+      "group_id": "final-en-incident-049",
+      "reference_eligible": false,
+      "origin_batch": "batches/remaining-52.proposed.json",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": ""
+      }
+    },
+    {
+      "proposed_category": "software",
+      "proposed_base_priority": "medium",
+      "text": "The job-monitor application sends a dozen identical completion emails for each finished job, although the jobs themselves finish correctly. The extra messages make it hard to find the next request. An approved mailbox rule now groups the duplicates and I can keep processing jobs, but I have to check that group separately.",
+      "category_reason": "Program powiela powiadomienie mimo poprawnego wykonania zadania.",
+      "priority_reason": "Obejście filtrujące wiadomości pozwala pracować, lecz wymaga dodatkowej obsługi.",
+      "novelty_note": "Nowe wielokrotne powiadomienia aplikacji, nie przypomnienia o haśle konta.",
+      "id": "FINAL-EN-050",
+      "group_id": "final-en-incident-050",
+      "reference_eligible": false,
+      "origin_batch": "batches/remaining-52.proposed.json",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": ""
+      }
+    },
+    {
+      "proposed_category": "software",
+      "proposed_base_priority": "medium",
+      "text": "The spreadsheet add-in shows decimal amounts without a separator in its preview, but the source values are intact. The approved raw-data view displays those values correctly and I can check the accounts there. It takes more manual navigation than the add-in's normal preview, so reconciliation is slower but still possible.",
+      "category_reason": "Dodatek niepoprawnie prezentuje liczby przy zachowanych danych źródłowych.",
+      "priority_reason": "Poprawny widok zastępczy umożliwia uzgodnienie kosztem dodatkowej pracy.",
+      "novelty_note": "Nowe formatowanie liczb w podglądzie dodatku, nie przeliczanie sum kolumny.",
+      "id": "FINAL-EN-051",
+      "group_id": "final-en-incident-051",
+      "reference_eligible": false,
+      "origin_batch": "batches/remaining-52.proposed.json",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": ""
+      }
+    },
+    {
+      "proposed_category": "software",
+      "proposed_base_priority": "medium",
+      "text": "The case editor's autosave restores the previous draft over my latest text. The reproducible issue stops when I disable autosave, and manual Save keeps all changes correctly. I can complete the cases with autosave off, but I must remember to save after every edit until the function is fixed.",
+      "category_reason": "Funkcja automatycznego zapisu aplikacji przywraca niewłaściwą wersję roboczą.",
+      "priority_reason": "Ręczny zapis z wyłączoną wadliwą funkcją jest działającym obejściem.",
+      "novelty_note": "Nowa nieprawidłowa wersja autosave, nie zamykanie formularza przy zapisie.",
+      "id": "FINAL-EN-052",
+      "group_id": "final-en-incident-052",
+      "reference_eligible": false,
+      "origin_batch": "batches/remaining-52.proposed.json",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": ""
+      }
+    },
+    {
+      "proposed_category": "software",
+      "proposed_base_priority": "medium",
+      "text": "The video editor shifts imported subtitles two seconds late even though the source subtitle file has the right times. Applying a minus-two-second offset in the editor produces a correct preview and export. I can publish the training videos, but each import now needs that extra adjustment and check.",
+      "category_reason": "Aplikacja błędnie interpretuje czas importowanych napisów.",
+      "priority_reason": "Działająca korekta przesunięcia umożliwia wykonanie zadania.",
+      "novelty_note": "Nowy błąd synchronizacji napisów przy poprawnym pliku źródłowym, nie błąd eksportu PDF.",
+      "id": "FINAL-EN-053",
+      "group_id": "final-en-incident-053",
+      "reference_eligible": false,
+      "origin_batch": "batches/remaining-52.proposed.json",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": ""
+      }
+    },
+    {
+      "proposed_category": "software",
+      "proposed_base_priority": "medium",
+      "text": "The bulk-renaming utility skips filenames containing accented characters and shows an internal exception. The same names can be assigned correctly through the operating system's normal Rename action. I can finish organising the project files individually, but doing them one at a time is considerably slower than the bulk operation.",
+      "category_reason": "Jedna funkcja programu zgłasza wyjątek dla poprawnych nazw Unicode.",
+      "priority_reason": "Ręczna operacja systemowa umożliwia ukończenie pracy kosztem czasu.",
+      "novelty_note": "Nowe zbiorcze przemianowanie plików i obsługa znaków, odrębne od importu danych w pilotażu.",
+      "id": "FINAL-EN-054",
+      "group_id": "final-en-incident-054",
+      "reference_eligible": false,
+      "origin_batch": "batches/remaining-52.proposed.json",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": ""
+      }
+    },
+    {
+      "proposed_category": "software",
+      "proposed_base_priority": "high",
+      "text": "The compliance formatter silently removes the minus sign from every adjustment amount in the generated filing, while the input records are correct. That makes the mandatory filing wrong. I have to submit it today; the regulator requires this machine-generated format, and neither editing the output nor another formatter is permitted.",
+      "category_reason": "Program wytwarza błędne dane wyjściowe z poprawnego wejścia.",
+      "priority_reason": "Ważny obowiązkowy dokument nie ma dopuszczonego sposobu poprawnego wygenerowania.",
+      "novelty_note": "Nowa utrata znaku wartości w formacie zgłoszenia, nie wyjątek arytmetyczny płac.",
+      "id": "FINAL-EN-055",
+      "group_id": "final-en-incident-055",
+      "reference_eligible": false,
+      "origin_batch": "batches/remaining-52.proposed.json",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": ""
+      }
+    },
+    {
+      "proposed_category": "software",
+      "proposed_base_priority": "high",
+      "text": "The redaction application draws black boxes over the selected text, but its verification tool confirms that the underlying words remain extractable in the output. I need to deliver a safely redacted case file today. Our procedure requires verified removal and no other approved redaction tool or manual release route is available.",
+      "category_reason": "Funkcja programu nie usuwa treści mimo prezentowanego zaczernienia.",
+      "priority_reason": "Wymagany bezpieczny dokument jest zablokowany bez zatwierdzonego narzędzia zastępczego.",
+      "novelty_note": "Nowy błąd rzeczywistego usuwania treści dokumentu, nie podgląd załącznika lub aplikacja podpisu.",
+      "id": "FINAL-EN-056",
+      "group_id": "final-en-incident-056",
+      "reference_eligible": false,
+      "origin_batch": "batches/remaining-52.proposed.json",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": ""
+      }
+    },
+    {
+      "proposed_category": "software",
+      "proposed_base_priority": "high",
+      "text": "The audit extractor converts every event time to local time but still marks the output as UTC. The source events and workstation clock are correct. I must provide a certified UTC event sequence today, and the required extractor has no timezone override; manual edits and exports from other tools are not accepted.",
+      "category_reason": "Program błędnie przekształca i oznacza strefę czasową danych wyjściowych.",
+      "priority_reason": "Ważna wymagana sekwencja zdarzeń nie może być poprawnie dostarczona dozwoloną metodą.",
+      "novelty_note": "Nowy błąd konwersji stref w ekstraktorze, nie brak sieciowego czasu ani bateria RTC.",
+      "id": "FINAL-EN-057",
+      "group_id": "final-en-incident-057",
+      "reference_eligible": false,
+      "origin_batch": "batches/remaining-52.proposed.json",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": ""
+      }
+    },
+    {
+      "proposed_category": "software",
+      "proposed_base_priority": "high",
+      "text": "The packaging solver rejects a valid container as over capacity even when its own detail view shows the load below the limit. The issue reproduces with the vendor's valid sample and access permissions are fine. I must approve this customer's packing plan today, but approval requires the solver and there is no manual or alternative planning path.",
+      "category_reason": "Sprzeczne wyniki walidacji programu występują także na poprawnej próbce producenta.",
+      "priority_reason": "Ważny plan jednego klienta nie może zostać zatwierdzony bez działającej funkcji.",
+      "novelty_note": "Nowy błąd warunku pojemności solvera, nie duplikowanie przydziałów zatok z 008.",
+      "id": "FINAL-EN-058",
+      "group_id": "final-en-incident-058",
+      "reference_eligible": false,
+      "origin_batch": "batches/remaining-52.proposed.json",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": ""
+      }
+    },
+    {
+      "proposed_category": "software",
+      "proposed_base_priority": "high",
+      "text": "The release-manifest tool replaces non-ASCII characters in component names with question marks, so its signed manifest no longer matches the unchanged package. This occurs with the vendor's test package too. I must deliver this multilingual release today; the receiving system requires that signed manifest and there is no supported alternate generator or editing step.",
+      "category_reason": "Generator manifestu błędnie koduje nazwy komponentów przy poprawnym pakiecie.",
+      "priority_reason": "Ważne wydanie jest zablokowane przez wymagany format bez alternatywnego generatora.",
+      "novelty_note": "Nowa utrata znaków przy tworzeniu podpisanego manifestu, nie odmowa uprawnienia do publikacji tagu.",
+      "id": "FINAL-EN-059",
+      "group_id": "final-en-incident-059",
+      "reference_eligible": false,
+      "origin_batch": "batches/remaining-52.proposed.json",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": ""
+      }
+    },
+    {
+      "proposed_category": "software",
+      "proposed_base_priority": "critical",
+      "text": "After the scheduling engine's calendar update, it treats every future date as a closed day, including dates marked open in its own calendar. All hospital scheduling staff are unable to book any procedure. Sign-in and other services work, but this is the only authorised booking engine and there is no emergency or paper scheduling mode.",
+      "category_reason": "Silnik aplikacji błędnie interpretuje wszystkie daty mimo poprawnego kalendarza wejściowego.",
+      "priority_reason": "Kluczowa usługa planowania zabiegów jest zablokowana dla całego zespołu bez trybu zastępczego.",
+      "novelty_note": "Nowy błąd semantyki dni roboczych, odrębny od zawieszania aplikacji i błędnego przypisania zasobów.",
+      "id": "FINAL-EN-060",
+      "group_id": "final-en-incident-060",
+      "reference_eligible": false,
+      "origin_batch": "batches/remaining-52.proposed.json",
+      "review": {
+        "status": "pending",
+        "category": null,
+        "base_priority": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": ""
+      }
+    }
+  ],
+  "design": {
+    "per_category": 15,
+    "proposed_priority_per_category": {
+      "low": 3,
+      "medium": 5,
+      "high": 5,
+      "critical": 2
+    },
+    "selection": "purposeful_coverage_not_population_prevalence",
+    "new_batch_human_approved": false
+  }
+}

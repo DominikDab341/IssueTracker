@@ -78,7 +78,7 @@ class ReferenceApprovalTests(ApiTestCase):
         ident = await self.resolved()
         approved = await self.approve(ident)
         self.assertEqual(approved.status_code, 201)
-        response = await self.client.post("/tickets/", json={"text": "A completely new printer problem"})
+        response = await self.client.post("/tickets/", json={"text": "The printer cover is scratched. I can work normally."})
         ticket = response.json()["ticket"]
         with patch("app.services.classifier.encode_text", return_value=VECTOR):
             await self.process(ticket["current_task_id"])
@@ -96,8 +96,13 @@ class ReferenceApprovalTests(ApiTestCase):
     async def test_new_approval_changes_training_version_and_priority(self):
         await self.add_reference(category="hardware", base_priority="low", embedding=VECTOR)
         ident = await self.resolved()
+        description = "The application blocks the mandatory submission. I cannot complete my work and no alternative tool is available."
+        async with self.sessions() as db:
+            reference_ticket = await db.get(Ticket, ident)
+            reference_ticket.text = description
+            await db.commit()
         async def classify_again():
-            response = await self.client.post("/tickets/", json={"text": "Problem z aplikacją."})
+            response = await self.client.post("/tickets/", json={"text": description})
             ticket = response.json()["ticket"]
             with patch("app.services.classifier.encode_text", return_value=VECTOR):
                 await self.process(ticket["current_task_id"])

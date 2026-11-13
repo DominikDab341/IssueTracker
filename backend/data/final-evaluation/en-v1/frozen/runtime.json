@@ -1,0 +1,93 @@
+{
+  "captured_at": "2026-11-07T18:15:57.099354+00:00",
+  "database_revision": "e5c000000001",
+  "configuration": {
+    "MODEL_NAME": "all-MiniLM-L6-v2",
+    "MODEL_REVISION": "c9745ed1d9f207416be6d2e6f8de32d1f16199bf",
+    "CLASSIFICATION_REFERENCE_SOURCE": "pilot_en_120_v1",
+    "K_NEIGHBORS": 3,
+    "CATEGORY_MIN_SIMILARITY": 0.22,
+    "CATEGORY_MIN_VOTE_SHARE": 0.6666666666666666,
+    "PRIORITY_MIN_SCORE": 0.38,
+    "DUPLICATE_MIN_SIMILARITY": 0.75,
+    "DUPLICATE_SAME_CATEGORY": true,
+    "MAX_DUPLICATE_SUGGESTIONS": 5,
+    "ESCALATION_ENABLED": true,
+    "ESCALATION_MIN_USERS": 3,
+    "ESCALATION_WINDOW_HOURS": 24.0,
+    "ESCALATION_MIN_SIMILARITY": 0.85
+  },
+  "priority_estimator": {
+    "vectorizer": {
+      "analyzer": "word",
+      "binary": false,
+      "decode_error": "strict",
+      "dtype": "<class 'numpy.float64'>",
+      "encoding": "utf-8",
+      "input": "content",
+      "lowercase": true,
+      "max_df": 1.0,
+      "max_features": null,
+      "min_df": 1,
+      "ngram_range": [
+        1,
+        2
+      ],
+      "norm": "l2",
+      "preprocessor": null,
+      "smooth_idf": true,
+      "stop_words": null,
+      "strip_accents": null,
+      "sublinear_tf": true,
+      "token_pattern": "(?u)\\b\\w\\w+\\b",
+      "tokenizer": null,
+      "use_idf": true,
+      "vocabulary": null
+    },
+    "regression": {
+      "C": 100,
+      "class_weight": null,
+      "dual": false,
+      "fit_intercept": true,
+      "intercept_scaling": 1,
+      "l1_ratio": 0.0,
+      "max_iter": 2000,
+      "n_jobs": null,
+      "penalty": "deprecated",
+      "random_state": 20261107,
+      "solver": "lbfgs",
+      "tol": 0.0001,
+      "verbose": 0,
+      "warm_start": false
+    }
+  },
+  "runtime": {
+    "python": "3.12.16",
+    "platform": "Linux-6.6.87.2-microsoft-standard-WSL2-x86_64-with-glibc2.41",
+    "packages": {
+      "numpy": "2.5.4",
+      "scikit-learn": "1.9.1",
+      "scipy": "1.18.1",
+      "sentence-transformers": "6.2.0",
+      "transformers": "5.22.2",
+      "torch": "2.15.0+cpu",
+      "sqlalchemy": "2.1.8",
+      "pgvector": "0.5.1",
+      "asyncpg": "0.32.0"
+    }
+  },
+  "model_hub_id": "sentence-transformers/all-MiniLM-L6-v2",
+  "model_files_sha256": {
+    "1_Pooling/config.json": "4be450dde3b0273bb9787637cfbd28fe04a7ba6ab9d36ac48e92b11e350ffc23",
+    "README.md": "7dfc82496ec33f906b5b0d6750c1e2397da6530c74d1ae3568c55bc2739125e7",
+    "config.json": "953f9c0d463486b10a6871cc2fd59f223b2c70184f49815e7efbcab5d8908b41",
+    "config_sentence_transformers.json": "061ca9d39661d6c6d6de5ba27f79a1cd5770ea247f8d46412a68a498dc5ac9f3",
+    "model.safetensors": "53aa51172d142c89d9012cce15ae4d6cc0ca6895895114379cacb4fab128d9db",
+    "modules.json": "84e40c8e006c9b1d6c122e02cba9b02458120b5fb0c87b746c41e0207cf642cf",
+    "sentence_bert_config.json": "fc1993fde0a95c24ec6c022539d41cf6e2f7c9721e5415d6fb6897472a9cd4b7",
+    "special_tokens_map.json": "303df45a03609e4ead04bc3dc1536d0ab19b5358db685b6f3da123d05ec200e3",
+    "tokenizer.json": "be50c3628f2bf5bb5e3a7f17b1f74611b2561a3a27eeab05e5aa30f411572037",
+    "tokenizer_config.json": "acb92769e8195aabd29b7b2137a9e6d6e25c476a4f15aa4355c233426c61576b",
+    "vocab.txt": "07eced375cec144d27c900241f3e339478dec958f92fddbc551f295c992038a3"
+  }
+}

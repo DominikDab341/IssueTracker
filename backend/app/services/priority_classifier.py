@@ -10,15 +10,18 @@ from sklearn.pipeline import make_pipeline
 
 from app.domain import Priority
 
+# Critical incidents are underrepresented in the pilot references and costlier to miss.
+_CLASS_WEIGHTS = {priority.value: 3.0 if priority == Priority.CRITICAL else 1.0 for priority in Priority}
+
 _lock = Lock()
 _cached_version = None
 _cached_model = None
 
 
 def make_priority_model():
-    # Same parameters and preprocessing as the evaluated EN candidate.
     return make_pipeline(TfidfVectorizer(ngram_range=(1, 2), sublinear_tf=True),
-                         LogisticRegression(C=100, max_iter=2000, random_state=20261107))
+                         LogisticRegression(C=100, max_iter=2000, random_state=20261107,
+                                            class_weight=_CLASS_WEIGHTS.copy()))
 
 
 @dataclass(frozen=True)
@@ -31,7 +34,7 @@ class PriorityPrediction:
 
 def predict_priority_details(text, references, *, source, model_name, model_revision):
     global _cached_model, _cached_version
-    payload = {"method": "helpdesk-v1-tfidf-logreg-c100", "category_k": 3,
+    payload = {"method": "helpdesk-v1-tfidf-logreg-c100", "class_weight": _CLASS_WEIGHTS, "category_k": 3,
                "source": source, "embedding_model": model_name, "embedding_revision": model_revision,
                "references": references}
     version = "helpdesk-v1:" + hashlib.sha256(json.dumps(payload, ensure_ascii=False,

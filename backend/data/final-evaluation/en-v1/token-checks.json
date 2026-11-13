@@ -1,0 +1,511 @@
+{
+  "check": "tokenizer_lengths_only_no_inference",
+  "model_revision": "c9745ed1d9f207416be6d2e6f8de32d1f16199bf",
+  "candidates_sha256": "7a21d23718c49444107d3c05c8b0f5497c724b999697c7b492189eb704e1c846",
+  "count": 100,
+  "max_tokens": 76,
+  "token_limit": 256,
+  "cases": [
+    {
+      "id": "FINAL-EN-001",
+      "description_quality": "complete",
+      "tokens_including_special": 68
+    },
+    {
+      "id": "FINAL-EN-002",
+      "description_quality": "complete",
+      "tokens_including_special": 59
+    },
+    {
+      "id": "FINAL-EN-003",
+      "description_quality": "complete",
+      "tokens_including_special": 55
+    },
+    {
+      "id": "FINAL-EN-004",
+      "description_quality": "complete",
+      "tokens_including_special": 63
+    },
+    {
+      "id": "FINAL-EN-005",
+      "description_quality": "complete",
+      "tokens_including_special": 63
+    },
+    {
+      "id": "FINAL-EN-006",
+      "description_quality": "complete",
+      "tokens_including_special": 76
+    },
+    {
+      "id": "FINAL-EN-007",
+      "description_quality": "complete",
+      "tokens_including_special": 55
+    },
+    {
+      "id": "FINAL-EN-008",
+      "description_quality": "complete",
+      "tokens_including_special": 72
+    },
+    {
+      "id": "FINAL-EN-009",
+      "description_quality": "complete",
+      "tokens_including_special": 56
+    },
+    {
+      "id": "FINAL-EN-011",
+      "description_quality": "complete",
+      "tokens_including_special": 52
+    },
+    {
+      "id": "FINAL-EN-012",
+      "description_quality": "complete",
+      "tokens_including_special": 61
+    },
+    {
+      "id": "FINAL-EN-013",
+      "description_quality": "complete",
+      "tokens_including_special": 61
+    },
+    {
+      "id": "FINAL-EN-016",
+      "description_quality": "complete",
+      "tokens_including_special": 65
+    },
+    {
+      "id": "FINAL-EN-017",
+      "description_quality": "complete",
+      "tokens_including_special": 71
+    },
+    {
+      "id": "FINAL-EN-020",
+      "description_quality": "complete",
+      "tokens_including_special": 63
+    },
+    {
+      "id": "FINAL-EN-021",
+      "description_quality": "complete",
+      "tokens_including_special": 70
+    },
+    {
+      "id": "FINAL-EN-023",
+      "description_quality": "complete",
+      "tokens_including_special": 57
+    },
+    {
+      "id": "FINAL-EN-026",
+      "description_quality": "complete",
+      "tokens_including_special": 59
+    },
+    {
+      "id": "FINAL-EN-027",
+      "description_quality": "complete",
+      "tokens_including_special": 61
+    },
+    {
+      "id": "FINAL-EN-028",
+      "description_quality": "complete",
+      "tokens_including_special": 68
+    },
+    {
+      "id": "FINAL-EN-031",
+      "description_quality": "complete",
+      "tokens_including_special": 63
+    },
+    {
+      "id": "FINAL-EN-032",
+      "description_quality": "complete",
+      "tokens_including_special": 65
+    },
+    {
+      "id": "FINAL-EN-033",
+      "description_quality": "complete",
+      "tokens_including_special": 71
+    },
+    {
+      "id": "FINAL-EN-034",
+      "description_quality": "complete",
+      "tokens_including_special": 65
+    },
+    {
+      "id": "FINAL-EN-036",
+      "description_quality": "complete",
+      "tokens_including_special": 58
+    },
+    {
+      "id": "FINAL-EN-037",
+      "description_quality": "complete",
+      "tokens_including_special": 54
+    },
+    {
+      "id": "FINAL-EN-040",
+      "description_quality": "complete",
+      "tokens_including_special": 61
+    },
+    {
+      "id": "FINAL-EN-041",
+      "description_quality": "complete",
+      "tokens_including_special": 62
+    },
+    {
+      "id": "FINAL-EN-044",
+      "description_quality": "complete",
+      "tokens_including_special": 72
+    },
+    {
+      "id": "FINAL-EN-045",
+      "description_quality": "complete",
+      "tokens_including_special": 72
+    },
+    {
+      "id": "FINAL-EN-046",
+      "description_quality": "complete",
+      "tokens_including_special": 70
+    },
+    {
+      "id": "FINAL-EN-047",
+      "description_quality": "complete",
+      "tokens_including_special": 63
+    },
+    {
+      "id": "FINAL-EN-049",
+      "description_quality": "complete",
+      "tokens_including_special": 58
+    },
+    {
+      "id": "FINAL-EN-052",
+      "description_quality": "complete",
+      "tokens_including_special": 68
+    },
+    {
+      "id": "FINAL-EN-053",
+      "description_quality": "complete",
+      "tokens_including_special": 61
+    },
+    {
+      "id": "FINAL-EN-054",
+      "description_quality": "complete",
+      "tokens_including_special": 64
+    },
+    {
+      "id": "FINAL-EN-057",
+      "description_quality": "complete",
+      "tokens_including_special": 65
+    },
+    {
+      "id": "FINAL-EN-058",
+      "description_quality": "complete",
+      "tokens_including_special": 71
+    },
+    {
+      "id": "FINAL-EN-059",
+      "description_quality": "complete",
+      "tokens_including_special": 71
+    },
+    {
+      "id": "FINAL-EN-060",
+      "description_quality": "complete",
+      "tokens_including_special": 67
+    },
+    {
+      "id": "FINAL-EN-061",
+      "description_quality": "weak",
+      "tokens_including_special": 21
+    },
+    {
+      "id": "FINAL-EN-062",
+      "description_quality": "weak",
+      "tokens_including_special": 18
+    },
+    {
+      "id": "FINAL-EN-063",
+      "description_quality": "weak",
+      "tokens_including_special": 21
+    },
+    {
+      "id": "FINAL-EN-064",
+      "description_quality": "weak",
+      "tokens_including_special": 25
+    },
+    {
+      "id": "FINAL-EN-065",
+      "description_quality": "weak",
+      "tokens_including_special": 20
+    },
+    {
+      "id": "FINAL-EN-066",
+      "description_quality": "weak",
+      "tokens_including_special": 24
+    },
+    {
+      "id": "FINAL-EN-067",
+      "description_quality": "weak",
+      "tokens_including_special": 16
+    },
+    {
+      "id": "FINAL-EN-068",
+      "description_quality": "weak",
+      "tokens_including_special": 16
+    },
+    {
+      "id": "FINAL-EN-069",
+      "description_quality": "weak",
+      "tokens_including_special": 27
+    },
+    {
+      "id": "FINAL-EN-070",
+      "description_quality": "weak",
+      "tokens_including_special": 32
+    },
+    {
+      "id": "FINAL-EN-071",
+      "description_quality": "weak",
+      "tokens_including_special": 28
+    },
+    {
+      "id": "FINAL-EN-072",
+      "description_quality": "weak",
+      "tokens_including_special": 28
+    },
+    {
+      "id": "FINAL-EN-073",
+      "description_quality": "weak",
+      "tokens_including_special": 13
+    },
+    {
+      "id": "FINAL-EN-074",
+      "description_quality": "weak",
+      "tokens_including_special": 23
+    },
+    {
+      "id": "FINAL-EN-075",
+      "description_quality": "weak",
+      "tokens_including_special": 14
+    },
+    {
+      "id": "FINAL-EN-076",
+      "description_quality": "weak",
+      "tokens_including_special": 16
+    },
+    {
+      "id": "FINAL-EN-077",
+      "description_quality": "weak",
+      "tokens_including_special": 23
+    },
+    {
+      "id": "FINAL-EN-078",
+      "description_quality": "weak",
+      "tokens_including_special": 24
+    },
+    {
+      "id": "FINAL-EN-079",
+      "description_quality": "weak",
+      "tokens_including_special": 26
+    },
+    {
+      "id": "FINAL-EN-080",
+      "description_quality": "weak",
+      "tokens_including_special": 25
+    },
+    {
+      "id": "FINAL-EN-081",
+      "description_quality": "complete",
+      "tokens_including_special": 62
+    },
+    {
+      "id": "FINAL-EN-082",
+      "description_quality": "complete",
+      "tokens_including_special": 62
+    },
+    {
+      "id": "FINAL-EN-083",
+      "description_quality": "complete",
+      "tokens_including_special": 67
+    },
+    {
+      "id": "FINAL-EN-084",
+      "description_quality": "complete",
+      "tokens_including_special": 61
+    },
+    {
+      "id": "FINAL-EN-085",
+      "description_quality": "complete",
+      "tokens_including_special": 66
+    },
+    {
+      "id": "FINAL-EN-086",
+      "description_quality": "complete",
+      "tokens_including_special": 68
+    },
+    {
+      "id": "FINAL-EN-087",
+      "description_quality": "complete",
+      "tokens_including_special": 65
+    },
+    {
+      "id": "FINAL-EN-088",
+      "description_quality": "complete",
+      "tokens_including_special": 65
+    },
+    {
+      "id": "FINAL-EN-089",
+      "description_quality": "complete",
+      "tokens_including_special": 60
+    },
+    {
+      "id": "FINAL-EN-090",
+      "description_quality": "complete",
+      "tokens_including_special": 59
+    },
+    {
+      "id": "FINAL-EN-091",
+      "description_quality": "complete",
+      "tokens_including_special": 67
+    },
+    {
+      "id": "FINAL-EN-092",
+      "description_quality": "complete",
+      "tokens_including_special": 63
+    },
+    {
+      "id": "FINAL-EN-093",
+      "description_quality": "complete",
+      "tokens_including_special": 66
+    },
+    {
+      "id": "FINAL-EN-094",
+      "description_quality": "complete",
+      "tokens_including_special": 67
+    },
+    {
+      "id": "FINAL-EN-095",
+      "description_quality": "complete",
+      "tokens_including_special": 64
+    },
+    {
+      "id": "FINAL-EN-096",
+      "description_quality": "complete",
+      "tokens_including_special": 62
+    },
+    {
+      "id": "FINAL-EN-097",
+      "description_quality": "complete",
+      "tokens_including_special": 55
+    },
+    {
+      "id": "FINAL-EN-098",
+      "description_quality": "complete",
+      "tokens_including_special": 64
+    },
+    {
+      "id": "FINAL-EN-099",
+      "description_quality": "complete",
+      "tokens_including_special": 63
+    },
+    {
+      "id": "FINAL-EN-100",
+      "description_quality": "complete",
+      "tokens_including_special": 68
+    },
+    {
+      "id": "FINAL-EN-101",
+      "description_quality": "complete",
+      "tokens_including_special": 74
+    },
+    {
+      "id": "FINAL-EN-102",
+      "description_quality": "complete",
+      "tokens_including_special": 67
+    },
+    {
+      "id": "FINAL-EN-103",
+      "description_quality": "complete",
+      "tokens_including_special": 71
+    },
+    {
+      "id": "FINAL-EN-104",
+      "description_quality": "complete",
+      "tokens_including_special": 61
+    },
+    {
+      "id": "FINAL-EN-105",
+      "description_quality": "complete",
+      "tokens_including_special": 62
+    },
+    {
+      "id": "FINAL-EN-106",
+      "description_quality": "complete",
+      "tokens_including_special": 57
+    },
+    {
+      "id": "FINAL-EN-107",
+      "description_quality": "complete",
+      "tokens_including_special": 70
+    },
+    {
+      "id": "FINAL-EN-108",
+      "description_quality": "complete",
+      "tokens_including_special": 74
+    },
+    {
+      "id": "FINAL-EN-109",
+      "description_quality": "complete",
+      "tokens_including_special": 69
+    },
+    {
+      "id": "FINAL-EN-110",
+      "description_quality": "complete",
+      "tokens_including_special": 59
+    },
+    {
+      "id": "FINAL-EN-111",
+      "description_quality": "weak",
+      "tokens_including_special": 21
+    },
+    {
+      "id": "FINAL-EN-112",
+      "description_quality": "weak",
+      "tokens_including_special": 22
+    },
+    {
+      "id": "FINAL-EN-113",
+      "description_quality": "weak",
+      "tokens_including_special": 21
+    },
+    {
+      "id": "FINAL-EN-114",
+      "description_quality": "weak",
+      "tokens_including_special": 20
+    },
+    {
+      "id": "FINAL-EN-115",
+      "description_quality": "weak",
+      "tokens_including_special": 21
+    },
+    {
+      "id": "FINAL-EN-116",
+      "description_quality": "weak",
+      "tokens_including_special": 29
+    },
+    {
+      "id": "FINAL-EN-117",
+      "description_quality": "weak",
+      "tokens_including_special": 17
+    },
+    {
+      "id": "FINAL-EN-118",
+      "description_quality": "weak",
+      "tokens_including_special": 25
+    },
+    {
+      "id": "FINAL-EN-119",
+      "description_quality": "weak",
+      "tokens_including_special": 22
+    },
+    {
+      "id": "FINAL-EN-120",
+      "description_quality": "weak",
+      "tokens_including_special": 25
+    }
+  ],
+  "note": "Texts unchanged; candidate hash refreshed after explicit human approval metadata was recorded."
+}

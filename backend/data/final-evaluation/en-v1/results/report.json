@@ -1,0 +1,4999 @@
+{
+  "schema_version": 1,
+  "evaluated_at": "2026-11-07T19:00:01.277619+00:00",
+  "test_sha256": "7a21d23718c49444107d3c05c8b0f5497c724b999697c7b492189eb704e1c846",
+  "reference_manifest_sha256": "66b9ff93a214514d613d02b51f47bb067122e8df277ffb335924f4fa709ce0b2",
+  "evaluator_sha256": "1181b9acc56d41612ab5631220523d4cc30bde9c99b2062c77df2dfaf16670ab",
+  "reference_count": 120,
+  "model_revision": "c9745ed1d9f207416be6d2e6f8de32d1f16199bf",
+  "configuration": {
+    "MODEL_NAME": "all-MiniLM-L6-v2",
+    "MODEL_REVISION": "c9745ed1d9f207416be6d2e6f8de32d1f16199bf",
+    "CLASSIFICATION_REFERENCE_SOURCE": "pilot_en_120_v1",
+    "K_NEIGHBORS": 3,
+    "CATEGORY_MIN_SIMILARITY": 0.22,
+    "CATEGORY_MIN_VOTE_SHARE": 0.6666666666666666,
+    "PRIORITY_MIN_SCORE": 0.38,
+    "DUPLICATE_MIN_SIMILARITY": 0.75,
+    "DUPLICATE_SAME_CATEGORY": true,
+    "MAX_DUPLICATE_SUGGESTIONS": 5,
+    "ESCALATION_ENABLED": true,
+    "ESCALATION_MIN_USERS": 3,
+    "ESCALATION_WINDOW_HOURS": 24.0,
+    "ESCALATION_MIN_SIMILARITY": 0.85
+  },
+  "runtime": {
+    "python": "3.12.16",
+    "platform": "Linux-6.6.87.2-microsoft-standard-WSL2-x86_64-with-glibc2.41",
+    "packages": {
+      "numpy": "2.5.4",
+      "scikit-learn": "1.9.1",
+      "scipy": "1.18.1",
+      "sentence-transformers": "6.2.0",
+      "transformers": "5.22.2",
+      "torch": "2.15.0+cpu",
+      "sqlalchemy": "2.1.8",
+      "pgvector": "0.5.1",
+      "asyncpg": "0.32.0"
+    }
+  },
+  "hardware": {
+    "cpu_count": 12,
+    "machine": "x86_64",
+    "torch_threads": 6
+  },
+  "timings_seconds": {
+    "model_load": 0.19964639899990289,
+    "classification_100": 3.0522696879997966
+  },
+  "method": "frozen runtime classify(), offline float64 cosine over stored reference vectors, ID tie-break",
+  "limitations": [
+    "synthetic cases, author-reviewed; same authoring assistant knew the pilot",
+    "small and purposefully sampled cohorts; not real-world ticket prevalence",
+    "host pilot and frozen Docker library versions differ",
+    "float64 cosine replay may differ at floating-point boundaries from pgvector",
+    "raw model scores are not calibrated correctness probabilities",
+    "no changes to thresholds, references or model based on these results"
+  ],
+  "cohorts": {
+    "all": {
+      "count": 100,
+      "category": {
+        "total": 100,
+        "identifiable": 88,
+        "unidentifiable": 12,
+        "raw": {
+          "count": 88,
+          "correct": 78,
+          "accuracy": 0.8863636363636364,
+          "macro_f1": 0.8852376137512639,
+          "labels": [
+            "accounts_access",
+            "hardware",
+            "network",
+            "software"
+          ],
+          "prediction_columns": [
+            "accounts_access",
+            "hardware",
+            "network",
+            "software",
+            "review"
+          ],
+          "confusion_matrix": [
+            [
+              21,
+              0,
+              0,
+              1,
+              0
+            ],
+            [
+              1,
+              18,
+              0,
+              3,
+              0
+            ],
+            [
+              0,
+              0,
+              22,
+              0,
+              0
+            ],
+            [
+              2,
+              3,
+              0,
+              17,
+              0
+            ]
+          ],
+          "per_class": {
+            "accounts_access": {
+              "support": 22,
+              "precision": 0.875,
+              "recall": 0.9545454545454546,
+              "f1": 0.9130434782608695
+            },
+            "hardware": {
+              "support": 22,
+              "precision": 0.8571428571428571,
+              "recall": 0.8181818181818182,
+              "f1": 0.8372093023255814
+            },
+            "network": {
+              "support": 22,
+              "precision": 1.0,
+              "recall": 1.0,
+              "f1": 1.0
+            },
+            "software": {
+              "support": 22,
+              "precision": 0.8095238095238095,
+              "recall": 0.7727272727272727,
+              "f1": 0.7906976744186046
+            }
+          }
+        },
+        "operational": {
+          "count": 88,
+          "correct": 75,
+          "accuracy": 0.8522727272727273,
+          "macro_f1": 0.8829580988117574,
+          "labels": [
+            "accounts_access",
+            "hardware",
+            "network",
+            "software"
+          ],
+          "prediction_columns": [
+            "accounts_access",
+            "hardware",
+            "network",
+            "software",
+            "review"
+          ],
+          "confusion_matrix": [
+            [
+              21,
+              0,
+              0,
+              1,
+              0
+            ],
+            [
+              1,
+              17,
+              0,
+              1,
+              3
+            ],
+            [
+              0,
+              0,
+              22,
+              0,
+              0
+            ],
+            [
+              1,
+              2,
+              0,
+              15,
+              4
+            ]
+          ],
+          "per_class": {
+            "accounts_access": {
+              "support": 22,
+              "precision": 0.9130434782608695,
+              "recall": 0.9545454545454546,
+              "f1": 0.9333333333333332
+            },
+            "hardware": {
+              "support": 22,
+              "precision": 0.8947368421052632,
+              "recall": 0.7727272727272727,
+              "f1": 0.8292682926829269
+            },
+            "network": {
+              "support": 22,
+              "precision": 1.0,
+              "recall": 1.0,
+              "f1": 1.0
+            },
+            "software": {
+              "support": 22,
+              "precision": 0.8823529411764706,
+              "recall": 0.6818181818181818,
+              "f1": 0.7692307692307693
+            }
+          }
+        },
+        "known_accepted": 81,
+        "known_coverage": 0.9204545454545454,
+        "accepted_accuracy": 0.9259259259259259,
+        "all_review_count": 9,
+        "all_coverage": 0.91,
+        "unidentifiable_review_count": 2,
+        "unidentifiable_review_rate": 0.16666666666666666,
+        "unidentifiable_automatic_count": 10
+      },
+      "priority": {
+        "total": 100,
+        "identifiable": 82,
+        "unidentifiable": 18,
+        "raw": {
+          "count": 82,
+          "correct": 61,
+          "accuracy": 0.7439024390243902,
+          "macro_f1": 0.6988196988196989,
+          "labels": [
+            "low",
+            "medium",
+            "high",
+            "critical"
+          ],
+          "prediction_columns": [
+            "low",
+            "medium",
+            "high",
+            "critical",
+            "review"
+          ],
+          "confusion_matrix": [
+            [
+              8,
+              6,
+              3,
+              0,
+              0
+            ],
+            [
+              1,
+              22,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              2,
+              25,
+              0,
+              0
+            ],
+            [
+              0,
+              1,
+              8,
+              6,
+              0
+            ]
+          ],
+          "per_class": {
+            "low": {
+              "support": 17,
+              "precision": 0.8888888888888888,
+              "recall": 0.47058823529411764,
+              "f1": 0.6153846153846153
+            },
+            "medium": {
+              "support": 23,
+              "precision": 0.7096774193548387,
+              "recall": 0.9565217391304348,
+              "f1": 0.8148148148148149
+            },
+            "high": {
+              "support": 27,
+              "precision": 0.6944444444444444,
+              "recall": 0.9259259259259259,
+              "f1": 0.7936507936507936
+            },
+            "critical": {
+              "support": 15,
+              "precision": 1.0,
+              "recall": 0.4,
+              "f1": 0.5714285714285715
+            }
+          }
+        },
+        "operational": {
+          "count": 82,
+          "correct": 60,
+          "accuracy": 0.7317073170731707,
+          "macro_f1": 0.6973122126810651,
+          "labels": [
+            "low",
+            "medium",
+            "high",
+            "critical"
+          ],
+          "prediction_columns": [
+            "low",
+            "medium",
+            "high",
+            "critical",
+            "review"
+          ],
+          "confusion_matrix": [
+            [
+              7,
+              6,
+              2,
+              0,
+              2
+            ],
+            [
+              0,
+              22,
+              0,
+              0,
+              1
+            ],
+            [
+              0,
+              2,
+              25,
+              0,
+              0
+            ],
+            [
+              0,
+              1,
+              7,
+              6,
+              1
+            ]
+          ],
+          "per_class": {
+            "low": {
+              "support": 17,
+              "precision": 1.0,
+              "recall": 0.4117647058823529,
+              "f1": 0.5833333333333334
+            },
+            "medium": {
+              "support": 23,
+              "precision": 0.7096774193548387,
+              "recall": 0.9565217391304348,
+              "f1": 0.8148148148148149
+            },
+            "high": {
+              "support": 27,
+              "precision": 0.7352941176470589,
+              "recall": 0.9259259259259259,
+              "f1": 0.819672131147541
+            },
+            "critical": {
+              "support": 15,
+              "precision": 1.0,
+              "recall": 0.4,
+              "f1": 0.5714285714285715
+            }
+          }
+        },
+        "known_accepted": 78,
+        "known_coverage": 0.9512195121951219,
+        "accepted_accuracy": 0.7692307692307693,
+        "all_review_count": 5,
+        "all_coverage": 0.95,
+        "unidentifiable_review_count": 1,
+        "unidentifiable_review_rate": 0.05555555555555555,
+        "unidentifiable_automatic_count": 17,
+        "urgent": {
+          "count": 42,
+          "raw_as_low_medium": 3,
+          "accepted_as_low_medium": 3,
+          "deferred": 1,
+          "critical_raw_underestimated": 9
+        },
+        "always_medium_baseline": {
+          "count": 82,
+          "correct": 23,
+          "accuracy": 0.2804878048780488,
+          "macro_f1": 0.10952380952380954,
+          "labels": [
+            "low",
+            "medium",
+            "high",
+            "critical"
+          ],
+          "prediction_columns": [
+            "low",
+            "medium",
+            "high",
+            "critical",
+            "review"
+          ],
+          "confusion_matrix": [
+            [
+              0,
+              17,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              23,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              27,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              15,
+              0,
+              0,
+              0
+            ]
+          ],
+          "per_class": {
+            "low": {
+              "support": 17,
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0
+            },
+            "medium": {
+              "support": 23,
+              "precision": 0.2804878048780488,
+              "recall": 1.0,
+              "f1": 0.43809523809523815
+            },
+            "high": {
+              "support": 27,
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0
+            },
+            "critical": {
+              "support": 15,
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0
+            }
+          }
+        }
+      }
+    },
+    "complete": {
+      "count": 70,
+      "category": {
+        "total": 70,
+        "identifiable": 70,
+        "unidentifiable": 0,
+        "raw": {
+          "count": 70,
+          "correct": 62,
+          "accuracy": 0.8857142857142857,
+          "macro_f1": 0.8856120826709062,
+          "labels": [
+            "accounts_access",
+            "hardware",
+            "network",
+            "software"
+          ],
+          "prediction_columns": [
+            "accounts_access",
+            "hardware",
+            "network",
+            "software",
+            "review"
+          ],
+          "confusion_matrix": [
+            [
+              17,
+              0,
+              0,
+              1,
+              0
+            ],
+            [
+              1,
+              14,
+              0,
+              3,
+              0
+            ],
+            [
+              0,
+              0,
+              17,
+              0,
+              0
+            ],
+            [
+              1,
+              2,
+              0,
+              14,
+              0
+            ]
+          ],
+          "per_class": {
+            "accounts_access": {
+              "support": 18,
+              "precision": 0.8947368421052632,
+              "recall": 0.9444444444444444,
+              "f1": 0.918918918918919
+            },
+            "hardware": {
+              "support": 18,
+              "precision": 0.875,
+              "recall": 0.7777777777777778,
+              "f1": 0.823529411764706
+            },
+            "network": {
+              "support": 17,
+              "precision": 1.0,
+              "recall": 1.0,
+              "f1": 1.0
+            },
+            "software": {
+              "support": 17,
+              "precision": 0.7777777777777778,
+              "recall": 0.8235294117647058,
+              "f1": 0.7999999999999999
+            }
+          }
+        },
+        "operational": {
+          "count": 70,
+          "correct": 60,
+          "accuracy": 0.8571428571428571,
+          "macro_f1": 0.8859797297297298,
+          "labels": [
+            "accounts_access",
+            "hardware",
+            "network",
+            "software"
+          ],
+          "prediction_columns": [
+            "accounts_access",
+            "hardware",
+            "network",
+            "software",
+            "review"
+          ],
+          "confusion_matrix": [
+            [
+              17,
+              0,
+              0,
+              1,
+              0
+            ],
+            [
+              1,
+              13,
+              0,
+              1,
+              3
+            ],
+            [
+              0,
+              0,
+              17,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              0,
+              13,
+              2
+            ]
+          ],
+          "per_class": {
+            "accounts_access": {
+              "support": 18,
+              "precision": 0.8947368421052632,
+              "recall": 0.9444444444444444,
+              "f1": 0.918918918918919
+            },
+            "hardware": {
+              "support": 18,
+              "precision": 0.9285714285714286,
+              "recall": 0.7222222222222222,
+              "f1": 0.8125000000000001
+            },
+            "network": {
+              "support": 17,
+              "precision": 1.0,
+              "recall": 1.0,
+              "f1": 1.0
+            },
+            "software": {
+              "support": 17,
+              "precision": 0.8666666666666667,
+              "recall": 0.7647058823529411,
+              "f1": 0.8125
+            }
+          }
+        },
+        "known_accepted": 65,
+        "known_coverage": 0.9285714285714286,
+        "accepted_accuracy": 0.9230769230769231,
+        "all_review_count": 5,
+        "all_coverage": 0.9285714285714286,
+        "unidentifiable_review_count": 0,
+        "unidentifiable_review_rate": null,
+        "unidentifiable_automatic_count": 0
+      },
+      "priority": {
+        "total": 70,
+        "identifiable": 70,
+        "unidentifiable": 0,
+        "raw": {
+          "count": 70,
+          "correct": 53,
+          "accuracy": 0.7571428571428571,
+          "macro_f1": 0.7126714717507556,
+          "labels": [
+            "low",
+            "medium",
+            "high",
+            "critical"
+          ],
+          "prediction_columns": [
+            "low",
+            "medium",
+            "high",
+            "critical",
+            "review"
+          ],
+          "confusion_matrix": [
+            [
+              7,
+              4,
+              3,
+              0,
+              0
+            ],
+            [
+              1,
+              19,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              2,
+              22,
+              0,
+              0
+            ],
+            [
+              0,
+              1,
+              6,
+              5,
+              0
+            ]
+          ],
+          "per_class": {
+            "low": {
+              "support": 14,
+              "precision": 0.875,
+              "recall": 0.5,
+              "f1": 0.6363636363636364
+            },
+            "medium": {
+              "support": 20,
+              "precision": 0.7307692307692307,
+              "recall": 0.95,
+              "f1": 0.8260869565217392
+            },
+            "high": {
+              "support": 24,
+              "precision": 0.7096774193548387,
+              "recall": 0.9166666666666666,
+              "f1": 0.7999999999999999
+            },
+            "critical": {
+              "support": 12,
+              "precision": 1.0,
+              "recall": 0.4166666666666667,
+              "f1": 0.5882352941176471
+            }
+          }
+        },
+        "operational": {
+          "count": 70,
+          "correct": 52,
+          "accuracy": 0.7428571428571429,
+          "macro_f1": 0.7111277324711673,
+          "labels": [
+            "low",
+            "medium",
+            "high",
+            "critical"
+          ],
+          "prediction_columns": [
+            "low",
+            "medium",
+            "high",
+            "critical",
+            "review"
+          ],
+          "confusion_matrix": [
+            [
+              6,
+              4,
+              2,
+              0,
+              2
+            ],
+            [
+              0,
+              19,
+              0,
+              0,
+              1
+            ],
+            [
+              0,
+              2,
+              22,
+              0,
+              0
+            ],
+            [
+              0,
+              1,
+              5,
+              5,
+              1
+            ]
+          ],
+          "per_class": {
+            "low": {
+              "support": 14,
+              "precision": 1.0,
+              "recall": 0.42857142857142855,
+              "f1": 0.6
+            },
+            "medium": {
+              "support": 20,
+              "precision": 0.7307692307692307,
+              "recall": 0.95,
+              "f1": 0.8260869565217392
+            },
+            "high": {
+              "support": 24,
+              "precision": 0.7586206896551724,
+              "recall": 0.9166666666666666,
+              "f1": 0.830188679245283
+            },
+            "critical": {
+              "support": 12,
+              "precision": 1.0,
+              "recall": 0.4166666666666667,
+              "f1": 0.5882352941176471
+            }
+          }
+        },
+        "known_accepted": 66,
+        "known_coverage": 0.9428571428571428,
+        "accepted_accuracy": 0.7878787878787878,
+        "all_review_count": 4,
+        "all_coverage": 0.9428571428571428,
+        "unidentifiable_review_count": 0,
+        "unidentifiable_review_rate": null,
+        "unidentifiable_automatic_count": 0,
+        "urgent": {
+          "count": 36,
+          "raw_as_low_medium": 3,
+          "accepted_as_low_medium": 3,
+          "deferred": 1,
+          "critical_raw_underestimated": 7
+        },
+        "always_medium_baseline": {
+          "count": 70,
+          "correct": 20,
+          "accuracy": 0.2857142857142857,
+          "macro_f1": 0.11111111111111112,
+          "labels": [
+            "low",
+            "medium",
+            "high",
+            "critical"
+          ],
+          "prediction_columns": [
+            "low",
+            "medium",
+            "high",
+            "critical",
+            "review"
+          ],
+          "confusion_matrix": [
+            [
+              0,
+              14,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              20,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              24,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              12,
+              0,
+              0,
+              0
+            ]
+          ],
+          "per_class": {
+            "low": {
+              "support": 14,
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0
+            },
+            "medium": {
+              "support": 20,
+              "precision": 0.2857142857142857,
+              "recall": 1.0,
+              "f1": 0.4444444444444445
+            },
+            "high": {
+              "support": 24,
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0
+            },
+            "critical": {
+              "support": 12,
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0
+            }
+          }
+        }
+      }
+    },
+    "weak": {
+      "count": 30,
+      "category": {
+        "total": 30,
+        "identifiable": 18,
+        "unidentifiable": 12,
+        "raw": {
+          "count": 18,
+          "correct": 16,
+          "accuracy": 0.8888888888888888,
+          "macro_f1": 0.8819444444444444,
+          "labels": [
+            "accounts_access",
+            "hardware",
+            "network",
+            "software"
+          ],
+          "prediction_columns": [
+            "accounts_access",
+            "hardware",
+            "network",
+            "software",
+            "review"
+          ],
+          "confusion_matrix": [
+            [
+              4,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              4,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              5,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              0,
+              3,
+              0
+            ]
+          ],
+          "per_class": {
+            "accounts_access": {
+              "support": 4,
+              "precision": 0.8,
+              "recall": 1.0,
+              "f1": 0.888888888888889
+            },
+            "hardware": {
+              "support": 4,
+              "precision": 0.8,
+              "recall": 1.0,
+              "f1": 0.888888888888889
+            },
+            "network": {
+              "support": 5,
+              "precision": 1.0,
+              "recall": 1.0,
+              "f1": 1.0
+            },
+            "software": {
+              "support": 5,
+              "precision": 1.0,
+              "recall": 0.6,
+              "f1": 0.7499999999999999
+            }
+          }
+        },
+        "operational": {
+          "count": 18,
+          "correct": 15,
+          "accuracy": 0.8333333333333334,
+          "macro_f1": 0.8650793650793651,
+          "labels": [
+            "accounts_access",
+            "hardware",
+            "network",
+            "software"
+          ],
+          "prediction_columns": [
+            "accounts_access",
+            "hardware",
+            "network",
+            "software",
+            "review"
+          ],
+          "confusion_matrix": [
+            [
+              4,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              4,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              5,
+              0,
+              0
+            ],
+            [
+              0,
+              1,
+              0,
+              2,
+              2
+            ]
+          ],
+          "per_class": {
+            "accounts_access": {
+              "support": 4,
+              "precision": 1.0,
+              "recall": 1.0,
+              "f1": 1.0
+            },
+            "hardware": {
+              "support": 4,
+              "precision": 0.8,
+              "recall": 1.0,
+              "f1": 0.888888888888889
+            },
+            "network": {
+              "support": 5,
+              "precision": 1.0,
+              "recall": 1.0,
+              "f1": 1.0
+            },
+            "software": {
+              "support": 5,
+              "precision": 1.0,
+              "recall": 0.4,
+              "f1": 0.5714285714285715
+            }
+          }
+        },
+        "known_accepted": 16,
+        "known_coverage": 0.8888888888888888,
+        "accepted_accuracy": 0.9375,
+        "all_review_count": 4,
+        "all_coverage": 0.8666666666666667,
+        "unidentifiable_review_count": 2,
+        "unidentifiable_review_rate": 0.16666666666666666,
+        "unidentifiable_automatic_count": 10
+      },
+      "priority": {
+        "total": 30,
+        "identifiable": 12,
+        "unidentifiable": 18,
+        "raw": {
+          "count": 12,
+          "correct": 8,
+          "accuracy": 0.6666666666666666,
+          "macro_f1": 0.625,
+          "labels": [
+            "low",
+            "medium",
+            "high",
+            "critical"
+          ],
+          "prediction_columns": [
+            "low",
+            "medium",
+            "high",
+            "critical",
+            "review"
+          ],
+          "confusion_matrix": [
+            [
+              1,
+              2,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              3,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              3,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              2,
+              1,
+              0
+            ]
+          ],
+          "per_class": {
+            "low": {
+              "support": 3,
+              "precision": 1.0,
+              "recall": 0.3333333333333333,
+              "f1": 0.5
+            },
+            "medium": {
+              "support": 3,
+              "precision": 0.6,
+              "recall": 1.0,
+              "f1": 0.7499999999999999
+            },
+            "high": {
+              "support": 3,
+              "precision": 0.6,
+              "recall": 1.0,
+              "f1": 0.7499999999999999
+            },
+            "critical": {
+              "support": 3,
+              "precision": 1.0,
+              "recall": 0.3333333333333333,
+              "f1": 0.5
+            }
+          }
+        },
+        "operational": {
+          "count": 12,
+          "correct": 8,
+          "accuracy": 0.6666666666666666,
+          "macro_f1": 0.625,
+          "labels": [
+            "low",
+            "medium",
+            "high",
+            "critical"
+          ],
+          "prediction_columns": [
+            "low",
+            "medium",
+            "high",
+            "critical",
+            "review"
+          ],
+          "confusion_matrix": [
+            [
+              1,
+              2,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              3,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              3,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              2,
+              1,
+              0
+            ]
+          ],
+          "per_class": {
+            "low": {
+              "support": 3,
+              "precision": 1.0,
+              "recall": 0.3333333333333333,
+              "f1": 0.5
+            },
+            "medium": {
+              "support": 3,
+              "precision": 0.6,
+              "recall": 1.0,
+              "f1": 0.7499999999999999
+            },
+            "high": {
+              "support": 3,
+              "precision": 0.6,
+              "recall": 1.0,
+              "f1": 0.7499999999999999
+            },
+            "critical": {
+              "support": 3,
+              "precision": 1.0,
+              "recall": 0.3333333333333333,
+              "f1": 0.5
+            }
+          }
+        },
+        "known_accepted": 12,
+        "known_coverage": 1.0,
+        "accepted_accuracy": 0.6666666666666666,
+        "all_review_count": 1,
+        "all_coverage": 0.9666666666666667,
+        "unidentifiable_review_count": 1,
+        "unidentifiable_review_rate": 0.05555555555555555,
+        "unidentifiable_automatic_count": 17,
+        "urgent": {
+          "count": 6,
+          "raw_as_low_medium": 0,
+          "accepted_as_low_medium": 0,
+          "deferred": 0,
+          "critical_raw_underestimated": 2
+        },
+        "always_medium_baseline": {
+          "count": 12,
+          "correct": 3,
+          "accuracy": 0.25,
+          "macro_f1": 0.1,
+          "labels": [
+            "low",
+            "medium",
+            "high",
+            "critical"
+          ],
+          "prediction_columns": [
+            "low",
+            "medium",
+            "high",
+            "critical",
+            "review"
+          ],
+          "confusion_matrix": [
+            [
+              0,
+              3,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              3,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              3,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              3,
+              0,
+              0,
+              0
+            ]
+          ],
+          "per_class": {
+            "low": {
+              "support": 3,
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0
+            },
+            "medium": {
+              "support": 3,
+              "precision": 0.25,
+              "recall": 1.0,
+              "f1": 0.4
+            },
+            "high": {
+              "support": 3,
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0
+            },
+            "critical": {
+              "support": 3,
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0
+            }
+          }
+        }
+      }
+    }
+  },
+  "predictions": [
+    {
+      "id": "FINAL-EN-001",
+      "group_id": "final-en-incident-001",
+      "text": "The API accepts the service account's token, but rejects the inventory upload with 'required scope inventory.write is missing'. Downloading the inventory still works. I have to publish tonight's stock correction before dispatch starts; this upload is the only supported route and nobody available can issue a token with that scope.",
+      "quality": "complete",
+      "expected_category": "accounts_access",
+      "expected_priority": "high",
+      "raw_category": "software",
+      "raw_priority": "high",
+      "accepted_category": "software",
+      "accepted_priority": "high",
+      "category_score": 0.4301691814982823,
+      "priority_score": 0.5275287922057682,
+      "category_review_reason": null,
+      "priority_review_reason": null,
+      "classification_version": "helpdesk-v2:03ca36845a14a929b6c402179ddfec24a26f0f7c04f18d2f0edeb66565260b4d",
+      "neighbors": [
+        {
+          "id": 119,
+          "source_key": "SW-29",
+          "category": "software",
+          "similarity": 0.4301691814982823
+        },
+        {
+          "id": 117,
+          "source_key": "SW-27",
+          "category": "software",
+          "similarity": 0.3984353584470598
+        },
+        {
+          "id": 39,
+          "source_key": "SW-09",
+          "category": "software",
+          "similarity": 0.3659415424163692
+        }
+      ]
+    },
+    {
+      "id": "FINAL-EN-002",
+      "group_id": "final-en-incident-002",
+      "text": "Signing into the engineering wiki from my loan laptop is refused with 'access policy requires a managed device'. My account opens the same pages through the approved virtual desktop. I can finish the design review there, although switching between the virtual desktop and my local drawings is cumbersome.",
+      "quality": "complete",
+      "expected_category": "accounts_access",
+      "expected_priority": "medium",
+      "raw_category": "accounts_access",
+      "raw_priority": "medium",
+      "accepted_category": "accounts_access",
+      "accepted_priority": "medium",
+      "category_score": 0.4205266196490528,
+      "priority_score": 0.7329222634092527,
+      "category_review_reason": null,
+      "priority_review_reason": null,
+      "classification_version": "helpdesk-v2:03ca36845a14a929b6c402179ddfec24a26f0f7c04f18d2f0edeb66565260b4d",
+      "neighbors": [
+        {
+          "id": 51,
+          "source_key": "ACC-21",
+          "category": "accounts_access",
+          "similarity": 0.4205266196490528
+        },
+        {
+          "id": 48,
+          "source_key": "ACC-18",
+          "category": "accounts_access",
+          "similarity": 0.38424702714458736
+        },
+        {
+          "id": 55,
+          "source_key": "ACC-25",
+          "category": "accounts_access",
+          "similarity": 0.377078307428524
+        }
+      ]
+    },
+    {
+      "id": "FINAL-EN-003",
+      "group_id": "final-en-incident-003",
+      "text": "The display on the desk's USB power meter has become very faint. Its physical digits are difficult to read even with nothing connected. The dock and all attached equipment work normally; I only use that meter out of curiosity and none of my duties needs its readings.",
+      "quality": "complete",
+      "expected_category": "hardware",
+      "expected_priority": "low",
+      "raw_category": "hardware",
+      "raw_priority": "medium",
+      "accepted_category": "hardware",
+      "accepted_priority": "medium",
+      "category_score": 0.38114392586682855,
+      "priority_score": 0.5042022060957785,
+      "category_review_reason": null,
+      "priority_review_reason": null,
+      "classification_version": "helpdesk-v2:03ca36845a14a929b6c402179ddfec24a26f0f7c04f18d2f0edeb66565260b4d",
+      "neighbors": [
+        {
+          "id": 67,
+          "source_key": "HW-17",
+          "category": "hardware",
+          "similarity": 0.38114392586682855
+        },
+        {
+          "id": 19,
+          "source_key": "HW-09",
+          "category": "hardware",
+          "similarity": 0.3747725770651209
+        },
+        {
+          "id": 65,
+          "source_key": "HW-15",
+          "category": "hardware",
+          "similarity": 0.36899183198949187
+        }
+      ]
+    },
+    {
+      "id": "FINAL-EN-004",
+      "group_id": "final-en-incident-004",
+      "text": "The cooling unit for the server cabinet has seized: its fans do not turn and the hardware panel reports an over-temperature shutdown. The hosts have powered themselves off. Every operator in the distribution centre has lost the picking service, so no orders can be released, and the standby cabinet is unavailable.",
+      "quality": "complete",
+      "expected_category": "hardware",
+      "expected_priority": "critical",
+      "raw_category": "hardware",
+      "raw_priority": "high",
+      "accepted_category": "hardware",
+      "accepted_priority": null,
+      "category_score": 0.5066414303314009,
+      "priority_score": 0.32995193101177356,
+      "category_review_reason": null,
+      "priority_review_reason": "low_priority_score",
+      "classification_version": "helpdesk-v2:03ca36845a14a929b6c402179ddfec24a26f0f7c04f18d2f0edeb66565260b4d",
+      "neighbors": [
+        {
+          "id": 80,
+          "source_key": "HW-30",
+          "category": "hardware",
+          "similarity": 0.5066414303314009
+        },
+        {
+          "id": 20,
+          "source_key": "HW-10",
+          "category": "hardware",
+          "similarity": 0.4607463966614797
+        },
+        {
+          "id": 12,
+          "source_key": "HW-02",
+          "category": "hardware",
+          "similarity": 0.43955911663408953
+        }
+      ]
+    },
+    {
+      "id": "FINAL-EN-005",
+      "group_id": "final-en-incident-005",
+      "text": "Connections using IPv6 stall in several unrelated applications on the office link, whereas their IPv4 connections complete. IT gave me an approved IPv4-only proxy, and the vendor portals work through it. I can continue checking deliveries, but I have to launch a separate browser for those portals.",
+      "quality": "complete",
+      "expected_category": "network",
+      "expected_priority": "medium",
+      "raw_category": "network",
+      "raw_priority": "medium",
+      "accepted_category": "network",
+      "accepted_priority": "medium",
+      "category_score": 0.4352471510733602,
+      "priority_score": 0.9226502637494095,
+      "category_review_reason": null,
+      "priority_review_reason": null,
+      "classification_version": "helpdesk-v2:03ca36845a14a929b6c402179ddfec24a26f0f7c04f18d2f0edeb66565260b4d",
+      "neighbors": [
+        {
+          "id": 30,
+          "source_key": "NET-10",
+          "category": "network",
+          "similarity": 0.43524715107336015
+        },
+        {
+          "id": 97,
+          "source_key": "NET-27",
+          "category": "network",
+          "similarity": 0.4265238920901513
+        },
+        {
+          "id": 84,
+          "source_key": "NET-14",
+          "category": "network",
+          "similarity": 0.40422952090055575
+        }
+      ]
+    },
+    {
+      "id": "FINAL-EN-006",
+      "group_id": "final-en-incident-006",
+      "text": "My test workstation can reach everything on its own subnet, but connections to all three instruments on the lab subnet time out. Those instruments answer from a workstation already on their subnet; traffic from mine stops at the gateway. I need to run the acceptance tests from this licensed workstation today, and there is no approved alternative connection or offline procedure.",
+      "quality": "complete",
+      "expected_category": "network",
+      "expected_priority": "high",
+      "raw_category": "network",
+      "raw_priority": "high",
+      "accepted_category": "network",
+      "accepted_priority": "high",
+      "category_score": 0.48890249563839117,
+      "priority_score": 0.9162428283246615,
+      "category_review_reason": null,
+      "priority_review_reason": null,
+      "classification_version": "helpdesk-v2:03ca36845a14a929b6c402179ddfec24a26f0f7c04f18d2f0edeb66565260b4d",
+      "neighbors": [
+        {
+          "id": 28,
+          "source_key": "NET-08",
+          "category": "network",
+          "similarity": 0.4889024956383912
+        },
+        {
+          "id": 93,
+          "source_key": "NET-23",
+          "category": "network",
+          "similarity": 0.40131947620299446
+        },
+        {
+          "id": 94,
+          "source_key": "NET-24",
+          "category": "network",
+          "similarity": 0.3645157778412187
+        }
+      ]
+    },
+    {
+      "id": "FINAL-EN-007",
+      "group_id": "final-en-incident-007",
+      "text": "The meeting recorder puts the wrong day of the week in suggested filenames, although the numeric date is correct. I name each recording myself before saving it. Recording, playback and saving all work, and this has not delayed or complicated any of my tasks.",
+      "quality": "complete",
+      "expected_category": "software",
+      "expected_priority": "low",
+      "raw_category": "software",
+      "raw_priority": "low",
+      "accepted_category": "software",
+      "accepted_priority": "low",
+      "category_score": 0.46266461047275353,
+      "priority_score": 0.5389081754403595,
+      "category_review_reason": null,
+      "priority_review_reason": null,
+      "classification_version": "helpdesk-v2:03ca36845a14a929b6c402179ddfec24a26f0f7c04f18d2f0edeb66565260b4d",
+      "neighbors": [
+        {
+          "id": 112,
+          "source_key": "SW-22",
+          "category": "software",
+          "similarity": 0.46266461047275353
+        },
+        {
+          "id": 102,
+          "source_key": "SW-12",
+          "category": "software",
+          "similarity": 0.40116607756321954
+        },
+        {
+          "id": 36,
+          "source_key": "SW-06",
+          "category": "software",
+          "similarity": 0.39364367370468284
+        }
+      ]
+    },
+    {
+      "id": "FINAL-EN-008",
+      "group_id": "final-en-incident-008",
+      "text": "The capacity planner now assigns the same loading bay to every truck in a time slot, even when the dispatchers enter different available bays. It saves these conflicting allocations without an error. All dispatchers have had to stop releasing loading instructions because the output is unusable; this is our only authorised allocation system and there is no manual fallback.",
+      "quality": "complete",
+      "expected_category": "software",
+      "expected_priority": "critical",
+      "raw_category": "software",
+      "raw_priority": "high",
+      "accepted_category": "software",
+      "accepted_priority": "high",
+      "category_score": 0.2659437116529688,
+      "priority_score": 0.6567873829766311,
+      "category_review_reason": null,
+      "priority_review_reason": null,
+      "classification_version": "helpdesk-v2:03ca36845a14a929b6c402179ddfec24a26f0f7c04f18d2f0edeb66565260b4d",
+      "neighbors": [
+        {
+          "id": 59,
+          "source_key": "ACC-29",
+          "category": "accounts_access",
+          "similarity": 0.29410352638859943
+        },
+        {
+          "id": 119,
+          "source_key": "SW-29",
+          "category": "software",
+          "similarity": 0.2659437116529689
+        },
+        {
+          "id": 39,
+          "source_key": "SW-09",
+          "category": "software",
+          "similarity": 0.2589581930692875
+        }
+      ]
+    },
+    {
+      "id": "FINAL-EN-009",
+      "group_id": "final-en-incident-009",
+      "text": "My supplier guest account is already active and opens every project I need. Its original invitation still appears under pending invitations in our access portal. There is nothing left for me to accept and the old entry has no effect on my work; please remove that obsolete invitation when convenient.",
+      "quality": "complete",
+      "expected_category": "accounts_access",
+      "expected_priority": "low",
+      "raw_category": "accounts_access",
+      "raw_priority": "low",
+      "accepted_category": "accounts_access",
+      "accepted_priority": "low",
+      "category_score": 0.41967711853660916,
+      "priority_score": 0.6321235260676813,
+      "category_review_reason": null,
+      "priority_review_reason": null,
+      "classification_version": "helpdesk-v2:03ca36845a14a929b6c402179ddfec24a26f0f7c04f18d2f0edeb66565260b4d",
+      "neighbors": [
+        {
+          "id": 54,
+          "source_key": "ACC-24",
+          "category": "accounts_access",
+          "similarity": 0.41967711853660916
+        },
+        {
+          "id": 41,
+          "source_key": "ACC-11",
+          "category": "accounts_access",
+          "similarity": 0.3697486652781489
+        },
+        {
+          "id": 6,
+          "source_key": "ACC-06",
+          "category": "accounts_access",
+          "similarity": 0.36667595546880993
+        }
+      ]
+    },
+    {
+      "id": "FINAL-EN-011",
+      "group_id": "final-en-incident-011",
+      "text": "A completed contractor engagement remains in my account's list of expired access packages. It is clearly marked expired and grants no access. My current packages are active and all my tasks work normally. Could the obsolete package be archived from my account history view?",
+      "quality": "complete",
+      "expected_category": "accounts_access",
+      "expected_priority": "low",
+      "raw_category": "accounts_access",
+      "raw_priority": "low",
+      "accepted_category": "accounts_access",
+      "accepted_priority": "low",
+      "category_score": 0.5104455239555008,
+      "priority_score": 0.821051791597413,
+      "category_review_reason": null,
+      "priority_review_reason": null,
+      "classification_version": "helpdesk-v2:03ca36845a14a929b6c402179ddfec24a26f0f7c04f18d2f0edeb66565260b4d",
+      "neighbors": [
+        {
+          "id": 54,
+          "source_key": "ACC-24",
+          "category": "accounts_access",
+          "similarity": 0.5104455239555008
+        },
+        {
+          "id": 52,
+          "source_key": "ACC-22",
+          "category": "accounts_access",
+          "similarity": 0.41359479547141476
+        },
+        {
+          "id": 41,
+          "source_key": "ACC-11",
+          "category": "accounts_access",
+          "similarity": 0.359883688845432
+        }
+      ]
+    },
+    {
+      "id": "FINAL-EN-012",
+      "group_id": "final-en-incident-012",
+      "text": "The access system says my temporary research entitlement is awaiting an approver who has left the team. I can do the analysis with the same authorised dataset in the department's supervised workspace, but I have to reserve a session each morning instead of opening it at my own desk.",
+      "quality": "complete",
+      "expected_category": "accounts_access",
+      "expected_priority": "medium",
+      "raw_category": "accounts_access",
+      "raw_priority": "medium",
+      "accepted_category": "accounts_access",
+      "accepted_priority": "medium",
+      "category_score": 0.45575608005919954,
+      "priority_score": 0.7496140882378469,
+      "category_review_reason": null,
+      "priority_review_reason": null,
+      "classification_version": "helpdesk-v2:03ca36845a14a929b6c402179ddfec24a26f0f7c04f18d2f0edeb66565260b4d",
+      "neighbors": [
+        {
+          "id": 52,
+          "source_key": "ACC-22",
+          "category": "accounts_access",
+          "similarity": 0.45575608005919954
+        },
+        {
+          "id": 57,
+          "source_key": "ACC-27",
+          "category": "accounts_access",
+          "similarity": 0.38011832558761777
+        },
+        {
+          "id": 9,
+          "source_key": "ACC-09",
+          "category": "accounts_access",
+          "similarity": 0.36959460979064845
+        }
+      ]
+    },
+    {
+      "id": "FINAL-EN-013",
+      "group_id": "final-en-incident-013",
+      "text": "My dashboard role no longer includes permission to download the management summary: the download action explicitly reports 'report.download denied'. I can still use the authorised scheduled delivery of that same summary to my mailbox. The daily report goes out, but waiting for the scheduled copy makes my preparation slower.",
+      "quality": "complete",
+      "expected_category": "accounts_access",
+      "expected_priority": "medium",
+      "raw_category": "accounts_access",
+      "raw_priority": "medium",
+      "accepted_category": "accounts_access",
+      "accepted_priority": "medium",
+      "category_score": 0.46639836468150686,
+      "priority_score": 0.8514297948025349,
+      "category_review_reason": null,
+      "priority_review_reason": null,
+      "classification_version": "helpdesk-v2:03ca36845a14a929b6c402179ddfec24a26f0f7c04f18d2f0edeb66565260b4d",
+      "neighbors": [
+        {
+          "id": 52,
+          "source_key": "ACC-22",
+          "category": "accounts_access",
+          "similarity": 0.4663983646815069
+        },
+        {
+          "id": 4,
+          "source_key": "ACC-04",
+          "category": "accounts_access",
+          "similarity": 0.4578230928597244
+        },
+        {
+          "id": 58,
+          "source_key": "ACC-28",
+          "category": "accounts_access",
+          "similarity": 0.44530518159967447
+        }
+      ]
+    },
+    {
+      "id": "FINAL-EN-016",
+      "group_id": "final-en-incident-016",
+      "text": "The lab upload client presents its machine certificate, but the authentication gateway rejects it as an expired machine identity. The instrument still measures correctly. I must deliver the certified calibration record this afternoon, and the gateway permits neither password authentication nor an upload from another computer. No one available can renew that identity.",
+      "quality": "complete",
+      "expected_category": "accounts_access",
+      "expected_priority": "high",
+      "raw_category": "accounts_access",
+      "raw_priority": "medium",
+      "accepted_category": "accounts_access",
+      "accepted_priority": "medium",
+      "category_score": 0.3640981839495129,
+      "priority_score": 0.6425273077062917,
+      "category_review_reason": null,
+      "priority_review_reason": null,
+      "classification_version": "helpdesk-v2:03ca36845a14a929b6c402179ddfec24a26f0f7c04f18d2f0edeb66565260b4d",
+      "neighbors": [
+        {
+          "id": 95,
+          "source_key": "NET-25",
+          "category": "network",
+          "similarity": 0.3989909443816336
+        },
+        {
+          "id": 47,
+          "source_key": "ACC-17",
+          "category": "accounts_access",
+          "similarity": 0.3640981839495129
+        },
+        {
+          "id": 6,
+          "source_key": "ACC-06",
+          "category": "accounts_access",
+          "similarity": 0.3598745374865385
+        }
+      ]
+    },
+    {
+      "id": "FINAL-EN-017",
+      "group_id": "final-en-incident-017",
+      "text": "I can authenticate to the encryption-key vault, but retrieving the archive key returns 'principal not permitted to use this key'. I am the engineer assigned to restore one client's archived drawings today. Without that key the restore cannot proceed, and there is no other authorised key holder or unencrypted copy available.",
+      "quality": "complete",
+      "expected_category": "accounts_access",
+      "expected_priority": "high",
+      "raw_category": "accounts_access",
+      "raw_priority": "high",
+      "accepted_category": "accounts_access",
+      "accepted_priority": "high",
+      "category_score": 0.40856504876623156,
+      "priority_score": 0.7740258334174293,
+      "category_review_reason": null,
+      "priority_review_reason": null,
+      "classification_version": "helpdesk-v2:03ca36845a14a929b6c402179ddfec24a26f0f7c04f18d2f0edeb66565260b4d",
+      "neighbors": [
+        {
+          "id": 56,
+          "source_key": "ACC-26",
+          "category": "accounts_access",
+          "similarity": 0.4085650487662316
+        },
+        {
+          "id": 51,
+          "source_key": "ACC-21",
+          "category": "accounts_access",
+          "similarity": 0.3941264475442687
+        },
+        {
+          "id": 47,
+          "source_key": "ACC-17",
+          "category": "accounts_access",
+          "similarity": 0.3668772059458376
+        }
+      ]
+    },
+    {
+      "id": "FINAL-EN-020",
+      "group_id": "final-en-incident-020",
+      "text": "Since the central federation certificate rollover, every registrar receives 'identity assertion signature is not trusted' from the sign-in gateway. The identity team confirms that the new signing identity has not been authorised by the registry service. Registration is stopped across all our offices, and local or emergency accounts are not supported.",
+      "quality": "complete",
+      "expected_category": "accounts_access",
+      "expected_priority": "critical",
+      "raw_category": "accounts_access",
+      "raw_priority": "critical",
+      "accepted_category": "accounts_access",
+      "accepted_priority": "critical",
+      "category_score": 0.4651018734207035,
+      "priority_score": 0.4507394461206086,
+      "category_review_reason": null,
+      "priority_review_reason": null,
+      "classification_version": "helpdesk-v2:03ca36845a14a929b6c402179ddfec24a26f0f7c04f18d2f0edeb66565260b4d",
+      "neighbors": [
+        {
+          "id": 60,
+          "source_key": "ACC-30",
+          "category": "accounts_access",
+          "similarity": 0.4651018734207035
+        },
+        {
+          "id": 51,
+          "source_key": "ACC-21",
+          "category": "accounts_access",
+          "similarity": 0.4640853740827875
+        },
+        {
+          "id": 47,
+          "source_key": "ACC-17",
+          "category": "accounts_access",
+          "similarity": 0.4540209655761993
+        }
+      ]
+    },
+    {
+      "id": "FINAL-EN-021",
+      "group_id": "final-en-incident-021",
+      "text": "Every operator in the certificate-issuing team can sign in, but the key service refuses each request with 'issuance group is denied signing-key use'. No certificates can be issued to customers anywhere in the team. The previous group was removed during an access-policy change and no alternate signing identity or offline issuance is available.",
+      "quality": "complete",
+      "expected_category": "accounts_access",
+      "expected_priority": "critical",
+      "raw_category": "accounts_access",
+      "raw_priority": "medium",
+      "accepted_category": "accounts_access",
+      "accepted_priority": "medium",
+      "category_score": 0.4971897125421716,
+      "priority_score": 0.5820960356046264,
+      "category_review_reason": null,
+      "priority_review_reason": null,
+      "classification_version": "helpdesk-v2:03ca36845a14a929b6c402179ddfec24a26f0f7c04f18d2f0edeb66565260b4d",
+      "neighbors": [
+        {
+          "id": 60,
+          "source_key": "ACC-30",
+          "category": "accounts_access",
+          "similarity": 0.49718971254217165
+        },
+        {
+          "id": 53,
+          "source_key": "ACC-23",
+          "category": "accounts_access",
+          "similarity": 0.48342639851908553
+        },
+        {
+          "id": 51,
+          "source_key": "ACC-21",
+          "category": "accounts_access",
+          "similarity": 0.43294587302259774
+        }
+      ]
+    },
+    {
+      "id": "FINAL-EN-023",
+      "group_id": "final-en-incident-023",
+      "text": "There is a shallow scratch on the plastic bezel outside the touchscreen of the reception kiosk. The glass is intact, the scratch does not cover the display, and touch input works over the entire screen. Visitor registration continues exactly as before; the mark is cosmetic.",
+      "quality": "complete",
+      "expected_category": "hardware",
+      "expected_priority": "low",
+      "raw_category": "hardware",
+      "raw_priority": "medium",
+      "accepted_category": "hardware",
+      "accepted_priority": "medium",
+      "category_score": 0.35718714534371365,
+      "priority_score": 0.4209617364791159,
+      "category_review_reason": null,
+      "priority_review_reason": null,
+      "classification_version": "helpdesk-v2:03ca36845a14a929b6c402179ddfec24a26f0f7c04f18d2f0edeb66565260b4d",
+      "neighbors": [
+        {
+          "id": 61,
+          "source_key": "HW-11",
+          "category": "hardware",
+          "similarity": 0.3571871453437137
+        },
+        {
+          "id": 11,
+          "source_key": "HW-01",
+          "category": "hardware",
+          "similarity": 0.3348574223453248
+        },
+        {
+          "id": 80,
+          "source_key": "HW-30",
+          "category": "hardware",
+          "similarity": 0.32672547811039676
+        }
+      ]
+    },
+    {
+      "id": "FINAL-EN-026",
+      "group_id": "final-en-incident-026",
+      "text": "A strip of the pen display has stopped detecting the stylus, including in its built-in diagnostic grid. The desktop mouse still controls the whole application and I can finish the drawing with it. Freehand annotations are much slower that way, but the file can be delivered.",
+      "quality": "complete",
+      "expected_category": "hardware",
+      "expected_priority": "medium",
+      "raw_category": "hardware",
+      "raw_priority": "medium",
+      "accepted_category": "hardware",
+      "accepted_priority": "medium",
+      "category_score": 0.3472550055700534,
+      "priority_score": 0.9690444826351545,
+      "category_review_reason": null,
+      "priority_review_reason": null,
+      "classification_version": "helpdesk-v2:03ca36845a14a929b6c402179ddfec24a26f0f7c04f18d2f0edeb66565260b4d",
+      "neighbors": [
+        {
+          "id": 101,
+          "source_key": "SW-11",
+          "category": "software",
+          "similarity": 0.49531472107748103
+        },
+        {
+          "id": 69,
+          "source_key": "HW-19",
+          "category": "hardware",
+          "similarity": 0.3472550055700534
+        },
+        {
+          "id": 70,
+          "source_key": "HW-20",
+          "category": "hardware",
+          "similarity": 0.3312808483176325
+        }
+      ]
+    },
+    {
+      "id": "FINAL-EN-027",
+      "group_id": "final-en-incident-027",
+      "text": "Our receipt printer produces very pale lines even on its own self-test after a fresh roll is loaded. The engineer's diagnostic identifies a worn thermal head. I can issue acceptable receipts on the spare unit at the end of the counter, but walking to it for every transaction is slowing service.",
+      "quality": "complete",
+      "expected_category": "hardware",
+      "expected_priority": "medium",
+      "raw_category": "hardware",
+      "raw_priority": "medium",
+      "accepted_category": "hardware",
+      "accepted_priority": "medium",
+      "category_score": 0.4858421090666569,
+      "priority_score": 0.801438971099144,
+      "category_review_reason": null,
+      "priority_review_reason": null,
+      "classification_version": "helpdesk-v2:03ca36845a14a929b6c402179ddfec24a26f0f7c04f18d2f0edeb66565260b4d",
+      "neighbors": [
+        {
+          "id": 14,
+          "source_key": "HW-04",
+          "category": "hardware",
+          "similarity": 0.4858421090666569
+        },
+        {
+          "id": 74,
+          "source_key": "HW-24",
+          "category": "hardware",
+          "similarity": 0.45518515570039764
+        },
+        {
+          "id": 13,
+          "source_key": "HW-03",
+          "category": "hardware",
+          "similarity": 0.41400515546636074
+        }
+      ]
+    },
+    {
+      "id": "FINAL-EN-028",
+      "group_id": "final-en-incident-028",
+      "text": "The workstation's hardware setup reports a depleted real-time-clock battery and loses its clock settings after power is disconnected. Our approved start-up checklist lets me set the time manually, after which the workstation and required tools work correctly. I can complete my work, but this extra setup is needed each morning.",
+      "quality": "complete",
+      "expected_category": "hardware",
+      "expected_priority": "medium",
+      "raw_category": "software",
+      "raw_priority": "medium",
+      "accepted_category": null,
+      "accepted_priority": "medium",
+      "category_score": 0.44983015140431726,
+      "priority_score": 0.47921570587443674,
+      "category_review_reason": "split_category_vote",
+      "priority_review_reason": null,
+      "classification_version": "helpdesk-v2:03ca36845a14a929b6c402179ddfec24a26f0f7c04f18d2f0edeb66565260b4d",
+      "neighbors": [
+        {
+          "id": 112,
+          "source_key": "SW-22",
+          "category": "software",
+          "similarity": 0.44983015140431726
+        },
+        {
+          "id": 19,
+          "source_key": "HW-09",
+          "category": "hardware",
+          "similarity": 0.3285875868871793
+        },
+        {
+          "id": 21,
+          "source_key": "NET-01",
+          "category": "network",
+          "similarity": 0.3245364804682457
+        }
+      ]
+    },
+    {
+      "id": "FINAL-EN-031",
+      "group_id": "final-en-incident-031",
+      "text": "The archival tape drive has a cartridge jammed in its loading mechanism; its front-panel eject test ends with a mechanical error. I must restore a specific legal archive for today's review. This is the only drive that can read those tapes, and there is no disk copy or replacement drive available.",
+      "quality": "complete",
+      "expected_category": "hardware",
+      "expected_priority": "high",
+      "raw_category": "hardware",
+      "raw_priority": "high",
+      "accepted_category": "hardware",
+      "accepted_priority": "high",
+      "category_score": 0.4562335355887547,
+      "priority_score": 0.9244576476973714,
+      "category_review_reason": null,
+      "priority_review_reason": null,
+      "classification_version": "helpdesk-v2:03ca36845a14a929b6c402179ddfec24a26f0f7c04f18d2f0edeb66565260b4d",
+      "neighbors": [
+        {
+          "id": 76,
+          "source_key": "HW-26",
+          "category": "hardware",
+          "similarity": 0.4562335355887547
+        },
+        {
+          "id": 70,
+          "source_key": "HW-20",
+          "category": "hardware",
+          "similarity": 0.39823715514624813
+        },
+        {
+          "id": 20,
+          "source_key": "HW-10",
+          "category": "hardware",
+          "similarity": 0.331134507293466
+        }
+      ]
+    },
+    {
+      "id": "FINAL-EN-032",
+      "group_id": "final-en-incident-032",
+      "text": "The workstation's pre-boot hardware diagnostics reports an internal TPM failure. The encrypted engineering volume therefore stays locked even though my credentials are valid. I have to finish the controlled design on that volume today; the recovery material is unavailable and the file is not held on any other device.",
+      "quality": "complete",
+      "expected_category": "hardware",
+      "expected_priority": "high",
+      "raw_category": "accounts_access",
+      "raw_priority": "high",
+      "accepted_category": "accounts_access",
+      "accepted_priority": "high",
+      "category_score": 0.33998512777230605,
+      "priority_score": 0.6133675393515943,
+      "category_review_reason": null,
+      "priority_review_reason": null,
+      "classification_version": "helpdesk-v2:03ca36845a14a929b6c402179ddfec24a26f0f7c04f18d2f0edeb66565260b4d",
+      "neighbors": [
+        {
+          "id": 56,
+          "source_key": "ACC-26",
+          "category": "accounts_access",
+          "similarity": 0.33998512777230605
+        },
+        {
+          "id": 7,
+          "source_key": "ACC-07",
+          "category": "accounts_access",
+          "similarity": 0.33880364564634735
+        },
+        {
+          "id": 55,
+          "source_key": "ACC-25",
+          "category": "accounts_access",
+          "similarity": 0.3318613831102815
+        }
+      ]
+    },
+    {
+      "id": "FINAL-EN-033",
+      "group_id": "final-en-incident-033",
+      "text": "The contactless encoder at my desk cannot write a badge and reports an antenna-coil fault in its own test. The booking software still works, but I need to issue the configured access badge for a technician's visit today. Temporary paper passes are not allowed for this visit, and no other encoder is available on site.",
+      "quality": "complete",
+      "expected_category": "hardware",
+      "expected_priority": "high",
+      "raw_category": "hardware",
+      "raw_priority": "high",
+      "accepted_category": "hardware",
+      "accepted_priority": "high",
+      "category_score": 0.4504806561709527,
+      "priority_score": 0.7753499042329878,
+      "category_review_reason": null,
+      "priority_review_reason": null,
+      "classification_version": "helpdesk-v2:03ca36845a14a929b6c402179ddfec24a26f0f7c04f18d2f0edeb66565260b4d",
+      "neighbors": [
+        {
+          "id": 18,
+          "source_key": "HW-08",
+          "category": "hardware",
+          "similarity": 0.45048065617095273
+        },
+        {
+          "id": 75,
+          "source_key": "HW-25",
+          "category": "hardware",
+          "similarity": 0.43473164821631116
+        },
+        {
+          "id": 14,
+          "source_key": "HW-04",
+          "category": "hardware",
+          "similarity": 0.37249664082586087
+        }
+      ]
+    },
+    {
+      "id": "FINAL-EN-034",
+      "group_id": "final-en-incident-034",
+      "text": "A storage-controller diagnostic reports failed cache protection and has put the production database volumes into hardware-enforced read-only mode. Every checkout desk can view items but cannot complete a sale. The standby controller is also unavailable, and there is no alternate checkout service, so the entire store has stopped selling.",
+      "quality": "complete",
+      "expected_category": "hardware",
+      "expected_priority": "critical",
+      "raw_category": "software",
+      "raw_priority": "high",
+      "accepted_category": "software",
+      "accepted_priority": "high",
+      "category_score": 0.49073979343711627,
+      "priority_score": 0.43362638824489785,
+      "category_review_reason": null,
+      "priority_review_reason": null,
+      "classification_version": "helpdesk-v2:03ca36845a14a929b6c402179ddfec24a26f0f7c04f18d2f0edeb66565260b4d",
+      "neighbors": [
+        {
+          "id": 119,
+          "source_key": "SW-29",
+          "category": "software",
+          "similarity": 0.49073979343711627
+        },
+        {
+          "id": 20,
+          "source_key": "HW-10",
+          "category": "hardware",
+          "similarity": 0.48253506641595023
+        },
+        {
+          "id": 40,
+          "source_key": "SW-10",
+          "category": "software",
+          "similarity": 0.4760096641958063
+        }
+      ]
+    },
+    {
+      "id": "FINAL-EN-036",
+      "group_id": "final-en-incident-036",
+      "text": "The desk link negotiates at 100 Mbps rather than the 1 Gbps shown for neighbouring desks. It is stable, and our measured file transfers and calls meet all of my work requirements. No task is delayed or unavailable; please check the negotiated rate when there is time.",
+      "quality": "complete",
+      "expected_category": "network",
+      "expected_priority": "low",
+      "raw_category": "network",
+      "raw_priority": "low",
+      "accepted_category": "network",
+      "accepted_priority": null,
+      "category_score": 0.5653339756623585,
+      "priority_score": 0.3506794071858883,
+      "category_review_reason": null,
+      "priority_review_reason": "low_priority_score",
+      "classification_version": "helpdesk-v2:03ca36845a14a929b6c402179ddfec24a26f0f7c04f18d2f0edeb66565260b4d",
+      "neighbors": [
+        {
+          "id": 92,
+          "source_key": "NET-22",
+          "category": "network",
+          "similarity": 0.5653339756623585
+        },
+        {
+          "id": 84,
+          "source_key": "NET-14",
+          "category": "network",
+          "similarity": 0.41626861545428473
+        },
+        {
+          "id": 83,
+          "source_key": "NET-13",
+          "category": "network",
+          "similarity": 0.4105359605793517
+        }
+      ]
+    },
+    {
+      "id": "FINAL-EN-037",
+      "group_id": "final-en-incident-037",
+      "text": "The discovery list on the office network advertises the same meeting display twice under two network names. Either entry reaches the same display and screen sharing works normally. I do not lose any time or functionality; could the duplicate network advertisement be cleaned up during maintenance?",
+      "quality": "complete",
+      "expected_category": "network",
+      "expected_priority": "low",
+      "raw_category": "network",
+      "raw_priority": "medium",
+      "accepted_category": "network",
+      "accepted_priority": "medium",
+      "category_score": 0.39670412930944265,
+      "priority_score": 0.5882438789889074,
+      "category_review_reason": null,
+      "priority_review_reason": null,
+      "classification_version": "helpdesk-v2:03ca36845a14a929b6c402179ddfec24a26f0f7c04f18d2f0edeb66565260b4d",
+      "neighbors": [
+        {
+          "id": 23,
+          "source_key": "NET-03",
+          "category": "network",
+          "similarity": 0.3967041293094426
+        },
+        {
+          "id": 36,
+          "source_key": "SW-06",
+          "category": "software",
+          "similarity": 0.3829315256327558
+        },
+        {
+          "id": 24,
+          "source_key": "NET-04",
+          "category": "network",
+          "similarity": 0.37863379616158305
+        }
+      ]
+    },
+    {
+      "id": "FINAL-EN-040",
+      "group_id": "final-en-incident-040",
+      "text": "The site's web gateway sends requests back to the same proxy repeatedly, and several browsers report a proxy loop for unrelated external sites. IT's approved bypass profile reaches those sites correctly. I can process the supplier requests using that profile, although I have to switch profiles for internal sites.",
+      "quality": "complete",
+      "expected_category": "network",
+      "expected_priority": "medium",
+      "raw_category": "network",
+      "raw_priority": "medium",
+      "accepted_category": "network",
+      "accepted_priority": "medium",
+      "category_score": 0.3395568101373969,
+      "priority_score": 0.8794588473478174,
+      "category_review_reason": null,
+      "priority_review_reason": null,
+      "classification_version": "helpdesk-v2:03ca36845a14a929b6c402179ddfec24a26f0f7c04f18d2f0edeb66565260b4d",
+      "neighbors": [
+        {
+          "id": 95,
+          "source_key": "NET-25",
+          "category": "network",
+          "similarity": 0.3395568101373969
+        },
+        {
+          "id": 99,
+          "source_key": "NET-29",
+          "category": "network",
+          "similarity": 0.32885501046012294
+        },
+        {
+          "id": 25,
+          "source_key": "NET-05",
+          "category": "network",
+          "similarity": 0.3256782429088136
+        }
+      ]
+    },
+    {
+      "id": "FINAL-EN-041",
+      "group_id": "final-en-incident-041",
+      "text": "The link to the rendering cluster drops large network frames, while small probes and the same transfer over the approved lower-MTU profile succeed. I can send the assets with that profile and the jobs run, but I must apply it separately for each connection. Authentication and the remote application are working.",
+      "quality": "complete",
+      "expected_category": "network",
+      "expected_priority": "medium",
+      "raw_category": "network",
+      "raw_priority": "medium",
+      "accepted_category": "network",
+      "accepted_priority": "medium",
+      "category_score": 0.48683447761891074,
+      "priority_score": 0.8480974228601608,
+      "category_review_reason": null,
+      "priority_review_reason": null,
+      "classification_version": "helpdesk-v2:03ca36845a14a929b6c402179ddfec24a26f0f7c04f18d2f0edeb66565260b4d",
+      "neighbors": [
+        {
+          "id": 29,
+          "source_key": "NET-09",
+          "category": "network",
+          "similarity": 0.48683447761891074
+        },
+        {
+          "id": 95,
+          "source_key": "NET-25",
+          "category": "network",
+          "similarity": 0.434017634271138
+        },
+        {
+          "id": 90,
+          "source_key": "NET-20",
+          "category": "network",
+          "similarity": 0.368038161623639
+        }
+      ]
+    },
+    {
+      "id": "FINAL-EN-044",
+      "group_id": "final-en-incident-044",
+      "text": "Traffic from our secure workstation loops between two routers instead of reaching the external evidence portal; the trace repeats the same two hops until it expires. The portal is reachable from its provider's network. I must submit today's evidence bundle from this workstation, and the rules prohibit another connection or device for that submission.",
+      "quality": "complete",
+      "expected_category": "network",
+      "expected_priority": "high",
+      "raw_category": "network",
+      "raw_priority": "medium",
+      "accepted_category": "network",
+      "accepted_priority": "medium",
+      "category_score": 0.3470099055500584,
+      "priority_score": 0.5500051732524844,
+      "category_review_reason": null,
+      "priority_review_reason": null,
+      "classification_version": "helpdesk-v2:03ca36845a14a929b6c402179ddfec24a26f0f7c04f18d2f0edeb66565260b4d",
+      "neighbors": [
+        {
+          "id": 28,
+          "source_key": "NET-08",
+          "category": "network",
+          "similarity": 0.34700990555005834
+        },
+        {
+          "id": 30,
+          "source_key": "NET-10",
+          "category": "network",
+          "similarity": 0.3259283938708968
+        },
+        {
+          "id": 75,
+          "source_key": "HW-25",
+          "category": "hardware",
+          "similarity": 0.3239641122385413
+        }
+      ]
+    },
+    {
+      "id": "FINAL-EN-045",
+      "group_id": "final-en-incident-045",
+      "text": "The supplier's IPv6-only endpoint has no reachable route from our testing network; traces end at the border router. Their service is up and our local services work. I need to complete the required interoperability test today, but the approved test device cannot use a tunnel, an IPv4 substitute or another network.",
+      "quality": "complete",
+      "expected_category": "network",
+      "expected_priority": "high",
+      "raw_category": "network",
+      "raw_priority": "high",
+      "accepted_category": "network",
+      "accepted_priority": "high",
+      "category_score": 0.3331861502378317,
+      "priority_score": 0.766016662653821,
+      "category_review_reason": null,
+      "priority_review_reason": null,
+      "classification_version": "helpdesk-v2:03ca36845a14a929b6c402179ddfec24a26f0f7c04f18d2f0edeb66565260b4d",
+      "neighbors": [
+        {
+          "id": 28,
+          "source_key": "NET-08",
+          "category": "network",
+          "similarity": 0.3331861502378317
+        },
+        {
+          "id": 27,
+          "source_key": "NET-07",
+          "category": "network",
+          "similarity": 0.3309546553603167
+        },
+        {
+          "id": 100,
+          "source_key": "NET-30",
+          "category": "network",
+          "similarity": 0.282672827105813
+        }
+      ]
+    },
+    {
+      "id": "FINAL-EN-046",
+      "group_id": "final-en-incident-046",
+      "text": "The market-data multicast feed has stopped reaching every dealing desk. The network team sees the feed arrive at the edge but no multicast packets leave the core towards the desks; sign-in and ordinary websites still work. All traders have stopped accepting orders because live prices are required, and the backup feed uses the same failed route.",
+      "quality": "complete",
+      "expected_category": "network",
+      "expected_priority": "critical",
+      "raw_category": "network",
+      "raw_priority": "critical",
+      "accepted_category": "network",
+      "accepted_priority": "critical",
+      "category_score": 0.4335046221779174,
+      "priority_score": 0.3989510474810334,
+      "category_review_reason": null,
+      "priority_review_reason": null,
+      "classification_version": "helpdesk-v2:03ca36845a14a929b6c402179ddfec24a26f0f7c04f18d2f0edeb66565260b4d",
+      "neighbors": [
+        {
+          "id": 100,
+          "source_key": "NET-30",
+          "category": "network",
+          "similarity": 0.4335046221779174
+        },
+        {
+          "id": 96,
+          "source_key": "NET-26",
+          "category": "network",
+          "similarity": 0.41133338621174387
+        },
+        {
+          "id": 119,
+          "source_key": "SW-29",
+          "category": "software",
+          "similarity": 0.39857066118628515
+        }
+      ]
+    },
+    {
+      "id": "FINAL-EN-047",
+      "group_id": "final-en-incident-047",
+      "text": "A broadcast storm is saturating the office switches: their port counters rise continuously and packets to every local business service are being dropped. All departments in this building have had to stop handling work. The incident team has not yet isolated the loop, and no separate working network or offline process is available.",
+      "quality": "complete",
+      "expected_category": "network",
+      "expected_priority": "critical",
+      "raw_category": "network",
+      "raw_priority": "high",
+      "accepted_category": "network",
+      "accepted_priority": "high",
+      "category_score": 0.45277646526693727,
+      "priority_score": 0.47251493146013085,
+      "category_review_reason": null,
+      "priority_review_reason": null,
+      "classification_version": "helpdesk-v2:03ca36845a14a929b6c402179ddfec24a26f0f7c04f18d2f0edeb66565260b4d",
+      "neighbors": [
+        {
+          "id": 30,
+          "source_key": "NET-10",
+          "category": "network",
+          "similarity": 0.4527764652669372
+        },
+        {
+          "id": 100,
+          "source_key": "NET-30",
+          "category": "network",
+          "similarity": 0.43335785207645505
+        },
+        {
+          "id": 97,
+          "source_key": "NET-27",
+          "category": "network",
+          "similarity": 0.4297315323989914
+        }
+      ]
+    },
+    {
+      "id": "FINAL-EN-049",
+      "group_id": "final-en-incident-049",
+      "text": "When I move the pointer out of a row in the asset viewer, its hover highlight sometimes stays on until the next click. The row's data remains readable and selecting, editing and saving work correctly. This visual residue has not delayed my work or changed any data.",
+      "quality": "complete",
+      "expected_category": "software",
+      "expected_priority": "low",
+      "raw_category": "hardware",
+      "raw_priority": "low",
+      "accepted_category": "hardware",
+      "accepted_priority": "low",
+      "category_score": 0.30351302803341396,
+      "priority_score": 0.537389781502572,
+      "category_review_reason": null,
+      "priority_review_reason": null,
+      "classification_version": "helpdesk-v2:03ca36845a14a929b6c402179ddfec24a26f0f7c04f18d2f0edeb66565260b4d",
+      "neighbors": [
+        {
+          "id": 101,
+          "source_key": "SW-11",
+          "category": "software",
+          "similarity": 0.3932520416387186
+        },
+        {
+          "id": 11,
+          "source_key": "HW-01",
+          "category": "hardware",
+          "similarity": 0.3035130280334139
+        },
+        {
+          "id": 69,
+          "source_key": "HW-19",
+          "category": "hardware",
+          "similarity": 0.2604300237601852
+        }
+      ]
+    },
+    {
+      "id": "FINAL-EN-052",
+      "group_id": "final-en-incident-052",
+      "text": "The case editor's autosave restores the previous draft over my latest text. The reproducible issue stops when I disable autosave, and manual Save keeps all changes correctly. I can complete the cases with autosave off, but I must remember to save after every edit until the function is fixed.",
+      "quality": "complete",
+      "expected_category": "software",
+      "expected_priority": "medium",
+      "raw_category": "software",
+      "raw_priority": "medium",
+      "accepted_category": "software",
+      "accepted_priority": "medium",
+      "category_score": 0.3707997016866822,
+      "priority_score": 0.6005132587883933,
+      "category_review_reason": null,
+      "priority_review_reason": null,
+      "classification_version": "helpdesk-v2:03ca36845a14a929b6c402179ddfec24a26f0f7c04f18d2f0edeb66565260b4d",
+      "neighbors": [
+        {
+          "id": 32,
+          "source_key": "SW-02",
+          "category": "software",
+          "similarity": 0.37079970168668225
+        },
+        {
+          "id": 31,
+          "source_key": "SW-01",
+          "category": "software",
+          "similarity": 0.35765081363212015
+        },
+        {
+          "id": 114,
+          "source_key": "SW-24",
+          "category": "software",
+          "similarity": 0.3472527579689277
+        }
+      ]
+    },
+    {
+      "id": "FINAL-EN-053",
+      "group_id": "final-en-incident-053",
+      "text": "The video editor shifts imported subtitles two seconds late even though the source subtitle file has the right times. Applying a minus-two-second offset in the editor produces a correct preview and export. I can publish the training videos, but each import now needs that extra adjustment and check.",
+      "quality": "complete",
+      "expected_category": "software",
+      "expected_priority": "medium",
+      "raw_category": "software",
+      "raw_priority": "medium",
+      "accepted_category": "software",
+      "accepted_priority": "medium",
+      "category_score": 0.3269039383855653,
+      "priority_score": 0.715060346030594,
+      "category_review_reason": null,
+      "priority_review_reason": null,
+      "classification_version": "helpdesk-v2:03ca36845a14a929b6c402179ddfec24a26f0f7c04f18d2f0edeb66565260b4d",
+      "neighbors": [
+        {
+          "id": 118,
+          "source_key": "SW-28",
+          "category": "software",
+          "similarity": 0.3269039383855653
+        },
+        {
+          "id": 33,
+          "source_key": "SW-03",
+          "category": "software",
+          "similarity": 0.27732285096204623
+        },
+        {
+          "id": 31,
+          "source_key": "SW-01",
+          "category": "software",
+          "similarity": 0.2770342319058215
+        }
+      ]
+    },
+    {
+      "id": "FINAL-EN-054",
+      "group_id": "final-en-incident-054",
+      "text": "The bulk-renaming utility skips filenames containing accented characters and shows an internal exception. The same names can be assigned correctly through the operating system's normal Rename action. I can finish organising the project files individually, but doing them one at a time is considerably slower than the bulk operation.",
+      "quality": "complete",
+      "expected_category": "software",
+      "expected_priority": "medium",
+      "raw_category": "software",
+      "raw_priority": "medium",
+      "accepted_category": "software",
+      "accepted_priority": "medium",
+      "category_score": 0.32092390330743836,
+      "priority_score": 0.8798383926140203,
+      "category_review_reason": null,
+      "priority_review_reason": null,
+      "classification_version": "helpdesk-v2:03ca36845a14a929b6c402179ddfec24a26f0f7c04f18d2f0edeb66565260b4d",
+      "neighbors": [
+        {
+          "id": 102,
+          "source_key": "SW-12",
+          "category": "software",
+          "similarity": 0.32092390330743836
+        },
+        {
+          "id": 87,
+          "source_key": "NET-17",
+          "category": "network",
+          "similarity": 0.26266951132568683
+        },
+        {
+          "id": 108,
+          "source_key": "SW-18",
+          "category": "software",
+          "similarity": 0.22336410045457739
+        }
+      ]
+    },
+    {
+      "id": "FINAL-EN-057",
+      "group_id": "final-en-incident-057",
+      "text": "The audit extractor converts every event time to local time but still marks the output as UTC. The source events and workstation clock are correct. I must provide a certified UTC event sequence today, and the required extractor has no timezone override; manual edits and exports from other tools are not accepted.",
+      "quality": "complete",
+      "expected_category": "software",
+      "expected_priority": "high",
+      "raw_category": "software",
+      "raw_priority": "high",
+      "accepted_category": "software",
+      "accepted_priority": "high",
+      "category_score": 0.4186948657248333,
+      "priority_score": 0.920891597293056,
+      "category_review_reason": null,
+      "priority_review_reason": null,
+      "classification_version": "helpdesk-v2:03ca36845a14a929b6c402179ddfec24a26f0f7c04f18d2f0edeb66565260b4d",
+      "neighbors": [
+        {
+          "id": 118,
+          "source_key": "SW-28",
+          "category": "software",
+          "similarity": 0.4186948657248332
+        },
+        {
+          "id": 112,
+          "source_key": "SW-22",
+          "category": "software",
+          "similarity": 0.3303595928555906
+        },
+        {
+          "id": 117,
+          "source_key": "SW-27",
+          "category": "software",
+          "similarity": 0.30433973976137174
+        }
+      ]
+    },
+    {
+      "id": "FINAL-EN-058",
+      "group_id": "final-en-incident-058",
+      "text": "The packaging solver rejects a valid container as over capacity even when its own detail view shows the load below the limit. The issue reproduces with the vendor's valid sample and access permissions are fine. I must approve this customer's packing plan today, but approval requires the solver and there is no manual or alternative planning path.",
+      "quality": "complete",
+      "expected_category": "software",
+      "expected_priority": "high",
+      "raw_category": "software",
+      "raw_priority": "high",
+      "accepted_category": null,
+      "accepted_priority": "high",
+      "category_score": 0.3990836458091871,
+      "priority_score": 0.9041868826341786,
+      "category_review_reason": "split_category_vote",
+      "priority_review_reason": null,
+      "classification_version": "helpdesk-v2:03ca36845a14a929b6c402179ddfec24a26f0f7c04f18d2f0edeb66565260b4d",
+      "neighbors": [
+        {
+          "id": 39,
+          "source_key": "SW-09",
+          "category": "software",
+          "similarity": 0.39908364580918704
+        },
+        {
+          "id": 7,
+          "source_key": "ACC-07",
+          "category": "accounts_access",
+          "similarity": 0.2700556583918607
+        },
+        {
+          "id": 74,
+          "source_key": "HW-24",
+          "category": "hardware",
+          "similarity": 0.2652682749323693
+        }
+      ]
+    },
+    {
+      "id": "FINAL-EN-059",
+      "group_id": "final-en-incident-059",
+      "text": "The release-manifest tool replaces non-ASCII characters in component names with question marks, so its signed manifest no longer matches the unchanged package. This occurs with the vendor's test package too. I must deliver this multilingual release today; the receiving system requires that signed manifest and there is no supported alternate generator or editing step.",
+      "quality": "complete",
+      "expected_category": "software",
+      "expected_priority": "high",
+      "raw_category": "software",
+      "raw_priority": "high",
+      "accepted_category": "software",
+      "accepted_priority": "high",
+      "category_score": 0.43834080794485897,
+      "priority_score": 0.9344158414568592,
+      "category_review_reason": null,
+      "priority_review_reason": null,
+      "classification_version": "helpdesk-v2:03ca36845a14a929b6c402179ddfec24a26f0f7c04f18d2f0edeb66565260b4d",
+      "neighbors": [
+        {
+          "id": 38,
+          "source_key": "SW-08",
+          "category": "software",
+          "similarity": 0.43834080794485897
+        },
+        {
+          "id": 102,
+          "source_key": "SW-12",
+          "category": "software",
+          "similarity": 0.32023951813492896
+        },
+        {
+          "id": 118,
+          "source_key": "SW-28",
+          "category": "software",
+          "similarity": 0.31146311437305346
+        }
+      ]
+    },
+    {
+      "id": "FINAL-EN-060",
+      "group_id": "final-en-incident-060",
+      "text": "After the scheduling engine's calendar update, it treats every future date as a closed day, including dates marked open in its own calendar. All hospital scheduling staff are unable to book any procedure. Sign-in and other services work, but this is the only authorised booking engine and there is no emergency or paper scheduling mode.",
+      "quality": "complete",
+      "expected_category": "software",
+      "expected_priority": "critical",
+      "raw_category": "software",
+      "raw_priority": "high",
+      "accepted_category": "software",
+      "accepted_priority": "high",
+      "category_score": 0.4353942275820659,
+      "priority_score": 0.5462553006823391,
+      "category_review_reason": null,
+      "priority_review_reason": null,
+      "classification_version": "helpdesk-v2:03ca36845a14a929b6c402179ddfec24a26f0f7c04f18d2f0edeb66565260b4d",
+      "neighbors": [
+        {
+          "id": 60,
+          "source_key": "ACC-30",
+          "category": "accounts_access",
+          "similarity": 0.4970453370074241
+        },
+        {
+          "id": 36,
+          "source_key": "SW-06",
+          "category": "software",
+          "similarity": 0.435394227582066
+        },
+        {
+          "id": 117,
+          "source_key": "SW-27",
+          "category": "software",
+          "similarity": 0.38767511866280757
+        }
+      ]
+    },
+    {
+      "id": "FINAL-EN-061",
+      "group_id": "final-en-incident-061",
+      "text": "The shared notebook opens, but adding a section says 'your role is view-only'.",
+      "quality": "weak",
+      "expected_category": "accounts_access",
+      "expected_priority": null,
+      "raw_category": "accounts_access",
+      "raw_priority": "medium",
+      "accepted_category": "accounts_access",
+      "accepted_priority": "medium",
+      "category_score": 0.5338464291677931,
+      "priority_score": 0.5755191102054232,
+      "category_review_reason": null,
+      "priority_review_reason": null,
+      "classification_version": "helpdesk-v2:03ca36845a14a929b6c402179ddfec24a26f0f7c04f18d2f0edeb66565260b4d",
+      "neighbors": [
+        {
+          "id": 43,
+          "source_key": "ACC-13",
+          "category": "accounts_access",
+          "similarity": 0.5338464291677931
+        },
+        {
+          "id": 3,
+          "source_key": "ACC-03",
+          "category": "accounts_access",
+          "similarity": 0.3547802142153847
+        },
+        {
+          "id": 48,
+          "source_key": "ACC-18",
+          "category": "accounts_access",
+          "similarity": 0.34433363906475634
+        }
+      ]
+    },
+    {
+      "id": "FINAL-EN-062",
+      "group_id": "final-en-incident-062",
+      "text": "Signing into the booking dashboard says my one-time code has already been used.",
+      "quality": "weak",
+      "expected_category": "accounts_access",
+      "expected_priority": null,
+      "raw_category": "accounts_access",
+      "raw_priority": "medium",
+      "accepted_category": "accounts_access",
+      "accepted_priority": "medium",
+      "category_score": 0.41584229332605993,
+      "priority_score": 0.4620469877734273,
+      "category_review_reason": null,
+      "priority_review_reason": null,
+      "classification_version": "helpdesk-v2:03ca36845a14a929b6c402179ddfec24a26f0f7c04f18d2f0edeb66565260b4d",
+      "neighbors": [
+        {
+          "id": 54,
+          "source_key": "ACC-24",
+          "category": "accounts_access",
+          "similarity": 0.41584229332605993
+        },
+        {
+          "id": 48,
+          "source_key": "ACC-18",
+          "category": "accounts_access",
+          "similarity": 0.4061171881883442
+        },
+        {
+          "id": 41,
+          "source_key": "ACC-11",
+          "category": "accounts_access",
+          "similarity": 0.35811642440428293
+        }
+      ]
+    },
+    {
+      "id": "FINAL-EN-063",
+      "group_id": "final-en-incident-063",
+      "text": "The cooling fins on the docking brick are bent and a piece of its casing is loose.",
+      "quality": "weak",
+      "expected_category": "hardware",
+      "expected_priority": null,
+      "raw_category": "hardware",
+      "raw_priority": "medium",
+      "accepted_category": "hardware",
+      "accepted_priority": "medium",
+      "category_score": 0.35825679042163416,
+      "priority_score": 0.598650762080001,
+      "category_review_reason": null,
+      "priority_review_reason": null,
+      "classification_version": "helpdesk-v2:03ca36845a14a929b6c402179ddfec24a26f0f7c04f18d2f0edeb66565260b4d",
+      "neighbors": [
+        {
+          "id": 61,
+          "source_key": "HW-11",
+          "category": "hardware",
+          "similarity": 0.35825679042163416
+        },
+        {
+          "id": 67,
+          "source_key": "HW-17",
+          "category": "hardware",
+          "similarity": 0.3540249615831434
+        },
+        {
+          "id": 12,
+          "source_key": "HW-02",
+          "category": "hardware",
+          "similarity": 0.24765899574962358
+        }
+      ]
+    },
+    {
+      "id": "FINAL-EN-064",
+      "group_id": "final-en-incident-064",
+      "text": "The document scanner's lid has snapped at the hinge. That's all I can tell so far.",
+      "quality": "weak",
+      "expected_category": "hardware",
+      "expected_priority": null,
+      "raw_category": "hardware",
+      "raw_priority": "medium",
+      "accepted_category": "hardware",
+      "accepted_priority": "medium",
+      "category_score": 0.4296938095591054,
+      "priority_score": 0.6677342911381524,
+      "category_review_reason": null,
+      "priority_review_reason": null,
+      "classification_version": "helpdesk-v2:03ca36845a14a929b6c402179ddfec24a26f0f7c04f18d2f0edeb66565260b4d",
+      "neighbors": [
+        {
+          "id": 61,
+          "source_key": "HW-11",
+          "category": "hardware",
+          "similarity": 0.42969380955910536
+        },
+        {
+          "id": 70,
+          "source_key": "HW-20",
+          "category": "hardware",
+          "similarity": 0.41974705627748843
+        },
+        {
+          "id": 13,
+          "source_key": "HW-03",
+          "category": "hardware",
+          "similarity": 0.4168622291716139
+        }
+      ]
+    },
+    {
+      "id": "FINAL-EN-065",
+      "group_id": "final-en-incident-065",
+      "text": "Two PCs report an address conflict. Both have been given the same IPv4 address.",
+      "quality": "weak",
+      "expected_category": "network",
+      "expected_priority": null,
+      "raw_category": "network",
+      "raw_priority": "medium",
+      "accepted_category": "network",
+      "accepted_priority": "medium",
+      "category_score": 0.394960599607565,
+      "priority_score": 0.793103013987167,
+      "category_review_reason": null,
+      "priority_review_reason": null,
+      "classification_version": "helpdesk-v2:03ca36845a14a929b6c402179ddfec24a26f0f7c04f18d2f0edeb66565260b4d",
+      "neighbors": [
+        {
+          "id": 99,
+          "source_key": "NET-29",
+          "category": "network",
+          "similarity": 0.394960599607565
+        },
+        {
+          "id": 24,
+          "source_key": "NET-04",
+          "category": "network",
+          "similarity": 0.322549501100563
+        },
+        {
+          "id": 87,
+          "source_key": "NET-17",
+          "category": "network",
+          "similarity": 0.3193722154053853
+        }
+      ]
+    },
+    {
+      "id": "FINAL-EN-066",
+      "group_id": "final-en-incident-066",
+      "text": "Packets arrive out of order on the link between the media encoder and receiver. No other details yet.",
+      "quality": "weak",
+      "expected_category": "network",
+      "expected_priority": null,
+      "raw_category": "network",
+      "raw_priority": "high",
+      "accepted_category": "network",
+      "accepted_priority": "high",
+      "category_score": 0.36660369454167774,
+      "priority_score": 0.6724873081421375,
+      "category_review_reason": null,
+      "priority_review_reason": null,
+      "classification_version": "helpdesk-v2:03ca36845a14a929b6c402179ddfec24a26f0f7c04f18d2f0edeb66565260b4d",
+      "neighbors": [
+        {
+          "id": 96,
+          "source_key": "NET-26",
+          "category": "network",
+          "similarity": 0.36660369454167774
+        },
+        {
+          "id": 88,
+          "source_key": "NET-18",
+          "category": "network",
+          "similarity": 0.3049249354568073
+        },
+        {
+          "id": 14,
+          "source_key": "HW-04",
+          "category": "hardware",
+          "similarity": 0.2863686230309656
+        }
+      ]
+    },
+    {
+      "id": "FINAL-EN-067",
+      "group_id": "final-en-incident-067",
+      "text": "The image viewer rotates a picture twice when I click Rotate once.",
+      "quality": "weak",
+      "expected_category": "software",
+      "expected_priority": null,
+      "raw_category": "hardware",
+      "raw_priority": "medium",
+      "accepted_category": "hardware",
+      "accepted_priority": "medium",
+      "category_score": 0.3583888993983584,
+      "priority_score": 0.7674176010199962,
+      "category_review_reason": null,
+      "priority_review_reason": null,
+      "classification_version": "helpdesk-v2:03ca36845a14a929b6c402179ddfec24a26f0f7c04f18d2f0edeb66565260b4d",
+      "neighbors": [
+        {
+          "id": 69,
+          "source_key": "HW-19",
+          "category": "hardware",
+          "similarity": 0.35838889939835833
+        },
+        {
+          "id": 11,
+          "source_key": "HW-01",
+          "category": "hardware",
+          "similarity": 0.30262468922446023
+        },
+        {
+          "id": 44,
+          "source_key": "ACC-14",
+          "category": "accounts_access",
+          "similarity": 0.27617533248963877
+        }
+      ]
+    },
+    {
+      "id": "FINAL-EN-068",
+      "group_id": "final-en-incident-068",
+      "text": "That extension calls the same webhook twice for one button press.",
+      "quality": "weak",
+      "expected_category": "software",
+      "expected_priority": null,
+      "raw_category": "accounts_access",
+      "raw_priority": "medium",
+      "accepted_category": null,
+      "accepted_priority": "medium",
+      "category_score": 0.3551087382237643,
+      "priority_score": 0.8645939082916857,
+      "category_review_reason": "split_category_vote",
+      "priority_review_reason": null,
+      "classification_version": "helpdesk-v2:03ca36845a14a929b6c402179ddfec24a26f0f7c04f18d2f0edeb66565260b4d",
+      "neighbors": [
+        {
+          "id": 41,
+          "source_key": "ACC-11",
+          "category": "accounts_access",
+          "similarity": 0.3551087382237643
+        },
+        {
+          "id": 69,
+          "source_key": "HW-19",
+          "category": "hardware",
+          "similarity": 0.3298831809387351
+        },
+        {
+          "id": 24,
+          "source_key": "NET-04",
+          "category": "network",
+          "similarity": 0.2554448043712265
+        }
+      ]
+    },
+    {
+      "id": "FINAL-EN-069",
+      "group_id": "final-en-incident-069",
+      "text": "There's an unused guest login in my account list. It is disabled; my own access and work are unaffected.",
+      "quality": "weak",
+      "expected_category": "accounts_access",
+      "expected_priority": "low",
+      "raw_category": "accounts_access",
+      "raw_priority": "medium",
+      "accepted_category": "accounts_access",
+      "accepted_priority": "medium",
+      "category_score": 0.5418013707963629,
+      "priority_score": 0.5511608298975165,
+      "category_review_reason": null,
+      "priority_review_reason": null,
+      "classification_version": "helpdesk-v2:03ca36845a14a929b6c402179ddfec24a26f0f7c04f18d2f0edeb66565260b4d",
+      "neighbors": [
+        {
+          "id": 48,
+          "source_key": "ACC-18",
+          "category": "accounts_access",
+          "similarity": 0.5418013707963629
+        },
+        {
+          "id": 43,
+          "source_key": "ACC-13",
+          "category": "accounts_access",
+          "similarity": 0.506624481490316
+        },
+        {
+          "id": 82,
+          "source_key": "NET-12",
+          "category": "network",
+          "similarity": 0.49557229178414736
+        }
+      ]
+    },
+    {
+      "id": "FINAL-EN-070",
+      "group_id": "final-en-incident-070",
+      "text": "My laptop's trackpad is physically cracked and won't click. A USB mouse lets me do the job, just awkward on the train.",
+      "quality": "weak",
+      "expected_category": "hardware",
+      "expected_priority": "medium",
+      "raw_category": "hardware",
+      "raw_priority": "medium",
+      "accepted_category": "hardware",
+      "accepted_priority": "medium",
+      "category_score": 0.5604169115970673,
+      "priority_score": 0.833040608729691,
+      "category_review_reason": null,
+      "priority_review_reason": null,
+      "classification_version": "helpdesk-v2:03ca36845a14a929b6c402179ddfec24a26f0f7c04f18d2f0edeb66565260b4d",
+      "neighbors": [
+        {
+          "id": 69,
+          "source_key": "HW-19",
+          "category": "hardware",
+          "similarity": 0.5604169115970673
+        },
+        {
+          "id": 61,
+          "source_key": "HW-11",
+          "category": "hardware",
+          "similarity": 0.4007272166127098
+        },
+        {
+          "id": 15,
+          "source_key": "HW-05",
+          "category": "hardware",
+          "similarity": 0.34396631701443653
+        }
+      ]
+    },
+    {
+      "id": "FINAL-EN-071",
+      "group_id": "final-en-incident-071",
+      "text": "Only ICMP crosses the temporary link; TCP sessions time out. Today's remote inspection is blocked, no other route.",
+      "quality": "weak",
+      "expected_category": "network",
+      "expected_priority": "high",
+      "raw_category": "network",
+      "raw_priority": "high",
+      "accepted_category": "network",
+      "accepted_priority": "high",
+      "category_score": 0.4713292770532491,
+      "priority_score": 0.9788498864363342,
+      "category_review_reason": null,
+      "priority_review_reason": null,
+      "classification_version": "helpdesk-v2:03ca36845a14a929b6c402179ddfec24a26f0f7c04f18d2f0edeb66565260b4d",
+      "neighbors": [
+        {
+          "id": 29,
+          "source_key": "NET-09",
+          "category": "network",
+          "similarity": 0.4713292770532491
+        },
+        {
+          "id": 95,
+          "source_key": "NET-25",
+          "category": "network",
+          "similarity": 0.46887314255208884
+        },
+        {
+          "id": 30,
+          "source_key": "NET-10",
+          "category": "network",
+          "similarity": 0.4275331299527717
+        }
+      ]
+    },
+    {
+      "id": "FINAL-EN-072",
+      "group_id": "final-en-incident-072",
+      "text": "The queue handler drops every new job after yesterday's patch. Our whole dispatch team is stopped; there is no fallback.",
+      "quality": "weak",
+      "expected_category": "software",
+      "expected_priority": "critical",
+      "raw_category": "software",
+      "raw_priority": "high",
+      "accepted_category": null,
+      "accepted_priority": "high",
+      "category_score": 0.4156352373998413,
+      "priority_score": 0.4200813207065106,
+      "category_review_reason": "split_category_vote",
+      "priority_review_reason": null,
+      "classification_version": "helpdesk-v2:03ca36845a14a929b6c402179ddfec24a26f0f7c04f18d2f0edeb66565260b4d",
+      "neighbors": [
+        {
+          "id": 40,
+          "source_key": "SW-10",
+          "category": "software",
+          "similarity": 0.4156352373998414
+        },
+        {
+          "id": 86,
+          "source_key": "NET-16",
+          "category": "network",
+          "similarity": 0.3239740389980033
+        },
+        {
+          "id": 59,
+          "source_key": "ACC-29",
+          "category": "accounts_access",
+          "similarity": 0.32389604486186524
+        }
+      ]
+    },
+    {
+      "id": "FINAL-EN-073",
+      "group_id": "final-en-incident-073",
+      "text": "The panel gets stuck on that step again, sometimes.",
+      "quality": "weak",
+      "expected_category": null,
+      "expected_priority": null,
+      "raw_category": "network",
+      "raw_priority": "medium",
+      "accepted_category": null,
+      "accepted_priority": "medium",
+      "category_score": 0.3241320741514654,
+      "priority_score": 0.8032126095465915,
+      "category_review_reason": "split_category_vote",
+      "priority_review_reason": null,
+      "classification_version": "helpdesk-v2:03ca36845a14a929b6c402179ddfec24a26f0f7c04f18d2f0edeb66565260b4d",
+      "neighbors": [
+        {
+          "id": 82,
+          "source_key": "NET-12",
+          "category": "network",
+          "similarity": 0.3241320741514654
+        },
+        {
+          "id": 31,
+          "source_key": "SW-01",
+          "category": "software",
+          "similarity": 0.28525396361081545
+        },
+        {
+          "id": 13,
+          "source_key": "HW-03",
+          "category": "hardware",
+          "similarity": 0.2743914118164521
+        }
+      ]
+    },
+    {
+      "id": "FINAL-EN-074",
+      "group_id": "final-en-incident-074",
+      "text": "I keep getting a red warning at the desk. I don't know which bit it comes from.",
+      "quality": "weak",
+      "expected_category": null,
+      "expected_priority": null,
+      "raw_category": "hardware",
+      "raw_priority": "medium",
+      "accepted_category": "hardware",
+      "accepted_priority": "medium",
+      "category_score": 0.3605637548060332,
+      "priority_score": 0.7054397380473444,
+      "category_review_reason": null,
+      "priority_review_reason": null,
+      "classification_version": "helpdesk-v2:03ca36845a14a929b6c402179ddfec24a26f0f7c04f18d2f0edeb66565260b4d",
+      "neighbors": [
+        {
+          "id": 11,
+          "source_key": "HW-01",
+          "category": "hardware",
+          "similarity": 0.3605637548060332
+        },
+        {
+          "id": 65,
+          "source_key": "HW-15",
+          "category": "hardware",
+          "similarity": 0.25568333943991484
+        },
+        {
+          "id": 66,
+          "source_key": "HW-16",
+          "category": "hardware",
+          "similarity": 0.24266516869043372
+        }
+      ]
+    },
+    {
+      "id": "FINAL-EN-075",
+      "group_id": "final-en-incident-075",
+      "text": "It says 'not available' when I try from here.",
+      "quality": "weak",
+      "expected_category": null,
+      "expected_priority": null,
+      "raw_category": "accounts_access",
+      "raw_priority": "medium",
+      "accepted_category": "accounts_access",
+      "accepted_priority": "medium",
+      "category_score": 0.3865983536744253,
+      "priority_score": 0.49897013139388924,
+      "category_review_reason": null,
+      "priority_review_reason": null,
+      "classification_version": "helpdesk-v2:03ca36845a14a929b6c402179ddfec24a26f0f7c04f18d2f0edeb66565260b4d",
+      "neighbors": [
+        {
+          "id": 48,
+          "source_key": "ACC-18",
+          "category": "accounts_access",
+          "similarity": 0.38659835367442524
+        },
+        {
+          "id": 98,
+          "source_key": "NET-28",
+          "category": "network",
+          "similarity": 0.37566042049901116
+        },
+        {
+          "id": 51,
+          "source_key": "ACC-21",
+          "category": "accounts_access",
+          "similarity": 0.34314219181183986
+        }
+      ]
+    },
+    {
+      "id": "FINAL-EN-076",
+      "group_id": "final-en-incident-076",
+      "text": "Something changed overnight; I can't get the usual thing done.",
+      "quality": "weak",
+      "expected_category": null,
+      "expected_priority": null,
+      "raw_category": "software",
+      "raw_priority": "medium",
+      "accepted_category": "software",
+      "accepted_priority": "medium",
+      "category_score": 0.3272168881598915,
+      "priority_score": 0.6008168151469205,
+      "category_review_reason": null,
+      "priority_review_reason": null,
+      "classification_version": "helpdesk-v2:03ca36845a14a929b6c402179ddfec24a26f0f7c04f18d2f0edeb66565260b4d",
+      "neighbors": [
+        {
+          "id": 9,
+          "source_key": "ACC-09",
+          "category": "accounts_access",
+          "similarity": 0.33426021397532796
+        },
+        {
+          "id": 31,
+          "source_key": "SW-01",
+          "category": "software",
+          "similarity": 0.3272168881598915
+        },
+        {
+          "id": 104,
+          "source_key": "SW-14",
+          "category": "software",
+          "similarity": 0.322977013175644
+        }
+      ]
+    },
+    {
+      "id": "FINAL-EN-077",
+      "group_id": "final-en-incident-077",
+      "text": "The little warning is still there. Everything I need works, and it doesn't slow me down.",
+      "quality": "weak",
+      "expected_category": null,
+      "expected_priority": "low",
+      "raw_category": "accounts_access",
+      "raw_priority": "medium",
+      "accepted_category": null,
+      "accepted_priority": "medium",
+      "category_score": 0.332972959609241,
+      "priority_score": 0.7745623209990126,
+      "category_review_reason": "split_category_vote",
+      "priority_review_reason": null,
+      "classification_version": "helpdesk-v2:03ca36845a14a929b6c402179ddfec24a26f0f7c04f18d2f0edeb66565260b4d",
+      "neighbors": [
+        {
+          "id": 44,
+          "source_key": "ACC-14",
+          "category": "accounts_access",
+          "similarity": 0.33297295960924095
+        },
+        {
+          "id": 65,
+          "source_key": "HW-15",
+          "category": "hardware",
+          "similarity": 0.2783249895328238
+        },
+        {
+          "id": 112,
+          "source_key": "SW-22",
+          "category": "software",
+          "similarity": 0.27137468729265873
+        }
+      ]
+    },
+    {
+      "id": "FINAL-EN-078",
+      "group_id": "final-en-incident-078",
+      "text": "That thing still won't open, but the approved backup option works. Switching over is slowing my work.",
+      "quality": "weak",
+      "expected_category": null,
+      "expected_priority": "medium",
+      "raw_category": "software",
+      "raw_priority": "medium",
+      "accepted_category": "software",
+      "accepted_priority": "medium",
+      "category_score": 0.40080084854670217,
+      "priority_score": 0.801493763913411,
+      "category_review_reason": null,
+      "priority_review_reason": null,
+      "classification_version": "helpdesk-v2:03ca36845a14a929b6c402179ddfec24a26f0f7c04f18d2f0edeb66565260b4d",
+      "neighbors": [
+        {
+          "id": 112,
+          "source_key": "SW-22",
+          "category": "software",
+          "similarity": 0.40080084854670217
+        },
+        {
+          "id": 88,
+          "source_key": "NET-18",
+          "category": "network",
+          "similarity": 0.35586637234604895
+        },
+        {
+          "id": 116,
+          "source_key": "SW-26",
+          "category": "software",
+          "similarity": 0.354489252323751
+        }
+      ]
+    },
+    {
+      "id": "FINAL-EN-079",
+      "group_id": "final-en-incident-079",
+      "text": "I can't complete today's required equipment acceptance. There is no alternative way or available replacement to do it.",
+      "quality": "weak",
+      "expected_category": null,
+      "expected_priority": "high",
+      "raw_category": "accounts_access",
+      "raw_priority": "high",
+      "accepted_category": "accounts_access",
+      "accepted_priority": "high",
+      "category_score": 0.3570894074668739,
+      "priority_score": 0.937127801266003,
+      "category_review_reason": null,
+      "priority_review_reason": null,
+      "classification_version": "helpdesk-v2:03ca36845a14a929b6c402179ddfec24a26f0f7c04f18d2f0edeb66565260b4d",
+      "neighbors": [
+        {
+          "id": 56,
+          "source_key": "ACC-26",
+          "category": "accounts_access",
+          "similarity": 0.3570894074668739
+        },
+        {
+          "id": 80,
+          "source_key": "HW-30",
+          "category": "hardware",
+          "similarity": 0.3243887173371759
+        },
+        {
+          "id": 9,
+          "source_key": "ACC-09",
+          "category": "accounts_access",
+          "similarity": 0.3178170437537816
+        }
+      ]
+    },
+    {
+      "id": "FINAL-EN-080",
+      "group_id": "final-en-incident-080",
+      "text": "Whatever failed has stopped every agent from handling customer requests. The main service is unavailable and we have no fallback.",
+      "quality": "weak",
+      "expected_category": null,
+      "expected_priority": "critical",
+      "raw_category": "network",
+      "raw_priority": "high",
+      "accepted_category": "network",
+      "accepted_priority": "high",
+      "category_score": 0.49262290673641174,
+      "priority_score": 0.5373531601736242,
+      "category_review_reason": null,
+      "priority_review_reason": null,
+      "classification_version": "helpdesk-v2:03ca36845a14a929b6c402179ddfec24a26f0f7c04f18d2f0edeb66565260b4d",
+      "neighbors": [
+        {
+          "id": 40,
+          "source_key": "SW-10",
+          "category": "software",
+          "similarity": 0.6399066374904228
+        },
+        {
+          "id": 99,
+          "source_key": "NET-29",
+          "category": "network",
+          "similarity": 0.49262290673641174
+        },
+        {
+          "id": 88,
+          "source_key": "NET-18",
+          "category": "network",
+          "similarity": 0.4700900164244431
+        }
+      ]
+    },
+    {
+      "id": "FINAL-EN-081",
+      "group_id": "final-en-incident-081",
+      "text": "The account directory still lists an old recovery contact that has already been disabled by our identity team. It cannot be used to reset anything, my current recovery contact works, and signing in is unaffected. I only want the inactive entry removed from my account's list; it has not interrupted any duty.",
+      "quality": "complete",
+      "expected_category": "accounts_access",
+      "expected_priority": "low",
+      "raw_category": "accounts_access",
+      "raw_priority": "high",
+      "accepted_category": "accounts_access",
+      "accepted_priority": null,
+      "category_score": 0.46401737825612077,
+      "priority_score": 0.34500640623286466,
+      "category_review_reason": null,
+      "priority_review_reason": "low_priority_score",
+      "classification_version": "helpdesk-v2:03ca36845a14a929b6c402179ddfec24a26f0f7c04f18d2f0edeb66565260b4d",
+      "neighbors": [
+        {
+          "id": 10,
+          "source_key": "ACC-10",
+          "category": "accounts_access",
+          "similarity": 0.46401737825612077
+        },
+        {
+          "id": 41,
+          "source_key": "ACC-11",
+          "category": "accounts_access",
+          "similarity": 0.43252310797632976
+        },
+        {
+          "id": 47,
+          "source_key": "ACC-17",
+          "category": "accounts_access",
+          "similarity": 0.43046960727472394
+        }
+      ]
+    },
+    {
+      "id": "FINAL-EN-082",
+      "group_id": "final-en-incident-082",
+      "text": "The remote-access account page continues to show a device registration that was retired last year. IT confirms its credential has been revoked, so it grants no access. My current registered device signs in correctly and all work proceeds normally; please remove the stale registration at the next account tidy-up.",
+      "quality": "complete",
+      "expected_category": "accounts_access",
+      "expected_priority": "low",
+      "raw_category": "accounts_access",
+      "raw_priority": "medium",
+      "accepted_category": "accounts_access",
+      "accepted_priority": "medium",
+      "category_score": 0.527898507905844,
+      "priority_score": 0.5024487851235362,
+      "category_review_reason": null,
+      "priority_review_reason": null,
+      "classification_version": "helpdesk-v2:03ca36845a14a929b6c402179ddfec24a26f0f7c04f18d2f0edeb66565260b4d",
+      "neighbors": [
+        {
+          "id": 60,
+          "source_key": "ACC-30",
+          "category": "accounts_access",
+          "similarity": 0.527898507905844
+        },
+        {
+          "id": 95,
+          "source_key": "NET-25",
+          "category": "network",
+          "similarity": 0.5131467891034986
+        },
+        {
+          "id": 6,
+          "source_key": "ACC-06",
+          "category": "accounts_access",
+          "similarity": 0.4873769843998549
+        }
+      ]
+    },
+    {
+      "id": "FINAL-EN-083",
+      "group_id": "final-en-incident-083",
+      "text": "Our time-entry service explicitly says my permission to submit as a project delegate has been removed. I can still submit the same entries directly under my own existing project membership, and the manager accepts them that way. I now have to split the entries project by project instead of sending the delegated batch, so reporting takes longer.",
+      "quality": "complete",
+      "expected_category": "accounts_access",
+      "expected_priority": "medium",
+      "raw_category": "accounts_access",
+      "raw_priority": "medium",
+      "accepted_category": "accounts_access",
+      "accepted_priority": "medium",
+      "category_score": 0.40078957789184544,
+      "priority_score": 0.8992516798647984,
+      "category_review_reason": null,
+      "priority_review_reason": null,
+      "classification_version": "helpdesk-v2:03ca36845a14a929b6c402179ddfec24a26f0f7c04f18d2f0edeb66565260b4d",
+      "neighbors": [
+        {
+          "id": 52,
+          "source_key": "ACC-22",
+          "category": "accounts_access",
+          "similarity": 0.40078957789184544
+        },
+        {
+          "id": 112,
+          "source_key": "SW-22",
+          "category": "software",
+          "similarity": 0.39885285126109327
+        },
+        {
+          "id": 43,
+          "source_key": "ACC-13",
+          "category": "accounts_access",
+          "similarity": 0.35578873485523976
+        }
+      ]
+    },
+    {
+      "id": "FINAL-EN-084",
+      "group_id": "final-en-incident-084",
+      "text": "The application access broker refuses to refresh my desktop client's token with 'device grant revoked'. The browser session through the approved access portal still opens the same cases and allows all required actions. I can serve customers there, but handling attachments takes extra steps compared with the desktop client.",
+      "quality": "complete",
+      "expected_category": "accounts_access",
+      "expected_priority": "medium",
+      "raw_category": "accounts_access",
+      "raw_priority": "medium",
+      "accepted_category": "accounts_access",
+      "accepted_priority": "medium",
+      "category_score": 0.444868715716369,
+      "priority_score": 0.9423349727138273,
+      "category_review_reason": null,
+      "priority_review_reason": null,
+      "classification_version": "helpdesk-v2:03ca36845a14a929b6c402179ddfec24a26f0f7c04f18d2f0edeb66565260b4d",
+      "neighbors": [
+        {
+          "id": 6,
+          "source_key": "ACC-06",
+          "category": "accounts_access",
+          "similarity": 0.444868715716369
+        },
+        {
+          "id": 95,
+          "source_key": "NET-25",
+          "category": "network",
+          "similarity": 0.39996345454513665
+        },
+        {
+          "id": 60,
+          "source_key": "ACC-30",
+          "category": "accounts_access",
+          "similarity": 0.3516809753957968
+        }
+      ]
+    },
+    {
+      "id": "FINAL-EN-085",
+      "group_id": "final-en-incident-085",
+      "text": "The cluster accepts my login but refuses the required production namespace with 'namespace entitlement not assigned'. I need to run the recovery job for one customer's failed deployment before their maintenance window closes. The job cannot run in another namespace, and no other entitled operator is available during this window.",
+      "quality": "complete",
+      "expected_category": "accounts_access",
+      "expected_priority": "high",
+      "raw_category": "accounts_access",
+      "raw_priority": "high",
+      "accepted_category": "accounts_access",
+      "accepted_priority": "high",
+      "category_score": 0.27848981616031987,
+      "priority_score": 0.6883525103829244,
+      "category_review_reason": null,
+      "priority_review_reason": null,
+      "classification_version": "helpdesk-v2:03ca36845a14a929b6c402179ddfec24a26f0f7c04f18d2f0edeb66565260b4d",
+      "neighbors": [
+        {
+          "id": 99,
+          "source_key": "NET-29",
+          "category": "network",
+          "similarity": 0.2921430319496272
+        },
+        {
+          "id": 59,
+          "source_key": "ACC-29",
+          "category": "accounts_access",
+          "similarity": 0.27848981616031987
+        },
+        {
+          "id": 42,
+          "source_key": "ACC-12",
+          "category": "accounts_access",
+          "similarity": 0.26330222467012504
+        }
+      ]
+    },
+    {
+      "id": "FINAL-EN-086",
+      "group_id": "final-en-incident-086",
+      "text": "The evidence repository accepts my password but denies downloading the sealed bundle: 'legal-hold retrieval permission absent'. I am the designated reviewer for today's hearing and need that bundle. Screen viewing is not a permitted substitute, no authorised colleague is on duty, and the approved retrieval route is the only way to obtain it.",
+      "quality": "complete",
+      "expected_category": "accounts_access",
+      "expected_priority": "high",
+      "raw_category": "accounts_access",
+      "raw_priority": "high",
+      "accepted_category": "accounts_access",
+      "accepted_priority": "high",
+      "category_score": 0.3900305599273617,
+      "priority_score": 0.808418577019836,
+      "category_review_reason": null,
+      "priority_review_reason": null,
+      "classification_version": "helpdesk-v2:03ca36845a14a929b6c402179ddfec24a26f0f7c04f18d2f0edeb66565260b4d",
+      "neighbors": [
+        {
+          "id": 58,
+          "source_key": "ACC-28",
+          "category": "accounts_access",
+          "similarity": 0.3900305599273617
+        },
+        {
+          "id": 52,
+          "source_key": "ACC-22",
+          "category": "accounts_access",
+          "similarity": 0.36524646466345867
+        },
+        {
+          "id": 3,
+          "source_key": "ACC-03",
+          "category": "accounts_access",
+          "similarity": 0.34735076957945293
+        }
+      ]
+    },
+    {
+      "id": "FINAL-EN-087",
+      "group_id": "final-en-incident-087",
+      "text": "After the tenant migration my account is recognised, but submitting the safety declaration returns 'user belongs to a different authorised tenant'. I must lodge this site's declaration today. The receiving service requires my assigned tenant identity; I cannot submit on paper, change tenants myself or ask an available delegate to do it.",
+      "quality": "complete",
+      "expected_category": "accounts_access",
+      "expected_priority": "high",
+      "raw_category": "accounts_access",
+      "raw_priority": "high",
+      "accepted_category": "accounts_access",
+      "accepted_priority": "high",
+      "category_score": 0.4028253836343849,
+      "priority_score": 0.8373183075697875,
+      "category_review_reason": null,
+      "priority_review_reason": null,
+      "classification_version": "helpdesk-v2:03ca36845a14a929b6c402179ddfec24a26f0f7c04f18d2f0edeb66565260b4d",
+      "neighbors": [
+        {
+          "id": 60,
+          "source_key": "ACC-30",
+          "category": "accounts_access",
+          "similarity": 0.40282538363438497
+        },
+        {
+          "id": 51,
+          "source_key": "ACC-21",
+          "category": "accounts_access",
+          "similarity": 0.40261986955224827
+        },
+        {
+          "id": 1,
+          "source_key": "ACC-01",
+          "category": "accounts_access",
+          "similarity": 0.4010952603920359
+        }
+      ]
+    },
+    {
+      "id": "FINAL-EN-088",
+      "group_id": "final-en-incident-088",
+      "text": "The identity broker reports 'approved audience removed from trust policy' for every operator's token when opening the emergency dispatch console. The trust-policy administrator confirms the console's audience was removed. All operators across the control room are unable to dispatch jobs, and there is no separate login or manual dispatch mode.",
+      "quality": "complete",
+      "expected_category": "accounts_access",
+      "expected_priority": "critical",
+      "raw_category": "accounts_access",
+      "raw_priority": "high",
+      "accepted_category": "accounts_access",
+      "accepted_priority": "high",
+      "category_score": 0.5583440005311171,
+      "priority_score": 0.5367893024315493,
+      "category_review_reason": null,
+      "priority_review_reason": null,
+      "classification_version": "helpdesk-v2:03ca36845a14a929b6c402179ddfec24a26f0f7c04f18d2f0edeb66565260b4d",
+      "neighbors": [
+        {
+          "id": 59,
+          "source_key": "ACC-29",
+          "category": "accounts_access",
+          "similarity": 0.5583440005311171
+        },
+        {
+          "id": 60,
+          "source_key": "ACC-30",
+          "category": "accounts_access",
+          "similarity": 0.46926845658418215
+        },
+        {
+          "id": 39,
+          "source_key": "SW-09",
+          "category": "software",
+          "similarity": 0.39589481838592044
+        }
+      ]
+    },
+    {
+      "id": "FINAL-EN-089",
+      "group_id": "final-en-incident-089",
+      "text": "The latch on the external webcam's protective travel cover has broken. The camera body and lens are intact and calls look and sound normal. I leave the camera on my desk and do not need that transport cover for work; this is a request to replace the cover at routine maintenance.",
+      "quality": "complete",
+      "expected_category": "hardware",
+      "expected_priority": "low",
+      "raw_category": "hardware",
+      "raw_priority": "low",
+      "accepted_category": "hardware",
+      "accepted_priority": "low",
+      "category_score": 0.42738688693027393,
+      "priority_score": 0.549983966721787,
+      "category_review_reason": null,
+      "priority_review_reason": null,
+      "classification_version": "helpdesk-v2:03ca36845a14a929b6c402179ddfec24a26f0f7c04f18d2f0edeb66565260b4d",
+      "neighbors": [
+        {
+          "id": 16,
+          "source_key": "HW-06",
+          "category": "hardware",
+          "similarity": 0.427386886930274
+        },
+        {
+          "id": 61,
+          "source_key": "HW-11",
+          "category": "hardware",
+          "similarity": 0.3597497824104243
+        },
+        {
+          "id": 72,
+          "source_key": "HW-22",
+          "category": "hardware",
+          "similarity": 0.3414070758509331
+        }
+      ]
+    },
+    {
+      "id": "FINAL-EN-090",
+      "group_id": "final-en-incident-090",
+      "text": "The spare display's cable-management clip has snapped off its stand. The stand itself is stable and the power and signal cables are undamaged and properly supported. The screen works normally and nothing about my work is affected; the clip just needs replacing when a part is available.",
+      "quality": "complete",
+      "expected_category": "hardware",
+      "expected_priority": "low",
+      "raw_category": "hardware",
+      "raw_priority": "low",
+      "accepted_category": "hardware",
+      "accepted_priority": "low",
+      "category_score": 0.437130109933337,
+      "priority_score": 0.5622003773764762,
+      "category_review_reason": null,
+      "priority_review_reason": null,
+      "classification_version": "helpdesk-v2:03ca36845a14a929b6c402179ddfec24a26f0f7c04f18d2f0edeb66565260b4d",
+      "neighbors": [
+        {
+          "id": 61,
+          "source_key": "HW-11",
+          "category": "hardware",
+          "similarity": 0.437130109933337
+        },
+        {
+          "id": 64,
+          "source_key": "HW-14",
+          "category": "hardware",
+          "similarity": 0.4222158440497545
+        },
+        {
+          "id": 73,
+          "source_key": "HW-23",
+          "category": "hardware",
+          "similarity": 0.3850614882005454
+        }
+      ]
+    },
+    {
+      "id": "FINAL-EN-091",
+      "group_id": "final-en-incident-091",
+      "text": "The handset's coiled cord has a broken conductor, confirmed by testing it on a second desk phone. Conversations cut out when that cord bends. The same phone works reliably on speakerphone, which is permitted here, so I can continue taking calls, although I have to use a quiet booth for confidential ones.",
+      "quality": "complete",
+      "expected_category": "hardware",
+      "expected_priority": "medium",
+      "raw_category": "hardware",
+      "raw_priority": "medium",
+      "accepted_category": "hardware",
+      "accepted_priority": "medium",
+      "category_score": 0.5891419539566004,
+      "priority_score": 0.9028509116124958,
+      "category_review_reason": null,
+      "priority_review_reason": null,
+      "classification_version": "helpdesk-v2:03ca36845a14a929b6c402179ddfec24a26f0f7c04f18d2f0edeb66565260b4d",
+      "neighbors": [
+        {
+          "id": 62,
+          "source_key": "HW-12",
+          "category": "hardware",
+          "similarity": 0.5891419539566004
+        },
+        {
+          "id": 88,
+          "source_key": "NET-18",
+          "category": "network",
+          "similarity": 0.5263941361970865
+        },
+        {
+          "id": 72,
+          "source_key": "HW-22",
+          "category": "hardware",
+          "similarity": 0.5077370923422161
+        }
+      ]
+    },
+    {
+      "id": "FINAL-EN-092",
+      "group_id": "final-en-incident-092",
+      "text": "The scanner's physical start button stays pressed and its local diagnostic identifies a failed switch. Starting the scan from the computer still captures every page correctly. I can finish the digitisation using that method, but I have to return to the computer between batches rather than use the button beside the paper tray.",
+      "quality": "complete",
+      "expected_category": "hardware",
+      "expected_priority": "medium",
+      "raw_category": "hardware",
+      "raw_priority": "medium",
+      "accepted_category": "hardware",
+      "accepted_priority": "medium",
+      "category_score": 0.6418109465640094,
+      "priority_score": 0.8564834020473024,
+      "category_review_reason": null,
+      "priority_review_reason": null,
+      "classification_version": "helpdesk-v2:03ca36845a14a929b6c402179ddfec24a26f0f7c04f18d2f0edeb66565260b4d",
+      "neighbors": [
+        {
+          "id": 70,
+          "source_key": "HW-20",
+          "category": "hardware",
+          "similarity": 0.6418109465640094
+        },
+        {
+          "id": 13,
+          "source_key": "HW-03",
+          "category": "hardware",
+          "similarity": 0.5195637583730988
+        },
+        {
+          "id": 18,
+          "source_key": "HW-08",
+          "category": "hardware",
+          "similarity": 0.5179455010203203
+        }
+      ]
+    },
+    {
+      "id": "FINAL-EN-093",
+      "group_id": "final-en-incident-093",
+      "text": "The hardware diagnostic on our calibration colourimeter says its measurement sensor has failed; it cannot take a reading even in stand-alone mode. I need a certified colour reading to release today's proof. We have no compatible spare sensor, and a visual estimate or another type of meter is not accepted for release.",
+      "quality": "complete",
+      "expected_category": "hardware",
+      "expected_priority": "high",
+      "raw_category": "hardware",
+      "raw_priority": "high",
+      "accepted_category": "hardware",
+      "accepted_priority": "high",
+      "category_score": 0.3352443772582707,
+      "priority_score": 0.6896127534513968,
+      "category_review_reason": null,
+      "priority_review_reason": null,
+      "classification_version": "helpdesk-v2:03ca36845a14a929b6c402179ddfec24a26f0f7c04f18d2f0edeb66565260b4d",
+      "neighbors": [
+        {
+          "id": 73,
+          "source_key": "HW-23",
+          "category": "hardware",
+          "similarity": 0.3352443772582708
+        },
+        {
+          "id": 11,
+          "source_key": "HW-01",
+          "category": "hardware",
+          "similarity": 0.3317597246123448
+        },
+        {
+          "id": 80,
+          "source_key": "HW-30",
+          "category": "hardware",
+          "similarity": 0.3263819359098311
+        }
+      ]
+    },
+    {
+      "id": "FINAL-EN-094",
+      "group_id": "final-en-incident-094",
+      "text": "The secure signing token's built-in diagnostic reports a failed memory chip, and it cannot read its stored certificate on either workstation we tried. I must sign one customer's approved design today. The certificate has no exportable copy, a replacement token is not available, and signing by another method is not authorised.",
+      "quality": "complete",
+      "expected_category": "hardware",
+      "expected_priority": "high",
+      "raw_category": "software",
+      "raw_priority": "high",
+      "accepted_category": null,
+      "accepted_priority": "high",
+      "category_score": 0.3840989039357692,
+      "priority_score": 0.8842575607097033,
+      "category_review_reason": "split_category_vote",
+      "priority_review_reason": null,
+      "classification_version": "helpdesk-v2:03ca36845a14a929b6c402179ddfec24a26f0f7c04f18d2f0edeb66565260b4d",
+      "neighbors": [
+        {
+          "id": 38,
+          "source_key": "SW-08",
+          "category": "software",
+          "similarity": 0.38409890393576923
+        },
+        {
+          "id": 75,
+          "source_key": "HW-25",
+          "category": "hardware",
+          "similarity": 0.38132556849891036
+        },
+        {
+          "id": 47,
+          "source_key": "ACC-17",
+          "category": "accounts_access",
+          "similarity": 0.3679394020039238
+        }
+      ]
+    },
+    {
+      "id": "FINAL-EN-095",
+      "group_id": "final-en-incident-095",
+      "text": "The small optical-disc writer used for sealed evidence media has a broken tray motor; its own service test cannot close the tray. I must produce today's required write-once evidence disc. The authority accepts only that approved medium and device combination, and we have no replacement writer or permitted online delivery route.",
+      "quality": "complete",
+      "expected_category": "hardware",
+      "expected_priority": "high",
+      "raw_category": "hardware",
+      "raw_priority": "high",
+      "accepted_category": "hardware",
+      "accepted_priority": "high",
+      "category_score": 0.467778304939241,
+      "priority_score": 0.9514849135203722,
+      "category_review_reason": null,
+      "priority_review_reason": null,
+      "classification_version": "helpdesk-v2:03ca36845a14a929b6c402179ddfec24a26f0f7c04f18d2f0edeb66565260b4d",
+      "neighbors": [
+        {
+          "id": 76,
+          "source_key": "HW-26",
+          "category": "hardware",
+          "similarity": 0.46777830493924094
+        },
+        {
+          "id": 20,
+          "source_key": "HW-10",
+          "category": "hardware",
+          "similarity": 0.4052966280126811
+        },
+        {
+          "id": 70,
+          "source_key": "HW-20",
+          "category": "hardware",
+          "similarity": 0.36672045353283256
+        }
+      ]
+    },
+    {
+      "id": "FINAL-EN-096",
+      "group_id": "final-en-incident-096",
+      "text": "The central storage shelf reports a failed backplane and none of its drives can be reached by either controller, although the controllers themselves pass their tests. Every production terminal has lost the order database and production has stopped. The replica is unavailable and there is no offline order list or replacement shelf to use.",
+      "quality": "complete",
+      "expected_category": "hardware",
+      "expected_priority": "critical",
+      "raw_category": "hardware",
+      "raw_priority": "critical",
+      "accepted_category": null,
+      "accepted_priority": "critical",
+      "category_score": 0.5605893325436769,
+      "priority_score": 0.45363512080495905,
+      "category_review_reason": "split_category_vote",
+      "priority_review_reason": null,
+      "classification_version": "helpdesk-v2:03ca36845a14a929b6c402179ddfec24a26f0f7c04f18d2f0edeb66565260b4d",
+      "neighbors": [
+        {
+          "id": 20,
+          "source_key": "HW-10",
+          "category": "hardware",
+          "similarity": 0.5605893325436769
+        },
+        {
+          "id": 40,
+          "source_key": "SW-10",
+          "category": "software",
+          "similarity": 0.45478200463058793
+        },
+        {
+          "id": 100,
+          "source_key": "NET-30",
+          "category": "network",
+          "similarity": 0.4313577203235012
+        }
+      ]
+    },
+    {
+      "id": "FINAL-EN-097",
+      "group_id": "final-en-incident-097",
+      "text": "The network manager shows a public IPv6 address changing periodically on my work laptop. Connections remain stable, company services work and I have not lost any sessions. I am asking if this address rotation is expected; there is no delay or blocked task associated with it.",
+      "quality": "complete",
+      "expected_category": "network",
+      "expected_priority": "low",
+      "raw_category": "network",
+      "raw_priority": "high",
+      "accepted_category": "network",
+      "accepted_priority": "high",
+      "category_score": 0.3771087630736032,
+      "priority_score": 0.48357355485550013,
+      "category_review_reason": null,
+      "priority_review_reason": null,
+      "classification_version": "helpdesk-v2:03ca36845a14a929b6c402179ddfec24a26f0f7c04f18d2f0edeb66565260b4d",
+      "neighbors": [
+        {
+          "id": 89,
+          "source_key": "NET-19",
+          "category": "network",
+          "similarity": 0.37710876307360325
+        },
+        {
+          "id": 25,
+          "source_key": "NET-05",
+          "category": "network",
+          "similarity": 0.35731470362818507
+        },
+        {
+          "id": 94,
+          "source_key": "NET-24",
+          "category": "network",
+          "similarity": 0.31981425975777433
+        }
+      ]
+    },
+    {
+      "id": "FINAL-EN-098",
+      "group_id": "final-en-incident-098",
+      "text": "The approved screen-sharing receiver can be pinged and reached on the local network, but its discovery service is advertising the previous address after a subnet move. Our connection profile with the current fixed address works reliably. Meetings can continue, but hosts must choose the manual profile until the advertisement is corrected.",
+      "quality": "complete",
+      "expected_category": "network",
+      "expected_priority": "medium",
+      "raw_category": "network",
+      "raw_priority": "medium",
+      "accepted_category": "network",
+      "accepted_priority": "medium",
+      "category_score": 0.4103224437725601,
+      "priority_score": 0.7688230005037722,
+      "category_review_reason": null,
+      "priority_review_reason": null,
+      "classification_version": "helpdesk-v2:03ca36845a14a929b6c402179ddfec24a26f0f7c04f18d2f0edeb66565260b4d",
+      "neighbors": [
+        {
+          "id": 23,
+          "source_key": "NET-03",
+          "category": "network",
+          "similarity": 0.41032244377256016
+        },
+        {
+          "id": 96,
+          "source_key": "NET-26",
+          "category": "network",
+          "similarity": 0.39511204918014736
+        },
+        {
+          "id": 89,
+          "source_key": "NET-19",
+          "category": "network",
+          "similarity": 0.3854961334003425
+        }
+      ]
+    },
+    {
+      "id": "FINAL-EN-099",
+      "group_id": "final-en-incident-099",
+      "text": "The new office firewall closes idle database TCP sessions after one minute, and our independent network test reproduces the reset without the application. The approved connection setting that opens a fresh session for each operation works. I can process the records with it, but each operation now takes longer to establish a connection.",
+      "quality": "complete",
+      "expected_category": "network",
+      "expected_priority": "medium",
+      "raw_category": "network",
+      "raw_priority": "medium",
+      "accepted_category": "network",
+      "accepted_priority": "medium",
+      "category_score": 0.5588143887890479,
+      "priority_score": 0.8828721668399602,
+      "category_review_reason": null,
+      "priority_review_reason": null,
+      "classification_version": "helpdesk-v2:03ca36845a14a929b6c402179ddfec24a26f0f7c04f18d2f0edeb66565260b4d",
+      "neighbors": [
+        {
+          "id": 29,
+          "source_key": "NET-09",
+          "category": "network",
+          "similarity": 0.5588143887890479
+        },
+        {
+          "id": 95,
+          "source_key": "NET-25",
+          "category": "network",
+          "similarity": 0.4360718115028952
+        },
+        {
+          "id": 82,
+          "source_key": "NET-12",
+          "category": "network",
+          "similarity": 0.42307015955739574
+        }
+      ]
+    },
+    {
+      "id": "FINAL-EN-100",
+      "group_id": "final-en-incident-100",
+      "text": "The laboratory broker accepts the network handshake but the route drops all return traffic from its data port; our packet captures show replies entering the border interface and never reaching my workstation. I need to collect today's certified test readings. There is no alternate port, approved network path or workstation that can complete this collection.",
+      "quality": "complete",
+      "expected_category": "network",
+      "expected_priority": "high",
+      "raw_category": "network",
+      "raw_priority": "high",
+      "accepted_category": "network",
+      "accepted_priority": "high",
+      "category_score": 0.38601797686611417,
+      "priority_score": 0.8149302521545128,
+      "category_review_reason": null,
+      "priority_review_reason": null,
+      "classification_version": "helpdesk-v2:03ca36845a14a929b6c402179ddfec24a26f0f7c04f18d2f0edeb66565260b4d",
+      "neighbors": [
+        {
+          "id": 95,
+          "source_key": "NET-25",
+          "category": "network",
+          "similarity": 0.38601797686611417
+        },
+        {
+          "id": 29,
+          "source_key": "NET-09",
+          "category": "network",
+          "similarity": 0.35690411717464743
+        },
+        {
+          "id": 28,
+          "source_key": "NET-08",
+          "category": "network",
+          "similarity": 0.3452689685661396
+        }
+      ]
+    },
+    {
+      "id": "FINAL-EN-101",
+      "group_id": "final-en-incident-101",
+      "text": "The managed transfer gateway cannot resolve the external partner's new DNSSEC-signed domain: validation rejects its current chain, while unsigned unrelated domains resolve normally. The partner confirms its endpoint is running. I must send today's regulated transfer through this gateway; policy forbids disabling validation, using an IP address or sending through another channel.",
+      "quality": "complete",
+      "expected_category": "network",
+      "expected_priority": "high",
+      "raw_category": "network",
+      "raw_priority": "high",
+      "accepted_category": "network",
+      "accepted_priority": "high",
+      "category_score": 0.36580436100562064,
+      "priority_score": 0.6588210963388607,
+      "category_review_reason": null,
+      "priority_review_reason": null,
+      "classification_version": "helpdesk-v2:03ca36845a14a929b6c402179ddfec24a26f0f7c04f18d2f0edeb66565260b4d",
+      "neighbors": [
+        {
+          "id": 99,
+          "source_key": "NET-29",
+          "category": "network",
+          "similarity": 0.36580436100562064
+        },
+        {
+          "id": 53,
+          "source_key": "ACC-23",
+          "category": "accounts_access",
+          "similarity": 0.3188301263564345
+        },
+        {
+          "id": 90,
+          "source_key": "NET-20",
+          "category": "network",
+          "similarity": 0.3072610296698144
+        }
+      ]
+    },
+    {
+      "id": "FINAL-EN-102",
+      "group_id": "final-en-incident-102",
+      "text": "The wired acquisition device sends tagged traffic on VLAN 214, but the authorised uplink no longer carries that VLAN; the switch trace shows the frames being discarded there. I need its live samples for today's acceptance run. The device cannot use wireless, and no spare uplink or permitted local recording mode is available.",
+      "quality": "complete",
+      "expected_category": "network",
+      "expected_priority": "high",
+      "raw_category": "network",
+      "raw_priority": "high",
+      "accepted_category": "network",
+      "accepted_priority": "high",
+      "category_score": 0.33849705706900723,
+      "priority_score": 0.8096662412011061,
+      "category_review_reason": null,
+      "priority_review_reason": null,
+      "classification_version": "helpdesk-v2:03ca36845a14a929b6c402179ddfec24a26f0f7c04f18d2f0edeb66565260b4d",
+      "neighbors": [
+        {
+          "id": 96,
+          "source_key": "NET-26",
+          "category": "network",
+          "similarity": 0.33849705706900723
+        },
+        {
+          "id": 75,
+          "source_key": "HW-25",
+          "category": "hardware",
+          "similarity": 0.330590225013396
+        },
+        {
+          "id": 86,
+          "source_key": "NET-16",
+          "category": "network",
+          "similarity": 0.31473261442674677
+        }
+      ]
+    },
+    {
+      "id": "FINAL-EN-103",
+      "group_id": "final-en-incident-103",
+      "text": "The branch's network admission gateway refuses to forward traffic for every already-authenticated workstation because its address-to-port bindings were cleared. The network team confirms packets are being discarded at that gateway, not rejected by users' accounts. All service desks are stopped, and no bypass network or offline service mode is available.",
+      "quality": "complete",
+      "expected_category": "network",
+      "expected_priority": "critical",
+      "raw_category": "network",
+      "raw_priority": "critical",
+      "accepted_category": "network",
+      "accepted_priority": "critical",
+      "category_score": 0.5111465925869856,
+      "priority_score": 0.6425621295194706,
+      "category_review_reason": null,
+      "priority_review_reason": null,
+      "classification_version": "helpdesk-v2:03ca36845a14a929b6c402179ddfec24a26f0f7c04f18d2f0edeb66565260b4d",
+      "neighbors": [
+        {
+          "id": 30,
+          "source_key": "NET-10",
+          "category": "network",
+          "similarity": 0.5111465925869856
+        },
+        {
+          "id": 95,
+          "source_key": "NET-25",
+          "category": "network",
+          "similarity": 0.4675511100214498
+        },
+        {
+          "id": 93,
+          "source_key": "NET-23",
+          "category": "network",
+          "similarity": 0.4415701168298087
+        }
+      ]
+    },
+    {
+      "id": "FINAL-EN-104",
+      "group_id": "final-en-incident-104",
+      "text": "The document comparison tool shows the result-tab title twice after I detach and reattach the tab. The comparison itself is accurate, the exported result is correct, and the duplicate title neither hides information nor slows any operation I need. This is a cosmetic issue in the tab header.",
+      "quality": "complete",
+      "expected_category": "software",
+      "expected_priority": "low",
+      "raw_category": "software",
+      "raw_priority": "high",
+      "accepted_category": "software",
+      "accepted_priority": "high",
+      "category_score": 0.31489767330650487,
+      "priority_score": 0.3844690158901834,
+      "category_review_reason": null,
+      "priority_review_reason": null,
+      "classification_version": "helpdesk-v2:03ca36845a14a929b6c402179ddfec24a26f0f7c04f18d2f0edeb66565260b4d",
+      "neighbors": [
+        {
+          "id": 111,
+          "source_key": "SW-21",
+          "category": "software",
+          "similarity": 0.31489767330650487
+        },
+        {
+          "id": 101,
+          "source_key": "SW-11",
+          "category": "software",
+          "similarity": 0.25347662677482263
+        },
+        {
+          "id": 32,
+          "source_key": "SW-02",
+          "category": "software",
+          "similarity": 0.2412358195490487
+        }
+      ]
+    },
+    {
+      "id": "FINAL-EN-105",
+      "group_id": "final-en-incident-105",
+      "text": "The translation tool applies the first glossary entry to every selected term instead of using each term's matching entry. The source text is unchanged. I can apply the correct glossary items individually and produce an approved translation, but reviewing and replacing them one at a time makes each document slower to finish.",
+      "quality": "complete",
+      "expected_category": "software",
+      "expected_priority": "medium",
+      "raw_category": "software",
+      "raw_priority": "medium",
+      "accepted_category": "software",
+      "accepted_priority": "medium",
+      "category_score": 0.263886064992926,
+      "priority_score": 0.7317391496681498,
+      "category_review_reason": null,
+      "priority_review_reason": null,
+      "classification_version": "helpdesk-v2:03ca36845a14a929b6c402179ddfec24a26f0f7c04f18d2f0edeb66565260b4d",
+      "neighbors": [
+        {
+          "id": 102,
+          "source_key": "SW-12",
+          "category": "software",
+          "similarity": 0.263886064992926
+        },
+        {
+          "id": 92,
+          "source_key": "NET-22",
+          "category": "network",
+          "similarity": 0.20597768993838164
+        },
+        {
+          "id": 111,
+          "source_key": "SW-21",
+          "category": "software",
+          "similarity": 0.19638560694840979
+        }
+      ]
+    },
+    {
+      "id": "FINAL-EN-106",
+      "group_id": "final-en-incident-106",
+      "text": "The diagram editor moves connector arrows to the wrong shapes when I use automatic layout. Manual placement keeps every connector attached correctly, and the saved diagram passes our review. I can finish the design with auto-layout disabled, although arranging all the shapes and arrows manually takes extra time.",
+      "quality": "complete",
+      "expected_category": "software",
+      "expected_priority": "medium",
+      "raw_category": "software",
+      "raw_priority": "low",
+      "accepted_category": "software",
+      "accepted_priority": null,
+      "category_score": 0.3815122012528973,
+      "priority_score": 0.3735985034613397,
+      "category_review_reason": null,
+      "priority_review_reason": "low_priority_score",
+      "classification_version": "helpdesk-v2:03ca36845a14a929b6c402179ddfec24a26f0f7c04f18d2f0edeb66565260b4d",
+      "neighbors": [
+        {
+          "id": 31,
+          "source_key": "SW-01",
+          "category": "software",
+          "similarity": 0.38151220125289725
+        },
+        {
+          "id": 101,
+          "source_key": "SW-11",
+          "category": "software",
+          "similarity": 0.2518420941087732
+        },
+        {
+          "id": 103,
+          "source_key": "SW-13",
+          "category": "software",
+          "similarity": 0.2298605434134134
+        }
+      ]
+    },
+    {
+      "id": "FINAL-EN-107",
+      "group_id": "final-en-incident-107",
+      "text": "The medication-label generator prints a dose unit different from the unit in its validated input, including with the supplier's approved sample. The workstation, printer self-test and stored source record are correct. I must produce the verified label set for this patient's preparation today; handwritten labels and alternative generators are not authorised.",
+      "quality": "complete",
+      "expected_category": "software",
+      "expected_priority": "high",
+      "raw_category": "hardware",
+      "raw_priority": "high",
+      "accepted_category": null,
+      "accepted_priority": "high",
+      "category_score": 0.453116020385674,
+      "priority_score": 0.5426309561578792,
+      "category_review_reason": "split_category_vote",
+      "priority_review_reason": null,
+      "classification_version": "helpdesk-v2:03ca36845a14a929b6c402179ddfec24a26f0f7c04f18d2f0edeb66565260b4d",
+      "neighbors": [
+        {
+          "id": 74,
+          "source_key": "HW-24",
+          "category": "hardware",
+          "similarity": 0.453116020385674
+        },
+        {
+          "id": 117,
+          "source_key": "SW-27",
+          "category": "software",
+          "similarity": 0.2872488805658142
+        },
+        {
+          "id": 60,
+          "source_key": "ACC-30",
+          "category": "accounts_access",
+          "similarity": 0.2787622775163175
+        }
+      ]
+    },
+    {
+      "id": "FINAL-EN-108",
+      "group_id": "final-en-incident-108",
+      "text": "The digital preservation validator reads a valid archive but calculates its checksum over an empty stream; the same happens with the tool's bundled test archive. I need the validator's signed acceptance report for today's deposit. We may not substitute a manual checksum or another validator, and there is no supported setting that avoids the issue.",
+      "quality": "complete",
+      "expected_category": "software",
+      "expected_priority": "high",
+      "raw_category": "software",
+      "raw_priority": "high",
+      "accepted_category": "software",
+      "accepted_priority": "high",
+      "category_score": 0.43108540927415995,
+      "priority_score": 0.6886782949970938,
+      "category_review_reason": null,
+      "priority_review_reason": null,
+      "classification_version": "helpdesk-v2:03ca36845a14a929b6c402179ddfec24a26f0f7c04f18d2f0edeb66565260b4d",
+      "neighbors": [
+        {
+          "id": 118,
+          "source_key": "SW-28",
+          "category": "software",
+          "similarity": 0.43108540927415995
+        },
+        {
+          "id": 117,
+          "source_key": "SW-27",
+          "category": "software",
+          "similarity": 0.33327478030177393
+        },
+        {
+          "id": 37,
+          "source_key": "SW-07",
+          "category": "software",
+          "similarity": 0.32226708887132305
+        }
+      ]
+    },
+    {
+      "id": "FINAL-EN-109",
+      "group_id": "final-en-incident-109",
+      "text": "The accessibility checker marks every heading in a valid document as body text and omits its required structure report. The vendor's reference document produces the same result, and reading or editing the file works elsewhere. I must submit the certified structure report today; only this checker is approved and there is no manual attestation route.",
+      "quality": "complete",
+      "expected_category": "software",
+      "expected_priority": "high",
+      "raw_category": "accounts_access",
+      "raw_priority": "high",
+      "accepted_category": "accounts_access",
+      "accepted_priority": "high",
+      "category_score": 0.34747945823552084,
+      "priority_score": 0.885652409629557,
+      "category_review_reason": null,
+      "priority_review_reason": null,
+      "classification_version": "helpdesk-v2:03ca36845a14a929b6c402179ddfec24a26f0f7c04f18d2f0edeb66565260b4d",
+      "neighbors": [
+        {
+          "id": 46,
+          "source_key": "ACC-16",
+          "category": "accounts_access",
+          "similarity": 0.34747945823552084
+        },
+        {
+          "id": 3,
+          "source_key": "ACC-03",
+          "category": "accounts_access",
+          "similarity": 0.276919797993387
+        },
+        {
+          "id": 116,
+          "source_key": "SW-26",
+          "category": "software",
+          "similarity": 0.2658004241777497
+        }
+      ]
+    },
+    {
+      "id": "FINAL-EN-110",
+      "group_id": "final-en-incident-110",
+      "text": "A new rules-engine release treats every accepted reservation as cancelled as soon as it saves the record. All agents reproduce it with otherwise valid requests, while authentication and connectivity work. The entire booking service has stopped taking reservations, and neither the previous release nor a manual booking process is available.",
+      "quality": "complete",
+      "expected_category": "software",
+      "expected_priority": "critical",
+      "raw_category": "software",
+      "raw_priority": "critical",
+      "accepted_category": "software",
+      "accepted_priority": "critical",
+      "category_score": 0.39234082986643093,
+      "priority_score": 0.39533704709707884,
+      "category_review_reason": null,
+      "priority_review_reason": null,
+      "classification_version": "helpdesk-v2:03ca36845a14a929b6c402179ddfec24a26f0f7c04f18d2f0edeb66565260b4d",
+      "neighbors": [
+        {
+          "id": 40,
+          "source_key": "SW-10",
+          "category": "software",
+          "similarity": 0.39234082986643093
+        },
+        {
+          "id": 60,
+          "source_key": "ACC-30",
+          "category": "accounts_access",
+          "similarity": 0.35914165851792434
+        },
+        {
+          "id": 119,
+          "source_key": "SW-29",
+          "category": "software",
+          "similarity": 0.3509836491864633
+        }
+      ]
+    },
+    {
+      "id": "FINAL-EN-111",
+      "group_id": "final-en-incident-111",
+      "text": "The upload page says 'consent for this application has been withdrawn' after I sign in.",
+      "quality": "weak",
+      "expected_category": "accounts_access",
+      "expected_priority": null,
+      "raw_category": "accounts_access",
+      "raw_priority": "medium",
+      "accepted_category": "accounts_access",
+      "accepted_priority": "medium",
+      "category_score": 0.47300695713659135,
+      "priority_score": 0.6845321404045187,
+      "category_review_reason": null,
+      "priority_review_reason": null,
+      "classification_version": "helpdesk-v2:03ca36845a14a929b6c402179ddfec24a26f0f7c04f18d2f0edeb66565260b4d",
+      "neighbors": [
+        {
+          "id": 6,
+          "source_key": "ACC-06",
+          "category": "accounts_access",
+          "similarity": 0.4730069571365913
+        },
+        {
+          "id": 48,
+          "source_key": "ACC-18",
+          "category": "accounts_access",
+          "similarity": 0.43806983002834765
+        },
+        {
+          "id": 47,
+          "source_key": "ACC-17",
+          "category": "accounts_access",
+          "similarity": 0.42429076309608404
+        }
+      ]
+    },
+    {
+      "id": "FINAL-EN-112",
+      "group_id": "final-en-incident-112",
+      "text": "The headset's earcup bracket has snapped, and the cup is hanging by its wire.",
+      "quality": "weak",
+      "expected_category": "hardware",
+      "expected_priority": null,
+      "raw_category": "hardware",
+      "raw_priority": "medium",
+      "accepted_category": "hardware",
+      "accepted_priority": "medium",
+      "category_score": 0.42096044791292264,
+      "priority_score": 0.43541383961614705,
+      "category_review_reason": null,
+      "priority_review_reason": null,
+      "classification_version": "helpdesk-v2:03ca36845a14a929b6c402179ddfec24a26f0f7c04f18d2f0edeb66565260b4d",
+      "neighbors": [
+        {
+          "id": 62,
+          "source_key": "HW-12",
+          "category": "hardware",
+          "similarity": 0.42096044791292264
+        },
+        {
+          "id": 72,
+          "source_key": "HW-22",
+          "category": "hardware",
+          "similarity": 0.2782662844661373
+        },
+        {
+          "id": 85,
+          "source_key": "NET-15",
+          "category": "network",
+          "similarity": 0.23651862469798401
+        }
+      ]
+    },
+    {
+      "id": "FINAL-EN-113",
+      "group_id": "final-en-incident-113",
+      "text": "Both ends show a duplex mismatch and the switch counts late collisions on that link.",
+      "quality": "weak",
+      "expected_category": "network",
+      "expected_priority": null,
+      "raw_category": "network",
+      "raw_priority": "medium",
+      "accepted_category": "network",
+      "accepted_priority": "medium",
+      "category_score": 0.33396531206871827,
+      "priority_score": 0.6231430633696514,
+      "category_review_reason": null,
+      "priority_review_reason": null,
+      "classification_version": "helpdesk-v2:03ca36845a14a929b6c402179ddfec24a26f0f7c04f18d2f0edeb66565260b4d",
+      "neighbors": [
+        {
+          "id": 24,
+          "source_key": "NET-04",
+          "category": "network",
+          "similarity": 0.3339653120687183
+        },
+        {
+          "id": 14,
+          "source_key": "HW-04",
+          "category": "hardware",
+          "similarity": 0.2908141731441328
+        },
+        {
+          "id": 88,
+          "source_key": "NET-18",
+          "category": "network",
+          "similarity": 0.27365455948017703
+        }
+      ]
+    },
+    {
+      "id": "FINAL-EN-114",
+      "group_id": "final-en-incident-114",
+      "text": "The spreadsheet extension copies the first row into every output row when I press Generate.",
+      "quality": "weak",
+      "expected_category": "software",
+      "expected_priority": null,
+      "raw_category": "software",
+      "raw_priority": "medium",
+      "accepted_category": "software",
+      "accepted_priority": "medium",
+      "category_score": 0.3655744601161788,
+      "priority_score": 0.6297107165341095,
+      "category_review_reason": null,
+      "priority_review_reason": null,
+      "classification_version": "helpdesk-v2:03ca36845a14a929b6c402179ddfec24a26f0f7c04f18d2f0edeb66565260b4d",
+      "neighbors": [
+        {
+          "id": 106,
+          "source_key": "SW-16",
+          "category": "software",
+          "similarity": 0.36557446011617883
+        },
+        {
+          "id": 111,
+          "source_key": "SW-21",
+          "category": "software",
+          "similarity": 0.3235974927423323
+        },
+        {
+          "id": 105,
+          "source_key": "SW-15",
+          "category": "software",
+          "similarity": 0.2956453662922157
+        }
+      ]
+    },
+    {
+      "id": "FINAL-EN-115",
+      "group_id": "final-en-incident-115",
+      "text": "The network graph shows a brief jitter spike, but calls and every work task remain unaffected.",
+      "quality": "weak",
+      "expected_category": "network",
+      "expected_priority": "low",
+      "raw_category": "network",
+      "raw_priority": "low",
+      "accepted_category": "network",
+      "accepted_priority": "low",
+      "category_score": 0.4396795721996323,
+      "priority_score": 0.4452669340144083,
+      "category_review_reason": null,
+      "priority_review_reason": null,
+      "classification_version": "helpdesk-v2:03ca36845a14a929b6c402179ddfec24a26f0f7c04f18d2f0edeb66565260b4d",
+      "neighbors": [
+        {
+          "id": 81,
+          "source_key": "NET-11",
+          "category": "network",
+          "similarity": 0.43967957219963233
+        },
+        {
+          "id": 86,
+          "source_key": "NET-16",
+          "category": "network",
+          "similarity": 0.416383709528209
+        },
+        {
+          "id": 88,
+          "source_key": "NET-18",
+          "category": "network",
+          "similarity": 0.4078286032183641
+        }
+      ]
+    },
+    {
+      "id": "FINAL-EN-116",
+      "group_id": "final-en-incident-116",
+      "text": "The packing app puts the last page first in its PDF. Reordering it in our approved PDF tool works, but adds work.",
+      "quality": "weak",
+      "expected_category": "software",
+      "expected_priority": "medium",
+      "raw_category": "software",
+      "raw_priority": "medium",
+      "accepted_category": "software",
+      "accepted_priority": "medium",
+      "category_score": 0.4159175035605034,
+      "priority_score": 0.9364292717106363,
+      "category_review_reason": null,
+      "priority_review_reason": null,
+      "classification_version": "helpdesk-v2:03ca36845a14a929b6c402179ddfec24a26f0f7c04f18d2f0edeb66565260b4d",
+      "neighbors": [
+        {
+          "id": 109,
+          "source_key": "SW-19",
+          "category": "software",
+          "similarity": 0.4159175035605034
+        },
+        {
+          "id": 33,
+          "source_key": "SW-03",
+          "category": "software",
+          "similarity": 0.38245757243592005
+        },
+        {
+          "id": 32,
+          "source_key": "SW-02",
+          "category": "software",
+          "similarity": 0.3823803990369371
+        }
+      ]
+    },
+    {
+      "id": "FINAL-EN-117",
+      "group_id": "final-en-incident-117",
+      "text": "The normal route ends at a blank screen now. Not sure what changed.",
+      "quality": "weak",
+      "expected_category": null,
+      "expected_priority": null,
+      "raw_category": "network",
+      "raw_priority": "high",
+      "accepted_category": "network",
+      "accepted_priority": null,
+      "category_score": 0.4369822489969427,
+      "priority_score": 0.3574981428020708,
+      "category_review_reason": null,
+      "priority_review_reason": "low_priority_score",
+      "classification_version": "helpdesk-v2:03ca36845a14a929b6c402179ddfec24a26f0f7c04f18d2f0edeb66565260b4d",
+      "neighbors": [
+        {
+          "id": 30,
+          "source_key": "NET-10",
+          "category": "network",
+          "similarity": 0.4369822489969427
+        },
+        {
+          "id": 100,
+          "source_key": "NET-30",
+          "category": "network",
+          "similarity": 0.400845455813999
+        },
+        {
+          "id": 96,
+          "source_key": "NET-26",
+          "category": "network",
+          "similarity": 0.37251561682961454
+        }
+      ]
+    },
+    {
+      "id": "FINAL-EN-118",
+      "group_id": "final-en-incident-118",
+      "text": "It asks me to do something I don't recognise, then I can't carry on with that bit.",
+      "quality": "weak",
+      "expected_category": null,
+      "expected_priority": null,
+      "raw_category": "accounts_access",
+      "raw_priority": "medium",
+      "accepted_category": "accounts_access",
+      "accepted_priority": "medium",
+      "category_score": 0.28060370913359367,
+      "priority_score": 0.8257936101037091,
+      "category_review_reason": null,
+      "priority_review_reason": null,
+      "classification_version": "helpdesk-v2:03ca36845a14a929b6c402179ddfec24a26f0f7c04f18d2f0edeb66565260b4d",
+      "neighbors": [
+        {
+          "id": 43,
+          "source_key": "ACC-13",
+          "category": "accounts_access",
+          "similarity": 0.28060370913359367
+        },
+        {
+          "id": 51,
+          "source_key": "ACC-21",
+          "category": "accounts_access",
+          "similarity": 0.27320554520510776
+        },
+        {
+          "id": 18,
+          "source_key": "HW-08",
+          "category": "hardware",
+          "similarity": 0.26085529422605447
+        }
+      ]
+    },
+    {
+      "id": "FINAL-EN-119",
+      "group_id": "final-en-incident-119",
+      "text": "Today's mandatory validation cannot be completed. Nobody can cover it and there is no alternative method.",
+      "quality": "weak",
+      "expected_category": null,
+      "expected_priority": "high",
+      "raw_category": "software",
+      "raw_priority": "high",
+      "accepted_category": "software",
+      "accepted_priority": "high",
+      "category_score": 0.4923421677286537,
+      "priority_score": 0.9158606060008978,
+      "category_review_reason": null,
+      "priority_review_reason": null,
+      "classification_version": "helpdesk-v2:03ca36845a14a929b6c402179ddfec24a26f0f7c04f18d2f0edeb66565260b4d",
+      "neighbors": [
+        {
+          "id": 118,
+          "source_key": "SW-28",
+          "category": "software",
+          "similarity": 0.49234216772865363
+        },
+        {
+          "id": 117,
+          "source_key": "SW-27",
+          "category": "software",
+          "similarity": 0.3869587346845774
+        },
+        {
+          "id": 37,
+          "source_key": "SW-07",
+          "category": "software",
+          "similarity": 0.35124003316450764
+        }
+      ]
+    },
+    {
+      "id": "FINAL-EN-120",
+      "group_id": "final-en-incident-120",
+      "text": "The essential service is down for every operator at all sites. All processing has stopped and there is no backup process.",
+      "quality": "weak",
+      "expected_category": null,
+      "expected_priority": "critical",
+      "raw_category": "network",
+      "raw_priority": "critical",
+      "accepted_category": "network",
+      "accepted_priority": "critical",
+      "category_score": 0.48902920635381264,
+      "priority_score": 0.6349067442411555,
+      "category_review_reason": null,
+      "priority_review_reason": null,
+      "classification_version": "helpdesk-v2:03ca36845a14a929b6c402179ddfec24a26f0f7c04f18d2f0edeb66565260b4d",
+      "neighbors": [
+        {
+          "id": 93,
+          "source_key": "NET-23",
+          "category": "network",
+          "similarity": 0.4890292063538127
+        },
+        {
+          "id": 30,
+          "source_key": "NET-10",
+          "category": "network",
+          "similarity": 0.4833851326196639
+        },
+        {
+          "id": 99,
+          "source_key": "NET-29",
+          "category": "network",
+          "similarity": 0.4668272622944448
+        }
+      ]
+    }
+  ],
+  "artifacts_sha256": {
+    "query-vectors.npy": "1a3072745e4e4143f327ffb463de764fed53f388e02776aa1bd5b99e337e0d01",
+    "priority-model.joblib": "a88b260f81342e8881fe6dbfc439a85b3cb41ae40ef03ebe3fb0e62066e938fe"
+  }
+}

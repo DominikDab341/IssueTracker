@@ -1,5 +1,34 @@
 # Stan projektu i zakres prac
 
+**Końcowy test klasyfikacji EN ukończony (2026-11-07):** użytkownik zatwierdził
+pozostałe 92 przypadki, zachowano wcześniejsze 8 decyzji, zamrożono 100 opisów
+(70 pełniejszych / 30 słabych) i wykonano pomiar na 120 stałych referencjach.
+Raw accuracy: 78/88 = 88,6% kategorii i 61/82 = 74,4% priorytetów; na samych
+70 pełniejszych odpowiednio 88,6% i 75,7%. Weryfikacja wykryła tylko 2/12
+nieustalalnych kategorii i 1/18 priorytetów. To zapisane ograniczenie, bez
+strojenia na teście. Przeszło 18 testów przygotowania/oceny i kontrola zgodności
+pgvector 100/100. E4.4 i E10.3 ukończone; pozostałe elementy ewaluacji RAG
+i niezależna jakość duplikatów pozostają osobne. [Raport i notatka do pracy](../backend/data/final-evaluation/en-v1/README.md).
+
+**Postęp niezależnego testu EN (2026-11-07):** zamrożono 120 referencji
+z działającej bazy oraz konfigurację, kod i metadane środowiska. Użytkownik
+zatwierdził pierwsze 8 przypadków wiadomością „Akceptuj to”; decyzję i snapshoty
+zapisano osobno. Ostatecznie rozszerzono zbiór do 100 nowych syntetycznych opisów:
+70 pełniejszych i 30 słabych, 8 approved / 92 pending, bez uruchamiania przewidywań.
+Zmiana 60 (40/20) → 100 (70/30) ma osobny zapis historii; wszystkie wcześniejsze
+60 przypadków, w tym zatwierdzona ósemka, pozostały bez zmian. Braki etykiet słabej partii zapisano jako null; ocena
+trafności i kierowania do weryfikacji będzie osobna. E4.4 pozostaje otwarte do przeglądu
+nowej partii, zamrożenia testu i pomiaru. [Protokół i dane](../backend/data/final-evaluation/en-v1/README.md).
+
+**Aktualizacja organizacji planu (2026-11-07):** na wniosek użytkownika
+pozostałe zadania RAG z etapów 4–5 przeniesiono do wspólnego pakietu
+wyszukiwania i integracji z LLM (etapy 7–8). Pytania są w E8.12, rubryka
+odpowiedzi w E8.13, metryki wyszukiwania w E7.8, a wpływ statusów na kontekst
+w E7.4 i E7.7. Przygotowanie protokołu nadal poprzedza strojenie RAG.
+W etapie 4 pozostaje niezależny test klasyfikacji E4.4; etap 5 jest ukończony
+w zakresie klasyfikacji. Przeniesienie zakresu nie oznacza implementacji RAG.
+Nie zmieniono kodu aplikacji ani wyników eksperymentów.
+
 **Aktualizacja pakietu etapów 4–5 (2026-11-07):** wdrożono zatwierdzanie
 rozwiązanych ticketów do osobnego źródła approved_ticket z autorem, datą i wersją
 opisu, bez nadpisywania pilotażu. KNN i TF-IDF korzystają z obu źródeł.

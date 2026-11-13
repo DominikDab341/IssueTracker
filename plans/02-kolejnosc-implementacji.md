@@ -7,7 +7,7 @@ Raport pomiaru etapu 4: [Pilotaż MiniLM — 2026-10-28](03-raport-pilotazu-mini
 `data/`, `scripts/` i `tests/` poniżej odnoszą się teraz do `backend/`.
 Aktualne polecenia uruchamiania znajdują się w głównym README.
 
-Plan zaktualizowany na dzień: **2026-11-07**.
+Plan zaktualizowany na dzień: **2026-11-11**.
 
 Temat pracy: **System klasyfikacji zgłoszeń z wykorzystaniem embeddingów tekstowych, bazy wektorowej i asystenta konwersacyjnego opartego na RAG**.
 
@@ -17,7 +17,9 @@ Plan opisuje kolejność wykonania, konkretne zadania i kryteria ukończenia. Pu
 
 **edit:** Wdrożono zatwierdzanie rozwiązanych ticketów do referencji, oddzielną weryfikację kategorii / priorytetu, diagnostyczny pomiar duplikatów i trwałą eskalację. Parametry i ograniczenia są opisane przy odpowiednich zadaniach. Potwierdzenie: [144 testy backendu](../backend/test-results-stage45.log), 13 testów React, [raport polityk](../backend/data/pilot/decision-policies/report.md) i instrukcja w README.
 
-E4.5–E4.7 oraz E5.3–E5.4, E5.6–E5.7, E5.10 i E5.12 są wykonane w opisanym zakresie. **Otwarte pozostają** niezależny test końcowy (E4.4), pytania i rubryka RAG (E4.8–E4.9) oraz część macierzy statusów dotycząca kontekstu RAG (E5.11). Nie wracamy w tym pakiecie do strojenia na teście końcowym ani do integracji LLM.
+E4.5–E4.7 oraz E5.3–E5.4, E5.6–E5.7, E5.10 i E5.12 są wykonane w opisanym zakresie. **edit — końcowy test EN:** E4.4 i E10.3 ukończono późniejszym pomiarem 100 zatwierdzonych przypadków (70/30). Wyniki i ograniczenia są poniżej; progów na tym teście nie strojono.
+
+**edit — rozdzielenie klasyfikacji i RAG:** zgodnie z decyzją użytkownika przygotowanie pytań przeniesiono z E4.8 do E8.12, a rubrykę odpowiedzi z części E4.9 do E8.13. Metryki wyszukiwania są w E7.8, a historyczny kontekst i statusy RAG z części E5.11 w E7.4 i E7.7. Etapy 7–8 tworzą wspólny pakiet integracji RAG z LLM: najpierw dane i protokół oceny, następnie wyszukiwanie, generowanie i czat. Końcowe pomiary RAG pozostają w E10.5–E10.8. Przeniesienie nie oznacza wykonania RAG; E4.9 i E5.11 oznaczono jako ukończone wyłącznie w zawężonym, już wdrożonym zakresie klasyfikacji.
 
 ## Zestawienie po audycie i wdrożeniu — 2026-11-07
 
@@ -34,15 +36,15 @@ Przegląd porównuje wymagania z aktualnym kodem, artefaktami danych i zapisanym
 | 1 | 9/9 | Ukończony |
 | 2 | 12/12 | Ukończony |
 | 3 | 13/13 | Ukończony fundament kont i uprawnień |
-| 4 | 7/10 | Dane startowe, pary, scenariusze i referencje gotowe; niezależny test i RAG otwarte |
-| 5 | 12/13 | Weryfikacja, referencje, duplikaty i eskalacja gotowe; pozostaje część RAG w E5.11 |
+| 4 | 9/9 (+1 przeniesione) | Dane i niezależny test klasyfikacji gotowe; E4.8 przeniesione do E8.12 |
+| 5 | 13/13 | Klasyfikacja, referencje, duplikaty i eskalacja gotowe; część RAG przeniesiona do etapu 7 |
 | 6 | 9/9 | Frontend obejmuje weryfikację i zatwierdzanie referencji |
 | 7 | 0/8 | Niewykonane wyszukiwanie RAG |
-| 8 | 0/11 | Niewykonane LLM i czat |
+| 8 | 0/13 | Niewykonane LLM, czat oraz przeniesione dane i rubryka oceny RAG |
 | 9 | 3/9 | Panel i instrukcja gotowe; pełne uruchomienie z LLM otwarte |
-| 10 | 0/10 | Pilotaż i walidacja klasyfikacji gotowe; końcowa ewaluacja otwarta |
+| 10 | 1/10 | Końcowa ocena klasyfikacji E10.3 gotowa; reszta ewaluacji pozostaje osobna |
 
-**Najbliższe otwarte prace:** niezależny test końcowy (E4.4), dane i rubryka RAG (E4.8–E4.9), a następnie oba wyszukiwania i asystent (etapy 7–8). Wynik 86,7% jest wynikiem walidacji na danych syntetycznych, nie ukończonym testem końcowym.
+**Najbliższe otwarte prace:** wspólny pakiet integracji RAG z LLM (etapy 7–8), z danymi i rubryką E8.12–E8.13 przed strojeniem. Niezależny test klasyfikacji zakończono: raw 78/88 = 88,6% kategorii i 61/82 = 74,4% priorytetów; 86,7% pozostaje historycznym wynikiem walidacji priorytetu. Ujawniono słabą detekcję braku informacji (2/12 kategorii i 1/18 priorytetów skierowanych do weryfikacji). Ewentualne poprawki wymagają osobnej walidacji i nie zmieniają raportowanego testu. [Wyniki i notatka do pracy](../backend/data/final-evaluation/en-v1/README.md).
 
 ## Ustalenia i otwarte decyzje
 
@@ -385,19 +387,18 @@ ręczny przegląd, docelowy zbiór 300, podział danych i pytania RAG.
 
 **Stan początkowy:** jest 10 przykładowych zgłoszeń w języku angielskim. Brak wydzielonych zbiorów i scenariuszy badawczych.
 
-**Cel:** przygotować dane i protokół badań przed doborem parametrów.
+**Cel:** przygotować dane i protokół badań klasyfikacji przed doborem parametrów. Dane i protokół RAG należą do pakietu integracji z LLM w etapach 7–8.
 
 ### Przypomnienie dla asystenta
 
 - Przed przygotowaniem całego zbioru pokazać małą próbkę zgłoszeń, w tym przypadki graniczne kategorii i priorytetów. Zapytać o niejednoznaczności, które wpływają na instrukcję etykietowania. Liczebność 300, cztery kategorie, wsparcie LLM i samodzielna weryfikacja przez autora są już przyjęte.
-- Przed zamrożeniem danych przedstawić konkretny podział referencja/walidacja/test oraz podział 30 pytań RAG na walidację i test. Zachować grupy parafraz i jednego incydentu w jednej części; oddzielić protokół klasyfikacji od par duplikatów i pytań RAG.
-- Przy E4.8–E4.9 pokazać prostą rubrykę oceny odpowiedzi i zapytać, czy autor samodzielnie oceni również odpowiedzi RAG. Samodzielna weryfikacja etykiet danych nie rozstrzyga automatycznie sposobu oceny odpowiedzi asystenta.
+- Przed zamrożeniem danych klasyfikacji przedstawić konkretny podział referencja/walidacja/test. Zachować grupy parafraz i jednego incydentu w jednej części; oddzielić protokół klasyfikacji od par duplikatów. Podział pytań RAG i rubrykę odpowiedzi przygotować później w E8.12–E8.13.
 
 ### Zadania
 
 - [x] **E4.1** Przygotować własny polski zbiór zgłoszeń helpdesku IT ze wsparciem LLM i ręczną weryfikacją przykładów: przyjąć wstępnie 300 zgłoszeń, około 75 na każdą z czterech kategorii, oraz zaplanować rozkład priorytetów i realistyczne scenariusze problemów informatycznych. Sprawdzić jakość obowiązkowego modelu `all-MiniLM-L6-v2` na niewielkiej próbce polskich tekstów przed przygotowaniem całego zbioru i docelowej konfiguracji; udokumentować ograniczenia językowe.
 
-  **edit:** Wykonane w zmienionym, uzgodnionym zakresie: zamiast 300 polskich zgłoszeń przygotowano 170 sparowanych opisów PL/EN — 120 zatwierdzonych przykładów referencyjnych i 50 słabych opisów diagnostycznych poza treningiem. Operacyjnym językiem klasyfikacji jest EN, PL służy porównaniu. Sprawdzono obowiązkowy MiniLM i opisano ograniczenia językowe. Dane RAG pozostają osobnym E4.8. Dowody: `backend/data/pilot/weak-170.md`, `comparison/report.md`.
+  **edit:** Wykonane w zmienionym, uzgodnionym zakresie: zamiast 300 polskich zgłoszeń przygotowano 170 sparowanych opisów PL/EN — 120 zatwierdzonych przykładów referencyjnych i 50 słabych opisów diagnostycznych poza treningiem. Operacyjnym językiem klasyfikacji jest EN, PL służy porównaniu. Sprawdzono obowiązkowy MiniLM i opisano ograniczenia językowe. Dane RAG pozostają osobnym E8.12 (dawniej E4.8). Dowody: `backend/data/pilot/weak-170.md`, `comparison/report.md`.
 
 - [x] **E4.2** Doprecyzować wstępnie przyjęte kategorie: Konta i uprawnienia, Sprzęt, Sieć i łączność, Oprogramowanie. Przygotować instrukcję etykietowania zgodną z przyjętymi znaczeniami priorytetów Niski, Średni, Wysoki i Krytyczny, z przykładami przypadków granicznych oraz postępowaniem przy niewystarczającej informacji o wpływie problemu. Kategorię przypisywać według opisanego problemu, bez wymagania znajomości jego przyczyny technicznej; ustalić rozstrzyganie zgłoszeń pasujących do kilku kategorii. Uporządkować sposób zastąpienia obecnych kategorii `bug`, `performance`, `feature` w danych i konfiguracji.
 
@@ -407,9 +408,19 @@ ręczny przegląd, docelowy zbiór 300, podział danych i pytania RAG.
 
   **edit:** Ukończone dla uzgodnionego zbioru startowego: 120 przykładów w obu językach ma zapisane zatwierdzenie użytkownika, etykiety, recenzenta i datę. 50 opisów `pending` pozostaje wyłącznie materiałem eksploracyjnym i nie jest dopuszczone do referencji ani końcowego testu. Instrukcje i syntetyczne pochodzenie są zapisane; dokładny identyfikator generatora i parametry były niedostępne i uczciwie oznaczono ten brak zamiast je odtwarzać. Jeżeli nowe 50 ma wejść do końcowej oceny, wymaga osobnego przeglądu w E4.4. Dowody: `tickets.en.json`, `generation.md`, `weak-170.md`, `test_pilot_dataset.py`.
 
-- [ ] **E4.4** Rozdzielić dane na referencyjne, walidacyjne i testowe; utrwalić podział oraz ziarno losowania. Duplikaty i bliskie parafrazy tego samego przypadku nie mogą trafić do różnych części.
+- [x] **E4.4** Rozdzielić dane na referencyjne, walidacyjne i testowe; utrwalić podział oraz ziarno losowania. Duplikaty i bliskie parafrazy tego samego przypadku nie mogą trafić do różnych części.
 
   **edit:** Częściowo: istnieją `group_id`, niezmienne snapshoty, ziarno 20261107 i zapisane podziały zagnieżdżonej walidacji grupowej 5×4. Słabe 50 nie trafia do treningu. Brakuje zamrożonego, niezależnego testu końcowego z zatwierdzonymi etykietami; wcześniejsze wyniki pilotażu i walidacji nie zastępują tego testu. Dowody: `evaluate_priority_methods.py`, `priority-methods/report.json`, `test_priority_methods.py`.
+
+  **edit — rozpoczęcie testu EN (2026-11-07):** zapisano snapshot 120 faktycznych referencji, progów, kodu, rewizji modelu i środowiska działającego kontenera. Przygotowano 8/60 nowych syntetycznych opisów EN (po 2 na kategorię), wszystkie pending, bez przewidywań. Przeszło 6 testów integralności i bramki przeglądu. Pozostają przegląd próbki przez autora, pozostałe przypadki, zatwierdzenie całego zbioru, jego zamrożenie i pomiar. Różne wersje bibliotek pilotażu i Dockera zapisano jako ograniczenie porównania. [Protokół i artefakty](../backend/data/final-evaluation/en-v1/README.md), [próbka](../backend/data/final-evaluation/en-v1/review.md). E4.4 nadal niewykonane.
+
+  **edit — po akceptacji próbki (2026-11-07):** użytkownik zatwierdził istniejące 8 przypadków; zapisano wiadomość, autora, datę oraz snapshoty przed i po przeglądzie. Przygotowano pozostałe 52 propozycje, co daje 60 opisów EN po 15 na kategorię (8 approved, 52 pending). Kontrola formatu, braku identycznych tekstów i długości tokenizerem przeszła; nie uruchamiano przewidywań. Zatwierdzenie pierwszej próbki nie obejmuje nowych przypadków. Pozostają przegląd nowej partii, zamrożenie zatwierdzonego testu i pomiar. [Nowa partia do przeglądu](../backend/data/final-evaluation/en-v1/review-new.md). E4.4 nadal niewykonane.
+
+  **edit — 20 słabych w obrębie 60 (2026-11-07):** przed przewidywaniami użytkownik zmienił skład na 40 pełniejszych (po 10 na kategorię) i 20 słabych. Wycofano 20 pending, zachowując snapshot poprzedniej wersji i historię ID; zatwierdzona ósemka nie zmieniła się. Nowe słabe opisy mają proponowane etykiety tylko tam, gdzie treść je uzasadnia (12/20 kategorii, 8/20 priorytetów); pozostałe to jawne null, nie klasa unknown i nie medium. Rozszerzono walidator i protokół o niezależne mianowniki oraz ocenę weryfikacji przy brakujących etykietach. Przeszło 10 testów przygotowania. Nadal 8 approved / 52 pending, bez pomiaru. [Słaba partia do przeglądu](../backend/data/final-evaluation/en-v1/review-weak.md). E4.4 pozostaje otwarte.
+
+  **edit — rozszerzenie do 100 w proporcji 70/30 (2026-11-07):** na kolejne zlecenie użytkownika zachowano wszystkie wcześniejsze 60 rekordów i dodano 30 pełniejszych oraz 10 słabych (nowe ID 081–120, wszystkie pending). Aktualny zbiór: 100 opisów, 70 pełniejszych / 30 słabych, 8 approved / 92 pending. Proponowane etykiety są ustalalne dla 18/30 kategorii i 12/30 priorytetów słabej części; nie wymyślamy pozostałych. Uaktualniono bramki liczebności i jakości, protokół, pliki przeglądu i historię zmiany. Przeszło 11 testów przygotowania; kontrola tokenów i integralności bez przewidywań. Nadal potrzebne są przegląd, zamrożenie testu i pomiar. E4.4 pozostaje otwarte.
+
+  **edit — ukończenie (2026-11-07):** użytkownik zatwierdził pozostałe 92 opisy przed przewidywaniami. Zachowano 8 wcześniejszych decyzji i zatwierdzone braki etykiet. Zamrożono test 100 EN (70/30), protokół, skrypty i hash powiązania ze 120 referencjami; test nie zasila treningu. Rozdzielenie od znanego pilotażu, grupy i kontrolę identycznych tekstów utrwalono. Przypadki przygotowano celowo, bez losowego losowania z populacji; seed regresji i wcześniejszej walidacji zapisano. Wynik ukończonego testu jest w E10.3. Ograniczenia generatora znającego pilotaż oraz jednego autora pozostają jawne. Dowody: final-evaluation/en-v1/sealed/, results/report.md, results/interpretation.md, 18 testów przygotowania i oceny, zgodność pgvector 100/100.
 
 - [x] **E4.5** Przygotować pary lub grupy duplikatów oraz podobnych, ale odrębnych zgłoszeń, umożliwiające pomiar fałszywych alarmów.
 
@@ -423,10 +434,10 @@ ręczny przegląd, docelowy zbiór 300, podział danych i pytania RAG.
 
   **edit:** Gotowy zbiór startowy 120 EN pozostaje niezmienny. Osobny POST /tickets/{id}/reference dodaje kopię rozwiązanego ticketu po jawnym wyborze kategorii i priorytetu bazowego przez aktualnego wykonawcę / administratora. Zapisano autora, czas i wersję; zwykłe przewidywania i reguły priorytetu nie uczą modeli. Nowe zatwierdzenia mają źródło approved_ticket i są łączone z pilotażem przy następnej klasyfikacji. Dostęp do metadanych ma obsługa / administrator, nie reporter. Dowody: test_reference_approval.py, TicketDetail.tsx.
 
-- [ ] **E4.8** Przygotować wstępnie 30 pytań do RAG, rozdzielonych na część walidacyjną i testową, z oczekiwanymi źródłami, kluczowymi faktami oraz przypadkami bez odpowiedzi i bez dostępu do źródeł. Uwzględnić opis nowego problemu wymagający wyszukania podobnych rozwiązanych spraw i streszczenia ich rozwiązań; w zbiorze kontekstu zapewnić ręcznie sprawdzone opisy rozwiązań. Dodać przypadki kilku odmiennych sposobów rozwiązania oraz braku rozwiązanych spraw mimo istnienia podobnych aktywnych zgłoszeń. Dla pytań o pełne zestawienia i liczby oczekiwać informacji o zakresie asystenta, a nie liczby wywnioskowanej z ograniczonego kontekstu. Te same pytania i oczekiwane źródła wykorzystać w porównaniu wyszukiwania wektorowego i pełnotekstowego.
-- [ ] **E4.9** Zdefiniować metryki: accuracy i macro-F1 osobno dla kategorii i priorytetu, macierze pomyłek, precision/recall duplikatów, trafność wyszukiwania oraz ocenę poprawności i oparcia odpowiedzi na źródłach.
+- **E4.8 — przeniesione, niewykonane:** pytania i dane RAG są teraz zadaniem E8.12. Historyczny identyfikator zachowano dla odtworzenia zmian planu; nie wliczamy go do aktywnych zadań etapu 4.
+- [x] **E4.9** Zdefiniować metryki klasyfikacji: accuracy i macro-F1 osobno dla kategorii i priorytetu, macierze pomyłek, pokrycie decyzji oraz precision/recall/F1 duplikatów.
 
-  **edit:** Częściowo: metryki klasyfikacji i zaniżeń priorytetu uzupełniono o pokrycie decyzji oraz precision/recall/F1 duplikatów. Odmowy klasyfikacji są liczone jako FN, więc nie poprawiają pozornie wyniku przez usuwanie trudnych przypadków. Nadal potrzebne są metryki wyszukiwania i rubryka odpowiedzi RAG.
+  **edit:** Ukończone w zakresie klasyfikacji: metryki i zaniżenia priorytetu uzupełniono o pokrycie decyzji oraz precision/recall/F1 duplikatów. Odmowy klasyfikacji są liczone jako FN, więc nie poprawiają pozornie wyniku przez usuwanie trudnych przypadków. Pierwotny zakres RAG przeniesiono do E7.8 (metryki wyszukiwania) i E8.13 (rubryka odpowiedzi); te zadania pozostają niewykonane. Definicje metryk nie zastępują niezależnego pomiaru z E4.4 i etapu 10.
 
 - [x] **E4.10** Dodać walidację formatu danych, kontrolę duplikujących się identyfikatorów i skrypty importu umożliwiające odtworzenie zbioru.
 
@@ -437,7 +448,7 @@ ręczny przegląd, docelowy zbiór 300, podział danych i pytania RAG.
 
 - Każdy zbiór ma opis, wersję, przeznaczenie i ustalony sposób importu.
 - Parametry można dobierać na walidacji bez zaglądania do testu końcowego.
-- Pytania RAG, oczekiwane źródła i sposób oceny są przygotowane przed strojeniem asystenta.
+- Przeniesione dane i kryteria RAG nie blokują zamknięcia etapu 4; wymaganie ich przygotowania przed strojeniem pozostaje w E8.12–E8.13.
 
 ## Etap 5. Dopracowanie klasyfikatora i duplikatów
 
@@ -464,6 +475,10 @@ ręczny przegląd, docelowy zbiór 300, podział danych i pytania RAG.
 - [x] **E5.3** Zdefiniować zachowanie przy pustym zbiorze, liczbie przykładów mniejszej od `k`, remisie głosów i zbyt słabym dopasowaniu. Przy słabym dopasowaniu nie wymuszać kategorii, lecz zapisać oznaczenie wyniku Do weryfikacji wraz z przyczyną i wersją tekstu. Oddzielić je od biznesowego statusu zgłoszenia i stanu zadania; poprawnie zakończone obliczenie wymagające weryfikacji nie ma stanu failed. Próg dopasowania dobrać na walidacji. Umożliwić ręczne uzupełnienie kategorii zgodnie z E5.13, zachowując przewidywanie KNN i oddzielne zatwierdzanie referencji. Przy niewiarygodnym przewidywaniu priorytetu bazowego używać tymczasowo Średniego, zapisując źródło wartości zastępczej i potrzebę weryfikacji osobno od przewidywania KNN. Sprawdzić Średni bez innych reguł, Wysoki po eskalacji, Krytyczny z checkboxem oraz zachowanie dowolnego ręcznego priorytetu administratora. Wartości zastępczej nie traktować jako zatwierdzonej etykiety referencyjnej ani poprawnego przewidywania KNN.
 
   **edit:** Wdrożono osobne decyzje dla kategorii i priorytetu, surowe propozycje, wyniki dopasowania, przyczyny i review_version. Kategoria odrzucona daje unknown, priorytet odrzucony daje bazowe null i fallback medium z zachowaniem administratora, checkboxa oraz eskalacji. needs_review i UI obejmują oba przypadki; succeeded pozostaje niezależne od potrzeby weryfikacji. Progi wybrano z grupowej walidacji 120 approved EN: podobieństwo 0,22, udział głosów 2/3, wynik TF-IDF 0,38; nie są to skalibrowane prawdopodobieństwa. Priorytet dodatkowo odrzuca opisy bez znanych słów. W walidacji próg priorytetu nie odrzucił znanych przykładów; nie deklarujemy detekcji wszystkich niejasnych opisów. Dowody: decision-policies/report.md, test_decision_review.py.
+
+  **edit — jakość na końcowym teście:** mechanizm działa technicznie, ale przy nieustalalnych etykietach skierował do weryfikacji tylko 2/12 kategorii i 1/18 priorytetów. To istotne ograniczenie, a nie potwierdzenie wystarczającej detekcji brakujących informacji. Nie zmieniono progów po teście; dalszy rozwój wymaga osobnej walidacji.
+
+  **edit — ograniczenie dodatkowej weryfikacji (2026-11-11):** Reguła sprawdza opisy do 20 słów. Rozpoznaje jawny brak utrudnień, działające obejście albo blokadę pracy połączoną z brakiem obejścia. Próg wybrano między najdłuższym słabym opisem z proponowanym priorytetem (16 słów) a najkrótszym pełnym opisem pilotażu (24 słowa). Formularz podaje krótki przykład po angielsku. Przy ponownym przeliczeniu 100 znanych zgłoszeń z zapisanymi wynikami modeli, 18/18 nieustalalnych priorytetów trafiło do weryfikacji, a 76/82 ustalalnych przyjęto automatycznie. W pierwotnej wersji było to 1/18 i 78/82. Liczba poprawnych decyzji automatycznych wyniosła 60/82 w obu wariantach. To porównanie reguł na znanym zbiorze, którego krótkie opisy sprzyjają takiej kontroli. Dłuższe opisy oceniają dotychczasowe progi modelu.
 
 - [x] **E5.4** Przenieść `k`, próg akceptacji, próg duplikatów i parametry eskalacji do jawnej konfiguracji. Rozróżnić podobieństwo kosinusowe od odległości; opisać kierunek porównań.
 
@@ -493,9 +508,9 @@ ręczny przegląd, docelowy zbiór 300, podział danych i pytania RAG.
 
   **edit:** Pełny zapisany przebieg ma 144 testy backendu, w tym nowe scenariusze odmowy, zatwierdzania referencji, eskalacji, wycofania zmiany całej grupy, powtarzalnego importu i błędów zadania. Konfiguracja, siatki, podziały i wyniki walidacji są w decision-policies/. Przeszło 13 testów React i buildy Docker. Jakość na niezależnym końcowym zbiorze pozostaje E4.4 / etapem 10.
 
-- [ ] **E5.11** Wdrożyć przyjętą macierz wpływu statusów: oddzielne filtry dla zatwierdzonych przykładów KNN, aktywnych duplikatów i eskalacji (Zgłoszony, Przyjęty, W trakcie) oraz historycznego kontekstu RAG. Sprawdzić, że zmiana statusu nie uruchamia KNN, zakończone zadanie nie zmienia biznesowego statusu sprawy, a rozwiązane, odrzucone i anulowane zgłoszenia przestają uczestniczyć w mechanizmach aktywnych awarii. Oddzielić zatwierdzenie przykładu referencyjnego od rozwiązania zgłoszenia i od ręcznej zmiany priorytetu końcowego.
+- [x] **E5.11** Wdrożyć przyjętą macierz wpływu statusów dla klasyfikacji: oddzielne filtry dla zatwierdzonych przykładów referencyjnych, aktywnych duplikatów i eskalacji (Zgłoszony, Przyjęty, W trakcie). Sprawdzić, że zmiana statusu nie uruchamia klasyfikacji, zakończone zadanie nie zmienia biznesowego statusu sprawy, a rozwiązane, odrzucone i anulowane zgłoszenia przestają uczestniczyć w mechanizmach aktywnych awarii. Oddzielić zatwierdzenie przykładu referencyjnego od rozwiązania zgłoszenia i od ręcznej zmiany priorytetu końcowego.
 
-  **edit:** Częściowo: referencje, aktywne duplikaty i eskalacja mają odrębne filtry; status nie uruchamia modelu, a spóźniony wynik nie przywraca zakończonej sprawy ani nie uruchamia eskalacji. Zatwierdzenie referencji jest osobną decyzją. Nadal brak historycznego kontekstu RAG z etapu 7, więc całego zadania nie zaznaczamy.
+  **edit:** Ukończone w zakresie klasyfikacji: referencje, aktywne duplikaty i eskalacja mają odrębne filtry; status nie uruchamia modelu, a spóźniony wynik nie przywraca zakończonej sprawy ani nie uruchamia eskalacji. Zatwierdzenie referencji jest osobną decyzją. Niewykonany historyczny kontekst RAG z pierwotnego zakresu przeniesiono do E7.4 i E7.7 wraz z testami w E7.8; oznaczenie E5.11 nie potwierdza wdrożenia RAG.
 
 - [x] **E5.12** Dodać zatwierdzanie rozwiązanego zgłoszenia jako przykładu referencyjnego przez jego aktualnie przypisanego wykonawcę lub administratora. Zapisywać osobno zatwierdzoną kategorię, priorytet bazowy, wersję treści, autora i czas zatwierdzenia; sprawdzać aktualność embeddingu i poprawność etykiet. Nie nadpisywać priorytetu końcowego ani statusu sprawy. Zabezpieczyć przed wielokrotnym dodaniem tego samego przykładu i odmówić zatwierdzenia aktywnej, odrzuconej albo anulowanej sprawy oraz żądania nieuprawnionego użytkownika. Sprawdzić utratę uprawnienia przez poprzedniego wykonawcę po zmianie przypisania.
 
@@ -555,6 +570,8 @@ Przygotować prosty widok listy, szczegółów i formularza na podstawie ustalon
 
 **Cel:** przygotować porównywalne źródła kontekstu dla RAG.
 
+**edit — pakiet integracji RAG z LLM:** etap 7 jest częścią tego samego pakietu co etap 8. Przed doborem parametrów wyszukiwania przygotować pytania, oczekiwane źródła i podział walidacja/test w E8.12. Wyszukiwanie można sprawdzić osobno przed generowaniem odpowiedzi; końcowe porównanie należy do E10.5.
+
 ### Przypomnienie dla asystenta
 
 - Przed E7.5 pokazać wariant wyszukiwania po opisie problemu i wariant obejmujący również opis rozwiązania. Uzgodnić zakres wyszukiwanych pól dla RAG; w obu metodach musi być taki sam. Odróżnić reprezentację do wyszukiwania RAG od embeddingu pierwotnego opisu używanego przez KNN.
@@ -570,10 +587,14 @@ Przygotować prosty widok listy, szczegółów i formularza na podstawie ustalon
 
   **edit:** Częściowo przygotowany fundament: wspólny filtr available_tickets działa dla zwykłych odczytów i duplikatów. Właściwe dwa mechanizmy wyszukiwania RAG jeszcze nie istnieją, więc nie uznajemy za gotowe ich filtrowania ani testów.
 
+  **edit — zakres przeniesiony z E5.11:** wdrożyć macierz statusów historycznego kontekstu RAG. Przy ogólnym wyszukiwaniu pokazywać jawny status źródła; przy pytaniu o sprawdzone rozwiązania dopuścić wyłącznie rozwiązane sprawy zgodnie z E7.7. Odrzucone, anulowane i aktywne zgłoszenia nie są dowodem skutecznego rozwiązania. Filtry referencji klasyfikacji i aktywnych awarii pozostają osobne.
+
 - [ ] **E7.5** Ustalić sposób aktualizacji danych wyszukiwawczych po edycji zgłoszenia i dodaniu opisu rozwiązania, tak aby obie metody korzystały z odpowiadającej sobie wersji treści. Jawnie rozdzielić tekst używany do klasyfikacji od danych dołączanych do kontekstu RAG; jeśli opis rozwiązania zostanie objęty rankingiem, zapewnić ten sam zakres wyszukiwanych pól dla obu metod. Dodanie notatki o rozwiązaniu nie uruchamia ponownie klasyfikacji pierwotnego problemu.
 - [ ] **E7.6** Zmierzyć czas zapytań wektorowych i ocenić potrzebę indeksu HNSW lub IVFFlat. Jeśli zostanie dodany indeks przybliżony, sprawdzić wpływ na trafność i zapisać parametry. Brak potrzeby indeksu na małym zbiorze uzasadnić pomiarem.
 - [ ] **E7.7** Przygotować wspólne reguły budowy kontekstu: kolejność wyników, usuwanie powtórzeń, identyfikatory źródeł, statusy i limit długości. Dla rozwiązanych zgłoszeń dołączać zapisany opis rozwiązania, wyraźnie odróżniony od pierwotnego opisu problemu. Dla pytania o sposoby rozwiązania podobnego problemu zastosować filtr Rozwiązany przed wyborem najlepszych wyników, tak samo w wyszukiwaniu wektorowym i pełnotekstowym; do kontekstu dołączać opisy problemu i rozwiązania oraz identyfikatory źródeł. Zachować możliwość przeszukiwania innych statusów przy ogólnych pytaniach o zgłoszenia. Docelowy budżet tokenów ustalić po wyborze LLM w etapie 8.
 - [ ] **E7.8** Dodać testy pytań bez wyników, niedostępnych źródeł, filtrów oraz aktualizacji treści. Przygotować skrypt oceny trafności wyszukiwania na walidacji.
+
+  **edit — zakres przeniesiony z E4.9 i E5.11:** przed strojeniem zdefiniować Recall@k i MRR, sposób wyznaczania oczekiwanych źródeł oraz traktowania pytań bez odpowiedzi. Obie metody oceniać na tych samych pytaniach E8.12 i tym samym zbiorze dostępnych źródeł. Dodać testy wpływu statusów i zmiany statusu na wyniki zgodnie z E7.4 i E7.7.
 
 ### Kryteria ukończenia
 
@@ -589,11 +610,14 @@ Przygotować prosty widok listy, szczegółów i formularza na podstawie ustalon
 
 **Cel:** generować odpowiedzi oparte na znalezionych zgłoszeniach, w tym streszczenia wcześniejszych rozwiązań problemów podobnych do opisu podanego przez użytkownika, i umożliwić zadawanie pytań w React.
 
+**edit — kolejność w pakiecie integracji:** E8.12–E8.13 są przygotowaniem badania, mimo numerów dopisanych na końcu listy. Wykonać je przed strojeniem wyszukiwania z etapu 7, promptu i generowania z etapu 8. Zbiór testowy i rubrykę zamrozić przed końcową oceną w etapie 10. Domknięcie klasyfikacji w E4.4 może odbyć się wcześniej, bez LLM.
+
 ### Przypomnienie dla asystenta
 
 - Przed E8.1 zapytać o dostępny sprzęt i dopuszczalne miejsce uruchamiania LLM; jeśli rozważane jest API, również o budżet i zgodę na przesyłanie zgłoszeń do wybranej usługi. Przedstawić konkretne warianty i wyniki krótkiej próby po polsku. Nie wybierać dostawcy ani nie zakładać rezygnacji z lokalnego LLM bez decyzji użytkownika.
 - Wstępne sprawdzenie wykonalności LLM warto wykonać już w etapach 2–4, gdy dostępne będą informacje o środowisku. Pełna integracja pozostaje w etapie 8; wczesna próba ma ujawnić ograniczenia przed rozbudową interfejsu. Przy odejściu od założenia lokalnego modelu przypomnieć o zgodności z formalnym zakresem pracy.
 - Przed E8.9 ustalić zakres zapisu wyników eksperymentów i dostęp do nich. Propozycja do omówienia: zapisywać kontrolowane przebiegi badawcze, bez archiwizowania wszystkich zwykłych rozmów. Tymczasowa historia czatu pozostaje już ustalona.
+- Przy E8.12–E8.13 przedstawić podział pytań RAG na walidację i test oraz prostą rubrykę oceny. Ustalić, kto ocenia odpowiedzi; samodzielne zatwierdzanie etykiet klasyfikacji nie rozstrzyga automatycznie oceny RAG. Te ustalenia poprzedzają strojenie asystenta.
 
 ### Zadania
 
@@ -608,10 +632,18 @@ Przygotować prosty widok listy, szczegółów i formularza na podstawie ustalon
 - [ ] **E8.9** Osobno od tymczasowej historii czatu zapisywać dane potrzebne do eksperymentów: pytanie, wykorzystaną historię dla pytań uzupełniających, metodę wyszukiwania, wersje źródeł, modelu i promptu, parametry generowania, odpowiedź i czasy etapów. Ustalić dostęp do wyników badań i zakres zapisu; nie tworzyć na tej podstawie archiwum rozmów dostępnego w interfejsie użytkownika. Odświeżenie strony lub wylogowanie nie usuwa zapisanych wyników eksperymentów.
 - [ ] **E8.10** Dodać czat w React wyłącznie dla obsługi i administratora: tymczasowe wiadomości w pamięci bieżącego widoku, stan oczekiwania, obsługę błędów i odnośniki do źródłowych zgłoszeń. Sprawdzić usunięcie historii po odświeżeniu strony i wylogowaniu, bez automatycznego odtwarzania. Dla zgłaszającego nie udostępniać czatu; odmowę dostępu egzekwować również przez API. Wybór metody wyszukiwania udostępnić w konfiguracji eksperymentów.
 - [ ] **E8.11** Sprawdzić pytania z odpowiedzią, bez odpowiedzi, pytania uzupełniające, niedostępne źródła, instrukcje umieszczone w treści zgłoszenia oraz niedostępność LLM. Sprawdzić streszczenie wcześniejszych rozwiązań dla opisu bieżącego problemu, przypisanie każdego sposobu rozwiązania do właściwego źródła i brak wymyślonych rozwiązań przy samych aktywnych lub odrzuconych zgłoszeniach. Zweryfikować odpowiedź na pytanie o pełne statystyki poza zakresem. Prompt i parametry dopracowywać na pytaniach walidacyjnych.
+- [ ] **E8.12** Przygotować wstępnie 30 pytań do RAG, rozdzielonych na część walidacyjną i testową, z oczekiwanymi źródłami, kluczowymi faktami oraz przypadkami bez odpowiedzi i bez dostępu do źródeł. Uwzględnić opis nowego problemu wymagający wyszukania podobnych rozwiązanych spraw i streszczenia ich rozwiązań; w zbiorze kontekstu zapewnić ręcznie sprawdzone opisy rozwiązań. Dodać przypadki kilku odmiennych sposobów rozwiązania oraz braku rozwiązanych spraw mimo istnienia podobnych aktywnych zgłoszeń. Dla pytań o pełne zestawienia i liczby oczekiwać informacji o zakresie asystenta, a nie liczby wywnioskowanej z ograniczonego kontekstu. Te same pytania i oczekiwane źródła wykorzystać w porównaniu wyszukiwania wektorowego i pełnotekstowego.
+
+  **edit:** Przeniesione w całości z E4.8; niewykonane. Zachować rozdzielenie pytań walidacyjnych i testowych, aby ocena końcowa nie służyła do strojenia.
+
+- [ ] **E8.13** Przed strojeniem zdefiniować rubrykę odpowiedzi RAG: poprawność, kompletność, oparcie twierdzeń na źródłach, poprawność odnośników oraz zachowanie przy braku danych i dostępu. Ustalić skalę, przykłady ocen, oceniających i sposób dokumentowania niejednoznaczności. Oddzielić tę ocenę od trafności wyszukiwania z E7.8; końcowy pomiar wykonać w E10.6–E10.7.
+
+  **edit:** Przeniesiona niewykonana część RAG z E4.9. Samo zdefiniowanie rubryki nie oznacza wykonania oceny odpowiedzi.
 
 ### Kryteria ukończenia
 
 - Użytkownik otrzymuje odpowiedź z odnośnikami do dostępnych źródeł albo informację o niewystarczających danych.
+- Pytania RAG, oczekiwane źródła, podział walidacja/test i rubrykę ocen ustalono przed strojeniem; test końcowy nie zasila doboru ustawień.
 - Zmiana metody wyszukiwania nie wymaga zmiany pozostałej części potoku.
 - Można odtworzyć warunki konkretnego wywołania, przy świadomości możliwej zmienności generowania i ograniczeń wybranego wariantu LLM.
 
@@ -672,7 +704,7 @@ Przed końcowym sprawdzeniem Compose ustalić docelowe środowisko demonstracji,
 
 ## Etap 10. Ewaluacja i porównanie metod
 
-**Stan początkowy:** protokół, dane i metryki przygotowano w etapie 4; parametry dobierano na walidacji w etapach 5, 7 i 8.
+**Stan początkowy:** protokół, dane i metryki klasyfikacji przygotowano w etapie 4; część RAG w E7.8 i E8.12–E8.13. Parametry dobierano na walidacji w etapach 5, 7 i 8. Końcową ocenę klasyfikacji można przeprowadzić przed integracją RAG; ocenę wyszukiwania i odpowiedzi po ukończeniu etapów 7–8.
 
 **Cel:** uzyskać końcowe wyniki i materiał do rozdziału badawczego.
 
@@ -684,19 +716,19 @@ Przed końcowym uruchomieniem sprawdzić, czy podziały danych, rubryka oceny, o
 
 - [ ] **E10.1** Zamrozić wersję kodu, dane, podział zbiorów, konfigurację KNN, progi, indeksy, prompt i model LLM. Zapisać identyfikator rewizji kodu, wersje zależności i parametry sprzętu.
 
-  **edit:** Częściowo: wyniki klasyfikacji zapisują rewizję modelu, hashe danych/skryptu, wersje bibliotek, ziarno i podziały. Nie zamrożono pełnego systemu, niezależnego testu, progów duplikatów, indeksów ani konfiguracji RAG/LLM.
+  **edit:** Częściowo: końcowa klasyfikacja ma zamrożone 100 zatwierdzonych przypadków, 120 referencji, kod, modele/progi, wersje bibliotek, hashe oraz metadane sprzętu i wątków. Historyczne ziarno i podziały walidacji pozostają w pilotażu. Nie zamrożono całego systemu z indeksami, promptem i RAG/LLM; zadanie całościowe pozostaje otwarte.
 
 - [ ] **E10.2** Przygotować skrypty uruchamiające eksperymenty oraz format wyników i metadanych. Zapewnić odtworzenie bazy lub jej stanu dla każdego przebiegu.
 
-  **edit:** Częściowo: są odtwarzalne skrypty evaluate_pilot.py, compare_pilot_languages.py i evaluate_priority_methods.py, raporty JSON/Markdown oraz snapshoty danych. Klasyfikacyjne eksperymenty odtwarzają dane z plików i nie używają bazy aplikacji. Skrypty i metadane przebiegów wyszukiwania / RAG jeszcze nie istnieją.
+  **edit:** Częściowo: są skrypty pilotażu oraz prepare_final_evaluation.py i evaluate_final_classification.py. Końcowy pomiar zapisuje JSON/Markdown, wektory zapytań, wyuczony model priorytetu i manifesty, bez odczytu zmieniających się danych aplikacji. Osobna kontrola check_final_pgvector.py wykonuje tylko odczyt obliczeń z przekazanych wektorów snapshotu. Skrypty i metadane wyszukiwania / RAG jeszcze nie istnieją.
 
-- [ ] **E10.3** Ocenić kategorię i priorytet na zbiorze testowym: accuracy, macro-F1, wyniki per klasa, macierze pomyłek oraz udział zgłoszeń skierowanych do weryfikacji. Raportować pokrycie, aby odrzucanie trudnych przypadków nie zawyżało pozornie jakości.
+- [x] **E10.3** Ocenić kategorię i priorytet na zbiorze testowym: accuracy, macro-F1, wyniki per klasa, macierze pomyłek oraz udział zgłoszeń skierowanych do weryfikacji. Raportować pokrycie, aby odrzucanie trudnych przypadków nie zawyżało pozornie jakości.
 
-  **edit:** Częściowo: kategorię i priorytet oceniono na pilotażu, z metrykami klas, macierzami, mianownikami i zagnieżdżoną walidacją grupową priorytetu. Dla EN uzyskano 86,7% accuracy i 0,804 macro-F1 w walidacji TF-IDF. To nie jest niezależny test końcowy; potrzebne są nowe zatwierdzone dane z E4.4 i ocena mechanizmu odmowy po E5.3.
+  **edit:** Ukończone: niezależny od referencji, zatwierdzony test 100 syntetycznych opisów EN (70/30). Surowa trafność: 78/88 = 88,6% kategorii, macro-F1 0,885; 61/82 = 74,4% priorytetów, macro-F1 0,699. Po progach z odmowami jako FN: 85,2% i 73,2%; pokrycie ocenialnych 92,0% i 95,1%. Osobne kohorty, macierze, wyniki klas, pilne zaniżenia i brakujące etykiety są zapisane. Przy braku informacji odmówiono tylko 2/12 kategorii i 1/18 priorytetów. Nie stroimy na tym teście. Walidacyjne 86,7% pozostaje osobnym historycznym pomiarem. [Raport](../backend/data/final-evaluation/en-v1/results/report.md), [notatka do pracy](../backend/data/final-evaluation/en-v1/results/interpretation.md).
 
 - [ ] **E10.4** Osobno ocenić poprawność reguły checkboxa, eskalację na ustalonych scenariuszach i duplikaty na oznaczonych parach lub grupach. Nie traktować wymuszenia `critical` przez formularz jako poprawnego przewidywania KNN. Nie dodawać przewidywań z testu do zbioru referencyjnego podczas pomiaru.
 
-  **edit:** Częściowo: checkbox i eskalację sprawdzono kontrolowanymi scenariuszami, a duplikaty otrzymały pomiar precision/recall/F1 na grupowo rozdzielonych parach znanego pilotażu. To diagnostyka syntetyczna; końcowa ocena na nowych niezależnych przypadkach oraz zamrożenie wersji nadal należą do E4.4 i etapu 10.
+  **edit:** Częściowo: checkbox i eskalację sprawdzono kontrolowanymi scenariuszami, a duplikaty mają precision/recall/F1 na parach znanego pilotażu. Nowy test 100 EN ocenia wyłącznie kategorię i priorytet bazowy; nie zastępuje niezależnego zbioru par duplikatów i awarii wielu autorów. Takie końcowe rozszerzenie oceny pozostaje otwarte. W teście klasyfikacji nie dodano przewidywań do referencji.
 
 - [ ] **E10.5** Porównać trafność wyszukiwania wektorowego i pełnotekstowego, np. przez Recall@k i MRR, dla tych samych pytań i dostępnych źródeł.
 - [ ] **E10.6** Porównać odpowiedzi RAG przy identycznym modelu, prompcie, budżecie kontekstu i ustawieniach generowania. Parametry specyficzne dla wyszukiwania dobrać wcześniej na walidacji i ujawnić w opisie eksperymentu.
@@ -744,4 +776,4 @@ Użytkownik zatwierdził wszystkie wcześniejsze 120 przykładów i zlecił osta
 
 Nowych 50 nie należy wykorzystywać jako referencji ani tworzyć dla niejasnych opisów fikcyjnych etykiet. Kategorie są ustalalne w 30, priorytety w 10; pozostałe adnotacje mają null. [Ostatni pomiar](../backend/data/pilot/weak-170.md) podaje wyniki osobno dla słabych opisów i całych 170 oraz liczbę wymuszonych odpowiedzi.
 
-Historycznie E4.1–E4.3 miały materiał pilotażowy w tym zakresie. **edit (2026-11-07):** zadania te uznano za ukończone dla uzgodnionych danych startowych i opisanych wyjątków; przegląd 50 pending przed końcową oceną, niezależny test oraz protokół RAG pozostają otwarte zgodnie z E4.4 i E4.8–E4.9. Wynik 93,3% na poprzedniej syntetycznej próbce nie zastępuje tych elementów.
+Historycznie E4.1–E4.3 miały materiał pilotażowy w tym zakresie. **edit (2026-11-07):** zadania te uznano za ukończone dla uzgodnionych danych startowych i opisanych wyjątków; przegląd 50 pending nie tworzy niezależnego testu, ponieważ te dane były już oglądane. Niezależny test pozostaje otwarty w E4.4, a protokół RAG przeniesiono do E7.8 i E8.12–E8.13. Wynik 93,3% na poprzedniej syntetycznej próbce nie zastępuje tych elementów.

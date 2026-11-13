@@ -56,7 +56,7 @@ class ClassifierReferenceTests(ApiTestCase):
         self.assertEqual(task["result"]["classification_version"], result["classification_version"])
 
     async def classify_new_ticket(self, blocked=False):
-        response = await self.client.post("/tickets/", json={"text": "Nie działa drukarka.", "work_blocked": blocked})
+        response = await self.client.post("/tickets/", json={"text": "The toolbar label is blurred. I can work normally.", "work_blocked": blocked})
         self.assertEqual(response.status_code, 201, response.text)
         ticket = response.json()["ticket"]
         with patch("app.services.classifier.encode_text", return_value=VECTOR):

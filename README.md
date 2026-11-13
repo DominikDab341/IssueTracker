@@ -1,5 +1,7 @@
 # IssueTracker
 
+Końcowy test klasyfikacji EN ukończony na 100 zatwierdzonych przypadkach syntetycznych (70 pełniejszych / 30 słabych). Na ustalalnych etykietach raw accuracy: 88,6% kategorii (78/88), 74,4% priorytetu (61/82). Weryfikacja wykrywa tylko 2/12 nieustalalnych kategorii i 1/18 priorytetów. [Raport, protokół i notatka do pracy](backend/data/final-evaluation/en-v1/README.md). Progów i modeli po teście nie zmieniano.
+
 ## Struktura projektu
 
 ```text

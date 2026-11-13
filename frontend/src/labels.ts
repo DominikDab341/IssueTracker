@@ -12,6 +12,7 @@ export const reviewReasons: Record<string, string> = {
   split_category_vote: 'Podobne przykłady wskazują różne kategorie.',
   no_known_priority_terms: 'Opis nie zawiera słów rozpoznawanych przez klasyfikator priorytetu.',
   low_priority_score: 'Wynik klasyfikatora priorytetu jest zbyt słaby do automatycznej decyzji.',
+  sparse_priority_information: 'W krótkim opisie trudno ustalić priorytet. Dopisz, jak problem wpływa na pracę i czy jest działające obejście.',
 };
 export function date(value: string | null) {
   return value ? new Intl.DateTimeFormat('pl-PL', { dateStyle: 'medium', timeStyle: 'short' }).format(new Date(value)) : '—';

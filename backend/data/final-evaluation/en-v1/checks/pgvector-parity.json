@@ -1,0 +1,817 @@
+{
+  "checked_at": "2026-11-07T19:01:57.242245+00:00",
+  "postgresql": "16.13 (Debian 16.13-1.pgdg12+1)",
+  "pgvector": "0.8.2",
+  "sql": "\nSELECT item.id, item.category,\n       CAST(item.embedding AS vector) <=> CAST(:query_vector AS vector) AS distance\nFROM jsonb_to_recordset(CAST(:references AS jsonb))\n     AS item(id integer, category text, embedding text)\nORDER BY distance, item.id\nLIMIT :k\n",
+  "script_sha256": "d40f31d95d755d3b4618c171d04541462f414b5b455416301c1618d289fc0927",
+  "report_sha256": "b851bd691013f120822ca75575c35dd9c0e340e0c6380b73ad565fb6954cc15e",
+  "query_vectors_sha256": "1a3072745e4e4143f327ffb463de764fed53f388e02776aa1bd5b99e337e0d01",
+  "reference_snapshot_sha256": "02d856ae315afa436c96b72c1881eb53a4aefc97426c9b1fe0084041f4e777a5",
+  "read_only": true,
+  "application_ticket_or_reference_tables_read": false,
+  "count": 100,
+  "different_decisions_or_neighbors": [],
+  "max_absolute_score_difference": 7.255335798816986e-08,
+  "checks": [
+    {
+      "id": "FINAL-EN-001",
+      "same_neighbor_ids": true,
+      "same_raw_category": true,
+      "same_operational_category": true,
+      "same_review_reason": true,
+      "absolute_score_difference": 1.6363852384237987e-08
+    },
+    {
+      "id": "FINAL-EN-002",
+      "same_neighbor_ids": true,
+      "same_raw_category": true,
+      "same_operational_category": true,
+      "same_review_reason": true,
+      "absolute_score_difference": 1.3550801924999689e-08
+    },
+    {
+      "id": "FINAL-EN-003",
+      "same_neighbor_ids": true,
+      "same_raw_category": true,
+      "same_operational_category": true,
+      "same_review_reason": true,
+      "absolute_score_difference": 4.653833862722223e-08
+    },
+    {
+      "id": "FINAL-EN-004",
+      "same_neighbor_ids": true,
+      "same_raw_category": true,
+      "same_operational_category": true,
+      "same_review_reason": true,
+      "absolute_score_difference": 1.2193765108747812e-08
+    },
+    {
+      "id": "FINAL-EN-005",
+      "same_neighbor_ids": true,
+      "same_raw_category": true,
+      "same_operational_category": true,
+      "same_review_reason": true,
+      "absolute_score_difference": 5.377468348388703e-08
+    },
+    {
+      "id": "FINAL-EN-006",
+      "same_neighbor_ids": true,
+      "same_raw_category": true,
+      "same_operational_category": true,
+      "same_review_reason": true,
+      "absolute_score_difference": 4.4037886226533374e-08
+    },
+    {
+      "id": "FINAL-EN-007",
+      "same_neighbor_ids": true,
+      "same_raw_category": true,
+      "same_operational_category": true,
+      "same_review_reason": true,
+      "absolute_score_difference": 1.8350130304156664e-09
+    },
+    {
+      "id": "FINAL-EN-008",
+      "same_neighbor_ids": true,
+      "same_raw_category": true,
+      "same_operational_category": true,
+      "same_review_reason": true,
+      "absolute_score_difference": 5.617354803533203e-09
+    },
+    {
+      "id": "FINAL-EN-009",
+      "same_neighbor_ids": true,
+      "same_raw_category": true,
+      "same_operational_category": true,
+      "same_review_reason": true,
+      "absolute_score_difference": 3.023746153463236e-08
+    },
+    {
+      "id": "FINAL-EN-011",
+      "same_neighbor_ids": true,
+      "same_raw_category": true,
+      "same_operational_category": true,
+      "same_review_reason": true,
+      "absolute_score_difference": 1.1227452079154432e-08
+    },
+    {
+      "id": "FINAL-EN-012",
+      "same_neighbor_ids": true,
+      "same_raw_category": true,
+      "same_operational_category": true,
+      "same_review_reason": true,
+      "absolute_score_difference": 7.027356030420151e-09
+    },
+    {
+      "id": "FINAL-EN-013",
+      "same_neighbor_ids": true,
+      "same_raw_category": true,
+      "same_operational_category": true,
+      "same_review_reason": true,
+      "absolute_score_difference": 2.546866673114323e-08
+    },
+    {
+      "id": "FINAL-EN-016",
+      "same_neighbor_ids": true,
+      "same_raw_category": true,
+      "same_operational_category": true,
+      "same_review_reason": true,
+      "absolute_score_difference": 3.539191273382869e-09
+    },
+    {
+      "id": "FINAL-EN-017",
+      "same_neighbor_ids": true,
+      "same_raw_category": true,
+      "same_operational_category": true,
+      "same_review_reason": true,
+      "absolute_score_difference": 2.87155275113804e-08
+    },
+    {
+      "id": "FINAL-EN-020",
+      "same_neighbor_ids": true,
+      "same_raw_category": true,
+      "same_operational_category": true,
+      "same_review_reason": true,
+      "absolute_score_difference": 2.4295818690234228e-08
+    },
+    {
+      "id": "FINAL-EN-021",
+      "same_neighbor_ids": true,
+      "same_raw_category": true,
+      "same_operational_category": true,
+      "same_review_reason": true,
+      "absolute_score_difference": 1.8031141912899784e-08
+    },
+    {
+      "id": "FINAL-EN-023",
+      "same_neighbor_ids": true,
+      "same_raw_category": true,
+      "same_operational_category": true,
+      "same_review_reason": true,
+      "absolute_score_difference": 6.565163412908248e-09
+    },
+    {
+      "id": "FINAL-EN-026",
+      "same_neighbor_ids": true,
+      "same_raw_category": true,
+      "same_operational_category": true,
+      "same_review_reason": true,
+      "absolute_score_difference": 4.556596344684749e-08
+    },
+    {
+      "id": "FINAL-EN-027",
+      "same_neighbor_ids": true,
+      "same_raw_category": true,
+      "same_operational_category": true,
+      "same_review_reason": true,
+      "absolute_score_difference": 1.4139068360563556e-08
+    },
+    {
+      "id": "FINAL-EN-028",
+      "same_neighbor_ids": true,
+      "same_raw_category": true,
+      "same_operational_category": true,
+      "same_review_reason": true,
+      "absolute_score_difference": 6.6454499680901336e-09
+    },
+    {
+      "id": "FINAL-EN-031",
+      "same_neighbor_ids": true,
+      "same_raw_category": true,
+      "same_operational_category": true,
+      "same_review_reason": true,
+      "absolute_score_difference": 2.055760506269877e-08
+    },
+    {
+      "id": "FINAL-EN-032",
+      "same_neighbor_ids": true,
+      "same_raw_category": true,
+      "same_operational_category": true,
+      "same_review_reason": true,
+      "absolute_score_difference": 1.3982730528994125e-08
+    },
+    {
+      "id": "FINAL-EN-033",
+      "same_neighbor_ids": true,
+      "same_raw_category": true,
+      "same_operational_category": true,
+      "same_review_reason": true,
+      "absolute_score_difference": 2.8110429539651705e-09
+    },
+    {
+      "id": "FINAL-EN-034",
+      "same_neighbor_ids": true,
+      "same_raw_category": true,
+      "same_operational_category": true,
+      "same_review_reason": true,
+      "absolute_score_difference": 2.895057904517273e-08
+    },
+    {
+      "id": "FINAL-EN-036",
+      "same_neighbor_ids": true,
+      "same_raw_category": true,
+      "same_operational_category": true,
+      "same_review_reason": true,
+      "absolute_score_difference": 3.0070130052628485e-08
+    },
+    {
+      "id": "FINAL-EN-037",
+      "same_neighbor_ids": true,
+      "same_raw_category": true,
+      "same_operational_category": true,
+      "same_review_reason": true,
+      "absolute_score_difference": 3.806858384081124e-09
+    },
+    {
+      "id": "FINAL-EN-040",
+      "same_neighbor_ids": true,
+      "same_raw_category": true,
+      "same_operational_category": true,
+      "same_review_reason": true,
+      "absolute_score_difference": 3.102656798148473e-09
+    },
+    {
+      "id": "FINAL-EN-041",
+      "same_neighbor_ids": true,
+      "same_raw_category": true,
+      "same_operational_category": true,
+      "same_review_reason": true,
+      "absolute_score_difference": 1.785606118520633e-08
+    },
+    {
+      "id": "FINAL-EN-044",
+      "same_neighbor_ids": true,
+      "same_raw_category": true,
+      "same_operational_category": true,
+      "same_review_reason": true,
+      "absolute_score_difference": 4.2167724867425704e-08
+    },
+    {
+      "id": "FINAL-EN-045",
+      "same_neighbor_ids": true,
+      "same_raw_category": true,
+      "same_operational_category": true,
+      "same_review_reason": true,
+      "absolute_score_difference": 2.0500104058740476e-08
+    },
+    {
+      "id": "FINAL-EN-046",
+      "same_neighbor_ids": true,
+      "same_raw_category": true,
+      "same_operational_category": true,
+      "same_review_reason": true,
+      "absolute_score_difference": 6.960744425299481e-09
+    },
+    {
+      "id": "FINAL-EN-047",
+      "same_neighbor_ids": true,
+      "same_raw_category": true,
+      "same_operational_category": true,
+      "same_review_reason": true,
+      "absolute_score_difference": 6.021715970305763e-08
+    },
+    {
+      "id": "FINAL-EN-049",
+      "same_neighbor_ids": true,
+      "same_raw_category": true,
+      "same_operational_category": true,
+      "same_review_reason": true,
+      "absolute_score_difference": 2.584717484488408e-08
+    },
+    {
+      "id": "FINAL-EN-052",
+      "same_neighbor_ids": true,
+      "same_raw_category": true,
+      "same_operational_category": true,
+      "same_review_reason": true,
+      "absolute_score_difference": 4.4051787773113915e-08
+    },
+    {
+      "id": "FINAL-EN-053",
+      "same_neighbor_ids": true,
+      "same_raw_category": true,
+      "same_operational_category": true,
+      "same_review_reason": true,
+      "absolute_score_difference": 1.862342535741135e-08
+    },
+    {
+      "id": "FINAL-EN-054",
+      "same_neighbor_ids": true,
+      "same_raw_category": true,
+      "same_operational_category": true,
+      "same_review_reason": true,
+      "absolute_score_difference": 4.0267225887014035e-08
+    },
+    {
+      "id": "FINAL-EN-057",
+      "same_neighbor_ids": true,
+      "same_raw_category": true,
+      "same_operational_category": true,
+      "same_review_reason": true,
+      "absolute_score_difference": 1.1942176469936783e-08
+    },
+    {
+      "id": "FINAL-EN-058",
+      "same_neighbor_ids": true,
+      "same_raw_category": true,
+      "same_operational_category": true,
+      "same_review_reason": true,
+      "absolute_score_difference": 2.5444736206914342e-08
+    },
+    {
+      "id": "FINAL-EN-059",
+      "same_neighbor_ids": true,
+      "same_raw_category": true,
+      "same_operational_category": true,
+      "same_review_reason": true,
+      "absolute_score_difference": 8.651839578099896e-09
+    },
+    {
+      "id": "FINAL-EN-060",
+      "same_neighbor_ids": true,
+      "same_raw_category": true,
+      "same_operational_category": true,
+      "same_review_reason": true,
+      "absolute_score_difference": 7.733569340473423e-11
+    },
+    {
+      "id": "FINAL-EN-061",
+      "same_neighbor_ids": true,
+      "same_raw_category": true,
+      "same_operational_category": true,
+      "same_review_reason": true,
+      "absolute_score_difference": 8.763267667077912e-09
+    },
+    {
+      "id": "FINAL-EN-062",
+      "same_neighbor_ids": true,
+      "same_raw_category": true,
+      "same_operational_category": true,
+      "same_review_reason": true,
+      "absolute_score_difference": 1.3759999917262178e-08
+    },
+    {
+      "id": "FINAL-EN-063",
+      "same_neighbor_ids": true,
+      "same_raw_category": true,
+      "same_operational_category": true,
+      "same_review_reason": true,
+      "absolute_score_difference": 1.3537162835142169e-08
+    },
+    {
+      "id": "FINAL-EN-064",
+      "same_neighbor_ids": true,
+      "same_raw_category": true,
+      "same_operational_category": true,
+      "same_review_reason": true,
+      "absolute_score_difference": 1.2723816222859341e-08
+    },
+    {
+      "id": "FINAL-EN-065",
+      "same_neighbor_ids": true,
+      "same_raw_category": true,
+      "same_operational_category": true,
+      "same_review_reason": true,
+      "absolute_score_difference": 1.796098325623774e-08
+    },
+    {
+      "id": "FINAL-EN-066",
+      "same_neighbor_ids": true,
+      "same_raw_category": true,
+      "same_operational_category": true,
+      "same_review_reason": true,
+      "absolute_score_difference": 7.765072362886372e-09
+    },
+    {
+      "id": "FINAL-EN-067",
+      "same_neighbor_ids": true,
+      "same_raw_category": true,
+      "same_operational_category": true,
+      "same_review_reason": true,
+      "absolute_score_difference": 2.2720122561104006e-08
+    },
+    {
+      "id": "FINAL-EN-068",
+      "same_neighbor_ids": true,
+      "same_raw_category": true,
+      "same_operational_category": true,
+      "same_review_reason": true,
+      "absolute_score_difference": 3.397426917572943e-08
+    },
+    {
+      "id": "FINAL-EN-069",
+      "same_neighbor_ids": true,
+      "same_raw_category": true,
+      "same_operational_category": true,
+      "same_review_reason": true,
+      "absolute_score_difference": 5.075055820036312e-09
+    },
+    {
+      "id": "FINAL-EN-070",
+      "same_neighbor_ids": true,
+      "same_raw_category": true,
+      "same_operational_category": true,
+      "same_review_reason": true,
+      "absolute_score_difference": 8.126127104546299e-09
+    },
+    {
+      "id": "FINAL-EN-071",
+      "same_neighbor_ids": true,
+      "same_raw_category": true,
+      "same_operational_category": true,
+      "same_review_reason": true,
+      "absolute_score_difference": 5.605366681926682e-08
+    },
+    {
+      "id": "FINAL-EN-072",
+      "same_neighbor_ids": true,
+      "same_raw_category": true,
+      "same_operational_category": true,
+      "same_review_reason": true,
+      "absolute_score_difference": 3.144097759921749e-09
+    },
+    {
+      "id": "FINAL-EN-073",
+      "same_neighbor_ids": true,
+      "same_raw_category": true,
+      "same_operational_category": true,
+      "same_review_reason": true,
+      "absolute_score_difference": 8.624744807228524e-09
+    },
+    {
+      "id": "FINAL-EN-074",
+      "same_neighbor_ids": true,
+      "same_raw_category": true,
+      "same_operational_category": true,
+      "same_review_reason": true,
+      "absolute_score_difference": 2.126190534745831e-08
+    },
+    {
+      "id": "FINAL-EN-075",
+      "same_neighbor_ids": true,
+      "same_raw_category": true,
+      "same_operational_category": true,
+      "same_review_reason": true,
+      "absolute_score_difference": 4.302624467822369e-08
+    },
+    {
+      "id": "FINAL-EN-076",
+      "same_neighbor_ids": true,
+      "same_raw_category": true,
+      "same_operational_category": true,
+      "same_review_reason": true,
+      "absolute_score_difference": 2.4527689324038704e-08
+    },
+    {
+      "id": "FINAL-EN-077",
+      "same_neighbor_ids": true,
+      "same_raw_category": true,
+      "same_operational_category": true,
+      "same_review_reason": true,
+      "absolute_score_difference": 1.5826434607291162e-08
+    },
+    {
+      "id": "FINAL-EN-078",
+      "same_neighbor_ids": true,
+      "same_raw_category": true,
+      "same_operational_category": true,
+      "same_review_reason": true,
+      "absolute_score_difference": 2.438135793259022e-08
+    },
+    {
+      "id": "FINAL-EN-079",
+      "same_neighbor_ids": true,
+      "same_raw_category": true,
+      "same_operational_category": true,
+      "same_review_reason": true,
+      "absolute_score_difference": 9.860838035002928e-09
+    },
+    {
+      "id": "FINAL-EN-080",
+      "same_neighbor_ids": true,
+      "same_raw_category": true,
+      "same_operational_category": true,
+      "same_review_reason": true,
+      "absolute_score_difference": 2.504835949768136e-08
+    },
+    {
+      "id": "FINAL-EN-081",
+      "same_neighbor_ids": true,
+      "same_raw_category": true,
+      "same_operational_category": true,
+      "same_review_reason": true,
+      "absolute_score_difference": 7.255335798816986e-08
+    },
+    {
+      "id": "FINAL-EN-082",
+      "same_neighbor_ids": true,
+      "same_raw_category": true,
+      "same_operational_category": true,
+      "same_review_reason": true,
+      "absolute_score_difference": 6.134896435305848e-08
+    },
+    {
+      "id": "FINAL-EN-083",
+      "same_neighbor_ids": true,
+      "same_raw_category": true,
+      "same_operational_category": true,
+      "same_review_reason": true,
+      "absolute_score_difference": 3.0948814289111226e-08
+    },
+    {
+      "id": "FINAL-EN-084",
+      "same_neighbor_ids": true,
+      "same_raw_category": true,
+      "same_operational_category": true,
+      "same_review_reason": true,
+      "absolute_score_difference": 2.5329199071499886e-08
+    },
+    {
+      "id": "FINAL-EN-085",
+      "same_neighbor_ids": true,
+      "same_raw_category": true,
+      "same_operational_category": true,
+      "same_review_reason": true,
+      "absolute_score_difference": 1.253613990392921e-09
+    },
+    {
+      "id": "FINAL-EN-086",
+      "same_neighbor_ids": true,
+      "same_raw_category": true,
+      "same_operational_category": true,
+      "same_review_reason": true,
+      "absolute_score_difference": 2.9502933429625955e-09
+    },
+    {
+      "id": "FINAL-EN-087",
+      "same_neighbor_ids": true,
+      "same_raw_category": true,
+      "same_operational_category": true,
+      "same_review_reason": true,
+      "absolute_score_difference": 2.8104599758549398e-08
+    },
+    {
+      "id": "FINAL-EN-088",
+      "same_neighbor_ids": true,
+      "same_raw_category": true,
+      "same_operational_category": true,
+      "same_review_reason": true,
+      "absolute_score_difference": 3.6775271716749103e-09
+    },
+    {
+      "id": "FINAL-EN-089",
+      "same_neighbor_ids": true,
+      "same_raw_category": true,
+      "same_operational_category": true,
+      "same_review_reason": true,
+      "absolute_score_difference": 2.279300792551453e-08
+    },
+    {
+      "id": "FINAL-EN-090",
+      "same_neighbor_ids": true,
+      "same_raw_category": true,
+      "same_operational_category": true,
+      "same_review_reason": true,
+      "absolute_score_difference": 3.866645592598417e-08
+    },
+    {
+      "id": "FINAL-EN-091",
+      "same_neighbor_ids": true,
+      "same_raw_category": true,
+      "same_operational_category": true,
+      "same_review_reason": true,
+      "absolute_score_difference": 5.927536839145375e-08
+    },
+    {
+      "id": "FINAL-EN-092",
+      "same_neighbor_ids": true,
+      "same_raw_category": true,
+      "same_operational_category": true,
+      "same_review_reason": true,
+      "absolute_score_difference": 4.83081274982311e-09
+    },
+    {
+      "id": "FINAL-EN-093",
+      "same_neighbor_ids": true,
+      "same_raw_category": true,
+      "same_operational_category": true,
+      "same_review_reason": true,
+      "absolute_score_difference": 1.03008204188626e-08
+    },
+    {
+      "id": "FINAL-EN-094",
+      "same_neighbor_ids": true,
+      "same_raw_category": true,
+      "same_operational_category": true,
+      "same_review_reason": true,
+      "absolute_score_difference": 1.6492226695419276e-08
+    },
+    {
+      "id": "FINAL-EN-095",
+      "same_neighbor_ids": true,
+      "same_raw_category": true,
+      "same_operational_category": true,
+      "same_review_reason": true,
+      "absolute_score_difference": 6.196427748683675e-08
+    },
+    {
+      "id": "FINAL-EN-096",
+      "same_neighbor_ids": true,
+      "same_raw_category": true,
+      "same_operational_category": true,
+      "same_review_reason": true,
+      "absolute_score_difference": 4.056805191776647e-08
+    },
+    {
+      "id": "FINAL-EN-097",
+      "same_neighbor_ids": true,
+      "same_raw_category": true,
+      "same_operational_category": true,
+      "same_review_reason": true,
+      "absolute_score_difference": 2.5184376806208775e-09
+    },
+    {
+      "id": "FINAL-EN-098",
+      "same_neighbor_ids": true,
+      "same_raw_category": true,
+      "same_operational_category": true,
+      "same_review_reason": true,
+      "absolute_score_difference": 1.3779398955193756e-08
+    },
+    {
+      "id": "FINAL-EN-099",
+      "same_neighbor_ids": true,
+      "same_raw_category": true,
+      "same_operational_category": true,
+      "same_review_reason": true,
+      "absolute_score_difference": 4.390262065001593e-08
+    },
+    {
+      "id": "FINAL-EN-100",
+      "same_neighbor_ids": true,
+      "same_raw_category": true,
+      "same_operational_category": true,
+      "same_review_reason": true,
+      "absolute_score_difference": 3.998129027849018e-08
+    },
+    {
+      "id": "FINAL-EN-101",
+      "same_neighbor_ids": true,
+      "same_raw_category": true,
+      "same_operational_category": true,
+      "same_review_reason": true,
+      "absolute_score_difference": 5.213684040050737e-09
+    },
+    {
+      "id": "FINAL-EN-102",
+      "same_neighbor_ids": true,
+      "same_raw_category": true,
+      "same_operational_category": true,
+      "same_review_reason": true,
+      "absolute_score_difference": 4.839588174654352e-09
+    },
+    {
+      "id": "FINAL-EN-103",
+      "same_neighbor_ids": true,
+      "same_raw_category": true,
+      "same_operational_category": true,
+      "same_review_reason": true,
+      "absolute_score_difference": 6.241018102315365e-08
+    },
+    {
+      "id": "FINAL-EN-104",
+      "same_neighbor_ids": true,
+      "same_raw_category": true,
+      "same_operational_category": true,
+      "same_review_reason": true,
+      "absolute_score_difference": 6.543745190157324e-08
+    },
+    {
+      "id": "FINAL-EN-105",
+      "same_neighbor_ids": true,
+      "same_raw_category": true,
+      "same_operational_category": true,
+      "same_review_reason": true,
+      "absolute_score_difference": 1.6430755644947226e-08
+    },
+    {
+      "id": "FINAL-EN-106",
+      "same_neighbor_ids": true,
+      "same_raw_category": true,
+      "same_operational_category": true,
+      "same_review_reason": true,
+      "absolute_score_difference": 6.380994843624421e-09
+    },
+    {
+      "id": "FINAL-EN-107",
+      "same_neighbor_ids": true,
+      "same_raw_category": true,
+      "same_operational_category": true,
+      "same_review_reason": true,
+      "absolute_score_difference": 2.0687035084954175e-08
+    },
+    {
+      "id": "FINAL-EN-108",
+      "same_neighbor_ids": true,
+      "same_raw_category": true,
+      "same_operational_category": true,
+      "same_review_reason": true,
+      "absolute_score_difference": 3.2369708136137376e-08
+    },
+    {
+      "id": "FINAL-EN-109",
+      "same_neighbor_ids": true,
+      "same_raw_category": true,
+      "same_operational_category": true,
+      "same_review_reason": true,
+      "absolute_score_difference": 1.6323312812538404e-08
+    },
+    {
+      "id": "FINAL-EN-110",
+      "same_neighbor_ids": true,
+      "same_raw_category": true,
+      "same_operational_category": true,
+      "same_review_reason": true,
+      "absolute_score_difference": 3.242805668435267e-08
+    },
+    {
+      "id": "FINAL-EN-111",
+      "same_neighbor_ids": true,
+      "same_raw_category": true,
+      "same_operational_category": true,
+      "same_review_reason": true,
+      "absolute_score_difference": 6.593267043442097e-09
+    },
+    {
+      "id": "FINAL-EN-112",
+      "same_neighbor_ids": true,
+      "same_raw_category": true,
+      "same_operational_category": true,
+      "same_review_reason": true,
+      "absolute_score_difference": 4.1962421759578206e-08
+    },
+    {
+      "id": "FINAL-EN-113",
+      "same_neighbor_ids": true,
+      "same_raw_category": true,
+      "same_operational_category": true,
+      "same_review_reason": true,
+      "absolute_score_difference": 1.0555043949977971e-08
+    },
+    {
+      "id": "FINAL-EN-114",
+      "same_neighbor_ids": true,
+      "same_raw_category": true,
+      "same_operational_category": true,
+      "same_review_reason": true,
+      "absolute_score_difference": 2.98818785271493e-08
+    },
+    {
+      "id": "FINAL-EN-115",
+      "same_neighbor_ids": true,
+      "same_raw_category": true,
+      "same_operational_category": true,
+      "same_review_reason": true,
+      "absolute_score_difference": 3.2414122497215203e-09
+    },
+    {
+      "id": "FINAL-EN-116",
+      "same_neighbor_ids": true,
+      "same_raw_category": true,
+      "same_operational_category": true,
+      "same_review_reason": true,
+      "absolute_score_difference": 2.4589504765692993e-08
+    },
+    {
+      "id": "FINAL-EN-117",
+      "same_neighbor_ids": true,
+      "same_raw_category": true,
+      "same_operational_category": true,
+      "same_review_reason": true,
+      "absolute_score_difference": 4.7437810346551146e-09
+    },
+    {
+      "id": "FINAL-EN-118",
+      "same_neighbor_ids": true,
+      "same_raw_category": true,
+      "same_operational_category": true,
+      "same_review_reason": true,
+      "absolute_score_difference": 1.0780144665822888e-08
+    },
+    {
+      "id": "FINAL-EN-119",
+      "same_neighbor_ids": true,
+      "same_raw_category": true,
+      "same_operational_category": true,
+      "same_review_reason": true,
+      "absolute_score_difference": 2.3021339279338804e-08
+    },
+    {
+      "id": "FINAL-EN-120",
+      "same_neighbor_ids": true,
+      "same_raw_category": true,
+      "same_operational_category": true,
+      "same_review_reason": true,
+      "absolute_score_difference": 8.122758465844981e-09
+    }
+  ]
+}

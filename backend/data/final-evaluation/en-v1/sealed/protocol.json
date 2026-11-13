@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "total": 100,
+  "quality": {
+    "complete": 70,
+    "weak": 30
+  },
+  "classification": "raw and gated accuracy/macro-F1 on each identifiable label; review is FN",
+  "cohorts": [
+    "all",
+    "complete",
+    "weak"
+  ],
+  "macro_f1_classes": "all four target classes",
+  "missing_labels": "not scored as right/wrong; report review and unjustified automatic acceptance independently per task",
+  "priority_scope": "base priority only, without checkbox/admin/escalation; always-medium baseline",
+  "references": "fixed snapshot only; test texts never fit TF-IDF, IDF or regression",
+  "ranking": "cosine over stored float32 reference vectors replayed as float64, ties by database ID",
+  "runtime_code": "frozen app.services.classifier.classify; in-memory reference-query adapter",
+  "no_retuning_on_test": true,
+  "real_world_data": false
+}

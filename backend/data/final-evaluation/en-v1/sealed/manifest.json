@@ -1,0 +1,12 @@
+{
+  "schema_version": 1,
+  "sealed_at": "2026-11-07T18:59:48.553795+00:00",
+  "reference_manifest_sha256": "66b9ff93a214514d613d02b51f47bb067122e8df277ffb335924f4fa709ce0b2",
+  "files_sha256": {
+    "test.en.json": "7a21d23718c49444107d3c05c8b0f5497c724b999697c7b492189eb704e1c846",
+    "protocol.json": "f6d705f8fb95157bf4aa8d2f31462d4d8e548f93110ffa1ae14f5338adf1fde0",
+    "evaluation-script.py": "1181b9acc56d41612ab5631220523d4cc30bde9c99b2062c77df2dfaf16670ab",
+    "preparation-script.py": "d0953cfd0131c04703d73a623bb6b545d5a6d5d469cab5d6cb222c7075c7c101",
+    "approval-event.json": "ea71d467deb581399d023ad7e921604700b855207e0e4f07d2f60f2885d8516d"
+  }
+}

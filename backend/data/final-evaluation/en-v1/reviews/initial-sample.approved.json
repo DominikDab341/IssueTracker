@@ -1,0 +1,187 @@
+{
+  "schema_version": 1,
+  "dataset_id": "helpdesk-final-en-v1-candidates",
+  "language": "en",
+  "purpose": "independent_synthetic_test_candidates",
+  "target_count": 60,
+  "status": "initial_sample_approved_awaiting_expansion",
+  "provenance": {
+    "method": "llm_assisted_synthetic",
+    "generator": "OpenAI Codex assistant in this conversation",
+    "exact_model_id": null,
+    "sampling_parameters": null,
+    "generated_on": "2026-11-07",
+    "human_approved": true,
+    "notes": "New synthetic incidents written after freezing the classifier. The authoring assistant has seen the pilot; incident separation and author review do not establish real-world or independent-generator validity. No classifier predictions were generated."
+  },
+  "examples": [
+    {
+      "id": "FINAL-EN-001",
+      "group_id": "final-en-incident-001",
+      "text": "The API accepts the service account's token, but rejects the inventory upload with 'required scope inventory.write is missing'. Downloading the inventory still works. I have to publish tonight's stock correction before dispatch starts; this upload is the only supported route and nobody available can issue a token with that scope.",
+      "proposed_category": "accounts_access",
+      "proposed_base_priority": "high",
+      "reference_eligible": false,
+      "category_reason": "Jawna odmowa uprawnienia w zakresie tokenu, mimo poprawnego uwierzytelnienia.",
+      "priority_reason": "Ważna operacja jest zablokowana, a opis wyklucza dostępne obejście; nie podano awarii blokującej wiele osób.",
+      "novelty_note": "Nowy incydent dotyczący zakresu tokenu konta usługowego, a nie parafraza istniejącej sprawy o folder, rolę użytkownika lub logowanie do VPN.",
+      "review": {
+        "status": "approved",
+        "category": "accounts_access",
+        "base_priority": "high",
+        "reviewer": "autor pracy (użytkownik rozmowy)",
+        "reviewed_at": "2026-11-07T18:23:34+00:00",
+        "notes": "Jawne zatwierdzenie pierwszej próbki w rozmowie: „Akceptuj to”. Bez zmian treści i etykiet.",
+        "method": "explicit_chat_approval",
+        "approval_event": "initial-sample-approval.json"
+      }
+    },
+    {
+      "id": "FINAL-EN-002",
+      "group_id": "final-en-incident-002",
+      "text": "Signing into the engineering wiki from my loan laptop is refused with 'access policy requires a managed device'. My account opens the same pages through the approved virtual desktop. I can finish the design review there, although switching between the virtual desktop and my local drawings is cumbersome.",
+      "proposed_category": "accounts_access",
+      "proposed_base_priority": "medium",
+      "reference_eligible": false,
+      "category_reason": "Dostęp odrzuca jawna polityka warunkowa konta i urządzenia, nie zerwanie połączenia.",
+      "priority_reason": "Praca jest utrudniona, ale działa zatwierdzony pulpit wirtualny.",
+      "novelty_note": "Nowy przypadek warunkowego dostępu zależnego od zarządzania urządzeniem, z odrębnym obejściem.",
+      "review": {
+        "status": "approved",
+        "category": "accounts_access",
+        "base_priority": "medium",
+        "reviewer": "autor pracy (użytkownik rozmowy)",
+        "reviewed_at": "2026-11-07T18:23:34+00:00",
+        "notes": "Jawne zatwierdzenie pierwszej próbki w rozmowie: „Akceptuj to”. Bez zmian treści i etykiet.",
+        "method": "explicit_chat_approval",
+        "approval_event": "initial-sample-approval.json"
+      }
+    },
+    {
+      "id": "FINAL-EN-003",
+      "group_id": "final-en-incident-003",
+      "text": "The display on the desk's USB power meter has become very faint. Its physical digits are difficult to read even with nothing connected. The dock and all attached equipment work normally; I only use that meter out of curiosity and none of my duties needs its readings.",
+      "proposed_category": "hardware",
+      "proposed_base_priority": "low",
+      "reference_eligible": false,
+      "category_reason": "Objaw dotyczy fizycznego wyświetlacza osobnego przyrządu, niezależnie od aplikacji.",
+      "priority_reason": "Drobna wada nie ogranicza żadnego zadania służbowego.",
+      "novelty_note": "Nowy fizyczny przyrząd pomiarowy; nie dotyczy pikseli monitora ani kontrolki klawiatury z pilotażu.",
+      "review": {
+        "status": "approved",
+        "category": "hardware",
+        "base_priority": "low",
+        "reviewer": "autor pracy (użytkownik rozmowy)",
+        "reviewed_at": "2026-11-07T18:23:34+00:00",
+        "notes": "Jawne zatwierdzenie pierwszej próbki w rozmowie: „Akceptuj to”. Bez zmian treści i etykiet.",
+        "method": "explicit_chat_approval",
+        "approval_event": "initial-sample-approval.json"
+      }
+    },
+    {
+      "id": "FINAL-EN-004",
+      "group_id": "final-en-incident-004",
+      "text": "The cooling unit for the server cabinet has seized: its fans do not turn and the hardware panel reports an over-temperature shutdown. The hosts have powered themselves off. Every operator in the distribution centre has lost the picking service, so no orders can be released, and the standby cabinet is unavailable.",
+      "proposed_category": "hardware",
+      "proposed_base_priority": "critical",
+      "reference_eligible": false,
+      "category_reason": "Opisano zatrzymane wentylatory i ochronne wyłączenie sprzętu z powodu temperatury.",
+      "priority_reason": "Niedostępna kluczowa usługa zatrzymała pracę całego zespołu; brak dostępnego zastępstwa.",
+      "novelty_note": "Nowa awaria chłodzenia szafy, odrębna od zasilacza, UPS i macierzy z pilotażu.",
+      "review": {
+        "status": "approved",
+        "category": "hardware",
+        "base_priority": "critical",
+        "reviewer": "autor pracy (użytkownik rozmowy)",
+        "reviewed_at": "2026-11-07T18:23:34+00:00",
+        "notes": "Jawne zatwierdzenie pierwszej próbki w rozmowie: „Akceptuj to”. Bez zmian treści i etykiet.",
+        "method": "explicit_chat_approval",
+        "approval_event": "initial-sample-approval.json"
+      }
+    },
+    {
+      "id": "FINAL-EN-005",
+      "group_id": "final-en-incident-005",
+      "text": "Connections using IPv6 stall in several unrelated applications on the office link, whereas their IPv4 connections complete. IT gave me an approved IPv4-only proxy, and the vendor portals work through it. I can continue checking deliveries, but I have to launch a separate browser for those portals.",
+      "proposed_category": "network",
+      "proposed_base_priority": "medium",
+      "reference_eligible": false,
+      "category_reason": "Wspólny problem transmisji IPv6 w niezależnych aplikacjach przy działającym IPv4.",
+      "priority_reason": "Utrudnienie ma działające, zatwierdzone obejście przez proxy.",
+      "novelty_note": "Nowy przypadek różnicy osiągalności IPv6/IPv4, nie parafraza utraty Wi-Fi, DNS lub tunelu VPN.",
+      "review": {
+        "status": "approved",
+        "category": "network",
+        "base_priority": "medium",
+        "reviewer": "autor pracy (użytkownik rozmowy)",
+        "reviewed_at": "2026-11-07T18:23:34+00:00",
+        "notes": "Jawne zatwierdzenie pierwszej próbki w rozmowie: „Akceptuj to”. Bez zmian treści i etykiet.",
+        "method": "explicit_chat_approval",
+        "approval_event": "initial-sample-approval.json"
+      }
+    },
+    {
+      "id": "FINAL-EN-006",
+      "group_id": "final-en-incident-006",
+      "text": "My test workstation can reach everything on its own subnet, but connections to all three instruments on the lab subnet time out. Those instruments answer from a workstation already on their subnet; traffic from mine stops at the gateway. I need to run the acceptance tests from this licensed workstation today, and there is no approved alternative connection or offline procedure.",
+      "proposed_category": "network",
+      "proposed_base_priority": "high",
+      "reference_eligible": false,
+      "category_reason": "Zawodzi komunikacja między podsieciami do kilku urządzeń, które są lokalnie osiągalne.",
+      "priority_reason": "Ważne testy jednego stanowiska są zablokowane bez dopuszczonego obejścia.",
+      "novelty_note": "Nowy incydent komunikacji między podsieciami laboratorium; nie ten sam incydent co niedostępne łącza do centrali.",
+      "review": {
+        "status": "approved",
+        "category": "network",
+        "base_priority": "high",
+        "reviewer": "autor pracy (użytkownik rozmowy)",
+        "reviewed_at": "2026-11-07T18:23:34+00:00",
+        "notes": "Jawne zatwierdzenie pierwszej próbki w rozmowie: „Akceptuj to”. Bez zmian treści i etykiet.",
+        "method": "explicit_chat_approval",
+        "approval_event": "initial-sample-approval.json"
+      }
+    },
+    {
+      "id": "FINAL-EN-007",
+      "group_id": "final-en-incident-007",
+      "text": "The meeting recorder puts the wrong day of the week in suggested filenames, although the numeric date is correct. I name each recording myself before saving it. Recording, playback and saving all work, and this has not delayed or complicated any of my tasks.",
+      "proposed_category": "software",
+      "proposed_base_priority": "low",
+      "reference_eligible": false,
+      "category_reason": "Program generuje niepoprawną część proponowanej nazwy pliku.",
+      "priority_reason": "Drobna nieprawidłowość nie utrudnia pracy; ręczne nazywanie było normalnym sposobem pracy.",
+      "novelty_note": "Nowy błąd generowania nazwy nagrania; nie parafraza wyglądu ikon, sortowania list ani awarii eksportu.",
+      "review": {
+        "status": "approved",
+        "category": "software",
+        "base_priority": "low",
+        "reviewer": "autor pracy (użytkownik rozmowy)",
+        "reviewed_at": "2026-11-07T18:23:34+00:00",
+        "notes": "Jawne zatwierdzenie pierwszej próbki w rozmowie: „Akceptuj to”. Bez zmian treści i etykiet.",
+        "method": "explicit_chat_approval",
+        "approval_event": "initial-sample-approval.json"
+      }
+    },
+    {
+      "id": "FINAL-EN-008",
+      "group_id": "final-en-incident-008",
+      "text": "The capacity planner now assigns the same loading bay to every truck in a time slot, even when the dispatchers enter different available bays. It saves these conflicting allocations without an error. All dispatchers have had to stop releasing loading instructions because the output is unusable; this is our only authorised allocation system and there is no manual fallback.",
+      "proposed_category": "software",
+      "proposed_base_priority": "critical",
+      "reference_eligible": false,
+      "category_reason": "Aplikacja zapisuje błędny wynik alokacji mimo różnych poprawnych danych wejściowych.",
+      "priority_reason": "Błędne działanie kluczowej usługi zablokowało pracę całego zespołu bez zastępstwa.",
+      "novelty_note": "Nowy błąd logiczny przydzielania zasobu, odrębny od awarii procesu i błędów zapisu zamówień w pilotażu.",
+      "review": {
+        "status": "approved",
+        "category": "software",
+        "base_priority": "critical",
+        "reviewer": "autor pracy (użytkownik rozmowy)",
+        "reviewed_at": "2026-11-07T18:23:34+00:00",
+        "notes": "Jawne zatwierdzenie pierwszej próbki w rozmowie: „Akceptuj to”. Bez zmian treści i etykiet.",
+        "method": "explicit_chat_approval",
+        "approval_event": "initial-sample-approval.json"
+      }
+    }
+  ]
+}
