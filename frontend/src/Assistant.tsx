@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, type FormEvent } from 'react';
+import { useEffect, useRef, useState, type FormEvent, type KeyboardEvent } from 'react';
 import { Link } from 'react-router';
 import { ApiError } from './api';
 import { useAuth } from './auth';
@@ -22,7 +22,19 @@ export default function Assistant() {
   const [error, setError] = useState('');
   const [denied, setDenied] = useState(false);
   const inFlight = useRef<AbortController | null>(null);
+  const transcript = useRef<HTMLDivElement>(null);
+  const hasMessages = turns.length > 0 || !!pending;
   useEffect(() => () => inFlight.current?.abort(), []);
+  useEffect(() => {
+    const log = transcript.current;
+    if (log) log.scrollTop = log.scrollHeight;
+  }, [turns, pending]);
+
+  function handleQuestionKey(event: KeyboardEvent<HTMLTextAreaElement>) {
+    if (event.key !== 'Enter' || event.shiftKey || event.nativeEvent.isComposing) return;
+    event.preventDefault();
+    if (question.trim() && !inFlight.current) event.currentTarget.form?.requestSubmit();
+  }
 
   async function send(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -59,35 +71,52 @@ export default function Assistant() {
     }
   }
 
-  return <>
-    <div className="page-heading"><div><h1>AI Assistant</h1>
-      <p className="muted">Ask about tickets or describe a problem to find similar resolved cases.</p>
-    </div></div>
-    <section className="panel assistant-panel" aria-label="Assistant conversation">
-      <div className="assistant-transcript" role="log" aria-label="Conversation history">
-        {turns.map(({ question: text, response }, index) => <article className="assistant-turn" key={index}>
-          <p className="assistant-question"><strong>You</strong><br />{text}</p>
-          <div><strong>Assistant</strong>
-            {response.message && <p>{response.message}</p>}
-            {response.parts.map((part, position) => <p key={position}>
-              {part.text} <Link to={`/tickets/${part.ticket_id}`}>Ticket #{part.ticket_id}</Link>
-            </p>)}
+  return <section className="assistant-chat" aria-labelledby="assistant-title">
+    <header className={`assistant-heading${hasMessages || denied ? ' assistant-heading-compact' : ''}`}>
+      <span className="assistant-mark" aria-hidden="true">✦</span>
+      <h1 id="assistant-title">AI Assistant</h1>
+      {!hasMessages && !denied && <p>Find fixes in past tickets or ask about an IT issue.</p>}
+    </header>
+
+    {hasMessages && <div className="assistant-transcript" ref={transcript} role="log" aria-label="Conversation history" tabIndex={0}>
+      {turns.map(({ question: text, response }, index) => <article className="assistant-turn" key={index}>
+        <p className="assistant-question" aria-label="Your question">{text}</p>
+        <div className="assistant-answer">
+          <span className="assistant-mark" aria-hidden="true">✦</span>
+          <div className="assistant-answer-body">
+            <strong>Assistant</strong>
+            {response.message && <p className="assistant-answer-text">{response.message}</p>}
+            {response.parts.map((part, position) => <div className="assistant-answer-part" key={position}>
+              <p className="assistant-answer-text">{part.text}</p>
+              <Link className="assistant-source" to={`/tickets/${part.ticket_id}`}>
+                Ticket #{part.ticket_id}<span aria-hidden="true">↗</span>
+              </Link>
+            </div>)}
           </div>
-        </article>)}
-        {pending && <div className="assistant-turn"><p className="assistant-question"><strong>You</strong><br />{pending}</p>
-          <p role="status">Searching tickets and preparing an answer…</p></div>}
-      </div>
-      {error && <p role="alert" className="danger">{error}</p>}
-      {!denied && <form onSubmit={send}>
+        </div>
+      </article>)}
+      {pending && <div className="assistant-turn">
+        <p className="assistant-question" aria-label="Your question">{pending}</p>
+        <div className="assistant-answer">
+          <span className="assistant-mark" aria-hidden="true">✦</span>
+          <p className="assistant-progress" role="status">Searching tickets…</p>
+        </div>
+      </div>}
+    </div>}
+
+    {error && <p role="alert" className="notice error assistant-error">{error}</p>}
+    {!denied && <form className="assistant-composer" onSubmit={send}>
+      <textarea aria-label="Question" value={pending ? '' : question} rows={1}
+        maxLength={600} required readOnly={!!pending}
+        onChange={event => setQuestion(event.target.value)} onKeyDown={handleQuestionKey}
+        placeholder="Ask about a ticket or describe an issue…" />
+      <div className="assistant-composer-actions">
         <label className="check"><input type="checkbox" checked={resolvedOnly} disabled={!!pending}
           onChange={event => setResolvedOnly(event.target.checked)} /> Only tickets with a documented resolution</label>
-        <label>Question
-          <textarea value={question} maxLength={600} required disabled={!!pending}
-            onChange={event => setQuestion(event.target.value)}
-            placeholder="How did we fix VPN disconnects after waking a laptop?" />
-        </label>
-        <button disabled={!!pending || !question.trim()}>Send question</button>
-      </form>}
-    </section>
-  </>;
+        <button className="assistant-send" type="submit" aria-label="Send question" disabled={!!pending || !question.trim()}>
+          <span aria-hidden="true">↑</span>
+        </button>
+      </div>
+    </form>}
+  </section>;
 }

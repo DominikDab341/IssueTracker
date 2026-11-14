@@ -26,14 +26,13 @@ export default function TicketEditor({ ticket, onSaved, onConflict }: { ticket?:
     } finally { setBusy(false); }
   }
   return <form onSubmit={save} className="ticket-editor"><ErrorBox error={error} /><fieldset disabled={busy}>
-    <label>Problem description<textarea name="text" aria-describedby="ticket-description-guide" defaultValue={ticket?.text || ''} rows={7} maxLength={10000} required placeholder="Describe what happens, when it started, and what you have already tried." /></label>
+    <label><span className="ticket-description-label">Problem description</span><textarea name="text" aria-describedby="ticket-description-guide" defaultValue={ticket?.text || ''} rows={7} maxLength={10000} required placeholder="The office printer jams. The spare printer works, but printing orders takes longer." /></label>
     <div id="ticket-description-guide" className="hint">
-      <p>Write in English. Name the device or service and describe the symptom, who it affects, what work is blocked, and any workaround.</p>
-      <p lang="en">The office printer jams. The spare printer works, but printing orders takes longer.</p>
+      <p>Name the device or service and describe what happens, who it affects, what work is blocked, and any workaround.</p>
+      <p>Keep passwords and other secrets out of the description.</p>
     </div>
-    <p className="hint">The server checks the 256-token limit. Keep passwords and other secrets out of the description.</p>
     <label className="check blocked-check"><input type="checkbox" checked={blocked} onChange={e => setBlocked(e.target.checked)} /><span><strong>I cannot continue working</strong><small>The issue prevents me from doing my work.</small></span></label>
-    {ticket?.priority_source === 'administrator' ? <p className="notice">An administrator set the priority for this ticket. This checkbox does not override it.</p> : blocked && <p className="notice">This marks the ticket as critical.</p>}
+    {ticket?.priority_source === 'administrator' ? <p className="notice">An administrator set the priority for this ticket. This checkbox does not override it.</p> : blocked && <p className="notice warning" role="status"><strong>This marks the ticket as critical.</strong> IT staff will reject it if your description does not show why the issue prevents you from working.</p>}
     <div className="button-row"><button type="submit">{busy ? 'Saving…' : ticket ? 'Save changes' : 'Submit ticket →'}</button>{!ticket && <Link to="/tickets" className="button secondary">Back to tickets</Link>}</div>
   </fieldset></form>;
 }

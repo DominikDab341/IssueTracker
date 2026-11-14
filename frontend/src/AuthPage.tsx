@@ -36,10 +36,10 @@ export default function AuthPage({ register = false }: { register?: boolean }) {
     finally { setBusy(false); }
   }
   return <div className="auth-layout"><section className="auth-intro">
-    <h1>IT help desk</h1><p>Report an IT issue and track it through resolution.</p>
-    <div className="intro-note"><span className="intro-symbol">↗</span><div><strong>Ticket history</strong><br /><span>See updates as your ticket progresses.</span></div></div></section>
-    <section className="panel auth-panel"><span className="eyebrow">ISSUETRACKER</span><h2>{register ? 'Create an account' : 'Sign in'}</h2>
-      <p className="muted">{register ? 'An administrator must approve your account after registration.' : 'Sign in to view your tickets.'}</p>
+    <h1>IT Help Desk</h1><p>Report an IT issue and track it through resolution.</p>
+    </section>
+    <section className="panel auth-panel"><span className="eyebrow">IT HELP DESK</span><h2>{register ? 'Create an account' : 'Sign in'}</h2>
+      {register && <p className="muted">An administrator must approve your account after registration.</p>}
       {!register && message && <div className="notice" role="status">{message}</div>}
       <ErrorBox error={configError} /><ErrorBox error={error} />
       {registered ? <div className="notice success" role="status">Your account was created. You can sign in once an administrator approves it.<p><Link to="/login">Go to sign in →</Link></p></div>
@@ -51,6 +51,5 @@ export default function AuthPage({ register = false }: { register?: boolean }) {
           <button className="wide" type="submit" disabled={register && !domain}>{busy ? 'Please wait…' : register ? 'Register' : 'Sign in →'}</button>
         </fieldset></form>}
       <p className="auth-switch">{register ? 'Already have an account? ' : 'New here? '}<Link to={register ? '/login' : '/register'}>{register ? 'Sign in' : 'Create an account'}</Link></p>
-      <p className="hint">Refreshing the page requires you to sign in again.</p>
     </section></div>;
 }

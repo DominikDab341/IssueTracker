@@ -1,0 +1,10 @@
+.auth-layout { min-height: 100vh; display: grid; grid-template-columns: 1fr 1fr; align-items: center; gap: 70px; padding: 65px max(7vw, 25px); background: radial-gradient(ellipse at 0% 100%, #e0ead8, transparent 60%), #f4f6f1; }
+.auth-intro { max-width: 470px; }
+.auth-intro h1 { font-size: clamp(40px, 4vw, 64px); line-height: 1.1; letter-spacing: -2px; margin: 26px 0; }
+.auth-intro > p { color: #70816f; font-size: 16px; max-width: 380px; line-height: 1.8; }
+.auth-panel { width: 100%; max-width: 460px; padding: 39px; justify-self: center; }
+.auth-panel h2 { font-size: 25px; margin: 12px 0; letter-spacing: -.7px; }
+.auth-panel form { margin-top: 28px; }
+.wide { width: 100%; margin-top: 10px; }
+.auth-switch { text-align: center; font-size: 12px; margin-top: 24px; }
+.auth-panel .hint { font-size: 10px; }

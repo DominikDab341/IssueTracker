@@ -1,0 +1,25 @@
+.app-shell { display: flex; min-height: 100vh; }
+.sidebar { width: 238px; padding: 35px 23px 25px; background: #fcfdfc; border-right: 1px solid var(--line); position: fixed; inset: 0 auto 0 0; display: flex; flex-direction: column; }
+.brand { display: flex; align-items: center; color: var(--ink); font-family: 'Manrope', sans-serif; font-size: 21px; font-weight: 800; letter-spacing: -.8px; gap: 9px; }
+.brand:hover { text-decoration: none; }
+.brand-icon { background: var(--ink); color: #e3f1c9; width: 33px; height: 35px; display: inline-grid; place-items: center; font-size: 19px; border-radius: 9px; letter-spacing: -1.5px; }
+.sidebar-caption { font-size: 9px; color: #8d9c94; letter-spacing: 1.6px; margin: 50px 10px 15px; }
+nav { display: grid; gap: 6px; }
+nav a { display: flex; gap: 11px; align-items: center; padding: 12px 13px; font-size: 17px; border-radius: 7px; color: #79867e; }
+nav a span { font-size: 13px; }
+nav a.active { background: #eaf1ea; color: #24533f; font-weight: 700; }
+nav a:hover { text-decoration: none; background: #f0f4ef; }
+.sidebar-bottom { margin-top: auto; font-size: 11px; color: #496456; line-height: 2; padding: 20px 9px 0; }
+.sidebar-bottom small { font-size: 9px; }
+.live-dot { display: inline-block; width: 6px; height: 6px; background: #86a967; border-radius: 50%; margin-right: 6px; }
+.workspace { margin-left: 238px; width: calc(100% - 238px); display: flex; flex-direction: column; }
+.topbar { min-height: 87px; border-bottom: 1px solid var(--line); padding: 15px 40px; display: flex; justify-content: space-between; align-items: center; gap: 20px; background: #fcfdfc; }
+.topbar-label { font-size: 12px; }
+.topbar-label .muted { font-size: 12px; margin-left: 10px; }
+.account { display: flex; gap: 11px; align-items: center; }
+.account strong { font-size: 12px; display: block; font-weight: 500; overflow-wrap: anywhere; }
+.account small { display: block; font-size: 10px; }
+.avatar { width: 32px; height: 32px; background: #e9eedd; color: #566c3d; display: grid; place-items: center; border-radius: 50%; font-size: 12px; flex-shrink: 0; }
+main { padding: 38px 40px 65px; width: 100%; max-width: 1460px; margin: 0 auto; flex: 1; }
+
+footer { margin: 0 40px; border-top: 1px solid var(--line); display: flex; justify-content: space-between; font-size: 10px; color: #91a095; padding: 20px 0; }
