@@ -2,7 +2,7 @@ import { useEffect, useState, type FormEvent } from 'react';
 import { Link, Navigate, useNavigate } from 'react-router';
 import { useAuth } from './auth';
 import { request } from './api';
-import { ErrorBox } from './components';
+import { ErrorBox, NameFields, readName } from './components';
 
 export default function AuthPage({ register = false }: { register?: boolean }) {
   const { user, login, message } = useAuth();
@@ -29,7 +29,7 @@ export default function AuthPage({ register = false }: { register?: boolean }) {
       const password = String(form.get('password'));
       if (register) {
         if (password !== form.get('repeat')) throw new Error('The passwords must match.');
-        await request('/auth/register', { method: 'POST', body: JSON.stringify({ email, password }) });
+        await request('/auth/register', { method: 'POST', body: JSON.stringify({ email, password, ...readName(form) }) });
         setRegistered(true);
       } else { await login(email, password); navigate('/tickets'); }
     } catch (error) { setError(error); }
@@ -44,6 +44,7 @@ export default function AuthPage({ register = false }: { register?: boolean }) {
       <ErrorBox error={configError} /><ErrorBox error={error} />
       {registered ? <div className="notice success" role="status">Your account was created. You can sign in once an administrator approves it.<p><Link to="/login">Go to sign in →</Link></p></div>
         : <form onSubmit={submit}><fieldset disabled={busy}>
+          {register && <NameFields />}
           <label>Email address<input name="email" type="email" autoComplete="username" maxLength={254} required placeholder={domain ? `name@${domain}` : 'name@example.com'} /></label>
           {register && <p className="hint">{domain ? `Required domain: @${domain}` : 'Loading the required domain…'}</p>}
           <label>Password<input name="password" type="password" autoComplete={register ? 'new-password' : 'current-password'} minLength={register ? 12 : undefined} maxLength={128} required /></label>

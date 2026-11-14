@@ -26,10 +26,12 @@ class FrontendContractTests(ApiTestCase):
     async def test_review_filter_and_task_state_do_not_change_visibility(self):
         reporter = await self.add_user("reporter@mail.com")
         self.client.headers.update(self.headers(reporter))
+        await self.client.patch("/users/me/name", json={"first_name": "Anna", "last_name": "Nowak"})
         ticket = await self.create()
         detail = (await self.client.get(f"/tickets/{ticket['id']}")).json()
         self.assertTrue(detail["needs_review"])
         self.assertEqual(detail["current_task_state"], "pending")
+        self.assertEqual(detail.pop("people"), {str(reporter.id): {"first_name": "Anna", "last_name": "Nowak"}})
         self.assertEqual(ticket, detail)
         self.assertEqual((await self.client.get("/tickets/?needs_review=true")).status_code, 403)
         self.client.headers.update(self.headers(self.user))
@@ -75,6 +77,6 @@ class FrontendContractTests(ApiTestCase):
         second = await self.add_user("zzz@mail.com", "staff")
         self.assertEqual((await self.client.get("/admin/assignees")).status_code, 403)
         response = await self.client.get("/admin/assignees?limit=1&offset=1", headers=self.admin_headers)
-        self.assertEqual(response.json(), [{"id": second.id, "email": second.email}])
+        self.assertEqual(response.json(), [{"id": second.id, "email": second.email, "first_name": None, "last_name": None}])
         for query in ["limit=0", "limit=101", "offset=-1"]:
             self.assertEqual((await self.client.get("/admin/assignees?" + query, headers=self.admin_headers)).status_code, 422)

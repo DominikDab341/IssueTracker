@@ -13,10 +13,10 @@ from app.services.errors import ConflictError, InvalidInputError
 from app.services.users import UserService
 
 
-async def create(email: str, password: str):
+async def create(email: str, password: str, *, first_name: str, last_name: str):
     try:
         async with async_session() as db:
-            await UserService(db).bootstrap_admin(email, password)
+            await UserService(db).bootstrap_admin(email, password, first_name=first_name, last_name=last_name)
     finally:
         await engine.dispose()
 
@@ -24,6 +24,8 @@ async def create(email: str, password: str):
 def main():
     parser = argparse.ArgumentParser(description="Utwórz pierwszego administratora po wykonaniu migracji.")
     parser.add_argument("--email", required=True)
+    parser.add_argument("--first-name", required=True)
+    parser.add_argument("--last-name", required=True)
     args = parser.parse_args()
     try:
         with warnings.catch_warnings():
@@ -35,7 +37,7 @@ def main():
     if password != repeated:
         parser.exit(1, "Hasła różnią się. Nie utworzono konta.\n")
     try:
-        asyncio.run(create(args.email, password))
+        asyncio.run(create(args.email, password, first_name=args.first_name, last_name=args.last_name))
     except (ConflictError, InvalidInputError) as exc:
         parser.exit(1, str(exc) + "\n")
     print("Utworzono aktywne i zaakceptowane konto administratora.")

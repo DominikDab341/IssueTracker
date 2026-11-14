@@ -5,7 +5,7 @@ from fastapi import APIRouter, BackgroundTasks, Depends, Query
 from app.api.dependencies import get_processing_runtime, get_ticket_service
 from app.api.schemas import (
     TaskStatusResponse, TicketCloseResponse, TicketCreate, TicketCreateResponse,
-    TicketEdit, TicketEditResponse, TicketResponse, TicketStatusUpdate,
+    TicketDetailResponse, TicketEdit, TicketEditResponse, TicketResponse, TicketStatusUpdate,
     AssignmentUpdate, AssignmentResponse, CategoryUpdate, PriorityUpdate,
     SuggestedDuplicate, ReferenceResponse,
 )
@@ -62,9 +62,10 @@ async def suggested_duplicates(ticket_id: int, service: TicketService = Depends(
     return await service.duplicates(ticket_id)
 
 
-@router.get("/{ticket_id}", response_model=TicketResponse)
+@router.get("/{ticket_id}", response_model=TicketDetailResponse)
 async def get_ticket(ticket_id: int, service: TicketService = Depends(get_ticket_service)):
-    return await service.get(ticket_id)
+    ticket = await service.get(ticket_id)
+    return {**TicketResponse.model_validate(ticket).model_dump(), "people": await service.people(ticket)}
 
 
 @router.post("/", response_model=TicketCreateResponse, status_code=201)

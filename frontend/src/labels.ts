@@ -1,4 +1,4 @@
-import type { Ticket, User, Task } from './types';
+import type { PersonName, Ticket, User, Task } from './types';
 
 export const statuses = { reported: 'Reported', accepted: 'Accepted', in_progress: 'In progress', resolved: 'Resolved', rejected: 'Rejected', cancelled: 'Cancelled' };
 export const categories: Record<string, string> = { accounts_access: 'Accounts and access', hardware: 'Hardware', network: 'Network and connectivity', software: 'Software', unknown: 'Needs review' };
@@ -17,9 +17,14 @@ export const reviewReasons: Record<string, string> = {
 export function date(value: string | null) {
   return value ? new Intl.DateTimeFormat('en-GB', { dateStyle: 'medium', timeStyle: 'short' }).format(new Date(value)) : '—';
 }
-export const person = (id: number | null) => id ? `User #${id}` : 'Unassigned';
+export function fullName(name?: PersonName) {
+  return name?.first_name && name.last_name ? `${name.first_name} ${name.last_name}` : '';
+}
+export function person(ticket: Ticket, id: number | null) {
+  return id == null ? 'Unassigned' : fullName(ticket.people?.[id]) || `User #${id}`;
+}
 export const active = (ticket: Ticket) => ['reported', 'accepted', 'in_progress'].includes(ticket.status);
-export function permissions(user: User, ticket: Ticket, task?: Task | null) {
+export function permissions(user: Pick<User, 'id' | 'role'>, ticket: Ticket, task?: Task | null) {
   const admin = user.role === 'admin';
   const staff = user.role === 'staff';
   const assigned = staff && user.id === ticket.assignee_id;

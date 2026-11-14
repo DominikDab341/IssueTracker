@@ -107,9 +107,12 @@ class User(Base):
                         "(NOT is_approved AND role IS NULL AND approved_at IS NULL AND approved_by_id IS NULL)",
                         name="ck_user_approval"),
         CheckConstraint("email = lower(email)", name="ck_user_email_normalized"),
+        CheckConstraint("(first_name IS NULL) = (last_name IS NULL)", name="ck_user_name_pair"),
     )
     id: Mapped[int] = mapped_column(primary_key=True)
     email: Mapped[str] = mapped_column(String(254), unique=True)
+    first_name: Mapped[str | None] = mapped_column(String(100))
+    last_name: Mapped[str | None] = mapped_column(String(100))
     password_hash: Mapped[str] = mapped_column(Text)
     role: Mapped[str | None] = mapped_column(String(20))
     is_approved: Mapped[bool] = mapped_column(Boolean, default=False, server_default=sql_text("false"))

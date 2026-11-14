@@ -9,7 +9,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from app.api.dependencies import get_current_user
 from app.database.database import get_db
 from app.models.models import User
-from app.services.access import Role
+from app.services.access import Role, require_roles
 from app.services.auth import create_access_token
 from app.services.users import UserService
 from app.settings import settings
@@ -26,6 +26,8 @@ class AssigneeResponse(BaseModel):
     model_config = ConfigDict(from_attributes=True)
     id: int
     email: str
+    first_name: str | None
+    last_name: str | None
 
 
 @router.get("/admin/assignees", response_model=list[AssigneeResponse])
@@ -35,8 +37,13 @@ async def assignees(limit: Annotated[int, Query(ge=1, le=100)] = 100,
     return await UserService(db).assignees(actor, limit=limit, offset=offset)
 
 
-class Registration(BaseModel):
+class NameUpdate(BaseModel):
     model_config = ConfigDict(extra="forbid")
+    first_name: str = Field(min_length=1, max_length=100)
+    last_name: str = Field(min_length=1, max_length=100)
+
+
+class Registration(NameUpdate):
     email: str = Field(max_length=254)
     password: str = Field(min_length=12, max_length=128, repr=False)
 
@@ -45,6 +52,8 @@ class UserResponse(BaseModel):
     model_config = ConfigDict(from_attributes=True)
     id: int
     email: str
+    first_name: str | None
+    last_name: str | None
     role: Role | None
     is_approved: bool
     is_active: bool
@@ -72,7 +81,7 @@ class TokenResponse(BaseModel):
 
 @router.post("/auth/register", response_model=UserResponse, status_code=201)
 async def register(body: Registration, db: AsyncSession = Depends(get_db)):
-    return await UserService(db).register(body.email, body.password)
+    return await UserService(db).register(body.email, body.password, first_name=body.first_name, last_name=body.last_name)
 
 
 @router.post("/auth/token", response_model=TokenResponse)
@@ -88,11 +97,28 @@ async def me(user: User = Depends(get_current_user)):
     return user
 
 
+@router.patch("/users/me/name", response_model=UserResponse)
+async def update_my_name(body: NameUpdate, user: User = Depends(get_current_user), db: AsyncSession = Depends(get_db)):
+    return await UserService(db).set_name(user, user.id, **body.model_dump())
+
+
 @router.get("/admin/users", response_model=list[UserResponse])
 async def users(pending: bool | None = None, limit: Annotated[int, Query(ge=1, le=100)] = 20,
                 offset: Annotated[int, Query(ge=0)] = 0,
                 actor: User = Depends(get_current_user), db: AsyncSession = Depends(get_db)):
     return await UserService(db).list_users(actor, pending=pending, limit=limit, offset=offset)
+
+
+@router.patch("/admin/users/{user_id}/name", response_model=UserResponse)
+async def update_user_name(user_id: int, body: NameUpdate, actor: User = Depends(get_current_user), db: AsyncSession = Depends(get_db)):
+    require_roles(actor, Role.ADMIN)
+    return await UserService(db).set_name(actor, user_id, **body.model_dump())
+
+
+@router.delete("/admin/users/{user_id}", status_code=204)
+async def delete_pending_user(user_id: int, actor: User = Depends(get_current_user), db: AsyncSession = Depends(get_db)):
+    await UserService(db).delete_pending(actor, user_id)
+    return Response(status_code=204)
 
 
 @router.post("/admin/users/{user_id}/approve", response_model=UserResponse)

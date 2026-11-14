@@ -1,12 +1,21 @@
 import { useEffect, useRef, useState, type FormEvent, type ReactNode } from 'react';
 import { useAuth } from './auth';
 import { categories, priorities, statuses, taskStates } from './labels';
-import type { Ticket } from './types';
+import type { PersonName, Ticket } from './types';
 
 export function ErrorBox({ error }: { error: unknown }) {
   return error ? <div className="notice error" role="alert">{error instanceof Error ? error.message : String(error)}</div> : null;
 }
 export function Loading() { return <p className="muted" role="status">Loading…</p>; }
+export function NameFields({ person }: { person?: PersonName }) {
+  return <>
+    <label>First name<input name="first_name" autoComplete="given-name" defaultValue={person?.first_name ?? ''} maxLength={100} required /></label>
+    <label>Last name<input name="last_name" autoComplete="family-name" defaultValue={person?.last_name ?? ''} maxLength={100} required /></label>
+  </>;
+}
+export function readName(form: FormData) {
+  return { first_name: String(form.get('first_name')).trim(), last_name: String(form.get('last_name')).trim() };
+}
 export function Badge({ children, tone = '' }: { children: ReactNode; tone?: string }) {
   return <span className={`badge ${tone}`}>{children}</span>;
 }
@@ -38,7 +47,7 @@ export function useResource<T>(path: string, revision = 0) {
 }
 export function ActionForm({ title, action, children, submit = 'Save', onSuccess, onFailure }: {
   title: string; action: (form: FormData) => Promise<unknown>; children: ReactNode;
-  submit?: string; onSuccess: () => void; onFailure?: (error: unknown) => void;
+  submit?: string; onSuccess?: () => void; onFailure?: (error: unknown) => void;
 }) {
   const [busy, setBusy] = useState(false);
   const inFlight = useRef(false);
@@ -48,7 +57,7 @@ export function ActionForm({ title, action, children, submit = 'Save', onSuccess
     event.preventDefault();
     if (inFlight.current) return;
     inFlight.current = true; setBusy(true); setError(null); setSuccess(false);
-    try { await action(new FormData(event.currentTarget)); setSuccess(true); onSuccess(); }
+    try { await action(new FormData(event.currentTarget)); setSuccess(true); onSuccess?.(); }
     catch (error) { setError(error); onFailure?.(error); }
     finally { setBusy(false); inFlight.current = false; }
   }

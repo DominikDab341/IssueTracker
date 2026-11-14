@@ -114,6 +114,16 @@ class TicketResponse(BaseModel):
     priority_source: str
 
 
+class PersonName(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+    first_name: str | None
+    last_name: str | None
+
+
+class TicketDetailResponse(TicketResponse):
+    people: dict[int, PersonName]
+
+
 class TicketCreateResponse(BaseModel):
     """Identyfikator zadania zapisanego razem ze zgłoszeniem w PostgreSQL."""
     ticket: TicketResponse

@@ -24,8 +24,10 @@ async def prepare():
     async with engine.begin() as connection:
         await connection.execute(text("TRUNCATE assignment_history, classification_references, classification_tasks, tickets, users RESTART IDENTITY"))
     async with async_session() as db:
-        for role in ("reporter", "staff", "admin"):
-            db.add(User(email=f"{role}@mail.com", password_hash=password_hasher.hash(PASSWORD),
+        for role, first_name, last_name in (("reporter", "Anna", "Nowak"), ("staff", "Jan", "Kowalski"),
+                                          ("admin", "Maria", "Zielińska")):
+            db.add(User(email=f"{role}@mail.com", first_name=first_name, last_name=last_name,
+                        password_hash=password_hasher.hash(PASSWORD),
                         role=role, is_approved=True, is_active=True, approved_at=now()))
         db.add(ClassificationReference(text="Nie działa drukarka.", category="software", base_priority="medium",
                                        embedding_vector=[1.0] + [0.0] * 383, source="browser-test", source_key="1"))

@@ -45,7 +45,9 @@ class AuthorizationTests(ApiTestCase):
                             expected = 422 if method == "DELETE" and target not in ("resolved", "rejected", "cancelled") else 409
                             self.assertEqual(result.status_code, expected, result.text)
             detail = await self.client.get(f"/tickets/{ticket['id']}", headers=self.reporter_headers)
-            self.assertEqual(detail.json(), snapshot)
+            detail_body = detail.json()
+            detail_body.pop("people")
+            self.assertEqual(detail_body, snapshot)
         self.assertEqual(len((await self.client.get("/tickets/", headers=self.reporter_headers)).json()), 3)
         self.assertEqual((await self.report())["author_id"], self.reporter.id)
 

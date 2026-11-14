@@ -1,3 +1,6 @@
 .user-row { border-bottom: 1px solid var(--line); display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 25px; padding: 25px 0; }
 .user-row h2 { font-size: 15px; overflow-wrap: anywhere; }
 .user-row .action-form { margin-top: 0; padding-top: 0; border: 0; }
+.user-name-editor { margin-top: 14px; }
+.user-name-editor summary { cursor: pointer; color: var(--green); font-size: 13px; }
+.user-name-editor .action-form { margin-top: 12px; }

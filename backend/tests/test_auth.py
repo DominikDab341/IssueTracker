@@ -22,7 +22,9 @@ from app.services.users import UserService
 
 class AuthenticationTests(ApiTestCase):
     async def register(self, email="nowy@mail.com", **extra):
-        return await self.client.post("/auth/register", json={"email": email, "password": TEST_PASSWORD, **extra})
+        return await self.client.post("/auth/register", json={
+            "email": email, "password": TEST_PASSWORD, "first_name": " Łukasz ", "last_name": "Żak", **extra,
+        })
 
     async def login(self, email="nowy@mail.com", password=TEST_PASSWORD):
         return await self.client.post("/auth/token", data={"username": email, "password": password})
@@ -32,6 +34,7 @@ class AuthenticationTests(ApiTestCase):
         self.assertEqual(response.status_code, 201, response.text)
         user = response.json()
         self.assertEqual(user["email"], "nowy@mail.com")
+        self.assertEqual((user["first_name"], user["last_name"]), ("Łukasz", "Żak"))
         self.assertIsNone(user["role"])
         self.assertFalse(user["is_approved"])
         self.assertTrue(user["is_active"])
@@ -48,7 +51,7 @@ class AuthenticationTests(ApiTestCase):
         for extra in [{"role": "admin"}, {"is_approved": True}, {"is_active": True}, {"approved_by_id": self.admin.id}]:
             self.assertEqual((await self.register("attack@mail.com", **extra)).status_code, 422)
         for password in ["weak!", "x" * 129]:
-            result = await self.client.post("/auth/register", json={"email": "bad@mail.com", "password": password})
+            result = await self.register("bad@mail.com", password=password)
             self.assertEqual(result.status_code, 422)
             self.assertNotIn(password, result.text)
 
@@ -77,6 +80,39 @@ class AuthenticationTests(ApiTestCase):
         self.assertFalse(saved["is_active"])
         await self.client.patch(f"/admin/users/{user['id']}/active", json={"is_active": True}, headers=self.admin_headers)
         self.assertEqual((await self.login()).status_code, 200)
+
+    async def test_names_can_be_completed_without_changing_email_or_role(self):
+        for details in ({"first_name": " "}, {"last_name": "Line\nBreak"}, {"first_name": "x" * 101}):
+            self.assertEqual((await self.register(**details)).status_code, 422)
+        self.assertEqual((await self.client.post("/auth/register", json={
+            "email": "missing@mail.com", "password": TEST_PASSWORD,
+        })).status_code, 422)
+
+        name = {"first_name": "Ada", "last_name": "Nowak"}
+        response = await self.client.patch("/users/me/name", json=name)
+        self.assertEqual(response.status_code, 200, response.text)
+        self.assertEqual(response.json()["email"], self.user.email)
+        self.assertEqual(response.json()["role"], "staff")
+        self.assertEqual((await self.client.get("/users/me")).json()["first_name"], "Ada")
+        url = f"/admin/users/{self.user.id}/name"
+        self.assertEqual((await self.client.patch(url, json=name)).status_code, 403)
+        response = await self.client.patch(url, json={**name, "last_name": "Kowalska"}, headers=self.admin_headers)
+        self.assertEqual(response.status_code, 200, response.text)
+        self.assertEqual(response.json()["last_name"], "Kowalska")
+
+    async def test_admin_can_delete_an_inactive_pending_registration(self):
+        user = (await self.register()).json()
+        path = f"/admin/users/{user['id']}"
+        self.assertEqual((await self.client.delete(path)).status_code, 403)
+        self.assertEqual((await self.client.patch(path + "/active", json={"is_active": False},
+                                                  headers=self.admin_headers)).status_code, 200)
+        response = await self.client.delete(path, headers=self.admin_headers)
+        self.assertEqual(response.status_code, 204, response.text)
+        self.assertEqual((await self.client.get("/admin/users?pending=true", headers=self.admin_headers)).json(), [])
+        self.assertEqual((await self.client.delete(path, headers=self.admin_headers)).status_code, 404)
+        self.assertEqual((await self.client.delete(f"/admin/users/{self.user.id}",
+                                                  headers=self.admin_headers)).status_code, 409)
+        self.assertEqual((await self.register()).status_code, 201)
 
     async def test_bad_password_invalid_expired_and_missing_tokens(self):
         for email, password in [(self.user.email, "bad-password"), ("missing@mail.com", TEST_PASSWORD), (self.user.email, "x" * 129)]:
@@ -168,7 +204,7 @@ class AuthenticationTests(ApiTestCase):
         async def bootstrap(email):
             async with self.sessions() as db:
                 try:
-                    return await UserService(db).bootstrap_admin(email, TEST_PASSWORD)
+                    return await UserService(db).bootstrap_admin(email, TEST_PASSWORD, first_name="Ada", last_name="Nowak")
                 except ConflictError as exc:
                     return exc
         results = await asyncio.gather(bootstrap("first@mail.com"), bootstrap("second@mail.com"))
@@ -199,7 +235,7 @@ class BootstrapCommandTests(unittest.TestCase):
     def test_command_refuses_terminal_without_hidden_password_input(self):
         from getpass import GetPassWarning
         from scripts import create_admin
-        with patch("sys.argv", ["create_admin.py", "--email", "first@mail.com"]), \
+        with patch("sys.argv", ["create_admin.py", "--email", "first@mail.com", "--first-name", "Ada", "--last-name", "Nowak"]), \
                 patch.object(create_admin, "getpass", side_effect=GetPassWarning()), \
                 patch.object(create_admin, "create", new_callable=AsyncMock) as create, patch("sys.stderr"):
             with self.assertRaises(SystemExit) as error:
@@ -209,10 +245,10 @@ class BootstrapCommandTests(unittest.TestCase):
 
     def test_password_is_prompted_without_command_argument_or_output(self):
         from scripts import create_admin
-        with patch("sys.argv", ["create_admin.py", "--email", "first@mail.com"]), \
+        with patch("sys.argv", ["create_admin.py", "--email", "first@mail.com", "--first-name", "Ada", "--last-name", "Nowak"]), \
                 patch.object(create_admin, "getpass", return_value="test-bootstrap-password") as prompt, \
                 patch.object(create_admin, "create", new_callable=AsyncMock) as create, patch("builtins.print") as output:
             create_admin.main()
         self.assertEqual(prompt.call_count, 2)
-        create.assert_awaited_once_with("first@mail.com", "test-bootstrap-password")
+        create.assert_awaited_once_with("first@mail.com", "test-bootstrap-password", first_name="Ada", last_name="Nowak")
         self.assertNotIn("test-bootstrap-password", str(output.call_args_list))

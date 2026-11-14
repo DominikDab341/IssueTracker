@@ -16,16 +16,17 @@ vi.mock('./useTicket', () => ({ useTicket: () => ({
 afterEach(() => { cleanup(); api.mockReset(); });
 
 it('allows assigning staff from beyond the first page without pagination buttons', async () => {
-  const firstPage = Array.from({ length: 100 }, (_, index) => ({ id: index + 100, email: `staff${index}@example.test` }));
+  const firstPage = Array.from({ length: 100 }, (_, index) => ({ id: index + 100, first_name: 'Test', last_name: `Staff ${index}` }));
   api.mockImplementation(async (path: string) => {
     if (path === '/admin/assignees?limit=100&offset=0') return firstPage;
-    if (path === '/admin/assignees?limit=100&offset=100') return [{ id: 200, email: 'last@example.test' }];
+    if (path === '/admin/assignees?limit=100&offset=100') return [{ id: 200, first_name: 'Anna', last_name: 'Nowak', email: 'last@example.test' }];
     if (path === '/tickets/10/assignee') return {};
     throw new Error(`Unexpected request to ${path}`);
   });
 
   render(<MemoryRouter><TicketDetail /></MemoryRouter>);
-  const lastOption = await screen.findByRole('option', { name: 'last@example.test (#200)' });
+  const lastOption = await screen.findByRole('option', { name: 'Anna Nowak (#200)' });
+  expect(screen.queryByText(/last@example\.test/)).toBeNull();
   const form = lastOption.closest('form')!;
   expect(within(form).queryByRole('button', { name: /previous staff|next staff/i })).toBeNull();
   fireEvent.change(within(form).getByRole('combobox', { name: 'Assignee' }), { target: { value: '200' } });

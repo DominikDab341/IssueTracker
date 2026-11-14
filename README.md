@@ -320,9 +320,9 @@ przebuduj obraz API.
 Po migracjach utwórz pierwszego administratora:
 
 ```powershell
-.venv/Scripts/python.exe backend/scripts/create_admin.py --email admin@mail.com
+.venv/Scripts/python.exe backend/scripts/create_admin.py --email admin@mail.com --first-name "Ada" --last-name "Nowak"
 # W Compose (interaktywny terminal):
-docker compose run --rm api python scripts/create_admin.py --email admin@mail.com
+docker compose run --rm api python scripts/create_admin.py --email admin@mail.com --first-name "Ada" --last-name "Nowak"
 ```
 
 Wybierz jeden wariant zgodny ze sposobem uruchomienia. Komenda dwukrotnie pyta
@@ -333,13 +333,16 @@ administrator jest nieaktywny. Nowe konta przechodzą rejestrację i akceptację
 
 | Endpoint | Działanie |
 |---|---|
-| `POST /auth/register` | JSON `email`, `password`; 201, konto aktywne, oczekujące, bez roli |
+| `POST /auth/register` | JSON `email`, `password`, `first_name`, `last_name`; 201, konto aktywne, oczekujące, bez roli |
 | `POST /auth/token` | Formularz OAuth2: `username` zawiera e-mail, `password` hasło; JWT tylko dla zaakceptowanych, aktywnych kont |
 | `GET /users/me` | Bieżące konto, bez hasha hasła |
+| `PATCH /users/me/name` | Zapis imienia i nazwiska bieżącego użytkownika |
+| `PATCH /admin/users/{id}/name` | Administrator uzupełnia lub poprawia imię i nazwisko użytkownika |
 | `GET /admin/users?pending=true` | Lista oczekujących; filtr opcjonalny, `limit` 1–100 i `offset` od 0 |
 | `POST /admin/users/{id}/approve` | JSON `role`: obowiązkowo `reporter`, `staff` albo `admin`; atomowa akceptacja z autorem i czasem |
 | `PATCH /admin/users/{id}/role` | Osobna późniejsza zmiana roli zatwierdzonego konta |
 | `PATCH /admin/users/{id}/active` | JSON `is_active`: aktywacja/dezaktywacja; nie zmienia akceptacji |
+| `DELETE /admin/users/{id}` | Administrator usuwa oczekującą rejestrację; 204, a dla zatwierdzonego konta 409 |
 | `PATCH /tickets/{id}/assignee` | Administrator wskazuje `assignee_id` aktywnego, zaakceptowanego konta `staff` |
 | `GET /tickets/{id}/assignments` | Historia przypisań dla obsługi i administratora |
 | `PATCH /tickets/{id}/priority` | Administrator podaje `priority`: `low`, `medium`, `high`, `critical` |

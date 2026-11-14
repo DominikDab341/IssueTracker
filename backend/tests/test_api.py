@@ -112,7 +112,9 @@ class TicketApiTests(ApiTestCase):
         self.assertNotIn("embedding_vector", ticket)
         self.mock_delay.assert_called_once_with(ticket["current_task_id"])
         detail = await self.client.get(f"/tickets/{ticket['id']}")
-        self.assertEqual(detail.json(), ticket)
+        body = detail.json()
+        self.assertEqual(body.pop("people"), {str(self.user.id): {"first_name": None, "last_name": None}})
+        self.assertEqual(body, ticket)
         self.assertEqual((await self.client.get("/tickets/")).json(), [ticket])
 
     async def test_missing_tickets(self):

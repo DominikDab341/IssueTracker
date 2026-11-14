@@ -1,10 +1,14 @@
 export type Role = 'reporter' | 'staff' | 'admin';
 export type Status = 'reported' | 'accepted' | 'in_progress' | 'resolved' | 'rejected' | 'cancelled';
 export type TaskState = 'pending' | 'running' | 'succeeded' | 'failed';
-export interface User {
+export interface PersonName {
+  first_name: string | null; last_name: string | null;
+}
+export interface User extends PersonName {
   id: number; email: string; role: Role | null; is_active: boolean; is_approved: boolean;
 }
 export interface Ticket {
+  people?: Record<number, PersonName>;
   id: number; text: string; author_id: number | null; assignee_id: number | null;
   status: Status; category: string; priority: string; priority_source: string;
   legacy_category?: string | null; classification_version?: string | null;

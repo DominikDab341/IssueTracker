@@ -6,14 +6,16 @@ import TicketEditor from './TicketEditor';
 import TicketDetail from './TicketDetail';
 import Assistant from './Assistant';
 import AdminUsers from './AdminUsers';
-import { roles } from './labels';
+import { fullName, roles } from './labels';
 
 function Shell() {
   const { user, logout } = useAuth();
   const location = useLocation();
   if (!user) return <Navigate to="/login" replace />;
+  const name = fullName(user) || `User #${user.id}`;
+  const initials = `${Array.from(user.first_name ?? '')[0] ?? ''}${Array.from(user.last_name ?? '')[0] ?? ''}`.toUpperCase();
   return <div className="app-shell"><aside className="sidebar"><Link className="brand" to="/tickets" aria-label="IT Help Desk"><span className="brand-icon" aria-hidden="true">IT</span>Help Desk</Link><span className="sidebar-caption">WORKSPACE</span><nav><NavLink to="/tickets" end>▤ <span>Tickets</span></NavLink><NavLink to="/tickets/new">＋ <span>New ticket</span></NavLink>{(user.role === 'admin' || user.role === 'staff') && <NavLink to="/assistant">◇ <span>AI Assistant</span></NavLink>}{user.role === 'admin' && <NavLink to="/admin/users">♙ <span>Users</span></NavLink>}</nav><div className="sidebar-bottom"><span className="live-dot" /> IT Help Desk</div></aside>
-    <div className="workspace"><header className="topbar"><span className="topbar-label">Ticket desk <span className="muted">/ {location.pathname.includes('/new') ? 'New ticket' : location.pathname.includes('/admin') ? 'Users' : location.pathname === '/assistant' ? 'AI Assistant' : 'Overview'}</span></span><div className="account"><span className="avatar">{user.email[0].toUpperCase()}</span><span><strong>{user.email}</strong><small>{user.role && roles[user.role]}</small></span><button className="text-button" onClick={logout}>Sign out</button></div></header>
+    <div className="workspace"><header className="topbar"><span className="topbar-label">Ticket desk <span className="muted">/ {location.pathname.includes('/new') ? 'New ticket' : location.pathname.includes('/admin') ? 'Users' : location.pathname === '/assistant' ? 'AI Assistant' : 'Overview'}</span></span><div className="account"><span className="avatar" aria-hidden="true">{initials}</span><span><strong>{name}</strong><small>{user.role && roles[user.role]}</small></span><button className="text-button" onClick={logout}>Sign out</button></div></header>
       <main><Outlet /></main><footer>IT Help Desk</footer></div></div>;
 }
 function AdminRoute() {

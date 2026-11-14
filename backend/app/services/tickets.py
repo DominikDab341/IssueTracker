@@ -53,6 +53,14 @@ class TicketService:
         ticket.current_task_state = state
         return ticket
 
+    async def people(self, ticket: Ticket) -> dict[int, User]:
+        ids = {ticket.author_id, ticket.assignee_id, ticket.resolved_by_id, ticket.rejected_by_id,
+               ticket.manual_category_by_id, ticket.manual_priority_by_id} - {None}
+        if not ids:
+            return {}
+        users = await self.db.scalars(select(User).where(User.id.in_(ids)))
+        return {user.id: user for user in users}
+
     @staticmethod
     def _read_query():
         # One PostgreSQL snapshot: a finished task must not accompany the old ticket result.
