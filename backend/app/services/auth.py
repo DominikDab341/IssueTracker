@@ -21,13 +21,13 @@ def normalize_email(value: str) -> str:
     except EmailNotValidError as exc:
         raise InvalidInputError("Podaj poprawny adres e-mail.", field="email") from exc
     if result.domain.lower() != settings.ALLOWED_EMAIL_DOMAIN.lower():
-        raise InvalidInputError("Adres e-mail musi należeć do dozwolonej domeny.", field="email")
+        raise InvalidInputError("Use an email address from the allowed domain.", field="email")
     return result.normalized.lower()
 
 
 def validate_password(value: str) -> str:
     if not 12 <= len(value) <= 128:
-        raise InvalidInputError("Hasło musi mieć od 12 do 128 znaków.", field="password")
+        raise InvalidInputError("The password must be 12 to 128 characters long.", field="password")
     return value
 
 
@@ -67,4 +67,4 @@ def read_access_token(token: str) -> int:
             raise ValueError()
         return user_id
     except (jwt.InvalidTokenError, ValueError, TypeError) as exc:
-        raise AuthenticationError("Niepoprawny lub wygasły token. Zaloguj się ponownie.") from exc
+        raise AuthenticationError("Your session is invalid or expired. Sign in again.") from exc

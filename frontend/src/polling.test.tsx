@@ -33,7 +33,7 @@ it('aborts requests and clears timers on leaving the detail view', async () => {
   expect(api).toHaveBeenCalledTimes(count);
 });
 it('stops on an API failure and offers explicit reload', async () => {
-  api.mockRejectedValue(new Error('API niedostępne'));
+  api.mockRejectedValue(new Error('API unavailable'));
   const { result } = renderHook(() => useTicket('1'));
   await act(async () => { await Promise.resolve(); });
   expect(result.current.loading).toBe(false);

@@ -6,18 +6,18 @@ import type { Ticket } from './types';
 export function ErrorBox({ error }: { error: unknown }) {
   return error ? <div className="notice error" role="alert">{error instanceof Error ? error.message : String(error)}</div> : null;
 }
-export function Loading() { return <p className="muted" role="status">Ładowanie danych…</p>; }
+export function Loading() { return <p className="muted" role="status">Loading…</p>; }
 export function Badge({ children, tone = '' }: { children: ReactNode; tone?: string }) {
   return <span className={`badge ${tone}`}>{children}</span>;
 }
 export function TicketBadges({ ticket }: { ticket: Ticket }) {
   return <div className="badges"><Badge tone={ticket.status}>{statuses[ticket.status]}</Badge>
-    <Badge tone={ticket.priority}>{priorities[ticket.priority] ?? 'Nieustalony'}</Badge>
+    <Badge tone={ticket.priority}>{priorities[ticket.priority] ?? 'Undetermined'}</Badge>
     <Badge tone={ticket.category === 'unknown' ? 'review' : ''}>{categories[ticket.category] ?? ticket.category}</Badge>
-    {ticket.priority_needs_review && <Badge tone="review">Priorytet do weryfikacji</Badge>}</div>;
+    {ticket.priority_needs_review && <Badge tone="review">Priority needs review</Badge>}</div>;
 }
 export function TaskLabel({ ticket }: { ticket: Ticket }) {
-  return <span>{ticket.current_task_state ? taskStates[ticket.current_task_state] : 'Brak zadania'}{!ticket.classification_current && ticket.current_task_state === 'succeeded' ? ' · wynik nieaktualny' : ''}</span>;
+  return <span>{ticket.current_task_state ? taskStates[ticket.current_task_state] : 'No task'}{!ticket.classification_current && ticket.current_task_state === 'succeeded' ? ' · result out of date' : ''}</span>;
 }
 export function Options({ values, all }: { values: Record<string, string>; all?: string }) {
   return <>{all && <option value="">{all}</option>}{Object.entries(values).map(([key, label]) => <option key={key} value={key}>{label}</option>)}</>;
@@ -36,7 +36,7 @@ export function useResource<T>(path: string, revision = 0) {
   }, [api, path, revision]);
   return state;
 }
-export function ActionForm({ title, action, children, submit = 'Zapisz', onSuccess, onFailure }: {
+export function ActionForm({ title, action, children, submit = 'Save', onSuccess, onFailure }: {
   title: string; action: (form: FormData) => Promise<unknown>; children: ReactNode;
   submit?: string; onSuccess: () => void; onFailure?: (error: unknown) => void;
 }) {
@@ -53,6 +53,6 @@ export function ActionForm({ title, action, children, submit = 'Zapisz', onSucce
     finally { setBusy(false); inFlight.current = false; }
   }
   return <form className="action-form" onSubmit={save}><h3>{title}</h3><ErrorBox error={error} />
-    {success && <p role="status" className="success">Zapisano zmianę.</p>}
-    <fieldset disabled={busy}>{children}<button type="submit">{busy ? 'Zapisywanie…' : submit}</button></fieldset></form>;
+    {success && <p role="status" className="success">Changes saved.</p>}
+    <fieldset disabled={busy}>{children}<button type="submit">{busy ? 'Saving…' : submit}</button></fieldset></form>;
 }

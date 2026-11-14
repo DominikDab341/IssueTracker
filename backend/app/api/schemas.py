@@ -47,7 +47,7 @@ class TicketEdit(BaseModel):
     @classmethod
     def nonnull(cls, value):
         if value is None:
-            raise ValueError("Pole nie może mieć wartości null.")
+            raise ValueError("This field cannot be null.")
         return value
 
     @field_validator("text")
@@ -176,13 +176,6 @@ class PriorityUpdate(BaseModel):
 class CategoryUpdate(BaseModel):
     model_config = ConfigDict(extra="forbid")
     category: Category
-    expected_content_version: int = Field(gt=0, strict=True)
-
-
-class ReferenceApproval(BaseModel):
-    model_config = ConfigDict(extra="forbid")
-    category: Category
-    base_priority: Priority
     expected_content_version: int = Field(gt=0, strict=True)
 
 

@@ -29,20 +29,20 @@ def normalize_status_note(value: str | None) -> str | None:
     if value is None:
         return None
     if len(value) > MAX_STATUS_NOTE_LENGTH:
-        raise ValueError(f"Notatka może mieć najwyżej {MAX_STATUS_NOTE_LENGTH} znaków.")
+        raise ValueError(f"The note can contain at most {MAX_STATUS_NOTE_LENGTH} characters.")
     value = value.strip()
     if not value:
-        raise ValueError("Notatka nie może być pusta.")
+        raise ValueError("The note is required.")
     return value
 
 
 def validate_status_notes(status: TicketStatus, resolution_note: str | None,
                           rejection_reason: str | None) -> None:
     if status == TicketStatus.RESOLVED and not resolution_note:
-        raise ValueError("Rozwiązanie zgłoszenia wymaga opisu rozwiązania.")
+        raise ValueError("Add resolution notes before resolving the ticket.")
     if status == TicketStatus.REJECTED and not rejection_reason:
-        raise ValueError("Odrzucenie zgłoszenia wymaga powodu odrzucenia.")
+        raise ValueError("Enter a reason before rejecting the ticket.")
     if resolution_note is not None and status != TicketStatus.RESOLVED:
-        raise ValueError("Opis rozwiązania można zapisać tylko przy rozwiązaniu zgłoszenia.")
+        raise ValueError("Resolution notes can only be saved when resolving a ticket.")
     if rejection_reason is not None and status != TicketStatus.REJECTED:
-        raise ValueError("Powód odrzucenia można zapisać tylko przy odrzuceniu zgłoszenia.")
+        raise ValueError("The rejection reason can only be saved when rejecting a ticket.")

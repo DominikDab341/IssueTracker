@@ -7,7 +7,7 @@ from app.api.schemas import (
     TaskStatusResponse, TicketCloseResponse, TicketCreate, TicketCreateResponse,
     TicketEdit, TicketEditResponse, TicketResponse, TicketStatusUpdate,
     AssignmentUpdate, AssignmentResponse, CategoryUpdate, PriorityUpdate,
-    SuggestedDuplicate, ReferenceApproval, ReferenceResponse,
+    SuggestedDuplicate, ReferenceResponse,
 )
 from app.domain import Category, Priority
 from app.services.processing import ProcessingRuntime
@@ -21,13 +21,6 @@ router = APIRouter(prefix="/tickets")
 @router.get("/{ticket_id}/reference", response_model=ReferenceResponse | None)
 async def reference_status(ticket_id: int, service: TicketService = Depends(get_ticket_service)):
     return await service.reference(ticket_id)
-
-
-@router.post("/{ticket_id}/reference", response_model=ReferenceResponse, status_code=201)
-async def approve_reference(ticket_id: int, body: ReferenceApproval,
-                            service: TicketService = Depends(get_ticket_service)):
-    return await service.approve_reference(ticket_id, category=body.category, base_priority=body.base_priority,
-                                          expected_content_version=body.expected_content_version)
 
 
 @router.patch("/{ticket_id}/category", response_model=TicketResponse)

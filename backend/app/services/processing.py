@@ -52,7 +52,7 @@ class ProcessingRuntime:
                 await db.execute(update(ClassificationTask).where(
                     ClassificationTask.state.in_(ACTIVE_TASK_STATES),
                 ).values(state=TaskState.FAILED, error_code=TaskErrorCode.INTERRUPTED,
-                         error="Przetwarzanie przerwano podczas poprzedniego uruchomienia. Możesz je ponowić.",
+                         error="Processing was interrupted during the last run. You can retry it.",
                          finished_at=now()))
                 await db.commit()
         except BaseException:
@@ -96,7 +96,7 @@ class ProcessingRuntime:
             if task is None or task.state != TaskState.PENDING or task.run_id != self.run_id:
                 return None
             if not self.current(ticket, task):
-                fail_task(task, TaskErrorCode.OBSOLETE, "Zadanie nie dotyczy aktualnej aktywnej wersji zgłoszenia.")
+                fail_task(task, TaskErrorCode.OBSOLETE, "The task does not match the current active ticket version.")
                 await db.commit()
                 return None
             task.state = TaskState.RUNNING
@@ -114,7 +114,7 @@ class ProcessingRuntime:
             if task is None or task.state != TaskState.RUNNING or task.run_id != self.run_id:
                 return
             if not self.current(ticket, task):
-                fail_task(task, TaskErrorCode.OBSOLETE, "Wynik pominięto: zgłoszenie zmieniło treść lub zakończono jego obsługę.")
+                fail_task(task, TaskErrorCode.OBSOLETE, "The result was discarded because the ticket changed or reached a final status.")
                 await db.commit()
                 return
             ticket.predicted_category = prediction.predicted_category or prediction.category
@@ -154,7 +154,7 @@ class ProcessingRuntime:
             async with self.sessions() as db:
                 ticket, task = await self._locked(db, task_id)
                 if task is not None and task.run_id == self.run_id and task.state in ACTIVE_TASK_STATES:
-                    fail_task(task, TaskErrorCode.PROCESSING_FAILED, "Nie udało się sklasyfikować zgłoszenia. Możesz ponowić przetwarzanie.")
+                    fail_task(task, TaskErrorCode.PROCESSING_FAILED, "Classification failed. You can retry it.")
                     await db.commit()
         except Exception as exc:
             # Przy całkowitej awarii bazy stan rozpozna następny start API.

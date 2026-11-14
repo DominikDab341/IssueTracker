@@ -18,7 +18,7 @@ class UserService:
             await self.db.commit()
         except IntegrityError:
             await self.db.rollback()
-            raise ConflictError("Konto z tym adresem e-mail już istnieje.") from None
+            raise ConflictError("An account with this email address already exists.") from None
         await self.db.refresh(user)
         return user
 
@@ -32,7 +32,7 @@ class UserService:
         # Logowanie nie zmienia się po zmianie konfiguracji domeny rejestracji.
         user = await self.db.scalar(select(User).where(User.email == email.strip().lower()))
         if not await verify_password(password, user.password_hash if user else None):
-            raise AuthenticationError("Niepoprawny e-mail lub hasło.")
+            raise AuthenticationError("Incorrect email or password.")
         require_active(user)
         return user
 
@@ -60,7 +60,7 @@ class UserService:
         role = self._role(role)
         user = await self._lock(user_id)
         if user.is_approved:
-            raise ConflictError("Konto zostało już zaakceptowane. Użyj osobnej zmiany roli.")
+            raise ConflictError("This account is already approved. Use the change role action.")
         user.role, user.is_approved = role, True
         user.approved_by_id, user.approved_at = actor.id, now()
         return await self._save(user)
@@ -70,14 +70,14 @@ class UserService:
         try:
             return Role(role)
         except (ValueError, TypeError):
-            raise InvalidInputError("Wybierz jedną z trzech ról.", field="role") from None
+            raise InvalidInputError("Select a valid role.", field="role") from None
 
     async def change_role(self, actor: User, user_id: int, role: Role) -> User:
         require_roles(actor, Role.ADMIN)
         role = self._role(role)
         user = await self._lock(user_id)
         if not user.is_approved:
-            raise ConflictError("Najpierw zaakceptuj konto, wybierając rolę.")
+            raise ConflictError("Approve the account and choose a role first.")
         user.role = role
         return await self._save(user)
 
@@ -93,9 +93,9 @@ class UserService:
         # Serializacja obejmuje wszystkie procesy wykonujące jednorazową komendę.
         await self.db.execute(text("SELECT pg_advisory_xact_lock(730031001)"))
         if await self.db.scalar(select(User.id).where(User.is_approved, User.role == Role.ADMIN).limit(1)):
-            raise ConflictError("Pierwszy administrator już istnieje. Użyj rejestracji i akceptacji konta.")
+            raise ConflictError("An administrator already exists. Register and approve the account.")
         if await self.db.scalar(select(User.id).where(User.email == email)):
-            raise ConflictError("Konto z tym adresem e-mail już istnieje.")
+            raise ConflictError("An account with this email address already exists.")
         user = User(email=email, password_hash=encoded, role=Role.ADMIN,
                     is_approved=True, is_active=True, approved_at=now())
         self.db.add(user)

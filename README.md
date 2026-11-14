@@ -33,17 +33,17 @@ etapu 1, przetwarzanie z etapu 2 oraz użytkowników, JWT, role i przypisania
 z etapu 3. E1.5, E1.9, E2.8 i E2.9 obejmują już kontrolę osób i uprawnień.
 E2.5 domknięto przez rozdzielenie przewidywania KNN i ręcznej korekty kategorii
 oraz testy jej zapisu podczas klasyfikacji.
-Etap 6 dodaje polski frontend React z obsługą kont i procesu zgłoszeń.
+Etap 6 dodaje frontend React z obsługą kont i procesu zgłoszeń.
 Endpoint LLM powstanie w kolejnych etapach.
 
 ## Bieżąca klasyfikacja — 2026-11-07
 
 Nowe zgłoszenia klasyfikujemy na podstawie **120 zatwierdzonych angielskich
-przykładów** z pilotażu oraz osobno zatwierdzonych rozwiązanych ticketów.
+przykładów** z pilotażu oraz rozwiązanych zgłoszeń z kompletną klasyfikacją.
 Opisy zgłoszeń należy podawać po angielsku.
 MiniLM + KNN (`k=3`) wybiera kategorię, a TF-IDF + regresja logistyczna
 (`C=100`, słowa i pary słów) przewiduje priorytet bazowy. Obie metody korzystają
-ze źródeł `pilot_en_120_v1` i `approved_ticket` w `classification_references`.
+ze źródeł `pilot_en_120_v1`, `resolved_ticket` i historycznego `approved_ticket` w `classification_references`.
 Stare referencje demonstracyjne pozostają w bazie i są wykluczone z klasyfikacji.
 
 | Kod API | Kategoria |
@@ -64,27 +64,26 @@ na podstawie tekstu, bez arbitralnego mapowania starych kodów.
 TF-IDF jest uczony leniwie w wątku procesu, a następnie używany z pamięci.
 Zmiana tekstów lub etykiet aktywnej referencji powoduje ponowny trening.
 `classification_version` w zgłoszeniu i wyniku zadania zawiera odcisk wersji
-referencji i konfiguracji. Nowe tickety, checkbox i priorytety administratora
-nie stają się automatycznie danymi treningowymi. Priorytet końcowy zachowuje kolejność:
+referencji i konfiguracji. Do referencji trafiają wyłącznie rozwiązane tickety z kompletną klasyfikacją. Priorytet końcowy zachowuje kolejność:
 administrator → blokada pracy (`critical`) → wynik automatyczny z trwałym minimum
 eskalacji `high` → zastępcze `medium`.
 
-### Zatwierdzanie rozwiązanych zgłoszeń
+### Automatyczne referencje z rozwiązanych zgłoszeń
 
-Aktualny wykonawca lub administrator zatwierdza przez `POST /tickets/{id}/reference`
-osobno wybraną kategorię i priorytet **bazowy**, z `expected_content_version`.
-Zatwierdzenie wymaga statusu resolved i aktualnego embeddingu. Powstaje kopia
-tekstu, wektora i etykiet z autorem, datą oraz wersją opisu. Nie zmienia ona
-statusu, priorytetu końcowego ani przewidywań operacyjnego ticketu. Kolejne
-zatwierdzenie tej samej wersji daje 409. `GET /tickets/{id}/reference` zwraca
-metadane obsłudze / administratorowi; reporter nie ma dostępu. Późniejsza
-korekta kategorii ticketu nie zmienia zatwierdzonej kopii. Formularz i stan
-zatwierdzenia są dostępne w szczegółach rozwiązanej sprawy. TF-IDF uczy się
-rozszerzonego zbioru przy kolejnym zadaniu; oryginalne 120 pozostaje niezmienne.
+Zmiana statusu na `resolved` zapisuje w tej samej transakcji referencję z opisem,
+aktualnym embeddingiem, bieżącą kategorią i priorytetem bazowym. Kolejna
+klasyfikacja uwzględnia ją w KNN oraz w treningu TF-IDF. Priorytet końcowy,
+w tym podniesienie przez checkbox, eskalację lub decyzję administratora, jest
+oddzielony od priorytetu bazowego. Zgłoszenie bez aktualnego embeddingu lub
+kompletnych etykiet można rozwiązać, a do treningu trafiają tylko kompletne dane.
+Korekta brakującej kategorii może automatycznie uzupełnić referencję zakończonego
+zgłoszenia. Zapisana kopia jest niezmienna.
 
-```json
-{"category":"network","base_priority":"high","expected_content_version":1}
-```
+Migracja `e8a000000001` uzupełnia referencje z wcześniej rozwiązanych spraw
+mających aktualny embedding, kompletne etykiety i zapis rozwiązującego z datą.
+Dla jednej wersji opisu istnieje najwyżej jedna referencja. Historyczne ręcznie
+zatwierdzone kopie zachowują swoje etykiety. Odczyt metadanych przez
+`GET /tickets/{id}/reference` jest dostępny dla obsługi i administratora.
 
 ### Weryfikacja kategorii i priorytetu
 
@@ -241,7 +240,7 @@ nie wymaga migracji ani zmiany istniejących danych.
 
 Token i dane sesji są przechowywane wyłącznie w pamięci. Wylogowanie,
 wygaśnięcie i odświeżenie strony wymagają ponownego logowania. Odpowiedź 401
-kończy sesję; 403, 404, 409, walidacja i niedostępność API mają polskie komunikaty.
+kończy sesję; 403, 404, 409, walidacja i niedostępność API mają angielskie komunikaty.
 Bieżące konto odświeżamy przy powrocie do okna i co 30 sekund. Backend nadal
 sprawdza uprawnienia przy każdym żądaniu. Szczegóły aktywnego zadania są
 odpytywane co 3 sekundy, bez nakładających się żądań. Odpytywanie kończy się
@@ -274,7 +273,7 @@ npm run build
 npm test
 ```
 
-Testy obejmują macierz działań, ochronę sesji i wygasanie, polskie błędy,
+Testy obejmują macierz działań, ochronę sesji i wygasanie, angielskie komunikaty błędów,
 odpytywanie oraz przerwanie żądań po opuszczeniu widoku. Testy integracyjne
 kontraktu React znajdują się w `backend/tests/test_frontend_contract.py` i uruchamiają
 się z pozostałymi testami backendu na `issuetracker_test`.
@@ -397,9 +396,7 @@ odczyty i sugestie duplikatów, również przez alias DELETE. Przyszłe wyszukiw
 i RAG powinny korzystać z tej samej reguły. Dependency `get_assistant_user`
 sprawdza dostęp obsługi i administratora; rzeczywisty endpoint LLM nadal
 pozostaje do implementacji. Priorytet ręczny ma autora i czas ostatniej decyzji.
-Korekta kategorii i zatwierdzanie rozwiązanego zgłoszenia do referencji są
-osobnymi operacjami. Zatwierdzenie zapisuje niezmienną kopię, a późniejsza korekta
-operacyjna jej automatycznie nie aktualizuje.
+Rozwiązanie zgłoszenia z kompletnymi etykietami zapisuje niezmienną kopię referencyjną.
 
 Korekta zapisuje osobno `manual_category`, `manual_category_version`,
 `manual_category_by_id` i `manual_category_at`. Pole `category` jest kategorią
@@ -624,7 +621,7 @@ Wszystkie poniższe operacje wymagają Bearer JWT i podlegają powyższej macier
   `result` zawiera przewidywaną kategorię i priorytety bazowy/automatyczny, bez wektora;
   kategorię operacyjną po korekcie odczytuj ze szczegółów zgłoszenia;
   końcowy priorytet odczytuj ze szczegółów zgłoszenia (checkbox może się zmienić).
-  Błąd jest bezpiecznym polskim komunikatem, bez tekstu zgłoszenia i surowego wyjątku.
+  Błąd jest bezpiecznym angielskim komunikatem, bez tekstu zgłoszenia i surowego wyjątku.
 - `POST /tickets/{id}/classification/retry`: 202, `ticket` i nowy `task_id`.
   Dozwolone wyłącznie dla aktualnej wersji aktywnego zgłoszenia z zadaniem
   `failed` o kodzie `processing_failed` albo `interrupted`. Pozostałe przypadki
@@ -653,14 +650,14 @@ pozostaje prawidłową etykietą; końcowe `critical` nadane checkboxem innej
 sprawy nie staje się etykietą bazową kolejnych zgłoszeń. Zatwierdzanie etykiet rozwiązanego zgłoszenia przez uprawnioną osobę
 realizuje osobny endpoint reference i formularz w szczegółach sprawy.
 
-| Wartość API | Nazwa polska | Dozwolone następne statusy |
+| Wartość API | Etykieta w aplikacji | Dozwolone następne statusy |
 |---|---|---|
-| `reported` | Zgłoszony | `accepted`, `rejected`, `cancelled` |
-| `accepted` | Przyjęty | `in_progress`, `rejected` |
-| `in_progress` | W trakcie | `resolved`, `rejected` |
-| `resolved` | Rozwiązany | Brak |
-| `rejected` | Odrzucony | Brak |
-| `cancelled` | Anulowany | Brak |
+| `reported` | Reported | `accepted`, `rejected`, `cancelled` |
+| `accepted` | Accepted | `in_progress`, `rejected` |
+| `in_progress` | In progress | `resolved`, `rejected` |
+| `resolved` | Resolved | Brak |
+| `rejected` | Rejected | Brak |
+| `cancelled` | Cancelled | Brak |
 
 Blokada wiersza w transakcji zabezpiecza równoległe zmiany statusu.
 Końcowe zgłoszenia pozostają w historii; powrót problemu wymaga nowego
@@ -679,7 +676,7 @@ bez obcinania. To limit z `sentence_bert_config.json`; tokenizer BERT podaje
 znaki są usuwane. Techniczna granica 10000 znaków ogranicza rozmiar wejścia.
 Operacje na zgłoszeniach nie zwracają embeddingów. Błędy: 404 — brak
 zgłoszenia, 409 — niedozwolone przejście, 422 — walidacja danych,
-503 — niedostępny tokenizer. Komunikaty są po polsku.
+503 — niedostępny tokenizer. Komunikaty są po angielsku.
 Ładowanie tokenizera i sprawdzanie limitu tokenów odbywają się w wątku,
 przed operacjami zapisu; nie blokują pętli obsługującej żądania API.
 
@@ -799,3 +796,56 @@ Push-Location backend
 ../.venv/Scripts/python.exe -m unittest tests.test_priority_methods tests.test_pilot_dataset -v
 Pop-Location
 ```
+
+## Lokalny asystent RAG
+
+Ikona **AI Assistant** jest dostępna dla ról Staff i Administrator. Interfejs,
+zgłoszenia, notatki z rozwiązaniami i rozmowa są po angielsku. Domyślnie asystent
+szuka rozwiązanych zgłoszeń z notatką. Wyłączenie filtra umożliwia pytania o inne
+statusy. Pytania uzupełniające wykorzystują do dwóch wcześniejszych pytań i wykonują
+nowe wyszukiwanie. Historia jest przechowywana w pamięci bieżącego widoku.
+
+Uruchom Ollama na Windowsie i pobierz model. W katalogu głównym projektu wykonaj:
+
+```powershell
+ollama pull qwen3:4b-instruct
+docker compose up -d postgres
+docker compose build api frontend
+docker compose run --rm api python -m alembic -c app/alembic.ini upgrade head
+docker compose up -d api frontend
+```
+
+Otwórz [IssueTracker](http://localhost:3000), zaloguj się jako Staff lub Administrator
+i przejdź do **AI Assistant**. Do próby z VPN potrzebujesz w bazie podobnego
+rozwiązanego zgłoszenia z aktualnym embeddingiem i angielską notatką rozwiązania.
+Przykładowe pytanie: “How did we fix VPN disconnects after waking a laptop?”.
+
+Compose domyślnie używa `http://host.docker.internal:11434`. Dla API uruchamianego
+bez Dockera domyślny adres to `http://127.0.0.1:11434`. Z kontenera można sprawdzić
+łączność poleceniem:
+
+```powershell
+docker compose exec api python -c "import urllib.request; print(urllib.request.urlopen('http://host.docker.internal:11434/api/tags', timeout=5).status)"
+```
+
+FastAPI pobiera do trzech wyników z pgvector, przekazuje opis problemu i notatkę
+rozwiązania do Ollama oraz sprawdza identyfikatory cytowanych zgłoszeń. Parametry
+`OLLAMA_MODEL`, `OLLAMA_TIMEOUT_SECONDS` i `RAG_MIN_SIMILARITY` można ustawić
+w pliku środowiskowym backendu. Początkowy próg kosinusowy to 0,35.
+
+### Pilotaż porównania wyszukiwania
+
+Pilotaż korzysta z tej samej implementacji wyszukiwania co czat i używa osobnej
+tymczasowej tabeli z syntetycznymi zgłoszeniami. Baza musi mieć rozszerzenie
+`vector` (może to być baza po uruchomieniu migracji). Uruchom z katalogu głównego:
+
+```powershell
+.venv/Scripts/python.exe backend/scripts/evaluate_ticket_search.py --output pilot-search-results.json
+```
+
+Skrypt porównuje semantykę i PostgreSQL FTS na tych samych angielskich pytaniach,
+z tymi samymi opisami i filtrem rozwiązanych spraw. MRR@5 i Recall@5 liczy tylko dla
+pytań z oczekiwanymi źródłami. Dla pozostałych raportuje puste wyniki. Czasy po
+rozgrzaniu obejmują embedding zapytania w wariancie semantycznym oraz zapytanie
+do bazy w obu wariantach. Ten pilotaż mierzy ranking źródeł. Pliki wejściowe
+i raport są w [backend/data/rag](backend/data/rag/).

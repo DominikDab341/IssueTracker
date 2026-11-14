@@ -23,15 +23,15 @@ def get_tokenizer():
     try:
         return AutoTokenizer.from_pretrained(model_name)
     except OSError as exc:
-        raise TokenizerUnavailableError("Tokenizer modelu jest niedostępny. Spróbuj ponownie później.") from exc
+        raise TokenizerUnavailableError("The model tokenizer is unavailable. Try again later.") from exc
 
 
 def normalize_ticket_text(value: str) -> str:
     value = value.strip()
     if not value:
-        raise ValueError("Opis zgłoszenia nie może być pusty.")
+        raise ValueError("The ticket description is required.")
     if len(value) > MAX_TEXT_CHARACTERS:
-        raise ValueError(f"Opis zgłoszenia może mieć najwyżej {MAX_TEXT_CHARACTERS} znaków.")
+        raise ValueError(f"The ticket description can contain at most {MAX_TEXT_CHARACTERS} characters.")
     return value
 
 
@@ -40,7 +40,7 @@ def validate_ticket_text(value: str) -> str:
     tokens = get_tokenizer().encode(value, add_special_tokens=True, truncation=False)
     if len(tokens) > MAX_INPUT_TOKENS:
         raise ValueError(
-            f"Opis zgłoszenia jest za długi: {len(tokens)} tokenów. "
-            f"Limit modelu all-MiniLM-L6-v2 wynosi {MAX_INPUT_TOKENS} tokenów. Skróć opis."
+            f"The ticket description has {len(tokens)} tokens. "
+            f"The all-MiniLM-L6-v2 limit is {MAX_INPUT_TOKENS} tokens. Shorten the description."
         )
     return value

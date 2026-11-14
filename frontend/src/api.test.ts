@@ -11,12 +11,12 @@ describe('API client', () => {
     expect(fetch.mock.calls[1][1].headers.get('Authorization')).toBe('Bearer token');
   });
   it('translates validation and connection errors without echoing passwords', async () => {
-    expect(errorMessage([{ loc: ['body', 'password'], type: 'string_too_short', input: 'secret' }], 422)).toContain('co najmniej 12');
+    expect(errorMessage([{ loc: ['body', 'password'], type: 'string_too_short', input: 'secret' }], 422)).toContain('at least 12 characters');
     vi.stubGlobal('fetch', vi.fn().mockRejectedValue(new TypeError('Network failure')));
-    await expect(request('/tickets/')).rejects.toThrow('Nie można połączyć się z API');
+    await expect(request('/tickets/')).rejects.toThrow('Cannot reach the API');
   });
-  it('preserves Polish conflict messages', async () => {
-    vi.stubGlobal('fetch', vi.fn().mockResolvedValue(new Response(JSON.stringify({ detail: 'Opis zgłoszenia zmienił się.' }), { status: 409 })));
-    await expect(request('/tickets/1')).rejects.toMatchObject({ status: 409, message: 'Opis zgłoszenia zmienił się.' });
+  it('preserves API conflict messages', async () => {
+    vi.stubGlobal('fetch', vi.fn().mockResolvedValue(new Response(JSON.stringify({ detail: 'The ticket description changed.' }), { status: 409 })));
+    await expect(request('/tickets/1')).rejects.toMatchObject({ status: 409, message: 'The ticket description changed.' });
   });
 });

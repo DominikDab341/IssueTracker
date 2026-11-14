@@ -4,6 +4,7 @@ from tests.support import TEST_URL, migration_config
 from alembic import command
 from alembic.autogenerate import compare_metadata
 from alembic.migration import MigrationContext
+from alembic.script import ScriptDirectory
 from sqlalchemy import create_engine, text
 from sqlalchemy.engine import make_url
 
@@ -70,7 +71,8 @@ class MigrationTests(unittest.TestCase):
             with self.assertRaisesRegex(RuntimeError, "Cofanie migracji"):
                 command.downgrade(config, "93aaf01f792a")
             with engine.connect() as connection:
-                self.assertEqual(connection.scalar(text("SELECT version_num FROM alembic_version")), "e5c000000001")
+                self.assertEqual(connection.scalar(text("SELECT version_num FROM alembic_version")),
+                                 ScriptDirectory.from_config(config).get_current_head())
         finally:
             command.upgrade(config, "head")
             engine.dispose()

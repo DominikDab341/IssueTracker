@@ -28,7 +28,3 @@ export interface Task {
   error_code: string | null; error: string | null;
 }
 export interface Duplicate { id: number; text: string; similarity: number }
-export interface ReferenceApproval {
-  id: number; category: string; base_priority: string; source_ticket_id: number;
-  source_content_version: number; approved_by_id: number; approved_at: string;
-}

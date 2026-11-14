@@ -36,10 +36,13 @@ def encode_text(text: str) -> list[float]:
         return model.encode(text).tolist()
 
 APPROVED_TICKET_SOURCE = "approved_ticket"
+RESOLVED_TICKET_SOURCE = "resolved_ticket"
 
 
 def active_reference_filter():
-    return (ClassificationReference.source.in_([settings.CLASSIFICATION_REFERENCE_SOURCE, APPROVED_TICKET_SOURCE])
+    return (ClassificationReference.source.in_([
+                settings.CLASSIFICATION_REFERENCE_SOURCE, APPROVED_TICKET_SOURCE, RESOLVED_TICKET_SOURCE,
+            ])
             & ClassificationReference.category.in_(list(Category)))
 
 async def classify(text: str, db: AsyncSession) -> ClassificationPrediction:

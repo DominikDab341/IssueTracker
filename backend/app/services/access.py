@@ -1,4 +1,4 @@
-"""Wspólna polityka widoczności dla API, duplikatów i przyszłego RAG."""
+"""Wspólna polityka widoczności dla API, duplikatów i RAG."""
 from enum import StrEnum
 
 from sqlalchemy import true
@@ -14,13 +14,13 @@ class Role(StrEnum):
 
 def require_active(user):
     if not user.is_active or not user.is_approved or user.role not in set(Role):
-        raise ForbiddenError("Konto wymaga akceptacji i musi być aktywne.")
+        raise ForbiddenError("Your account must be approved and active.")
 
 
 def require_roles(user, *roles: Role):
     require_active(user)
     if user.role not in roles:
-        raise ForbiddenError("Brak uprawnień do tej operacji.")
+        raise ForbiddenError("You do not have permission to do this.")
 
 
 def require_assistant_access(user):

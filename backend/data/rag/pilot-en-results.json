@@ -1,0 +1,382 @@
+{
+  "dataset": "pilot-en.json",
+  "dataset_sha256": "ac6bcfbb9fc00a2efc58db72aefffb3f91317a1b6d8a3139869bb55aaa39f91b",
+  "tickets": 13,
+  "k": 5,
+  "repeats": 3,
+  "resolved_only": true,
+  "indexed_field": "problem",
+  "embedding_model": "all-MiniLM-L6-v2",
+  "embedding_revision": "c9745ed1d9f207416be6d2e6f8de32d1f16199bf",
+  "model_load_ms": 669.4967999999335,
+  "semantic_min_similarity": 0.35,
+  "full_text_config": "english",
+  "results": {
+    "semantic": {
+      "recall_at_k": 1.0,
+      "mrr_at_k": 1.0,
+      "empty_results_on_unanswerable": 2,
+      "median_total_ms": 9.39444999994521,
+      "questions": [
+        {
+          "question": "How did we fix VPN disconnects after a laptop wakes up?",
+          "relevant_ids": [
+            1,
+            13
+          ],
+          "retrieved_ids": [
+            1,
+            13,
+            2
+          ],
+          "recall": 1.0,
+          "reciprocal_rank": 1.0,
+          "median_embedding_ms": 7.407700000158002,
+          "median_search_ms": 1.9486000001052162,
+          "median_total_ms": 9.395499999982349
+        },
+        {
+          "question": "The tunnel shuts down after a notebook resumes from standby. What worked before?",
+          "relevant_ids": [
+            1,
+            13
+          ],
+          "retrieved_ids": [
+            13,
+            1
+          ],
+          "recall": 1.0,
+          "reciprocal_rank": 1.0,
+          "median_embedding_ms": 7.40170000017315,
+          "median_search_ms": 2.0177999999759777,
+          "median_total_ms": 9.419500000149128
+        },
+        {
+          "question": "How did we fix a VPN certificate error?",
+          "relevant_ids": [
+            2
+          ],
+          "retrieved_ids": [
+            2,
+            9,
+            13,
+            1
+          ],
+          "recall": 1.0,
+          "reciprocal_rank": 1.0,
+          "median_embedding_ms": 7.45199999983015,
+          "median_search_ms": 1.8881999999393884,
+          "median_total_ms": 9.306799999876603
+        },
+        {
+          "question": "How did we get the printer back online after replacing the router?",
+          "relevant_ids": [
+            3
+          ],
+          "retrieved_ids": [
+            3,
+            4
+          ],
+          "recall": 1.0,
+          "reciprocal_rank": 1.0,
+          "median_embedding_ms": 10.44499999989057,
+          "median_search_ms": 2.0199000000502565,
+          "median_total_ms": 12.105399999882138
+        },
+        {
+          "question": "What fixed the dark line down every printed page?",
+          "relevant_ids": [
+            4
+          ],
+          "retrieved_ids": [
+            4
+          ],
+          "recall": 1.0,
+          "reciprocal_rank": 1.0,
+          "median_embedding_ms": 7.269599999972343,
+          "median_search_ms": 1.763999999866428,
+          "median_total_ms": 9.03359999983877
+        },
+        {
+          "question": "What should the help desk check if a phone upgrade breaks two-factor authentication?",
+          "relevant_ids": [
+            5
+          ],
+          "retrieved_ids": [
+            5
+          ],
+          "recall": 1.0,
+          "reciprocal_rank": 1.0,
+          "median_embedding_ms": 7.344200000034107,
+          "median_search_ms": 1.7712000001210981,
+          "median_total_ms": 9.115400000155205
+        },
+        {
+          "question": "How did a new employee get permission to open the finance folder?",
+          "relevant_ids": [
+            6
+          ],
+          "retrieved_ids": [
+            6
+          ],
+          "recall": 1.0,
+          "reciprocal_rank": 1.0,
+          "median_embedding_ms": 7.782299999917086,
+          "median_search_ms": 2.0174999999653664,
+          "median_total_ms": 9.550499999932072
+        },
+        {
+          "question": "What fixed repeated Outlook password prompts?",
+          "relevant_ids": [
+            7
+          ],
+          "retrieved_ids": [
+            7,
+            5
+          ],
+          "recall": 1.0,
+          "reciprocal_rank": 1.0,
+          "median_embedding_ms": 7.317000000057305,
+          "median_search_ms": 1.8553999998403015,
+          "median_total_ms": 9.172399999897607
+        },
+        {
+          "question": "What helped when colleagues could not hear the user in Teams?",
+          "relevant_ids": [
+            8
+          ],
+          "retrieved_ids": [
+            8
+          ],
+          "recall": 1.0,
+          "reciprocal_rank": 1.0,
+          "median_embedding_ms": 8.16530000020066,
+          "median_search_ms": 1.8863000000237662,
+          "median_total_ms": 10.644300000194562
+        },
+        {
+          "question": "How did we restore charging through the USB-C dock?",
+          "relevant_ids": [
+            12
+          ],
+          "retrieved_ids": [
+            12
+          ],
+          "recall": 1.0,
+          "reciprocal_rank": 1.0,
+          "median_embedding_ms": 7.214100000055623,
+          "median_search_ms": 1.7425999999431951,
+          "median_total_ms": 8.956699999998818
+        },
+        {
+          "question": "What fixed the intermittent meeting-room Wi-Fi?",
+          "relevant_ids": [],
+          "retrieved_ids": [],
+          "recall": null,
+          "reciprocal_rank": null,
+          "median_embedding_ms": 6.821100000024671,
+          "median_search_ms": 1.9641000001229258,
+          "median_total_ms": 9.640300000000934
+        },
+        {
+          "question": "What documented fix is there for an overheating server?",
+          "relevant_ids": [],
+          "retrieved_ids": [],
+          "recall": null,
+          "reciprocal_rank": null,
+          "median_embedding_ms": 7.771699999921111,
+          "median_search_ms": 1.6216999999869586,
+          "median_total_ms": 9.39339999990807
+        }
+      ]
+    },
+    "full_text": {
+      "recall_at_k": 0.95,
+      "mrr_at_k": 0.8833333333333333,
+      "empty_results_on_unanswerable": 1,
+      "median_total_ms": 0.939799999969182,
+      "questions": [
+        {
+          "question": "How did we fix VPN disconnects after a laptop wakes up?",
+          "relevant_ids": [
+            1,
+            13
+          ],
+          "retrieved_ids": [
+            1,
+            13,
+            2,
+            12
+          ],
+          "recall": 1.0,
+          "reciprocal_rank": 1.0,
+          "median_embedding_ms": 0.0,
+          "median_search_ms": 1.053699999829405,
+          "median_total_ms": 1.053699999829405
+        },
+        {
+          "question": "The tunnel shuts down after a notebook resumes from standby. What worked before?",
+          "relevant_ids": [
+            1,
+            13
+          ],
+          "retrieved_ids": [
+            13,
+            7
+          ],
+          "recall": 0.5,
+          "reciprocal_rank": 1.0,
+          "median_embedding_ms": 0.0,
+          "median_search_ms": 1.0727999999744497,
+          "median_total_ms": 1.0727999999744497
+        },
+        {
+          "question": "How did we fix a VPN certificate error?",
+          "relevant_ids": [
+            2
+          ],
+          "retrieved_ids": [
+            2,
+            1,
+            9,
+            13
+          ],
+          "recall": 1.0,
+          "reciprocal_rank": 1.0,
+          "median_embedding_ms": 0.0,
+          "median_search_ms": 0.8500999999796477,
+          "median_total_ms": 0.8500999999796477
+        },
+        {
+          "question": "How did we get the printer back online after replacing the router?",
+          "relevant_ids": [
+            3
+          ],
+          "retrieved_ids": [
+            3,
+            4,
+            5,
+            6
+          ],
+          "recall": 1.0,
+          "reciprocal_rank": 1.0,
+          "median_embedding_ms": 0.0,
+          "median_search_ms": 0.8752999999614985,
+          "median_total_ms": 0.8752999999614985
+        },
+        {
+          "question": "What fixed the dark line down every printed page?",
+          "relevant_ids": [
+            4
+          ],
+          "retrieved_ids": [
+            1,
+            4
+          ],
+          "recall": 1.0,
+          "reciprocal_rank": 0.5,
+          "median_embedding_ms": 0.0,
+          "median_search_ms": 0.8665999998811458,
+          "median_total_ms": 0.8665999998811458
+        },
+        {
+          "question": "What should the help desk check if a phone upgrade breaks two-factor authentication?",
+          "relevant_ids": [
+            5
+          ],
+          "retrieved_ids": [
+            5
+          ],
+          "recall": 1.0,
+          "reciprocal_rank": 1.0,
+          "median_embedding_ms": 0.0,
+          "median_search_ms": 1.0361999998167448,
+          "median_total_ms": 1.0361999998167448
+        },
+        {
+          "question": "How did a new employee get permission to open the finance folder?",
+          "relevant_ids": [
+            6
+          ],
+          "retrieved_ids": [
+            6,
+            3
+          ],
+          "recall": 1.0,
+          "reciprocal_rank": 1.0,
+          "median_embedding_ms": 0.0,
+          "median_search_ms": 2.9463000000760076,
+          "median_total_ms": 2.9463000000760076
+        },
+        {
+          "question": "What fixed repeated Outlook password prompts?",
+          "relevant_ids": [
+            7
+          ],
+          "retrieved_ids": [
+            7,
+            5
+          ],
+          "recall": 1.0,
+          "reciprocal_rank": 1.0,
+          "median_embedding_ms": 0.0,
+          "median_search_ms": 0.7947999999942112,
+          "median_total_ms": 0.7947999999942112
+        },
+        {
+          "question": "What helped when colleagues could not hear the user in Teams?",
+          "relevant_ids": [
+            8
+          ],
+          "retrieved_ids": [
+            5,
+            6,
+            8
+          ],
+          "recall": 1.0,
+          "reciprocal_rank": 0.3333333333333333,
+          "median_embedding_ms": 0.0,
+          "median_search_ms": 0.9818000000905158,
+          "median_total_ms": 0.9818000000905158
+        },
+        {
+          "question": "How did we restore charging through the USB-C dock?",
+          "relevant_ids": [
+            12
+          ],
+          "retrieved_ids": [
+            12,
+            8
+          ],
+          "recall": 1.0,
+          "reciprocal_rank": 1.0,
+          "median_embedding_ms": 0.0,
+          "median_search_ms": 0.8977999998478481,
+          "median_total_ms": 0.8977999998478481
+        },
+        {
+          "question": "What fixed the intermittent meeting-room Wi-Fi?",
+          "relevant_ids": [],
+          "retrieved_ids": [
+            8
+          ],
+          "recall": null,
+          "reciprocal_rank": null,
+          "median_embedding_ms": 0.0,
+          "median_search_ms": 1.0427000001982378,
+          "median_total_ms": 1.0427000001982378
+        },
+        {
+          "question": "What documented fix is there for an overheating server?",
+          "relevant_ids": [],
+          "retrieved_ids": [],
+          "recall": null,
+          "reciprocal_rank": null,
+          "median_embedding_ms": 0.0,
+          "median_search_ms": 0.8170999999492778,
+          "median_total_ms": 0.8170999999492778
+        }
+      ]
+    }
+  }
+}

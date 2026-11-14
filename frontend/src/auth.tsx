@@ -1,12 +1,12 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
-import { ApiError, request } from './api';
+import { ApiError, request, type RequestOptions } from './api';
 import type { User } from './types';
 
 interface Auth {
   user: User | null; message: string;
   login: (email: string, password: string) => Promise<void>;
   logout: () => void;
-  api: <T>(path: string, options?: RequestInit) => Promise<T>;
+  api: <T>(path: string, options?: RequestOptions) => Promise<T>;
 }
 const Context = createContext<Auth | null>(null);
 export function AuthProvider({ children }: { children: ReactNode }) {
@@ -16,10 +16,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   current.current = session;
   const [message, setMessage] = useState('');
   const expire = useCallback((message: string) => { current.current = null; setSession(null); setMessage(message); }, []);
-  const logout = useCallback(() => expire('Wylogowano. Możesz zalogować się ponownie.'), [expire]);
+  const logout = useCallback(() => expire('You signed out.'), [expire]);
   useEffect(() => {
     if (!session) return;
-    const timer = setTimeout(() => expire('Sesja wygasła. Zaloguj się ponownie.'), Math.max(0, session.expires - Date.now()));
+    const timer = setTimeout(() => expire('Your session expired. Sign in again.'), Math.max(0, session.expires - Date.now()));
     return () => clearTimeout(timer);
   }, [session, expire]);
   const login = useCallback(async (email: string, password: string) => {
@@ -30,12 +30,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setMessage('');
     setSession({ token: result.access_token, user, expires: Date.now() + result.expires_in * 1000 });
   }, []);
-  const api = useCallback(async <T,>(path: string, options: RequestInit = {}) => {
+  const api = useCallback(async <T,>(path: string, options: RequestOptions = {}) => {
     const snapshot = current.current;
-    if (!snapshot) throw new ApiError(401, 'Zaloguj się ponownie.');
+    if (!snapshot) throw new ApiError(401, 'Sign in again.');
     try { return await request<T>(path, options, snapshot.token); }
     catch (error) {
-      if (current.current?.token === snapshot.token && error instanceof ApiError && error.status === 401) expire('Sesja wygasła. Zaloguj się ponownie.');
+      if (current.current?.token === snapshot.token && error instanceof ApiError && error.status === 401) expire('Your session expired. Sign in again.');
       throw error;
     }
   }, [expire]);

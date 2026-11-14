@@ -28,29 +28,29 @@ export default function AuthPage({ register = false }: { register?: boolean }) {
       const email = String(form.get('email')).trim();
       const password = String(form.get('password'));
       if (register) {
-        if (password !== form.get('repeat')) throw new Error('Podane hasła muszą być takie same.');
+        if (password !== form.get('repeat')) throw new Error('The passwords must match.');
         await request('/auth/register', { method: 'POST', body: JSON.stringify({ email, password }) });
         setRegistered(true);
       } else { await login(email, password); navigate('/tickets'); }
     } catch (error) { setError(error); }
     finally { setBusy(false); }
   }
-  return <div className="auth-layout"><section className="auth-intro"><span className="eyebrow">POMOC TECHNICZNA · IT</span>
-    <h1>Problemy IT<br />pod kontrolą.</h1><p>Zgłoś problem, śledź postępy i wróć do pracy. Wszystkie informacje o sprawie w jednym miejscu.</p>
-    <div className="intro-note"><span className="intro-symbol">↗</span><div><strong>Od zgłoszenia do rozwiązania</strong><br /><span>Przejrzysta historia na każdym etapie.</span></div></div></section>
-    <section className="panel auth-panel"><span className="eyebrow">ISSUETRACKER</span><h2>{register ? 'Utwórz konto' : 'Dobrze Cię widzieć'}</h2>
-      <p className="muted">{register ? 'Po rejestracji administrator zaakceptuje Twoje konto.' : 'Zaloguj się, aby przejść do zgłoszeń.'}</p>
+  return <div className="auth-layout"><section className="auth-intro">
+    <h1>IT help desk</h1><p>Report an IT issue and track it through resolution.</p>
+    <div className="intro-note"><span className="intro-symbol">↗</span><div><strong>Ticket history</strong><br /><span>See updates as your ticket progresses.</span></div></div></section>
+    <section className="panel auth-panel"><span className="eyebrow">ISSUETRACKER</span><h2>{register ? 'Create an account' : 'Sign in'}</h2>
+      <p className="muted">{register ? 'An administrator must approve your account after registration.' : 'Sign in to view your tickets.'}</p>
       {!register && message && <div className="notice" role="status">{message}</div>}
       <ErrorBox error={configError} /><ErrorBox error={error} />
-      {registered ? <div className="notice success" role="status">Konto zostało utworzone. Oczekuje na akceptację administratora. Po akceptacji możesz się zalogować.<p><Link to="/login">Przejdź do logowania →</Link></p></div>
+      {registered ? <div className="notice success" role="status">Your account was created. You can sign in once an administrator approves it.<p><Link to="/login">Go to sign in →</Link></p></div>
         : <form onSubmit={submit}><fieldset disabled={busy}>
-          <label>Adres e-mail<input name="email" type="email" autoComplete="username" maxLength={254} required placeholder={domain ? `imie@${domain}` : 'imie@firma.pl'} /></label>
-          {register && <p className="hint">{domain ? `Wymagana domena: @${domain}` : 'Pobieranie wymaganej domeny…'}</p>}
-          <label>Hasło<input name="password" type="password" autoComplete={register ? 'new-password' : 'current-password'} minLength={register ? 12 : undefined} maxLength={128} required /></label>
-          {register && <><p className="hint">Od 12 do 128 znaków.</p><label>Powtórz hasło<input name="repeat" type="password" autoComplete="new-password" minLength={12} maxLength={128} required /></label></>}
-          <button className="wide" type="submit" disabled={register && !domain}>{busy ? 'Proszę czekać…' : register ? 'Zarejestruj się' : 'Zaloguj się →'}</button>
+          <label>Email address<input name="email" type="email" autoComplete="username" maxLength={254} required placeholder={domain ? `name@${domain}` : 'name@example.com'} /></label>
+          {register && <p className="hint">{domain ? `Required domain: @${domain}` : 'Loading the required domain…'}</p>}
+          <label>Password<input name="password" type="password" autoComplete={register ? 'new-password' : 'current-password'} minLength={register ? 12 : undefined} maxLength={128} required /></label>
+          {register && <><p className="hint">12 to 128 characters.</p><label>Confirm password<input name="repeat" type="password" autoComplete="new-password" minLength={12} maxLength={128} required /></label></>}
+          <button className="wide" type="submit" disabled={register && !domain}>{busy ? 'Please wait…' : register ? 'Register' : 'Sign in →'}</button>
         </fieldset></form>}
-      <p className="auth-switch">{register ? 'Masz już konto? ' : 'Pierwsza wizyta? '}<Link to={register ? '/login' : '/register'}>{register ? 'Zaloguj się' : 'Utwórz konto'}</Link></p>
-      <p className="hint">Sesja trwa do wygaśnięcia tokenu. Odświeżenie strony wymaga ponownego logowania.</p>
+      <p className="auth-switch">{register ? 'Already have an account? ' : 'New here? '}<Link to={register ? '/login' : '/register'}>{register ? 'Sign in' : 'Create an account'}</Link></p>
+      <p className="hint">Refreshing the page requires you to sign in again.</p>
     </section></div>;
 }

@@ -7,6 +7,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from app.api.tickets import router
 from app.api.auth import router as auth_router
+from app.api.assistant import router as assistant_router
 from app.database.database import async_session, engine
 from app.services.classifier import classify
 from app.services.errors import AuthenticationError, ForbiddenError, ConflictError, InvalidInputError, NotFoundError
@@ -35,6 +36,7 @@ app.add_middleware(CORSMiddleware, allow_origins=settings.CORS_ORIGINS,
                    allow_headers=["Authorization", "Content-Type"])
 app.include_router(router)
 app.include_router(auth_router)
+app.include_router(assistant_router)
 
 
 @app.exception_handler(AuthenticationError)
@@ -57,7 +59,7 @@ async def validation_error_handler(request: Request, exc: RequestValidationError
     errors = []
     for error in exc.errors():
         context = error.get("ctx", {})
-        message = str(context["error"]) if "error" in context else "Niepoprawna lub brakująca wartość."
+        message = str(context["error"]) if "error" in context else "Invalid or missing value."
         errors.append({"loc": list(error["loc"]), "type": error["type"], "msg": message})
     return JSONResponse(status_code=422, content={"detail": errors})
 

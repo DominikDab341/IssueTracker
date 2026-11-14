@@ -11,6 +11,7 @@ from app.ticket_status import TicketStatus
 class Ticket(Base):
     __tablename__ = "tickets"
     __table_args__ = (
+        Index("ix_tickets_problem_fts", sql_text("to_tsvector('english'::regconfig, text)"), postgresql_using="gin"),
         CheckConstraint(
             "status IN ('reported', 'accepted', 'in_progress', 'resolved', 'rejected', 'cancelled')",
             name="ck_ticket_status"
@@ -159,7 +160,7 @@ class ClassificationReference(Base):
                         name="ck_reference_category"),
         UniqueConstraint("source", "source_key", name="uq_reference_source_key"),
         UniqueConstraint("source_ticket_id", "source_content_version", name="uq_reference_ticket_version"),
-        CheckConstraint("source <> 'approved_ticket' OR (source_ticket_id IS NOT NULL AND "
+        CheckConstraint("source NOT IN ('approved_ticket', 'resolved_ticket') OR (source_ticket_id IS NOT NULL AND "
                         "source_content_version IS NOT NULL AND source_content_version > 0 AND approved_by_id IS NOT NULL AND approved_at IS NOT NULL)",
                         name="ck_reference_approval"),
     )

@@ -26,14 +26,14 @@ export default function TicketEditor({ ticket, onSaved, onConflict }: { ticket?:
     } finally { setBusy(false); }
   }
   return <form onSubmit={save} className="ticket-editor"><ErrorBox error={error} /><fieldset disabled={busy}>
-    <label>Opis problemu<textarea name="text" aria-describedby="ticket-description-guide" defaultValue={ticket?.text || ''} rows={7} maxLength={10000} required placeholder="Opisz, co się dzieje, od kiedy występuje problem i jakie kroki zostały już wykonane." /></label>
+    <label>Problem description<textarea name="text" aria-describedby="ticket-description-guide" defaultValue={ticket?.text || ''} rows={7} maxLength={10000} required placeholder="Describe what happens, when it started, and what you have already tried." /></label>
     <div id="ticket-description-guide" className="hint">
-      <p>Napisz po angielsku. Podaj urządzenie lub usługę i konkretny objaw. Dopisz, jakie zadanie jest utrudnione, kogo dotyczy problem i czy jest działające obejście.</p>
+      <p>Write in English. Name the device or service and describe the symptom, who it affects, what work is blocked, and any workaround.</p>
       <p lang="en">The office printer jams. The spare printer works, but printing orders takes longer.</p>
     </div>
-    <p className="hint">Limit wynosi 256 tokenów, sprawdzanych przez serwer. Nie wpisuj haseł ani innych sekretów.</p>
-    <label className="check blocked-check"><input type="checkbox" checked={blocked} onChange={e => setBlocked(e.target.checked)} /><span><strong>Nie mogę kontynuować pracy</strong><small>Problem uniemożliwia wykonywanie obowiązków.</small></span></label>
-    {ticket?.priority_source === 'administrator' ? <p className="notice">Priorytet ustalił administrator. Zmiana blokady pracy zachowa jego decyzję.</p> : blocked && <p className="notice">Blokada pracy nada zgłoszeniu priorytet krytyczny.</p>}
-    <div className="button-row"><button type="submit">{busy ? 'Zapisywanie…' : ticket ? 'Zapisz zmiany' : 'Wyślij zgłoszenie →'}</button>{!ticket && <Link to="/tickets" className="button secondary">Wróć do listy</Link>}</div>
+    <p className="hint">The server checks the 256-token limit. Keep passwords and other secrets out of the description.</p>
+    <label className="check blocked-check"><input type="checkbox" checked={blocked} onChange={e => setBlocked(e.target.checked)} /><span><strong>I cannot continue working</strong><small>The issue prevents me from doing my work.</small></span></label>
+    {ticket?.priority_source === 'administrator' ? <p className="notice">An administrator set the priority for this ticket. This checkbox does not override it.</p> : blocked && <p className="notice">This marks the ticket as critical.</p>}
+    <div className="button-row"><button type="submit">{busy ? 'Saving…' : ticket ? 'Save changes' : 'Submit ticket →'}</button>{!ticket && <Link to="/tickets" className="button secondary">Back to tickets</Link>}</div>
   </fieldset></form>;
 }

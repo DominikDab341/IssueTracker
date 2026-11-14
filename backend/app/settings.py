@@ -25,6 +25,10 @@ class Settings(BaseSettings):
     ESCALATION_MIN_USERS: int = Field(default=3, ge=2)
     ESCALATION_WINDOW_HOURS: float = Field(default=24, gt=0)
     ESCALATION_MIN_SIMILARITY: float = Field(default=.85, ge=-1, le=1)
+    OLLAMA_BASE_URL: str = "http://127.0.0.1:11434"
+    OLLAMA_MODEL: str = "qwen3:4b-instruct"
+    OLLAMA_TIMEOUT_SECONDS: float = Field(default=45, gt=0, le=60)
+    RAG_MIN_SIMILARITY: float = Field(default=0.35, ge=-1, le=1)
     ALLOWED_EMAIL_DOMAIN: str = Field(default="mail.com", pattern=r"^[A-Za-z0-9.-]+$")
     JWT_SECRET_KEY: SecretStr | None = None
     ACCESS_TOKEN_EXPIRE_MINUTES: int = Field(default=30, ge=1, le=1440)

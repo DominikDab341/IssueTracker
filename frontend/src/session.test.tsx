@@ -14,7 +14,7 @@ it('keeps credentials in memory and expires the session', async () => {
   expect(storage).not.toHaveBeenCalled();
   act(() => vi.advanceTimersByTime(10000));
   expect(result.current.user).toBe(null);
-  expect(result.current.message).toContain('Sesja wygasła');
+  expect(result.current.message).toContain('Your session expired');
   unmount();
   const fresh = renderHook(useAuth, { wrapper: AuthProvider });
   expect(fresh.result.current.user).toBe(null);

@@ -55,8 +55,8 @@ async def apply_escalation(db, ticket):
         if member.escalation_min_priority is None:
             member.escalation_min_priority = "high"
             member.escalated_at = timestamp
-            member.escalation_reason = (f"Podobne aktywne zgłoszenia od {len(authors)} różnych osób "
-                                        f"w oknie {settings.ESCALATION_WINDOW_HOURS:g} godzin.")
+            member.escalation_reason = (f"Similar active tickets from {len(authors)} different reporters "
+                                        f"within {settings.ESCALATION_WINDOW_HOURS:g} hours.")
             # Internal evidence is never included in the reporter-facing schema.
             member.escalation_evidence = {"ticket_ids": [row.id for row in group], "author_ids": sorted(authors),
                                           "min_similarity": settings.ESCALATION_MIN_SIMILARITY,

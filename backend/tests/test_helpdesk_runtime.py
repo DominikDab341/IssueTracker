@@ -10,7 +10,7 @@ class HelpdeskRuntimeTests(ApiTestCase):
         with patch.object(seed_db, "engine", self.engine):
             await seed_db.seed_tickets()
         description = ("The office wireless connection keeps disconnecting during calls. "
-                       "Our team can continue working by connecting Ethernet cables.")
+                       "Our team can continue working using Ethernet cables.")
         self.assertNotIn(description, [row["text"] for row in seed_db.approved_references()])
         response = await self.client.post("/tickets/", json={"text": description, "work_blocked": True})
         self.assertEqual(response.status_code, 201, response.text)

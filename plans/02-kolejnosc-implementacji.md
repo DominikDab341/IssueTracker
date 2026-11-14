@@ -7,7 +7,7 @@ Raport pomiaru etapu 4: [Pilotaż MiniLM — 2026-10-28](03-raport-pilotazu-mini
 `data/`, `scripts/` i `tests/` poniżej odnoszą się teraz do `backend/`.
 Aktualne polecenia uruchamiania znajdują się w głównym README.
 
-Plan zaktualizowany na dzień: **2026-11-11**.
+Plan zaktualizowany na dzień: **2026-11-14**.
 
 Temat pracy: **System klasyfikacji zgłoszeń z wykorzystaniem embeddingów tekstowych, bazy wektorowej i asystenta konwersacyjnego opartego na RAG**.
 
@@ -21,13 +21,29 @@ E4.5–E4.7 oraz E5.3–E5.4, E5.6–E5.7, E5.10 i E5.12 są wykonane w opisanym
 
 **edit — rozdzielenie klasyfikacji i RAG:** zgodnie z decyzją użytkownika przygotowanie pytań przeniesiono z E4.8 do E8.12, a rubrykę odpowiedzi z części E4.9 do E8.13. Metryki wyszukiwania są w E7.8, a historyczny kontekst i statusy RAG z części E5.11 w E7.4 i E7.7. Etapy 7–8 tworzą wspólny pakiet integracji RAG z LLM: najpierw dane i protokół oceny, następnie wyszukiwanie, generowanie i czat. Końcowe pomiary RAG pozostają w E10.5–E10.8. Przeniesienie nie oznacza wykonania RAG; E4.9 i E5.11 oznaczono jako ukończone wyłącznie w zawężonym, już wdrożonym zakresie klasyfikacji.
 
-## Zestawienie po audycie i wdrożeniu — 2026-11-07
+## Automatyczne referencje z rozwiązanych zgłoszeń — 2026-11-14
+
+Przejście do `Resolved` zapisuje referencję w tej samej transakcji co status. Używamy opisu, aktualnego embeddingu, kategorii operacyjnej i priorytetu bazowego. Rozwiązanie jest możliwe także przy braku aktualnych danych do treningu. Jeżeli brakuje tylko kategorii, jej późniejsza korekta może uzupełnić referencję. Migracja `e8a000000001` dodaje kwalifikujące się wcześniej rozwiązane tickety i zachowuje historyczne zatwierdzenia. Formularz i endpoint ręcznego zatwierdzania usunięto. Ocena historyczna nadal korzysta z zamrożonego zbioru.
+
+## Pierwsza wersja asystenta RAG — 2026-11-14
+
+**Decyzja użytkownika:** cała aplikacja, opisy zgłoszeń, notatki rozwiązania, pytania, odpowiedzi i nowa ewaluacja RAG są po angielsku. Polski pozostaje w historycznej dokumentacji i porównaniu PL/EN. Model generujący to lokalny `qwen3:4b-instruct` (Q4_K_M, digest `0edcdef34593eac1aa2be9c7d06c432dcf81945adca5eca2f27662c18f168ba0`) w Ollama na Windowsie. Do wyszukiwania semantycznego pozostaje `all-MiniLM-L6-v2`.
+
+**Implementacja:** semantyczne wyszukiwanie kosinusowe pgvector i pełnotekstowe PostgreSQL (`english`, stemming, indeks GIN, dopasowanie dowolnego leksemu i ranking `ts_rank_cd`) obejmują bieżący opis problemu. Obie metody filtrują dostępność, status i aktualność embeddingu w tej samej kolejności. Notatka rozwiązania stanowi kontekst po wyszukaniu. W czacie obowiązuje semantyka, do 3 wyników i domyślny filtr zakończonych spraw z udokumentowanym rozwiązaniem. Początkowy próg 0,35 jest konfigurowalny. Lokalny LLM zwraca fragmenty z identyfikatorami zgłoszeń. API sprawdza pokrycie cytatów przez pobrany kontekst i ponownie weryfikuje uprawnienia i źródła. React przechowuje rozmowę w pamięci widoku i przekazuje maksymalnie dwa wcześniejsze pytania. Limity kontekstu Ollama to 8192 tokeny, w tym do 600 generowanych, oraz obcięcie poszczególnych pól po stronie API. Szczegóły uruchomienia są w [README](../README.md#lokalny-asystent-rag).
+
+**Pilotaż wyszukiwania:** syntetyczny zestaw EN obejmuje 13 zgłoszeń i 12 pytań, z czego 10 ma wskazane źródła, a 2 sprawdzają zachowanie przy braku rozwiązania. Recall@5 i MRR@5 liczymy na pytaniach ze źródłami. Semantyczne wyszukiwanie osiągnęło 1,00 i 1,00 przy medianie 9,39 ms z embeddingiem. Pełnotekstowe osiągnęło 0,95 i 0,88 przy medianie 0,94 ms. Wyniki opisują mały pilotaż i są podstawą do przygotowania niezależnego zbioru. [Dane i oceny](../backend/data/rag/pilot-en.json), [wyniki pomiaru](../backend/data/rag/pilot-en-results.json).
+
+Próba integracyjna z rzeczywistym MiniLM, PostgreSQL i Qwen potwierdziła angielską odpowiedź z poprawnym ID, dopytanie i brak udokumentowanej odpowiedzi poza korpusem. Z kontenera FastAPI potwierdzono dostęp do lokalnej Ollama. Przeszło 170 testów backendu i 14 testów frontendu.
+
+**Otwarte:** weryfikacja indeksu wektorowego względem formalnego opisu pracy, docelowy angielski zbiór pytań z podziałem na walidację i test, rubryka oceny, porównanie odpowiedzi obu wariantów i powtarzane pomiary generowania. Zapis wyników pilotażu dotyczy wyszukiwania.
+
+## Zestawienie po audycie i wdrożeniu
 
 Przegląd porównuje wymagania z aktualnym kodem, artefaktami danych i zapisanymi wynikami weryfikacji. Sam poprzedni audyt zmieniał wyłącznie plan; późniejszy pakiet wdrożeniowy jest opisany powyżej.
 
 **Oznaczenia:** `[x]` — cel wykonany w aktualnym, uzgodnionym zakresie; różnice lub przeniesienie pracy opisano przy zadaniu jako **edit:**. `[ ]` — praca niewykonana lub częściowa; notatka oddziela gotową część od konkretnych braków. Zaznaczenie podstawowego frontendu nie oznacza ukończenia czatu ani niezależnej końcowej ewaluacji.
 
-**Aktualny wariant:** 120 zatwierdzonych angielskich referencji oraz osobno zatwierdzone rozwiązane tickety, MiniLM + KNN k=3 dla kategorii, TF-IDF + regresja logistyczna C=100 dla priorytetu; 50 słabych opisów poza treningiem; cztery kategorie helpdesku w API i React. Wcześniejsze opisy KNN dla priorytetu i polskiego zbioru operacyjnego należy czytać z tymi aktualizacjami.
+**Aktualny wariant:** 120 zatwierdzonych angielskich referencji oraz automatyczne referencje z rozwiązanych ticketów, MiniLM + KNN k=3 dla kategorii, TF-IDF + regresja logistyczna C=100 dla priorytetu; 50 słabych opisów poza treningiem; cztery kategorie helpdesku w API i React. Wcześniejsze opisy KNN dla priorytetu i polskiego zbioru operacyjnego należy czytać z tymi aktualizacjami.
 
 **Dowody weryfikacji:** [144 testy backendu](../backend/test-results-stage45.log), 13 testów React i buildy obu obrazów z aktualnego pakietu; [porównanie metod priorytetu](../backend/data/pilot/priority-methods/report.md), [protokół danych](../backend/data/pilot/weak-170.md) oraz [aktualna instrukcja](../README.md). Przy poprzedniej edycji samego planu nie uruchamiano testów; bieżący pakiet implementacyjny sprawdzono pełnym przebiegiem.
 
@@ -38,21 +54,20 @@ Przegląd porównuje wymagania z aktualnym kodem, artefaktami danych i zapisanym
 | 3 | 13/13 | Ukończony fundament kont i uprawnień |
 | 4 | 9/9 (+1 przeniesione) | Dane i niezależny test klasyfikacji gotowe; E4.8 przeniesione do E8.12 |
 | 5 | 13/13 | Klasyfikacja, referencje, duplikaty i eskalacja gotowe; część RAG przeniesiona do etapu 7 |
-| 6 | 9/9 | Frontend obejmuje weryfikację i zatwierdzanie referencji |
-| 7 | 0/8 | Niewykonane wyszukiwanie RAG |
-| 8 | 0/13 | Niewykonane LLM, czat oraz przeniesione dane i rubryka oceny RAG |
+| 6 | 9/9 | Frontend obejmuje weryfikację klasyfikacji; referencje zapisuje backend |
+| 7 | 7/8 | Wyszukiwanie wektorowe i pełnotekstowe oraz pilotaż; otwarty indeks wektorowy |
+| 8 | 8/13 | Lokalny asystent i czat; otwarte pełne scenariusze, budżet tokenów, zbiór, rubryka i zapis generowania |
 | 9 | 3/9 | Panel i instrukcja gotowe; pełne uruchomienie z LLM otwarte |
 | 10 | 1/10 | Końcowa ocena klasyfikacji E10.3 gotowa; reszta ewaluacji pozostaje osobna |
 
-**Najbliższe otwarte prace:** wspólny pakiet integracji RAG z LLM (etapy 7–8), z danymi i rubryką E8.12–E8.13 przed strojeniem. Niezależny test klasyfikacji zakończono: raw 78/88 = 88,6% kategorii i 61/82 = 74,4% priorytetów; 86,7% pozostaje historycznym wynikiem walidacji priorytetu. Ujawniono słabą detekcję braku informacji (2/12 kategorii i 1/18 priorytetów skierowanych do weryfikacji). Ewentualne poprawki wymagają osobnej walidacji i nie zmieniają raportowanego testu. [Wyniki i notatka do pracy](../backend/data/final-evaluation/en-v1/README.md).
+**Najbliższe otwarte prace:** rozbudowa niezależnego zbioru pytań EN, rubryka i końcowa ewaluacja RAG. [Wyniki klasyfikacji i notatka do pracy](../backend/data/final-evaluation/en-v1/README.md).
 
 ## Ustalenia i otwarte decyzje
 
 - **Aktualizacja po review (2026-10-25):** użytkownik wybrał oddzielenie referencji KNN od operacyjnych zgłoszeń teraz, a eskalację po wdrożeniu kont. Dodano `classification_references` i seed przykładów demonstracyjnych z oryginalnymi kategoriami i priorytetami bazowymi. Stara eskalacja procentowa została usunięta. Wyniki automatyczne, checkbox, ręczny priorytet i zmiany statusu nie aktualizują referencji; nie kopiujemy do niej starych priorytetów. Nie oznacza to ukończenia E5.12: zatwierdzanie etykiet rozwiązanego zgłoszenia wymaga kont i kontroli uprawnień. Parametry reguły wielu różnych zgłaszających pozostają do wdrożenia w E5.6 po etapie 3.
 
 - **Ograniczenie planowania:** czas przygotowania pracy jest ograniczony. Wybieramy możliwie prosty wariant spełniający uzgodniony zakres, koncentrując się na działającej integracji, klasyfikacji, RAG i rzetelnej ewaluacji. Dodatkowe funkcje wymagają uzasadnienia i nie są automatycznie dopisywane do podstawowego zakresu.
-- **Ustalono:** zgłoszenia i pytania do asystenta będą w języku polskim. Dane referencyjne, walidacyjne i testowe należy przygotować w tym języku. **edit:** w działającej klasyfikacji podstawowy język zgłoszeń i referencji to angielski; polski zachowano w porównaniu. Interfejs pozostaje polski. Zmiana ta nie oznacza wdrożenia ani sprawdzenia języka przyszłego czatu RAG.
-- **Ustalono:** cały interfejs użytkownika będzie po polsku, w tym formularze, przyciski, statusy, komunikaty walidacji i błędów, panel administratora oraz czat. Pytania i odpowiedzi asystenta również są po polsku.
+- **Ustalono 2026-11-14:** językiem docelowym aplikacji jest angielski, w tym zgłoszenia, rozwiązania, interfejs, komunikaty API, pytania, odpowiedzi oraz dane do ewaluacji RAG.
 - **Ustalono:** użytkownik sam rejestruje konto, podając e-mail i własne hasło; logowanie odbywa się adresem e-mail. Rejestracja wymaga dozwolonej domeny, początkowo `mail.com`, przechowywanej w konfiguracji. Konto oczekuje na akceptację administratora; przed akceptacją nie może zalogować się ani korzystać z chronionych funkcji.
 - **Ustalono:** podczas akceptacji konta administrator musi jawnie nadać jedną z trzech ról: zgłaszający, osoba obsługująca albo administrator. Konto oczekujące nie ma nadanej roli; nie przypisujemy domyślnie roli zgłaszającego. Akceptację i nadanie roli zapisujemy razem. Rejestracja nie pozwala samodzielnie wybrać roli.
 - **Poza zakresem:** resetowanie zapomnianego hasła. Nie implementujemy endpointów, tokenów i wiadomości e-mail do odzyskiwania dostępu ani resetowania hasła w panelu administratora.
@@ -61,13 +76,13 @@ Przegląd porównuje wymagania z aktualnym kodem, artefaktami danych i zapisanym
 - **Ustalono:** historia czatu istnieje tylko w bieżącym widoku i znika po odświeżeniu strony lub wylogowaniu. Nie implementujemy listy zapisanych rozmów ani ich przywracania. Bieżąca historia może wspierać pytania uzupełniające; zapis danych potrzebnych do ewaluacji RAG pozostaje osobnym mechanizmem.
 - **Ustalono:** asystent wyszukuje zgłoszenia, opisuje problemy i wcześniejsze rozwiązania oraz wskazuje źródła. Użytkownik może opisać bieżący problem, a asystent wyszuka podobne rozwiązane zgłoszenia i streści zapisane sposoby rozwiązania. Przy braku odpowiednich źródeł informuje o braku danych.
 - **Poza zakresem asystenta:** pełne statystyki i zestawienia dotyczące całej bazy, np. dokładna liczba wszystkich zgłoszeń w miesiącu. Nie dodajemy w tym celu osobnego mechanizmu generowania lub wykonywania zapytań SQL przez LLM.
-- **Do ponownego rozważenia:** pierwotne założenie lokalnego LLM. Sposób uruchamiania lub udostępnienia modelu, sprzęt i wybór modelu pozostają otwarte. Warianty do późniejszego porównania: komputer użytkownika, osobny serwer lub zewnętrzne API. Nie przyjęto żadnego z tych wariantów jako docelowego. Przed integracją ocenić jakość odpowiedzi po polsku, dostępne zasoby, czas odpowiedzi, koszt, sposób przekazywania danych i możliwość odtworzenia eksperymentów. Ewentualne odejście od lokalnego LLM uwzględnić również w formalnym zakresie pracy i opisie aspektu inżynierskiego. Decyzja nie zmienia ustalonego modelu embeddingów ani dostępu do asystenta według ról.
-- **Ustalono:** model embeddingów `all-MiniLM-L6-v2` jest obowiązkowy i pozostaje zgodny z zakresem pracy. Należy zmierzyć jego jakość na polskich danych i opisać ograniczenia; zmiana modelu nie jest częścią planu.
+- **Ustalono 2026-11-14:** asystent działa lokalnie przez Ollama i Qwen3 4B Instruct. MiniLM służy do embeddingów.
+- **Ustalono:** model embeddingów `all-MiniLM-L6-v2` jest obowiązkowy i pozostaje zgodny z zakresem pracy. Porównanie PL/EN jest zapisane w pilotażu klasyfikacji. Ewaluację RAG prowadzimy na danych EN.
 - **Ustalono:** system będzie obsługiwał krótkie zgłoszenia, po kilka zdań opisujących problem. Obsługa rozbudowanych dokumentów i długich logów nie jest częścią podstawowego zakresu.
 - **Konsekwencja implementacyjna:** w pierwszej wersji jedno zgłoszenie będzie reprezentowane jednym embeddingiem, bez dzielenia na fragmenty. Limit długości należy zweryfikować tokenizerem obowiązkowego modelu; zbyt długi tekst ma być odrzucany z czytelnym komunikatem zamiast cichego obcięcia.
 - **Ustalono:** dziedziną systemu będzie helpdesk IT. Dane i scenariusze demonstracyjne mają dotyczyć krótkich zgłoszeń problemów informatycznych.
 - **Wstępnie przyjęto:** cztery kategorie helpdesku IT: **Konta i uprawnienia**, **Sprzęt**, **Sieć i łączność**, **Oprogramowanie**. Podział należy sprawdzić na przykładowych danych; może zostać doprecyzowany przed zamrożeniem zbiorów do ewaluacji.
-- **Wstępnie przyjęto:** polski zbiór zgłoszeń helpdesku IT przygotujemy samodzielnie. Plan nie zakłada dostępu do rzeczywistych zgłoszeń organizacji. Wstępny rozmiar to 300 zgłoszeń, około 75 na każdą z czterech kategorii, oraz 30 pytań do ewaluacji RAG i porównania wyszukiwania wektorowego z pełnotekstowym. Obie metody oceniamy na tych samych pytaniach; pulę 30 pytań dzielimy na walidację i test. Ręczną weryfikację treści, kategorii i priorytetu bazowego każdego przykładu wykonuje samodzielnie autor pracy. Nie planujemy drugiego oceniającego; ograniczenie to należy opisać przy interpretacji wyników. Pochodzenie i sposób przygotowania danych trzeba udokumentować; dane referencyjne, walidacyjne i testowe pozostają rozdzielone.
+- **Dane RAG:** docelowo 30 pytań EN z oczekiwanymi zgłoszeniami, rozdzielonych na walidację i test. Obie metody otrzymują te same pytania i źródła. Dokumentujemy pochodzenie danych oraz sposób oznaczania źródeł.
 - **Ustalono:** przy tworzeniu przykładów możemy wspierać się LLM. Treść, kategorię i priorytet bazowy każdego przykładu sprawdzamy ręcznie przed dopuszczeniem do zbioru; propozycja generatora nie jest automatycznie etykietą wzorcową. Zapisujemy model generatora, instrukcje, ustawienia i pochodzenie danych. Jest to osobna decyzja od odłożonego wyboru LLM i sposobu udostępnienia asystenta RAG.
 - **Ustalono:** cztery poziomy priorytetu: **Niski** (`low`), **Średni** (`medium`), **Wysoki** (`high`), **Krytyczny** (`critical`). Ich znaczenie opisano poniżej. KNN przewiduje priorytet bazowy na podstawie oznaczonych przykładów; reguły eskalacji opisano osobno, a szczegóły grupowania podobnych awarii wymagają doprecyzowania w etapie 5. **edit:** operacyjny priorytet bazowy wyznacza TF-IDF + regresja logistyczna, a KNN wyznacza kategorię. Reguły pierwszeństwa pozostają bez zmian; eskalacja jest nadal zadaniem E5.6.
 - **Ustalono:** formularz zawiera opis i dodatkowe pole dotyczące możliwości kontynuowania pracy. Osobą zgłaszającą jest automatycznie zalogowany użytkownik; formularz nie wymaga wybierania ani wpisywania autora.
@@ -128,8 +143,8 @@ Eskalacja obejmuje wszystkie podobne aktywne zgłoszenia z kwalifikującego się
 | Rola | Widoczność | Ustalone uprawnienia |
 |---|---|---|
 | **Zgłaszający** | Historia i szczegóły własnych zgłoszeń, niezależnie od ich statusu. | Dodawanie zgłoszeń, edycja własnego opisu i checkboxa tylko w statusie Zgłoszony oraz samodzielne anulowanie własnego nieprzypisanego zgłoszenia w tym statusie. Po przypisaniu wykonawcy anulowanie jest zablokowane. Brak dostępu do asystenta LLM i nadawania statusu Odrzucony. |
-| **Osoba obsługująca** | Wszystkie zgłoszenia. | Samodzielne przyjmowanie nowych zgłoszeń jako opiekun, rozpoczęcie i zakończenie realizacji, korekta kategorii oraz zatwierdzanie etykiet referencyjnych tylko własnych przypisanych spraw, korzystanie z asystenta LLM i odrzucanie zgłoszeń wyłącznie w statusie Zgłoszony. |
-| **Administrator** | Wszystkie zgłoszenia. | Przypisywanie zgłoszeń i zmiana wykonawcy, rozpoczęcie i zakończenie realizacji, korekta kategorii oraz zatwierdzanie etykiet referencyjnych niezależnie od przypisania, korzystanie z asystenta LLM, zarządzanie kontami, ręczna zmiana priorytetu i odrzucanie zgłoszeń w statusach Zgłoszony, Przyjęty i W trakcie. |
+| **Osoba obsługująca** | Wszystkie zgłoszenia. | Samodzielne przyjmowanie nowych zgłoszeń jako opiekun, rozpoczęcie i zakończenie realizacji, korekta kategorii własnych przypisanych spraw, korzystanie z asystenta LLM i odrzucanie zgłoszeń wyłącznie w statusie Zgłoszony. |
+| **Administrator** | Wszystkie zgłoszenia. | Przypisywanie zgłoszeń i zmiana wykonawcy, rozpoczęcie i zakończenie realizacji, korekta kategorii niezależnie od przypisania, korzystanie z asystenta LLM, zarządzanie kontami, ręczna zmiana priorytetu i odrzucanie zgłoszeń w statusach Zgłoszony, Przyjęty i W trakcie. |
 
 Anulowanie to bezpośrednie przejście **Zgłoszony → Anulowany** wykonywane przez autora, wyłącznie gdy nie przypisano wykonawcy. Po przypisaniu wykonawcy zgłaszający nie może ani anulować sprawy, ani wysłać prośby o anulowanie. Nie tworzymy osobnego modelu prośby i procesu zatwierdzania. Anulowanie i przyjęcie lub przypisanie muszą być zabezpieczone przed wyścigiem: zatwierdzenie jednej operacji uniemożliwia wykonanie sprzecznej operacji.
 
@@ -152,7 +167,7 @@ Administrator może zmienić wykonawcę już przypisanego zgłoszenia, zachowuj�
 | **Odrzucony** | Obsługa lub administrator odrzucili nowe zgłoszenie; po przyjęciu albo rozpoczęciu pracy odrzucenia może dokonać wyłącznie administrator. Wymagany jest krótki powód odrzucenia, widoczny dla zgłaszającego. |
 | **Anulowany** | Zgłaszający sam anulował własne zgłoszenie przed przypisaniem wykonawcy. |
 
-Lista statusów jest ustalona. **Rozwiązany, Odrzucony i Anulowany** są stanami końcowymi bez przejść do innych statusów i bez możliwości ponownego otwarcia, również przez obsługę lub administratora. Końcowość dotyczy statusu procesu; zachowujemy osobno uzgodnione operacje, takie jak zatwierdzanie etykiet rozwiązanego zgłoszenia do referencji KNN. Cofanie statusu, w szczególności W trakcie → Przyjęty, jest zablokowane dla wszystkich ról. Zmiana wykonawcy zachowuje bieżący status. Dozwolone przejścia przedstawia poniższa macierz. Obecne `open`, `resolved`, `closed` opisują stan kodu i wymagają migracji po ustaleniu pełnego procesu.
+Lista statusów jest ustalona. **Rozwiązany, Odrzucony i Anulowany** są stanami końcowymi bez przejść do innych statusów i bez możliwości ponownego otwarcia, również przez obsługę lub administratora. Rozwiązanie uruchamia zapis referencji zgodnie z E5.12. Cofanie statusu, w szczególności W trakcie → Przyjęty, jest zablokowane dla wszystkich ról. Zmiana wykonawcy zachowuje bieżący status. Dozwolone przejścia przedstawia poniższa macierz. Obecne `open`, `resolved`, `closed` opisują stan kodu i wymagają migracji po ustaleniu pełnego procesu.
 
 | Przejście | Uprawniony użytkownik i warunki |
 |---|---|
@@ -186,15 +201,15 @@ Poniższe zasady zostały przyjęte do planu i wymagają dalszej implementacji. 
 | **Zgłoszony** | Nie; etykiety mogą być jeszcze niezweryfikowane. | Tak, przy aktualnym embeddingu i spełnieniu pozostałych warunków. | Tak, ze wskazaniem statusu. |
 | **Przyjęty** | Nie; przyjęcie do realizacji nie zatwierdza automatycznie etykiet. | Tak, przy aktualnym embeddingu i spełnieniu pozostałych warunków. | Tak. |
 | **W trakcie** | Nie; obsługa nie została zakończona. | Tak, przy aktualnym embeddingu i spełnieniu pozostałych warunków. | Tak. |
-| **Rozwiązany** | Może zostać dodany po osobnym zatwierdzeniu kategorii i priorytetu bazowego; sam status nie wystarcza. | Nie; może być znaleziony jako podobny historyczny problem, ale nie jako nadal aktywna awaria. | Tak, wraz z zapisanym opisem rozwiązania. |
+| **Rozwiązany** | Automatycznie, przy aktualnym embeddingu i kompletnych etykietach. | Nie; może być znaleziony jako podobny historyczny problem, ale nie jako nadal aktywna awaria. | Tak, wraz z zapisanym opisem rozwiązania. |
 | **Odrzucony** | Nie. | Nie. | Tak, jako historia z jawnym statusem; nie przedstawiać jako rozwiązanej sprawy. |
 | **Anulowany** | Nie. | Nie. | Tak, jako historia z jawnym statusem; nie przedstawiać jako rozwiązanej sprawy. |
 
 Należy oddzielić trzy zbiory: **zatwierdzone przykłady do KNN**, **aktywne zgłoszenia do duplikatów i eskalacji** oraz **dostępne zgłoszenia historyczne do RAG**. Wspólny embedding nie oznacza identycznych filtrów dla tych mechanizmów.
 
-Klasyfikator od pierwszego uruchomienia korzysta z przygotowanego, ręcznie oznaczonego polskiego zbioru referencyjnego. Nie musi czekać na rozwiązanie pierwszych zgłoszeń w aplikacji. Rozszerzanie zbioru o zakończone sprawy jest kontrolowane i nie może zmieniać referencji podczas końcowego eksperymentu.
+Klasyfikator od pierwszego uruchomienia korzysta z przygotowanego, ręcznie oznaczonego angielskiego zbioru referencyjnego. Nie musi czekać na rozwiązanie pierwszych zgłoszeń w aplikacji. Rozszerzanie zbioru o zakończone sprawy jest kontrolowane i nie może zmieniać referencji podczas końcowego eksperymentu.
 
-Priorytet końcowy wymuszony checkboxem, regułą eskalacji lub decyzją administratora nie staje się automatycznie etykietą priorytetu bazowego dla KNN. Etykiety rozwiązanego zgłoszenia zatwierdza jego aktualnie przypisany wykonawca albo administrator. Zatwierdzenie obejmuje kategorię i priorytet bazowy oraz zapis osoby zatwierdzającej, czasu i wersji treści. Nie zmienia statusu Rozwiązany ani priorytetu końcowego i nie narusza pierwszeństwa ręcznej decyzji administratora. Pozostali pracownicy obsługi i zgłaszający nie mają prawa zatwierdzić takiego przykładu.
+Priorytet bazowy referencji pochodzi z zapisanego wyniku klasyfikacji. Wymuszenia priorytetu końcowego nie wpływają na tę etykietę. Referencja zapisuje wersję opisu, autora rozwiązania i datę.
 
 Samodzielne anulowanie przed przypisaniem wykonawcy zmienia status na Anulowany i usuwa zgłoszenie ze zbioru aktywnych spraw. Rozwiązanie i odrzucenie również wykluczają sprawę z kolejnych ocen warunków eskalacji. Spadek liczby aktywnych spraw nie obniża już podniesionych priorytetów pozostałych zgłoszeń. Warunki eskalacji sprawdzamy po udanej klasyfikacji nowego zgłoszenia, po ponownej klasyfikacji zmienionego opisu oraz po udanym ponowieniu zadania, z kontrolą aktualnej wersji treści i bieżących statusów.
 
@@ -228,7 +243,7 @@ Przed rozpoczęciem etapu przeczytać jego sekcję „Przypomnienie dla asystent
 | **5** | Klasyfikator i duplikaty | Etapy 2–4 | Klasyfikacja z dobranymi parametrami i sugestiami duplikatów. |
 | **6** | Podstawowy frontend React | Etapy 3 i 5 | Obsługa zgłoszeń przez interfejs użytkownika. |
 | **7** | Wyszukiwanie semantyczne i pełnotekstowe | Etapy 3–5 | Dwa porównywalne mechanizmy pobierania kontekstu. |
-| **8** | Asystent RAG i czat | Etapy 6–7 oraz decyzja o wariancie LLM | Odpowiedzi LLM ze źródłami i kontrolą dostępu; sposób udostępnienia modelu do ustalenia. |
+| **8** | Asystent RAG i czat | Etapy 6–7 oraz decyzja o wariancie LLM | Odpowiedzi LLM ze źródłami i kontrolą dostępu; lokalny model w Ollama. |
 | **9** | Administracja i domknięcie systemu | Etapy 3, 6 i 8 | Kompletny system uruchamiany przez Docker Compose. |
 | **10** | Końcowe eksperymenty i opracowanie wyników | Etapy 4–9 | Wyniki klasyfikacji, duplikatów i porównania metod RAG. |
 
@@ -430,9 +445,9 @@ ręczny przegląd, docelowy zbiór 300, podział danych i pytania RAG.
 
   **edit:** Wykonane testami kontrolowanych scenariuszy: cztery kategorie, różni / powtarzający się autorzy, okno czasowe i jego konfiguracja, stare / zakończone / nieaktualne / odmienne zgłoszenia, brak łączenia łańcuchowego, trwałość minimum po edycji i upływie okna oraz pierwszeństwo administratora i critical. Test wycofania transakcji chroni całą grupę. Oddzielono wynik modelu, fallback, checkbox i minimum eskalacji. Dowody: test_escalation.py, test_decision_review.py, test_priorities.py.
 
-- [x] **E4.7** Przygotować ręcznie oznaczony zbiór startowy KNN i kontrolowane rozszerzanie go o rozwiązane zgłoszenia z osobno zatwierdzonymi etykietami. Zgłoszenia aktywne, odrzucone i anulowane nie trafiają do referencji operacyjnej. Automatyczne przewidywanie, przyjęcie do realizacji i priorytet końcowy nadany regułą nie zatwierdzają etykiety wzorcowej. Zatwierdzenie kategorii i priorytetu bazowego udostępnić aktualnie przypisanemu wykonawcy oraz administratorowi. Ustalić dostęp do referencji i zakres informacji ujawnianych użytkownikowi.
+- [x] **E4.7** Przygotować ręcznie oznaczony zbiór startowy i rozszerzać go automatycznie o rozwiązane zgłoszenia z kompletną klasyfikacją.
 
-  **edit:** Gotowy zbiór startowy 120 EN pozostaje niezmienny. Osobny POST /tickets/{id}/reference dodaje kopię rozwiązanego ticketu po jawnym wyborze kategorii i priorytetu bazowego przez aktualnego wykonawcę / administratora. Zapisano autora, czas i wersję; zwykłe przewidywania i reguły priorytetu nie uczą modeli. Nowe zatwierdzenia mają źródło approved_ticket i są łączone z pilotażem przy następnej klasyfikacji. Dostęp do metadanych ma obsługa / administrator, nie reporter. Dowody: test_reference_approval.py, TicketDetail.tsx.
+  **edit:** Zbiór startowy 120 EN oraz referencje z rozwiązanych spraw są używane przez KNN i model priorytetu, zgodnie z E5.12.
 
 - **E4.8 — przeniesione, niewykonane:** pytania i dane RAG są teraz zadaniem E8.12. Historyczny identyfikator zachowano dla odtworzenia zmian planu; nie wliczamy go do aktywnych zadań etapu 4.
 - [x] **E4.9** Zdefiniować metryki klasyfikacji: accuracy i macro-F1 osobno dla kategorii i priorytetu, macierze pomyłek, pokrycie decyzji oraz precision/recall/F1 duplikatów.
@@ -470,7 +485,7 @@ ręczny przegląd, docelowy zbiór 300, podział danych i pytania RAG.
 
 - [x] **E5.2** Ograniczyć KNN do ustalonego zbioru referencyjnego. Wykluczyć bieżące zgłoszenie, brakujące wektory i etykiety `unknown`.
 
-  **edit:** Aktywna referencja obejmuje pilot_en_120_v1 oraz osobno zatwierdzone approved_ticket. Nowe tickety nie są referencjami bez decyzji człowieka; stare sample_tickets są pomijane. Te same aktywne przykłady zasilają kategorię KNN i priorytet TF-IDF. Zmiana zatwierdzonego zbioru zmienia odcisk treningu i powoduje ponowny trening przy kolejnym zadaniu.
+  **edit:** Aktywne przykłady pochodzą ze zbioru startowego, automatycznych referencji z rozwiązanych spraw oraz wcześniejszych ręcznych zatwierdzeń. Ich zmiana powoduje ponowny trening priorytetu przy następnym zadaniu.
 
 - [x] **E5.3** Zdefiniować zachowanie przy pustym zbiorze, liczbie przykładów mniejszej od `k`, remisie głosów i zbyt słabym dopasowaniu. Przy słabym dopasowaniu nie wymuszać kategorii, lecz zapisać oznaczenie wyniku Do weryfikacji wraz z przyczyną i wersją tekstu. Oddzielić je od biznesowego statusu zgłoszenia i stanu zadania; poprawnie zakończone obliczenie wymagające weryfikacji nie ma stanu failed. Próg dopasowania dobrać na walidacji. Umożliwić ręczne uzupełnienie kategorii zgodnie z E5.13, zachowując przewidywanie KNN i oddzielne zatwierdzanie referencji. Przy niewiarygodnym przewidywaniu priorytetu bazowego używać tymczasowo Średniego, zapisując źródło wartości zastępczej i potrzebę weryfikacji osobno od przewidywania KNN. Sprawdzić Średni bez innych reguł, Wysoki po eskalacji, Krytyczny z checkboxem oraz zachowanie dowolnego ręcznego priorytetu administratora. Wartości zastępczej nie traktować jako zatwierdzonej etykiety referencyjnej ani poprawnego przewidywania KNN.
 
@@ -508,15 +523,15 @@ ręczny przegląd, docelowy zbiór 300, podział danych i pytania RAG.
 
   **edit:** Pełny zapisany przebieg ma 144 testy backendu, w tym nowe scenariusze odmowy, zatwierdzania referencji, eskalacji, wycofania zmiany całej grupy, powtarzalnego importu i błędów zadania. Konfiguracja, siatki, podziały i wyniki walidacji są w decision-policies/. Przeszło 13 testów React i buildy Docker. Jakość na niezależnym końcowym zbiorze pozostaje E4.4 / etapem 10.
 
-- [x] **E5.11** Wdrożyć przyjętą macierz wpływu statusów dla klasyfikacji: oddzielne filtry dla zatwierdzonych przykładów referencyjnych, aktywnych duplikatów i eskalacji (Zgłoszony, Przyjęty, W trakcie). Sprawdzić, że zmiana statusu nie uruchamia klasyfikacji, zakończone zadanie nie zmienia biznesowego statusu sprawy, a rozwiązane, odrzucone i anulowane zgłoszenia przestają uczestniczyć w mechanizmach aktywnych awarii. Oddzielić zatwierdzenie przykładu referencyjnego od rozwiązania zgłoszenia i od ręcznej zmiany priorytetu końcowego.
+- [x] **E5.11** Rozdzielić automatyczne referencje z rozwiązanych zgłoszeń od aktywnych duplikatów i eskalacji. Zmiana statusu sama nie uruchamia ponownie klasyfikacji.
 
   **edit:** Ukończone w zakresie klasyfikacji: referencje, aktywne duplikaty i eskalacja mają odrębne filtry; status nie uruchamia modelu, a spóźniony wynik nie przywraca zakończonej sprawy ani nie uruchamia eskalacji. Zatwierdzenie referencji jest osobną decyzją. Niewykonany historyczny kontekst RAG z pierwotnego zakresu przeniesiono do E7.4 i E7.7 wraz z testami w E7.8; oznaczenie E5.11 nie potwierdza wdrożenia RAG.
 
-- [x] **E5.12** Dodać zatwierdzanie rozwiązanego zgłoszenia jako przykładu referencyjnego przez jego aktualnie przypisanego wykonawcę lub administratora. Zapisywać osobno zatwierdzoną kategorię, priorytet bazowy, wersję treści, autora i czas zatwierdzenia; sprawdzać aktualność embeddingu i poprawność etykiet. Nie nadpisywać priorytetu końcowego ani statusu sprawy. Zabezpieczyć przed wielokrotnym dodaniem tego samego przykładu i odmówić zatwierdzenia aktywnej, odrzuconej albo anulowanej sprawy oraz żądania nieuprawnionego użytkownika. Sprawdzić utratę uprawnienia przez poprzedniego wykonawcę po zmianie przypisania.
+- [x] **E5.12** Dodawać referencję automatycznie przy rozwiązaniu zgłoszenia z kompletnymi etykietami, używając aktualnego opisu i embeddingu.
 
-  **edit:** Wdrożono GET/POST /tickets/{id}/reference i formularz w rozwiązanym tickecie. Decyzja jest jawna, z aktualnymi uprawnieniami po blokadzie rekordu, wersją opisu i aktualnym embeddingiem. Kopia tekstu / wektora / etykiet nie zmienia sprawy; zapisuje zatwierdzającego i datę. Unikalność ticket + wersja oraz blokada chronią przed podwójnym zatwierdzeniem, także równoległym. Baza wymaga kompletnych metadanych dla źródła approved_ticket. Nowe zatwierdzenie zmienia trening i model priorytetu, a późniejsza korekta operacyjna nie zmienia kopii. Dowody: test_reference_approval.py i frontend/src/reference.test.tsx.
+  **edit:** Zapis referencji działa pod blokadą zgłoszenia w transakcji zmiany statusu. Unikalność ticket + wersja chroni przed duplikatami. `GET /tickets/{id}/reference` udostępnia metadane, a migracja dodaje referencje do kwalifikujących się historycznych spraw.
 
-- [x] **E5.13** Dodać endpoint ręcznej korekty kategorii, np. `PATCH /tickets/{ticket_id}/category`, dla aktualnego wykonawcy i administratora. Sprawdzać przynależność kategorii do słownika oraz zapisywać korektę, autora, czas i wersję treści osobno od przewidywania KNN. Zabezpieczyć korektę przed przypadkowym nadpisaniem przez zadanie dla tej samej wersji tekstu. Korekta nie zatwierdza referencji ani nie zmienia statusu i ręcznie ustalonego priorytetu. Sprawdzić odmowę dla zgłaszającego, nieprzypisanej obsługi i poprzedniego wykonawcy oraz zachowanie przy późniejszej edycji treści i wcześniej zatwierdzonym przykładzie referencyjnym.
+- [x] **E5.13** Dodać endpoint ręcznej korekty kategorii, np. `PATCH /tickets/{ticket_id}/category`, dla aktualnego wykonawcy i administratora. Sprawdzać przynależność kategorii do słownika oraz zapisywać korektę, autora, czas i wersję treści osobno od przewidywania KNN. Zabezpieczyć korektę przed przypadkowym nadpisaniem przez zadanie dla tej samej wersji tekstu. Korekta może uzupełnić brakującą referencję rozwiązanej sprawy i nie zmienia zapisanej kopii. Sprawdzić odmowę dla zgłaszającego, nieprzypisanej obsługi i poprzedniego wykonawcy oraz zachowanie przy późniejszej edycji treści i wcześniej zatwierdzonym przykładzie referencyjnym.
 
   **edit:** Ukończono operacyjną korektę dla czterech kategorii helpdesku, wraz z kontrolą wersji, uprawnieniami, autorem/czasem i ochroną przed nadpisaniem. Test `test_correction_keeps_priority_workflow_tasks_embedding_and_references` porównuje całą tabelę referencji przed i po korekcie, potwierdzając jej niezależność również od już zapisanych przykładów. Nie wymuszamy wdrożenia E5.12, aby uznać gotowy endpoint korekty; specyficzne wyścigi przyszłego procesu zatwierdzania pozostają w E5.12. Dowody: `test_category_corrections.py`, `test_classifier_references.py`.
 
@@ -539,7 +554,7 @@ Przygotować prosty widok listy, szczegółów i formularza na podstawie ustalon
 
 ### Zadania
 
-- [x] **E6.1** Utworzyć aplikację React, routing, konfigurację adresu API oraz wspólną obsługę żądań i błędów. Wszystkie etykiety, formularze, przyciski, prezentowane statusy i komunikaty dla użytkownika przygotować po polsku; zapewnić czytelne polskie komunikaty także dla błędów walidacji API. Dostosować CORS backendu do ustalonych adresów aplikacji.
+- [x] **E6.1** Utworzyć aplikację React, routing, konfigurację adresu API oraz wspólną obsługę żądań i błędów. Wszystkie etykiety, formularze, przyciski, prezentowane statusy i komunikaty dla użytkownika przygotować po angielsku; zapewnić czytelne angielskie komunikaty także dla błędów walidacji API. Dostosować CORS backendu do ustalonych adresów aplikacji.
 - [x] **E6.2** Zbudować rejestrację e-mailem i własnym hasłem, logowanie adresem e-mail, wylogowanie i odczyt bieżącego użytkownika. W formularzu rejestracji wskazywać wymaganą domenę z konfiguracji i obsługiwać błędy walidacji backendu. Po rejestracji pokazać informację o oczekiwaniu na akceptację administratora bez automatycznego logowania; obsłużyć odmowę logowania konta niezaakceptowanego lub nieaktywnego. Zaimplementować ustalony sposób używania tokenu oraz obsługę wygaśnięcia sesji.
 - [x] **E6.3** Zbudować historię własnych zgłoszeń dla zgłaszającego oraz listę wszystkich zgłoszeń dla obsługi i administratora, z filtrami i paginacją. Osobno pokazywać status procesu, stan wykonania zadania i oznaczenie klasyfikacji Do weryfikacji; nie przedstawiać niepewnej kategorii jako zatwierdzonej. Obsłudze i administratorowi umożliwić filtrowanie spraw wymagających weryfikacji i przejście do uzupełnienia kategorii zgodnie z uprawnieniami. Anulowane sprawy zachowywać w historii z ich statusem.
 
@@ -547,7 +562,7 @@ Przygotować prosty widok listy, szczegółów i formularza na podstawie ustalon
 
 - [x] **E6.4** Dodać formularz tworzenia zgłoszenia z opisem oraz checkboxem „Nie mogę kontynuować pracy”. Zgłaszający może edytować oba pola wyłącznie we własnym zgłoszeniu w statusie Zgłoszony; po przyjęciu pola są zablokowane. Przy braku ręcznej decyzji administratora zaznaczenie nadaje priorytet końcowy `critical`, a brak zaznaczenia pozostawia wyznaczenie priorytetu bazowego KNN. Autor jest automatycznie przypisywany przez backend na podstawie zalogowanego konta. Zapewnić walidację i prezentację błędów API, w tym przy przyjęciu zgłoszenia przez obsługę podczas otwartego formularza edycji. Przy ręcznie nadanym priorytecie pokazywać jego źródło i zachować decyzję administratora.
 
-  **edit:** Formularz pozostaje po polsku, ale prosi o opis po angielsku oraz informacje o wpływie i obejściu. Priorytet bazowy wyznacza TF-IDF + regresja logistyczna zamiast KNN; checkbox i nadrzędna decyzja administratora działają zgodnie z pierwotnym kontraktem.
+  **edit:** Angielski formularz prosi o opis po angielsku oraz informacje o wpływie i obejściu. Priorytet bazowy wyznacza TF-IDF + regresja logistyczna zamiast KNN; checkbox i nadrzędna decyzja administratora działają zgodnie z pierwotnym kontraktem.
 
 - [x] **E6.5** Dodać widok szczegółów: treść, autor, opiekun, status, kategoria, priorytet i sugestie duplikatów. Po przyjęciu wyświetlać pierwotny opis tylko do odczytu dla wszystkich ról; opis rozwiązania prezentować osobno. Przy odrzucaniu udostępnić uprawnionej roli formularz obowiązkowego krótkiego powodu i obsłużyć błędy walidacji API. Zapisany powód odrzucenia wyświetlać osobno w szczegółach, także zgłaszającemu, z autorem i czasem decyzji.
 - [x] **E6.6** Dodać odpytywanie o zadanie z ograniczoną częstotliwością; zatrzymywać je po zakończeniu zadania lub opuszczeniu widoku. Obsłużyć błąd i przerwanie oraz przycisk ponowienia dla autora przed przypisaniem, aktualnego wykonawcy podczas obsługi i administratora dla aktywnych zgłoszeń. Nie wyświetlać ponowienia dla statusów końcowych, poprawnie zakończonego zadania ani samego oznaczenia Do weryfikacji. Obsłużyć odmowę API, gdy przypisanie lub status zmieniły się podczas otwartego widoku.
@@ -566,7 +581,7 @@ Przygotować prosty widok listy, szczegółów i formularza na podstawie ustalon
 
 ## Etap 7. Dwa mechanizmy wyszukiwania kontekstu
 
-**Stan początkowy:** pgvector jest używany przez klasyfikator; brak wspólnego interfejsu wyszukiwania zgłoszeń i wyszukiwania pełnotekstowego.
+**Stan przed wdrożeniem:** pgvector jest używany przez klasyfikator; brak wspólnego interfejsu wyszukiwania zgłoszeń i wyszukiwania pełnotekstowego.
 
 **Cel:** przygotować porównywalne źródła kontekstu dla RAG.
 
@@ -576,23 +591,23 @@ Przygotować prosty widok listy, szczegółów i formularza na podstawie ustalon
 
 - Przed E7.5 pokazać wariant wyszukiwania po opisie problemu i wariant obejmujący również opis rozwiązania. Uzgodnić zakres wyszukiwanych pól dla RAG; w obu metodach musi być taki sam. Odróżnić reprezentację do wyszukiwania RAG od embeddingu pierwotnego opisu używanego przez KNN.
 - Przy E7.6 sprawdzić zgodność decyzji o indeksie z formalnym opisem pracy, który wymienia indeks wektorowy. Jeśli pomiary sugerują pozostawienie wyłącznie wyszukiwania dokładnego, przed pominięciem indeksu przedstawić konsekwencje i wrócić do użytkownika. Mały zbiór sam w sobie nie rozstrzyga wymagań pracy.
-- Konfigurację pełnotekstowego wyszukiwania polskich tekstów i parametry obu metod uzasadnić dokumentacją oraz wynikami walidacji; nie pytać użytkownika o szczegóły składni PostgreSQL.
+- Konfigurację pełnotekstowego wyszukiwania angielskich tekstów i parametry obu metod uzasadnić dokumentacją oraz wynikami walidacji; nie pytać użytkownika o szczegóły składni PostgreSQL.
 
 ### Zadania
 
-- [ ] **E7.1** Zdefiniować wspólny kontrakt wyszukiwania: zapytanie, metoda, limit, filtry, identyfikatory zgłoszeń, tekst kontekstu i wynik dopasowania. Wyników punktowych różnych metod nie traktować jako bezpośrednio porównywalnych.
-- [ ] **E7.2** Zaimplementować semantyczne wyszukiwanie zgłoszeń: embedding pytania, odległość kosinusowa, limit wyników i próg przydatności kontekstu.
-- [ ] **E7.3** Zaimplementować wyszukiwanie pełnotekstowe PostgreSQL dla polskich zgłoszeń: wybrać i opisać tokenizację oraz obsługę odmiany wyrazów, przygotować reprezentację tekstu do wyszukiwania, ranking oraz indeks i migrację. Zweryfikować działanie na polskich znakach i formach fleksyjnych.
-- [ ] **E7.4** Stosować filtry uprawnień przed wyborem najlepszych wyników w obu metodach. Uwzględnić aktualny status zgłoszenia i aktualność embeddingu.
+- [x] **E7.1** Zdefiniować wspólny kontrakt wyszukiwania: zapytanie, metoda, limit, filtry, identyfikatory zgłoszeń, tekst kontekstu i wynik dopasowania. Wyników punktowych różnych metod nie traktować jako bezpośrednio porównywalnych.
+- [x] **E7.2** Zaimplementować semantyczne wyszukiwanie zgłoszeń: embedding pytania, odległość kosinusowa, limit wyników i próg przydatności kontekstu.
+- [x] **E7.3** Wdrożyć pełnotekstowe wyszukiwanie angielskich zgłoszeń w PostgreSQL z konfiguracją `english`, rankingiem, indeksem GIN i migracją.
+- [x] **E7.4** Stosować filtry uprawnień przed wyborem najlepszych wyników w obu metodach. Uwzględnić aktualny status zgłoszenia i aktualność embeddingu.
 
-  **edit:** Częściowo przygotowany fundament: wspólny filtr available_tickets działa dla zwykłych odczytów i duplikatów. Właściwe dwa mechanizmy wyszukiwania RAG jeszcze nie istnieją, więc nie uznajemy za gotowe ich filtrowania ani testów.
+  **edit:** Obie metody korzystają z `available_tickets` i wymagają aktualnych embeddingów. Filtr rozwiązanych zgłoszeń z notatką jest domyślny w czacie i pilotażu.
 
   **edit — zakres przeniesiony z E5.11:** wdrożyć macierz statusów historycznego kontekstu RAG. Przy ogólnym wyszukiwaniu pokazywać jawny status źródła; przy pytaniu o sprawdzone rozwiązania dopuścić wyłącznie rozwiązane sprawy zgodnie z E7.7. Odrzucone, anulowane i aktywne zgłoszenia nie są dowodem skutecznego rozwiązania. Filtry referencji klasyfikacji i aktywnych awarii pozostają osobne.
 
-- [ ] **E7.5** Ustalić sposób aktualizacji danych wyszukiwawczych po edycji zgłoszenia i dodaniu opisu rozwiązania, tak aby obie metody korzystały z odpowiadającej sobie wersji treści. Jawnie rozdzielić tekst używany do klasyfikacji od danych dołączanych do kontekstu RAG; jeśli opis rozwiązania zostanie objęty rankingiem, zapewnić ten sam zakres wyszukiwanych pól dla obu metod. Dodanie notatki o rozwiązaniu nie uruchamia ponownie klasyfikacji pierwotnego problemu.
+- [x] **E7.5** Ustalić sposób aktualizacji danych wyszukiwawczych po edycji zgłoszenia i dodaniu opisu rozwiązania, tak aby obie metody korzystały z odpowiadającej sobie wersji treści. Jawnie rozdzielić tekst używany do klasyfikacji od danych dołączanych do kontekstu RAG; jeśli opis rozwiązania zostanie objęty rankingiem, zapewnić ten sam zakres wyszukiwanych pól dla obu metod. Dodanie notatki o rozwiązaniu nie uruchamia ponownie klasyfikacji pierwotnego problemu.
 - [ ] **E7.6** Zmierzyć czas zapytań wektorowych i ocenić potrzebę indeksu HNSW lub IVFFlat. Jeśli zostanie dodany indeks przybliżony, sprawdzić wpływ na trafność i zapisać parametry. Brak potrzeby indeksu na małym zbiorze uzasadnić pomiarem.
-- [ ] **E7.7** Przygotować wspólne reguły budowy kontekstu: kolejność wyników, usuwanie powtórzeń, identyfikatory źródeł, statusy i limit długości. Dla rozwiązanych zgłoszeń dołączać zapisany opis rozwiązania, wyraźnie odróżniony od pierwotnego opisu problemu. Dla pytania o sposoby rozwiązania podobnego problemu zastosować filtr Rozwiązany przed wyborem najlepszych wyników, tak samo w wyszukiwaniu wektorowym i pełnotekstowym; do kontekstu dołączać opisy problemu i rozwiązania oraz identyfikatory źródeł. Zachować możliwość przeszukiwania innych statusów przy ogólnych pytaniach o zgłoszenia. Docelowy budżet tokenów ustalić po wyborze LLM w etapie 8.
-- [ ] **E7.8** Dodać testy pytań bez wyników, niedostępnych źródeł, filtrów oraz aktualizacji treści. Przygotować skrypt oceny trafności wyszukiwania na walidacji.
+- [x] **E7.7** Przygotować wspólne reguły budowy kontekstu: kolejność wyników, usuwanie powtórzeń, identyfikatory źródeł, statusy i limit długości. Dla rozwiązanych zgłoszeń dołączać zapisany opis rozwiązania, wyraźnie odróżniony od pierwotnego opisu problemu. Dla pytania o sposoby rozwiązania podobnego problemu zastosować filtr Rozwiązany przed wyborem najlepszych wyników, tak samo w wyszukiwaniu wektorowym i pełnotekstowym; do kontekstu dołączać opisy problemu i rozwiązania oraz identyfikatory źródeł. Zachować możliwość przeszukiwania innych statusów przy ogólnych pytaniach o zgłoszenia. Docelowy budżet tokenów ustalić po wyborze LLM w etapie 8.
+- [x] **E7.8** Dodać testy pytań bez wyników, niedostępnych źródeł, filtrów oraz aktualizacji treści. Przygotować skrypt oceny trafności wyszukiwania na walidacji.
 
   **edit — zakres przeniesiony z E4.9 i E5.11:** przed strojeniem zdefiniować Recall@k i MRR, sposób wyznaczania oczekiwanych źródeł oraz traktowania pytań bez odpowiedzi. Obie metody oceniać na tych samych pytaniach E8.12 i tym samym zbiorze dostępnych źródeł. Dodać testy wpływu statusów i zmiany statusu na wyniki zgodnie z E7.4 i E7.7.
 
@@ -602,11 +617,11 @@ Przygotować prosty widok listy, szczegółów i formularza na podstawie ustalon
 - Wyniki nie zawierają niedostępnych zgłoszeń i wskazują ich aktualną treść.
 - Istnieje sposób zmierzenia trafności i czasu wyszukiwania przed podłączeniem generowania odpowiedzi.
 
-## Etap 8. Asystent RAG — wariant LLM do ustalenia
+## Etap 8. Asystent RAG — lokalny LLM w Ollama
 
-**Stan początkowy:** brak integracji LLM i interfejsu rozmowy.
+**Stan przed wdrożeniem:** brak integracji LLM i interfejsu rozmowy.
 
-**Otwarta decyzja:** lokalny LLM jest założeniem pierwotnego zakresu, które ma zostać ponownie rozważone. Wybór modelu i sposobu jego udostępnienia poprzedza właściwą integrację; nie zakładamy jeszcze konkretnego sprzętu ani dostawcy.
+**Wybrany wariant:** Ollama na Windowsie i lokalny `qwen3:4b-instruct`.
 
 **Cel:** generować odpowiedzi oparte na znalezionych zgłoszeniach, w tym streszczenia wcześniejszych rozwiązań problemów podobnych do opisu podanego przez użytkownika, i umożliwić zadawanie pytań w React.
 
@@ -614,27 +629,28 @@ Przygotować prosty widok listy, szczegółów i formularza na podstawie ustalon
 
 ### Przypomnienie dla asystenta
 
-- Przed E8.1 zapytać o dostępny sprzęt i dopuszczalne miejsce uruchamiania LLM; jeśli rozważane jest API, również o budżet i zgodę na przesyłanie zgłoszeń do wybranej usługi. Przedstawić konkretne warianty i wyniki krótkiej próby po polsku. Nie wybierać dostawcy ani nie zakładać rezygnacji z lokalnego LLM bez decyzji użytkownika.
 - Wstępne sprawdzenie wykonalności LLM warto wykonać już w etapach 2–4, gdy dostępne będą informacje o środowisku. Pełna integracja pozostaje w etapie 8; wczesna próba ma ujawnić ograniczenia przed rozbudową interfejsu. Przy odejściu od założenia lokalnego modelu przypomnieć o zgodności z formalnym zakresem pracy.
 - Przed E8.9 ustalić zakres zapisu wyników eksperymentów i dostęp do nich. Propozycja do omówienia: zapisywać kontrolowane przebiegi badawcze, bez archiwizowania wszystkich zwykłych rozmów. Tymczasowa historia czatu pozostaje już ustalona.
 - Przy E8.12–E8.13 przedstawić podział pytań RAG na walidację i test oraz prostą rubrykę oceny. Ustalić, kto ocenia odpowiedzi; samodzielne zatwierdzanie etykiet klasyfikacji nie rozstrzyga automatycznie oceny RAG. Te ustalenia poprzedzają strojenie asystenta.
 
 ### Zadania
 
-- [ ] **E8.1** Rozstrzygnąć wariant LLM po porównaniu uruchomienia na komputerze użytkownika, na osobnym serwerze i przez zewnętrzne API; uwzględnić pierwotne założenie lokalnego modelu oraz potrzebę aktualizacji zakresu pracy przy jego zmianie. Wybrać model obsługujący pytania i odpowiedzi po polsku i wykonać krótki test jakości oraz czasu odpowiedzi. Zapisać model, wersję, sposób dostępu i warunki odtwarzania eksperymentów. Dla samodzielnego uruchomienia ustalić sprzęt, wymagania pamięciowe i licencję; dla API ustalić dostęp, koszty i sposób przekazywania danych. Dopiero po decyzji dodać właściwą usługę LLM lub konfigurację połączenia z nią.
-- [ ] **E8.2** Zaimplementować klienta LLM z limitem czasu, kontrolą błędów i sprawdzaniem dostępności usługi. Ustalić limity równoległych generacji.
-- [ ] **E8.3** Zdefiniować kontrakt endpointu rozmowy: pytanie, ograniczona historia bieżącej rozmowy, odpowiedź, źródła i obsługiwane błędy. Historię przechowywać wyłącznie w pamięci bieżącego widoku React i przekazywać niezbędną część przy kolejnym pytaniu. Nie utrwalać rozmów w bazie ani pamięci przeglądarki i nie tworzyć endpointów listowania lub przywracania rozmów. Zapis eksperymentów realizować oddzielnie zgodnie z E8.9.
-- [ ] **E8.4** Zbudować potok: weryfikacja użytkownika i roli obsługi lub administratora → wyszukiwanie dostępnych zgłoszeń → przygotowanie kontekstu → generowanie → walidacja źródeł → odpowiedź. Sprawdzać rolę przy każdym pytaniu, również uzupełniającym. Dostęp zgłaszającego do własnych zgłoszeń nie daje mu dostępu do LLM.
-- [ ] **E8.5** Przygotować wersjonowany prompt: oparcie odpowiedzi na kontekście, wskazywanie identyfikatorów źródeł, przyznanie braku danych i traktowanie tekstu zgłoszeń jako danych, a nie instrukcji. Dla opisu bieżącego problemu streszczać zapisane rozwiązania podobnych zakończonych spraw i przypisywać poszczególne sposoby rozwiązania do źródeł. Wyraźnie odróżniać to, co wykonano w źródłowym zgłoszeniu, od możliwości zastosowania w nowym przypadku; nie obiecywać skuteczności na podstawie samego podobieństwa tekstów. Jeśli nie znaleziono odpowiednich rozwiązanych spraw, poinformować o braku udokumentowanego rozwiązania.
+- [x] **E8.1** Wybrać i uruchomić lokalny model językowy w Ollama. Zapisać wariant i wykonać próbę z ticketami.
+- [x] **E8.2** Zaimplementować klienta LLM z limitem czasu, kontrolą błędów i sprawdzaniem dostępności usługi. Ustalić limity równoległych generacji.
+- [x] **E8.3** Zdefiniować kontrakt endpointu rozmowy: pytanie, ograniczona historia bieżącej rozmowy, odpowiedź, źródła i obsługiwane błędy. Historię przechowywać wyłącznie w pamięci bieżącego widoku React i przekazywać niezbędną część przy kolejnym pytaniu. Nie utrwalać rozmów w bazie ani pamięci przeglądarki i nie tworzyć endpointów listowania lub przywracania rozmów. Zapis eksperymentów realizować oddzielnie zgodnie z E8.9.
+- [x] **E8.4** Zbudować potok: weryfikacja użytkownika i roli obsługi lub administratora → wyszukiwanie dostępnych zgłoszeń → przygotowanie kontekstu → generowanie → walidacja źródeł → odpowiedź. Sprawdzać rolę przy każdym pytaniu, również uzupełniającym. Dostęp zgłaszającego do własnych zgłoszeń nie daje mu dostępu do LLM.
+- [x] **E8.5** Przygotować wersjonowany prompt: oparcie odpowiedzi na kontekście, wskazywanie identyfikatorów źródeł, przyznanie braku danych i traktowanie tekstu zgłoszeń jako danych, a nie instrukcji. Dla opisu bieżącego problemu streszczać zapisane rozwiązania podobnych zakończonych spraw i przypisywać poszczególne sposoby rozwiązania do źródeł. Wyraźnie odróżniać to, co wykonano w źródłowym zgłoszeniu, od możliwości zastosowania w nowym przypadku; nie obiecywać skuteczności na podstawie samego podobieństwa tekstów. Jeśli nie znaleziono odpowiednich rozwiązanych spraw, poinformować o braku udokumentowanego rozwiązania.
 - [ ] **E8.6** Ustalić budżet tokenów dla pytania, tymczasowej historii, kontekstu i odpowiedzi. Zachować spójność źródeł przy skracaniu tekstu i ograniczyć przesyłaną historię do potrzebnych ostatnich wiadomości. Obsłużyć pytania uzupełniające w bieżącej rozmowie, ponownie pobierając kontekst i sprawdzając dostęp do źródeł; poprzednie odpowiedzi LLM nie zastępują zgłoszeń jako źródła faktów.
-- [ ] **E8.7** Obsłużyć pytania wykraczające poza znaleziony kontekst. Pełne statystyki i zestawienia całej bazy pozostawić poza zakresem asystenta; dla takich pytań jasno poinformować o tym ograniczeniu. Nie wyprowadzać pełnej liczby zgłoszeń z ograniczonego zestawu podobnych wyników i nie dodawać mechanizmu generowania lub wykonywania SQL przez LLM.
-- [ ] **E8.8** Sprawdzać, czy wskazane źródła należą do pobranego kontekstu i pozostają dostępne użytkownikowi. Przy wylogowaniu lub utracie dostępu do asystenta czyścić tymczasową historię widoku; nie przywracać jej po zalogowaniu na inne konto. Nie traktować historii przesłanej przez klienta jako dowodu uprawnień do wskazanych zgłoszeń.
+
+  **edit:** Dopytania działają. Na razie stosujemy limit znaków oraz kontekstu i odpowiedzi Ollama. Pozostaje pomiar budżetu tokenów dla długich przypadków.
+- [x] **E8.7** Obsłużyć pytania wykraczające poza znaleziony kontekst. Pełne statystyki i zestawienia całej bazy pozostawić poza zakresem asystenta; dla takich pytań jasno poinformować o tym ograniczeniu. Nie wyprowadzać pełnej liczby zgłoszeń z ograniczonego zestawu podobnych wyników i nie dodawać mechanizmu generowania lub wykonywania SQL przez LLM.
+- [x] **E8.8** Sprawdzać, czy wskazane źródła należą do pobranego kontekstu i pozostają dostępne użytkownikowi. Przy wylogowaniu lub utracie dostępu do asystenta czyścić tymczasową historię widoku; nie przywracać jej po zalogowaniu na inne konto. Nie traktować historii przesłanej przez klienta jako dowodu uprawnień do wskazanych zgłoszeń.
 - [ ] **E8.9** Osobno od tymczasowej historii czatu zapisywać dane potrzebne do eksperymentów: pytanie, wykorzystaną historię dla pytań uzupełniających, metodę wyszukiwania, wersje źródeł, modelu i promptu, parametry generowania, odpowiedź i czasy etapów. Ustalić dostęp do wyników badań i zakres zapisu; nie tworzyć na tej podstawie archiwum rozmów dostępnego w interfejsie użytkownika. Odświeżenie strony lub wylogowanie nie usuwa zapisanych wyników eksperymentów.
-- [ ] **E8.10** Dodać czat w React wyłącznie dla obsługi i administratora: tymczasowe wiadomości w pamięci bieżącego widoku, stan oczekiwania, obsługę błędów i odnośniki do źródłowych zgłoszeń. Sprawdzić usunięcie historii po odświeżeniu strony i wylogowaniu, bez automatycznego odtwarzania. Dla zgłaszającego nie udostępniać czatu; odmowę dostępu egzekwować również przez API. Wybór metody wyszukiwania udostępnić w konfiguracji eksperymentów.
+- [x] **E8.10** Dodać czat w React wyłącznie dla obsługi i administratora: tymczasowe wiadomości w pamięci bieżącego widoku, stan oczekiwania, obsługę błędów i odnośniki do źródłowych zgłoszeń. Sprawdzić usunięcie historii po odświeżeniu strony i wylogowaniu, bez automatycznego odtwarzania. Dla zgłaszającego nie udostępniać czatu; odmowę dostępu egzekwować również przez API. Wybór metody wyszukiwania udostępnić w konfiguracji eksperymentów.
 - [ ] **E8.11** Sprawdzić pytania z odpowiedzią, bez odpowiedzi, pytania uzupełniające, niedostępne źródła, instrukcje umieszczone w treści zgłoszenia oraz niedostępność LLM. Sprawdzić streszczenie wcześniejszych rozwiązań dla opisu bieżącego problemu, przypisanie każdego sposobu rozwiązania do właściwego źródła i brak wymyślonych rozwiązań przy samych aktywnych lub odrzuconych zgłoszeniach. Zweryfikować odpowiedź na pytanie o pełne statystyki poza zakresem. Prompt i parametry dopracowywać na pytaniach walidacyjnych.
 - [ ] **E8.12** Przygotować wstępnie 30 pytań do RAG, rozdzielonych na część walidacyjną i testową, z oczekiwanymi źródłami, kluczowymi faktami oraz przypadkami bez odpowiedzi i bez dostępu do źródeł. Uwzględnić opis nowego problemu wymagający wyszukania podobnych rozwiązanych spraw i streszczenia ich rozwiązań; w zbiorze kontekstu zapewnić ręcznie sprawdzone opisy rozwiązań. Dodać przypadki kilku odmiennych sposobów rozwiązania oraz braku rozwiązanych spraw mimo istnienia podobnych aktywnych zgłoszeń. Dla pytań o pełne zestawienia i liczby oczekiwać informacji o zakresie asystenta, a nie liczby wywnioskowanej z ograniczonego kontekstu. Te same pytania i oczekiwane źródła wykorzystać w porównaniu wyszukiwania wektorowego i pełnotekstowego.
 
-  **edit:** Przeniesione w całości z E4.8; niewykonane. Zachować rozdzielenie pytań walidacyjnych i testowych, aby ocena końcowa nie służyła do strojenia.
+  **edit:** Przygotowano 12 angielskich pytań pilotażowych. Docelowy zbiór i podział walidacja/test pozostają otwarte.
 
 - [ ] **E8.13** Przed strojeniem zdefiniować rubrykę odpowiedzi RAG: poprawność, kompletność, oparcie twierdzeń na źródłach, poprawność odnośników oraz zachowanie przy braku danych i dostępu. Ustalić skalę, przykłady ocen, oceniających i sposób dokumentowania niejednoznaczności. Oddzielić tę ocenę od trafności wyszukiwania z E7.8; końcowy pomiar wykonać w E10.6–E10.7.
 
@@ -667,9 +683,9 @@ Przed końcowym sprawdzeniem Compose ustalić docelowe środowisko demonstracji,
 
   **edit:** Funkcje są już dostępne w etapach 3 i 6: przyjęcie przez obsługę, przypisanie / zmiana wykonawcy przez administratora i widoki zgodne z uprawnieniami. API odczytuje aktualną rolę i aktywność, a frontend odświeża konto przy powrocie do okna i co 30 s. Dowody: `tickets.py`, `auth.tsx`, `TicketDetail.tsx`, `test_authorization.py`, `frontend/src/permissions.test.ts`.
 
-- [ ] **E9.3** Ujednolicić polskie komunikaty, nawigację, formularze oraz widoki na mniejszych ekranach; sprawdzić podstawową obsługę klawiaturą. Zweryfikować polskie nazwy i komunikaty w rejestracji, logowaniu, zgłoszeniach, panelu administratora i czacie, także przy błędach i pustych wynikach.
+- [ ] **E9.3** Ujednolicić angielskie komunikaty, nawigację, formularze oraz widoki na mniejszych ekranach; sprawdzić podstawową obsługę klawiaturą. Zweryfikować angielskie nazwy i komunikaty w rejestracji, logowaniu, zgłoszeniach, panelu administratora i czacie, także przy błędach i pustych wynikach.
 
-  **edit:** Częściowo: polskie komunikaty, nawigacja, formularze i układy responsywne istnieją dla obecnych ekranów. Brakuje czatu oraz udokumentowanego całościowego sprawdzenia małych ekranów i obsługi klawiaturą; nie zaznaczamy pełnego zadania.
+  **edit:** UI i komunikaty API przełączono na angielski w pakiecie RAG. Całościowa weryfikacja małych ekranów i klawiatury pozostaje otwarta.
 
 - [ ] **E9.4** Uporządkować Compose obejmujące PostgreSQL/pgvector, FastAPI i frontend. Usługę LLM umieścić w Compose albo skonfigurować połączenie z nią zgodnie z decyzją E8.1. Dodać sprawdzanie gotowości, potrzebne wolumeny i konfigurację uruchomienia bez deweloperskiego przeładowywania kodu; udokumentować zależności pozostające poza Compose.
 
@@ -720,7 +736,7 @@ Przed końcowym uruchomieniem sprawdzić, czy podziały danych, rubryka oceny, o
 
 - [ ] **E10.2** Przygotować skrypty uruchamiające eksperymenty oraz format wyników i metadanych. Zapewnić odtworzenie bazy lub jej stanu dla każdego przebiegu.
 
-  **edit:** Częściowo: są skrypty pilotażu oraz prepare_final_evaluation.py i evaluate_final_classification.py. Końcowy pomiar zapisuje JSON/Markdown, wektory zapytań, wyuczony model priorytetu i manifesty, bez odczytu zmieniających się danych aplikacji. Osobna kontrola check_final_pgvector.py wykonuje tylko odczyt obliczeń z przekazanych wektorów snapshotu. Skrypty i metadane wyszukiwania / RAG jeszcze nie istnieją.
+  **edit:** Częściowo: są skrypty pilotażu oraz prepare_final_evaluation.py i evaluate_final_classification.py. Końcowy pomiar zapisuje JSON/Markdown, wektory zapytań, wyuczony model priorytetu i manifesty, bez odczytu zmieniających się danych aplikacji. Osobna kontrola check_final_pgvector.py wykonuje tylko odczyt obliczeń z przekazanych wektorów snapshotu. Skrypt i metadane pilotażu wyszukiwania znajdują się w `scripts/evaluate_ticket_search.py` i `data/rag/`.
 
 - [x] **E10.3** Ocenić kategorię i priorytet na zbiorze testowym: accuracy, macro-F1, wyniki per klasa, macierze pomyłek oraz udział zgłoszeń skierowanych do weryfikacji. Raportować pokrycie, aby odrzucanie trudnych przypadków nie zawyżało pozornie jakości.
 
@@ -762,7 +778,7 @@ Przed końcowym uruchomieniem sprawdzić, czy podziały danych, rubryka oceny, o
 | Etap 10 | Protokół badań, wyniki, analiza błędów, ograniczenia i wnioski. |
 | Przez cały projekt | Przegląd literatury, bibliografia, uzasadnienia decyzji i aktualizacja instrukcji uruchomienia. |
 
-W opisie aspektu inżynierskiego należy zastąpić kolejki zadań asynchronicznych przetwarzaniem w tle przez FastAPI `BackgroundTasks`. Integracja backendu, relacyjnej bazy z wyszukiwaniem wektorowym, LLM i aplikacji webowej pozostaje podstawą projektu. Pierwotne założenie lokalnego LLM jest do ponownego rozważenia; po wyborze wariantu trzeba ujednolicić formalny zakres, opis architektury i instrukcję uruchomienia.
+W opisie aspektu inżynierskiego należy zastąpić kolejki zadań asynchronicznych przetwarzaniem w tle przez FastAPI `BackgroundTasks`. Integracja backendu, relacyjnej bazy z wyszukiwaniem wektorowym, LLM i aplikacji webowej pozostaje podstawą projektu. Asystent korzysta z lokalnej Ollama i Qwen3 4B Instruct. Opis architektury powinien uwzględnić ten wariant.
 
 ## Pierwszy pakiet prac
 

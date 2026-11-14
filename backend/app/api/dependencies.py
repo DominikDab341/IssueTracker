@@ -16,10 +16,10 @@ oauth2 = OAuth2PasswordBearer(tokenUrl="auth/token", auto_error=False)
 
 async def get_current_user(token: str | None = Depends(oauth2), db: AsyncSession = Depends(get_db)) -> User:
     if token is None:
-        raise AuthenticationError("Zaloguj się, aby skorzystać z tej funkcji.")
+        raise AuthenticationError("Sign in to use this feature.")
     user = await db.get(User, read_access_token(token))
     if user is None:
-        raise AuthenticationError("Niepoprawny lub wygasły token. Zaloguj się ponownie.")
+        raise AuthenticationError("Your session is invalid or expired. Sign in again.")
     require_active(user)
     return user
 
@@ -32,7 +32,7 @@ async def get_assistant_user(user: User = Depends(get_current_user)) -> User:
 def get_processing_runtime(request: Request) -> ProcessingRuntime:
     runtime = getattr(request.app.state, "processing_runtime", None)
     if runtime is None:
-        raise HTTPException(status_code=503, detail="Przetwarzanie nie jest gotowe.")
+        raise HTTPException(status_code=503, detail="Background processing is unavailable.")
     return runtime
 
 

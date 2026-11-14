@@ -1,0 +1,31 @@
+{
+  "tickets": [
+    {"id": 1, "problem": "The VPN connection drops every time the laptop wakes from sleep.", "resolution": "Updated the VPN client and confirmed it stayed connected after waking the laptop."},
+    {"id": 2, "problem": "The VPN reports a certificate error before connecting.", "resolution": "Renewed the device certificate and reconnected."},
+    {"id": 3, "problem": "The network printer shows as offline after switching to a new router.", "resolution": "Assigned a reserved IP address and updated the printer port."},
+    {"id": 4, "problem": "Pages from the office laser printer have a vertical black stripe.", "resolution": "Replaced the toner cartridge and printed a clean test page."},
+    {"id": 5, "problem": "The user cannot approve the MFA prompt after replacing their phone.", "resolution": "Reset the old MFA registration and enrolled the new phone."},
+    {"id": 6, "problem": "A new team member gets access denied when opening the finance shared drive.", "resolution": "Added the user to the finance read-only access group after approval."},
+    {"id": 7, "problem": "Outlook keeps asking for a password even though webmail works.", "resolution": "Removed stale Office credentials and signed in again."},
+    {"id": 8, "problem": "Teams meetings have no microphone audio when connected through the USB dock.", "resolution": "Selected the USB headset microphone in Teams and verified it on a test call."},
+    {"id": 9, "problem": "The browser shows an invalid certificate on the internal helpdesk portal.", "resolution": "Installed the renewed portal certificate with the complete trust chain."},
+    {"id": 10, "problem": "Meeting-room Wi-Fi cuts out whenever both rooms are in use."},
+    {"id": 11, "problem": "The remote desktop app displays a black screen after sign-in.", "resolution": "Updated the graphics driver and disabled bitmap caching for that connection."},
+    {"id": 12, "problem": "The laptop will not charge through the USB-C dock after a firmware update.", "resolution": "Power-cycled the dock and installed the corrected dock firmware."},
+    {"id": 13, "problem": "The VPN disconnects after resuming from standby on Windows.", "resolution": "Disabled the network adapter power-saving option and verified the VPN after standby."}
+  ],
+  "questions": [
+    {"question": "How did we fix VPN disconnects after a laptop wakes up?", "relevant_ids": [1, 13]},
+    {"question": "The tunnel shuts down after a notebook resumes from standby. What worked before?", "relevant_ids": [1, 13]},
+    {"question": "How did we fix a VPN certificate error?", "relevant_ids": [2]},
+    {"question": "How did we get the printer back online after replacing the router?", "relevant_ids": [3]},
+    {"question": "What fixed the dark line down every printed page?", "relevant_ids": [4]},
+    {"question": "What should the help desk check if a phone upgrade breaks two-factor authentication?", "relevant_ids": [5]},
+    {"question": "How did a new employee get permission to open the finance folder?", "relevant_ids": [6]},
+    {"question": "What fixed repeated Outlook password prompts?", "relevant_ids": [7]},
+    {"question": "What helped when colleagues could not hear the user in Teams?", "relevant_ids": [8]},
+    {"question": "How did we restore charging through the USB-C dock?", "relevant_ids": [12]},
+    {"question": "What fixed the intermittent meeting-room Wi-Fi?", "relevant_ids": []},
+    {"question": "What documented fix is there for an overheating server?", "relevant_ids": []}
+  ]
+}

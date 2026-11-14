@@ -3,3 +3,5 @@ backend/data/final-evaluation/** -text
 # The sealed experiment also verifies the exact runner/validator source bytes.
 backend/scripts/prepare_final_evaluation.py -text
 backend/scripts/evaluate_final_classification.py -text
+# The retrieval report identifies the pilot dataset by its exact bytes.
+backend/data/rag/pilot-en.json -text

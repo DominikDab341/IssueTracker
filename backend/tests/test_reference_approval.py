@@ -1,124 +1,76 @@
-"""Approval is explicit, versioned, authorized and independent of operational decisions."""
+"""Resolved tickets join the operational reference set in the status transaction."""
 import asyncio
 from unittest.mock import patch
 
-from sqlalchemy import text
-from sqlalchemy.exc import IntegrityError
+from sqlalchemy import select
 from tests.test_api import ApiTestCase, setUpModule
 from app.models.models import ClassificationReference, Ticket
-from app.services.tasks import now
 
 VECTOR = [1.0] + [0.0] * 383
+DESCRIPTION = "The printer cover is scratched. I can work normally."
 
 
-class ReferenceApprovalTests(ApiTestCase):
-    async def resolved(self):
-        ident = await self.add_ticket(status="resolved", category="software", embedding=VECTOR)
-        async with self.sessions() as db:
+class ResolvedReferenceTests(ApiTestCase):
+    async def in_progress(self, *, vector=VECTOR, category="hardware", base_priority="low"):
+        ident = await self.add_ticket(status="in_progress", category=category, embedding=vector)
+        async with self.sessions.begin() as db:
             ticket = await db.get(Ticket, ident)
-            ticket.assignee_id = self.user.id
-            ticket.manual_priority, ticket.priority = "critical", "critical"
+            ticket.text = DESCRIPTION
+            ticket.base_priority = base_priority
+            ticket.priority = "critical"
             ticket.work_blocked = True
-            await db.commit()
         return ident
 
-    async def approve(self, ident, actor=None, **overrides):
-        body = {"category": "hardware", "base_priority": "low", "expected_content_version": 1, **overrides}
-        return await self.client.post(f"/tickets/{ident}/reference", json=body, headers=self.headers(actor or self.user))
+    async def resolve(self, ident, actor=None):
+        return await self.client.patch(
+            f"/tickets/{ident}/status",
+            json={"status": "resolved", "resolution_note": "Replaced the cover."},
+            headers=self.headers(actor or self.user),
+        )
 
-    async def test_explicit_labels_audit_no_ticket_mutation_and_duplicate_guard(self):
-        ident = await self.resolved()
-        before = (await self.client.get(f"/tickets/{ident}")).json()
-        first, second = await asyncio.gather(self.approve(ident), self.approve(ident))
-        self.assertEqual(sorted([first.status_code, second.status_code]), [201, 409])
-        reference = (first if first.status_code == 201 else second).json()
-        self.assertEqual(reference["category"], "hardware")
-        self.assertEqual(reference["base_priority"], "low")
-        self.assertEqual(reference["source_content_version"], 1)
-        self.assertEqual(reference["approved_by_id"], self.user.id)
-        self.assertIsNotNone(reference["approved_at"])
-        self.assertEqual((await self.client.get(f"/tickets/{ident}")).json(), before)
+    async def test_resolution_creates_one_audited_reference_from_base_labels(self):
+        ident = await self.in_progress()
+        other = await self.add_user("other@mail.com", "staff")
+        self.assertEqual((await self.resolve(ident, other)).status_code, 403)
+        self.assertIsNone((await self.client.get(f"/tickets/{ident}/reference")).json())
+
+        results = await asyncio.gather(self.resolve(ident), self.resolve(ident))
+        self.assertEqual(sorted(response.status_code for response in results), [200, 409])
+        metadata = (await self.client.get(f"/tickets/{ident}/reference")).json()
+        self.assertEqual(metadata["approved_by_id"], self.user.id)
+        self.assertEqual(metadata["source_content_version"], 1)
         async with self.sessions() as db:
-            row = await db.get(ClassificationReference, reference["id"])
-            self.assertEqual(row.source, "approved_ticket")
-            self.assertEqual(row.text, before["text"])
-            self.assertEqual(list(row.embedding_vector), VECTOR)
-            self.assertEqual(await db.scalar(text("SELECT count(*) FROM classification_references")), 1)
+            references = (await db.scalars(select(ClassificationReference))).all()
+            self.assertEqual(len(references), 1)
+            self.assertEqual(references[0].source, "resolved_ticket")
+            self.assertEqual(references[0].category, "hardware")
+            self.assertEqual(references[0].base_priority, "low")
+            self.assertEqual(references[0].text, DESCRIPTION)
+            self.assertEqual(list(references[0].embedding_vector), VECTOR)
+            self.assertEqual((await db.get(Ticket, ident)).priority, "critical")
 
-    async def test_permissions_current_assignee_admin_and_reporter(self):
-        ident = await self.resolved()
-        reporter = await self.add_user("reference-reporter@mail.com")
-        other = await self.add_user("reference-other@mail.com", "staff")
-        for actor in (reporter, other):
-            self.assertEqual((await self.approve(ident, actor)).status_code, 403)
-        self.assertEqual((await self.client.get(f"/tickets/{ident}/reference", headers=self.headers(reporter))).status_code, 403)
-        async with self.sessions() as db:
-            ticket = await db.get(Ticket, ident)
-            ticket.assignee_id = other.id
-            await db.commit()
-        self.assertEqual((await self.approve(ident)).status_code, 403)
-        self.assertEqual((await self.approve(ident, self.admin)).status_code, 201)
-
-    async def test_unresolved_stale_and_invalid_requests_cannot_approve(self):
-        for status in ("reported", "accepted", "in_progress", "rejected", "cancelled"):
-            ident = await self.add_ticket(status=status, embedding=VECTOR)
-            self.assertEqual((await self.approve(ident, self.admin)).status_code, 409)
-        ident = await self.resolved()
-        self.assertEqual((await self.approve(ident, expected_content_version=2)).status_code, 409)
-        for changes in ({"expected_content_version": True}, {"expected_content_version": 0},
-                        {"category": "bug"}, {"base_priority": "urgent"}, {"approved_by_id": self.admin.id}):
-            self.assertEqual((await self.approve(ident, **changes)).status_code, 422)
-        async with self.sessions() as db:
-            ticket = await db.get(Ticket, ident)
-            ticket.embedding_version = None
-            await db.commit()
-        self.assertEqual((await self.approve(ident)).status_code, 409)
-
-    async def test_approved_ticket_becomes_a_reference_and_later_correction_is_independent(self):
-        ident = await self.resolved()
-        approved = await self.approve(ident)
-        self.assertEqual(approved.status_code, 201)
-        response = await self.client.post("/tickets/", json={"text": "The printer cover is scratched. I can work normally."})
-        ticket = response.json()["ticket"]
+        created = await self.client.post("/tickets/", json={"text": DESCRIPTION})
+        ticket = created.json()["ticket"]
         with patch("app.services.classifier.encode_text", return_value=VECTOR):
             await self.process(ticket["current_task_id"])
         result = (await self.client.get(f"/tickets/{ticket['id']}")).json()
         self.assertEqual(result["category"], "hardware")
         self.assertEqual(result["base_priority"], "low")
-        self.assertEqual(result["priority"], "low")
-        correction = await self.client.patch(f"/tickets/{ident}/category",
-            json={"category": "network", "expected_content_version": 1}, headers=self.admin_headers)
-        self.assertEqual(correction.status_code, 200)
+
+    async def test_missing_base_priority_or_embedding_does_not_block_resolution(self):
+        for options in ({"base_priority": None}, {"vector": None}):
+            ident = await self.in_progress(**options)
+            self.assertEqual((await self.resolve(ident)).status_code, 200)
+            self.assertIsNone((await self.client.get(f"/tickets/{ident}/reference")).json())
+
+    async def test_valid_category_correction_can_complete_a_resolved_reference(self):
+        ident = await self.in_progress(category="unknown")
+        self.assertEqual((await self.resolve(ident, self.admin)).status_code, 200)
+        self.assertIsNone((await self.client.get(f"/tickets/{ident}/reference")).json())
+        for category in ("hardware", "network"):
+            correction = await self.client.patch(f"/tickets/{ident}/category",
+                json={"category": category, "expected_content_version": 1}, headers=self.admin_headers)
+            self.assertEqual(correction.status_code, 200)
         metadata = (await self.client.get(f"/tickets/{ident}/reference")).json()
         self.assertEqual(metadata["category"], "hardware")
-        self.assertEqual((await self.approve(ident, category="network")).status_code, 409)
-
-    async def test_new_approval_changes_training_version_and_priority(self):
-        await self.add_reference(category="hardware", base_priority="low", embedding=VECTOR)
-        ident = await self.resolved()
-        description = "The application blocks the mandatory submission. I cannot complete my work and no alternative tool is available."
-        async with self.sessions() as db:
-            reference_ticket = await db.get(Ticket, ident)
-            reference_ticket.text = description
-            await db.commit()
-        async def classify_again():
-            response = await self.client.post("/tickets/", json={"text": description})
-            ticket = response.json()["ticket"]
-            with patch("app.services.classifier.encode_text", return_value=VECTOR):
-                await self.process(ticket["current_task_id"])
-            return (await self.client.get(f"/tickets/{ticket['id']}")).json()
-        before = await classify_again()
-        self.assertEqual(before["base_priority"], "low")
-        self.assertEqual((await self.approve(ident, base_priority="high")).status_code, 201)
-        after = await classify_again()
-        self.assertEqual(after["base_priority"], "high")
-        self.assertNotEqual(before["classification_version"], after["classification_version"])
-
-    async def test_database_rejects_an_approval_without_content_version(self):
-        ident = await self.resolved()
-        async with self.sessions() as db:
-            db.add(ClassificationReference(text="Checked incident", category="hardware", base_priority="low",
-                embedding_vector=VECTOR, source="approved_ticket", source_key="invalid-approval",
-                source_ticket_id=ident, approved_by_id=self.user.id, approved_at=now()))
-            with self.assertRaises(IntegrityError):
-                await db.commit()
+        self.assertEqual(metadata["approved_by_id"], self.admin.id)
