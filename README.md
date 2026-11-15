@@ -805,8 +805,10 @@ Pop-Location
 Ikona **AI Assistant** jest dostępna dla ról Staff i Administrator. Interfejs,
 zgłoszenia, notatki z rozwiązaniami i rozmowa są po angielsku. Domyślnie asystent
 szuka rozwiązanych zgłoszeń z notatką. Wyłączenie filtra umożliwia pytania o inne
-statusy. Pytania uzupełniające wykorzystują do dwóch wcześniejszych pytań i wykonują
-nowe wyszukiwanie. Historia jest przechowywana w pamięci bieżącego widoku.
+statusy. Przy rozpoznanym dopytaniu czat wykorzystuje do trzech ostatnich par
+pytanie–odpowiedź i ponownie sprawdza dostęp do maksymalnie pięciu cytowanych
+zgłoszeń, z pierwszeństwem nowszych źródeł. Pytanie o nowy temat uruchamia
+wyszukiwanie semantyczne. Historia jest przechowywana w pamięci bieżącego widoku.
 
 Uruchom Ollama na Windowsie i pobierz model. W katalogu głównym projektu wykonaj:
 
@@ -831,10 +833,25 @@ bez Dockera domyślny adres to `http://127.0.0.1:11434`. Z kontenera można spra
 docker compose exec api python -c "import urllib.request; print(urllib.request.urlopen('http://host.docker.internal:11434/api/tags', timeout=5).status)"
 ```
 
-FastAPI pobiera do trzech wyników z pgvector, przekazuje opis problemu i notatkę
+FastAPI pobiera do pięciu wyników z pgvector, przekazuje opis problemu i notatkę
 rozwiązania do Ollama oraz sprawdza identyfikatory cytowanych zgłoszeń. Parametry
 `OLLAMA_MODEL`, `OLLAMA_TIMEOUT_SECONDS` i `RAG_MIN_SIMILARITY` można ustawić
 w pliku środowiskowym backendu. Początkowy próg kosinusowy to 0,35.
+
+### Statystyki zgłoszeń w czacie
+
+- “Which ticket category had the most reports last month?”
+- “Did network issues increase compared with the previous month?”
+- “How many hardware tickets were created in the last 30 days?”
+
+PostgreSQL liczy wszystkie widoczne zgłoszenia w zakresie, według daty utworzenia
+i aktualnej kategorii, w strefie `Europe/Warsaw`. Filtr rozwiązanych dotyczy
+wyszukiwania źródeł do odpowiedzi RAG. W statystykach `last week` i `last month`
+oznaczają poprzednie pełne okresy kalendarzowe, a `last N days` pełne dni do wczoraj.
+Bieżący okres jest oznaczony jako częściowy przy porównaniu. Porównanie liczy
+różnicę i zmianę procentową względem wcześniejszego okresu. Przy wzroście z zera
+podaje zmianę liczbową. Baza i uprawnienia są wspólne z aplikacją. Agregacja
+jest wykonywana w SQL w backendzie i działa również bez Ollama.
 
 ### Pilotaż porównania wyszukiwania
 

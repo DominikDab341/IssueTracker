@@ -25,7 +25,7 @@ class SearchHit:
     status: str
     resolution_note: str | None
     content_version: int
-    score: float
+    score: float | None = None
 
 
 @dataclass(frozen=True)
@@ -53,6 +53,16 @@ def ticket_scope(actor: User, resolved_only: bool):
     if resolved_only:
         filters.extend([Ticket.status == TicketStatus.RESOLVED, func.btrim(Ticket.resolution_note) != ""])
     return filters
+
+
+async def reload_ticket_sources(db: AsyncSession, actor: User, ids: list[int], *,
+                                resolved_only: bool) -> list[SearchHit]:
+    result = await db.execute(
+        select(Ticket.id, Ticket.text, Ticket.status, Ticket.resolution_note, Ticket.content_version)
+        .where(Ticket.id.in_(ids), *ticket_scope(actor, resolved_only))
+    )
+    sources = {row["id"]: SearchHit(**row) for row in result.mappings()}
+    return [sources[ticket_id] for ticket_id in ids if ticket_id in sources]
 
 
 async def search_tickets(db: AsyncSession, actor: User, query: str, *,

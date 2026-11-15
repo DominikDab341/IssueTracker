@@ -19,7 +19,10 @@ it('links cited tickets and keeps follow-up context in the current view', async 
   expect(source.getAttribute('href')).toBe('/tickets/42');
   fireEvent.change(screen.getByLabelText('Question'), { target: { value: 'What exactly was updated?' } });
   fireEvent.click(screen.getByRole('button', { name: 'Send question' }));
-  expect(JSON.parse(api.mock.calls[1][1].body).previous_questions).toEqual(['How did we fix VPN disconnects?']);
+  expect(JSON.parse(api.mock.calls[1][1].body).previous_turns).toEqual([{
+    question: 'How did we fix VPN disconnects?',
+    parts: [{ text: 'Updated the VPN client.', ticket_id: 42 }],
+  }]);
   await waitFor(() => expect(screen.getAllByRole('link', { name: 'Ticket #42' })).toHaveLength(2));
   view.unmount();
   render(<MemoryRouter><Assistant /></MemoryRouter>);

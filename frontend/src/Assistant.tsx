@@ -49,7 +49,10 @@ export default function Assistant() {
         method: 'POST',
         body: JSON.stringify({
           question: text,
-          previous_questions: turns.slice(-2).map(turn => turn.question),
+          previous_turns: turns.slice(-3).map(turn => ({
+            question: turn.question,
+            parts: turn.response.parts,
+          })),
           resolved_only: resolvedOnly,
         }),
         signal: controller.signal,
@@ -75,7 +78,7 @@ export default function Assistant() {
     <header className={`assistant-heading${hasMessages || denied ? ' assistant-heading-compact' : ''}`}>
       <span className="assistant-mark" aria-hidden="true">✦</span>
       <h1 id="assistant-title">AI Assistant</h1>
-      {!hasMessages && !denied && <p>Find fixes in past tickets or ask about an IT issue.</p>}
+      {!hasMessages && !denied && <p>Find fixes in past tickets or ask about ticket trends.</p>}
     </header>
 
     {hasMessages && <div className="assistant-transcript" ref={transcript} role="log" aria-label="Conversation history" tabIndex={0}>
@@ -109,10 +112,10 @@ export default function Assistant() {
       <textarea aria-label="Question" value={pending ? '' : question} rows={1}
         maxLength={600} required readOnly={!!pending}
         onChange={event => setQuestion(event.target.value)} onKeyDown={handleQuestionKey}
-        placeholder="Ask about a ticket or describe an issue…" />
+        placeholder="Ask about an issue or which category had the most tickets last month…" />
       <div className="assistant-composer-actions">
         <label className="check"><input type="checkbox" checked={resolvedOnly} disabled={!!pending}
-          onChange={event => setResolvedOnly(event.target.checked)} /> Only tickets with a documented resolution</label>
+          onChange={event => setResolvedOnly(event.target.checked)} /> Search only tickets with a documented resolution</label>
         <button className="assistant-send" type="submit" aria-label="Send question" disabled={!!pending || !question.trim()}>
           <span aria-hidden="true">↑</span>
         </button>
