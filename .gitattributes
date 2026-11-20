@@ -5,3 +5,5 @@ backend/scripts/prepare_final_evaluation.py -text
 backend/scripts/evaluate_final_classification.py -text
 # The retrieval report identifies the pilot dataset by its exact bytes.
 backend/data/rag/pilot-en.json -text
+# Preserve the bytes used to identify the 50-question RAG test in the run log.
+backend/data/rag/final-en-v1.json -text

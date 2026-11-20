@@ -1,0 +1,1178 @@
+{
+  "dataset": "test-en-v1.json",
+  "dataset_sha256": "cc2c156cdf1b814037d24efe26553cdd3d5922961010103dcacad7d30d68bbc3",
+  "run_at_utc": "2026-11-16T16:03:07.466352+00:00",
+  "application_revision": "e42cd042cc36fb2fe639c8d8ebd9e74bb3dfb4e9",
+  "k": 5,
+  "semantic_min_similarity": 0.35,
+  "embedding_model": "all-MiniLM-L6-v2",
+  "embedding_revision": "c9745ed1d9f207416be6d2e6f8de32d1f16199bf",
+  "ollama_model": "qwen3:4b-instruct",
+  "ollama_model_digest": "0edcdef34593eac1aa2be9c7d06c432dcf81945adca5eca2f27662c18f168ba0",
+  "prompt_version": "rag-en-v2",
+  "prompt_sha256": "3d5d1e0b8b22ea4d3e6dfe15da0243aff8e06a0840fee84b866512711b58b052",
+  "results": {
+    "semantic": {
+      "recall_at_k": 1.0,
+      "mrr_at_k": 1.0,
+      "cases": [
+        {
+          "case": "T01",
+          "previous_turns": [],
+          "source_ids": [
+            201,
+            202,
+            203,
+            223
+          ],
+          "model_status": "answered",
+          "source_mode": "search",
+          "embedding_ms": 9.149200021056458,
+          "search_ms": 4.244399984600022,
+          "generation_ms": 6559.126300009666,
+          "response": {
+            "parts": [
+              {
+                "text": "Setting the correct time zone for the recurring calendar series in the desktop calendar resolved the issue of invitations arriving one hour early after a clock change.",
+                "ticket_id": 201
+              },
+              {
+                "text": "Disabling the mobile calendar's fixed time-zone override and enabling automatic time zone detection on the device resolved the issue of invitations appearing one hour early after a clock change.",
+                "ticket_id": 202
+              }
+            ],
+            "message": null
+          },
+          "total_ms": 6586.763799976325,
+          "recall": 1.0,
+          "reciprocal_rank": 1.0
+        },
+        {
+          "case": "T02",
+          "previous_turns": [
+            {
+              "question": "What worked when recurring calendar invitations showed up an hour early after a clock change?",
+              "parts": [
+                {
+                  "text": "Setting the correct time zone for the recurring calendar series in the desktop calendar resolved the issue of invitations arriving one hour early after a clock change.",
+                  "ticket_id": 201
+                },
+                {
+                  "text": "Disabling the mobile calendar's fixed time-zone override and enabling automatic time zone detection on the device resolved the issue of invitations appearing one hour early after a clock change.",
+                  "ticket_id": 202
+                }
+              ]
+            }
+          ],
+          "source_ids": [
+            201,
+            202
+          ],
+          "model_status": "answered",
+          "source_mode": "history",
+          "generation_ms": 945.1215000008233,
+          "response": {
+            "parts": [
+              {
+                "text": "They turned off the mobile calendar's fixed time-zone override.",
+                "ticket_id": 202
+              }
+            ],
+            "message": null
+          },
+          "total_ms": 953.5828000225592
+        },
+        {
+          "case": "T03",
+          "previous_turns": [],
+          "source_ids": [
+            204,
+            205
+          ],
+          "model_status": "answered",
+          "source_mode": "search",
+          "embedding_ms": 18.430299998726696,
+          "search_ms": 2.0981999987270683,
+          "generation_ms": 1013.0992000049446,
+          "response": {
+            "parts": [
+              {
+                "text": "Staff got an editable personal copy by changing the wiki link to point to the workbook template's download URL and instructing them to open the downloaded file locally.",
+                "ticket_id": 204
+              }
+            ],
+            "message": null
+          },
+          "total_ms": 1041.084900003625,
+          "recall": 1.0,
+          "reciprocal_rank": 1.0
+        },
+        {
+          "case": "T04",
+          "previous_turns": [],
+          "source_ids": [
+            206,
+            207,
+            228
+          ],
+          "model_status": "answered",
+          "source_mode": "search",
+          "embedding_ms": 9.810399991692975,
+          "search_ms": 1.8982999899890274,
+          "generation_ms": 982.858600007603,
+          "response": {
+            "parts": [
+              {
+                "text": "One-way audio was fixed by selecting the new headset's microphone in the softphone input settings.",
+                "ticket_id": 206
+              }
+            ],
+            "message": null
+          },
+          "total_ms": 1002.2248000022955,
+          "recall": 1.0,
+          "reciprocal_rank": 1.0
+        },
+        {
+          "case": "T05",
+          "previous_turns": [],
+          "source_ids": [
+            208,
+            228,
+            203,
+            227
+          ],
+          "model_status": "answered",
+          "source_mode": "search",
+          "embedding_ms": 9.893299982650205,
+          "search_ms": 3.268000000389293,
+          "generation_ms": 1085.5293000058737,
+          "response": {
+            "parts": [
+              {
+                "text": "No, we did not confirm that a battery replacement fixed the meeting-room touchscreen shutting down in the afternoon. The issue is reported but no testing has been done on the battery replacement.",
+                "ticket_id": 208
+              }
+            ],
+            "message": null
+          },
+          "total_ms": 1105.5309000075795
+        },
+        {
+          "case": "T06",
+          "previous_turns": [],
+          "source_ids": [
+            210,
+            211
+          ],
+          "model_status": "answered",
+          "source_mode": "search",
+          "embedding_ms": 7.867599983001128,
+          "search_ms": 2.052299998467788,
+          "generation_ms": 823.5760000243317,
+          "response": {
+            "parts": [
+              {
+                "text": "Enabled font embedding in the reporting application's PDF export settings.",
+                "ticket_id": 210
+              }
+            ],
+            "message": null
+          },
+          "total_ms": 839.5126000104938,
+          "recall": 1.0,
+          "reciprocal_rank": 1.0
+        },
+        {
+          "case": "T07",
+          "previous_turns": [],
+          "source_ids": [
+            212
+          ],
+          "model_status": "answered",
+          "source_mode": "search",
+          "embedding_ms": 12.035699997795746,
+          "search_ms": 1.9417000003159046,
+          "generation_ms": 915.0629000214394,
+          "response": {
+            "parts": [
+              {
+                "text": "The broken Finder favorite was fixed by removing the obsolete favorite and adding the shared artwork folder using the new SMB address.",
+                "ticket_id": 212
+              }
+            ],
+            "message": null
+          },
+          "total_ms": 934.7181000048295,
+          "recall": 1.0,
+          "reciprocal_rank": 1.0
+        },
+        {
+          "case": "T08",
+          "previous_turns": [],
+          "source_ids": [
+            213
+          ],
+          "model_status": "answered",
+          "source_mode": "search",
+          "embedding_ms": 12.778100004652515,
+          "search_ms": 2.343600004678592,
+          "generation_ms": 1029.204899998149,
+          "response": {
+            "parts": [
+              {
+                "text": "Moving the cordless keyboard's USB receiver away from the dock using a short USB extension cable resolved the issue of missing keystrokes when the receiver was plugged directly into the back of a USB 3 docking station.",
+                "ticket_id": 213
+              }
+            ],
+            "message": null
+          },
+          "total_ms": 1050.6960999919102,
+          "recall": 1.0,
+          "reciprocal_rank": 1.0
+        },
+        {
+          "case": "T09",
+          "previous_turns": [],
+          "source_ids": [],
+          "model_status": null,
+          "source_mode": "search",
+          "embedding_ms": 12.047700001858175,
+          "search_ms": 1.8573999986983836,
+          "response": {
+            "parts": [],
+            "message": "No documented answer was found in the available tickets."
+          },
+          "total_ms": 15.129000006709248
+        },
+        {
+          "case": "T10",
+          "previous_turns": [],
+          "source_ids": [
+            215,
+            216,
+            214,
+            211,
+            204
+          ],
+          "model_status": "answered",
+          "source_mode": "search",
+          "embedding_ms": 10.107100009918213,
+          "search_ms": 2.0644000032916665,
+          "generation_ms": 1267.6859000057448,
+          "response": {
+            "parts": [
+              {
+                "text": "Recalibrated the document scanner's ultrasonic double-feed sensor using the vendor maintenance utility, then ran a test stack.",
+                "ticket_id": 215
+              },
+              {
+                "text": "Replaced the worn separation pad and rescanned the batch one page at a time to check the order.",
+                "ticket_id": 214
+              }
+            ],
+            "message": null
+          },
+          "total_ms": 1287.1545999951195,
+          "recall": 1.0,
+          "reciprocal_rank": 1.0
+        },
+        {
+          "case": "T11",
+          "previous_turns": [
+            {
+              "question": "What fixes worked when the warehouse document scanner fed two sheets at once?",
+              "parts": [
+                {
+                  "text": "Recalibrated the document scanner's ultrasonic double-feed sensor using the vendor maintenance utility, then ran a test stack.",
+                  "ticket_id": 215
+                },
+                {
+                  "text": "Replaced the worn separation pad and rescanned the batch one page at a time to check the order.",
+                  "ticket_id": 214
+                }
+              ]
+            }
+          ],
+          "source_ids": [
+            215,
+            214
+          ],
+          "model_status": "answered",
+          "source_mode": "history",
+          "generation_ms": 873.8013000111096,
+          "response": {
+            "parts": [
+              {
+                "text": "They recalibrated the document scanner's ultrasonic double-feed sensor using the vendor maintenance utility.",
+                "ticket_id": 215
+              }
+            ],
+            "message": null
+          },
+          "total_ms": 880.3417000162881
+        },
+        {
+          "case": "T12",
+          "previous_turns": [],
+          "source_ids": [
+            217
+          ],
+          "model_status": "answered",
+          "source_mode": "search",
+          "embedding_ms": 11.675399990053847,
+          "search_ms": 1.891399995656684,
+          "generation_ms": 1139.9345000099856,
+          "response": {
+            "parts": [
+              {
+                "text": "We cleaned up the shift planner by removing the duplicate import batch that resulted from the supervisor importing the same weekly CSV twice.",
+                "ticket_id": 217
+              },
+              {
+                "text": "To prevent another duplicate, we enabled the importer option to skip rows with an existing assignment ID.",
+                "ticket_id": 217
+              }
+            ],
+            "message": null
+          },
+          "total_ms": 1159.0783999999985,
+          "recall": 1.0,
+          "reciprocal_rank": 1.0
+        },
+        {
+          "case": "T13",
+          "previous_turns": [],
+          "source_ids": [
+            219,
+            226
+          ],
+          "model_status": "no_context",
+          "source_mode": "search",
+          "embedding_ms": 8.042599976761267,
+          "search_ms": 1.9979000207968056,
+          "generation_ms": 570.75299997814,
+          "response": {
+            "parts": [],
+            "message": "No documented answer was found in the available tickets."
+          },
+          "total_ms": 585.7435000070836
+        },
+        {
+          "case": "T14",
+          "previous_turns": [],
+          "source_ids": [
+            220
+          ],
+          "model_status": "answered",
+          "source_mode": "search",
+          "embedding_ms": 8.021899993764237,
+          "search_ms": 1.7667000065557659,
+          "generation_ms": 914.9363999895286,
+          "response": {
+            "parts": [
+              {
+                "text": "Supply-order notifications were restored by changing the supply form's notification recipient from the former coordinator's individual address to the team mailbox. A test order was submitted to verify the change.",
+                "ticket_id": 220
+              }
+            ],
+            "message": null
+          },
+          "total_ms": 930.4222000064328,
+          "recall": 1.0,
+          "reciprocal_rank": 1.0
+        },
+        {
+          "case": "T15",
+          "previous_turns": [],
+          "source_ids": [
+            221
+          ],
+          "model_status": "answered",
+          "source_mode": "search",
+          "embedding_ms": 8.10149998869747,
+          "search_ms": 1.818199991248548,
+          "generation_ms": 842.1209999942221,
+          "response": {
+            "parts": [
+              {
+                "text": "Selected the matching 62 mm label template in the badge app and recalibrated the badge printer's media sensor.",
+                "ticket_id": 221
+              }
+            ],
+            "message": null
+          },
+          "total_ms": 858.0029000004288,
+          "recall": 1.0,
+          "reciprocal_rank": 1.0
+        },
+        {
+          "case": "T16",
+          "previous_turns": [],
+          "source_ids": [
+            222
+          ],
+          "model_status": "no_context",
+          "source_mode": "search",
+          "embedding_ms": 9.57870000274852,
+          "search_ms": 2.05800001276657,
+          "generation_ms": 528.156400017906,
+          "response": {
+            "parts": [],
+            "message": "No documented answer was found in the available tickets."
+          },
+          "total_ms": 544.5490999845788
+        },
+        {
+          "case": "T17",
+          "previous_turns": [],
+          "source_ids": [
+            223
+          ],
+          "model_status": "answered",
+          "source_mode": "search",
+          "embedding_ms": 11.918500007595867,
+          "search_ms": 1.8513999821152538,
+          "generation_ms": 743.3553999871947,
+          "response": {
+            "parts": [
+              {
+                "text": "We recovered the reminder window by resetting the calendar application's saved window position.",
+                "ticket_id": 223
+              }
+            ],
+            "message": null
+          },
+          "total_ms": 762.8121000016108,
+          "recall": 1.0,
+          "reciprocal_rank": 1.0
+        },
+        {
+          "case": "T18",
+          "previous_turns": [],
+          "source_ids": [
+            224
+          ],
+          "model_status": "answered",
+          "source_mode": "search",
+          "embedding_ms": 9.366400016006082,
+          "search_ms": 1.6599000082351267,
+          "generation_ms": 801.8302000127733,
+          "response": {
+            "parts": [
+              {
+                "text": "Cleared the kiosk browser's cached site data and replaced its bookmark with the current checklist URL.",
+                "ticket_id": 224
+              }
+            ],
+            "message": null
+          },
+          "total_ms": 818.4498000191525,
+          "recall": 1.0,
+          "reciprocal_rank": 1.0
+        },
+        {
+          "case": "T19",
+          "previous_turns": [],
+          "source_ids": [
+            225,
+            211
+          ],
+          "model_status": "answered",
+          "source_mode": "search",
+          "embedding_ms": 12.908800010336563,
+          "search_ms": 3.299700008938089,
+          "generation_ms": 930.5739999981597,
+          "response": {
+            "parts": [
+              {
+                "text": "No root cause was confirmed for the cafeteria payment terminal's blank receipt screen. The issue was resolved by restarting the payment application, but the underlying cause was not identified.",
+                "ticket_id": 225
+              }
+            ],
+            "message": null
+          },
+          "total_ms": 952.6949000137392
+        },
+        {
+          "case": "T20",
+          "previous_turns": [],
+          "source_ids": [
+            226,
+            225,
+            219
+          ],
+          "model_status": "answered",
+          "source_mode": "search",
+          "embedding_ms": 8.29860000521876,
+          "search_ms": 1.7096999799832702,
+          "generation_ms": 956.5269000013359,
+          "response": {
+            "parts": [
+              {
+                "text": "Exporting receipt photos as JPEGs below the 5 MB upload limit resolved the issue of the expense app silently failing to save larger receipt photos.",
+                "ticket_id": 226
+              }
+            ],
+            "message": null
+          },
+          "total_ms": 972.2146000131033,
+          "recall": 1.0,
+          "reciprocal_rank": 1.0
+        },
+        {
+          "case": "T21",
+          "previous_turns": [],
+          "source_ids": [
+            227,
+            203,
+            201
+          ],
+          "model_status": "answered",
+          "source_mode": "search",
+          "embedding_ms": 8.21850000647828,
+          "search_ms": 1.8288000137545168,
+          "generation_ms": 1045.7527999824379,
+          "response": {
+            "parts": [
+              {
+                "text": "We fixed the time clock kiosk registering a touch on the row below the button by running the touchscreen calibration from Windows Tablet PC Settings and checking all four corners of the display.",
+                "ticket_id": 227
+              }
+            ],
+            "message": null
+          },
+          "total_ms": 1061.860699992394,
+          "recall": 1.0,
+          "reciprocal_rank": 1.0
+        },
+        {
+          "case": "T22",
+          "previous_turns": [],
+          "source_ids": [
+            228,
+            207,
+            206
+          ],
+          "model_status": "answered",
+          "source_mode": "search",
+          "embedding_ms": 17.402100027538836,
+          "search_ms": 1.7556999810039997,
+          "generation_ms": 949.7327999852132,
+          "response": {
+            "parts": [
+              {
+                "text": "No confirmed fix in the provided sources restored incoming calls on the lobby desk phone after a handset replacement.",
+                "ticket_id": 228
+              }
+            ],
+            "message": null
+          },
+          "total_ms": 974.7547000006307
+        }
+      ]
+    },
+    "full_text": {
+      "recall_at_k": 1.0,
+      "mrr_at_k": 1.0,
+      "cases": [
+        {
+          "case": "T01",
+          "previous_turns": [],
+          "source_ids": [
+            201,
+            202,
+            203,
+            212,
+            217
+          ],
+          "model_status": "answered",
+          "source_mode": "search",
+          "embedding_ms": 0.0,
+          "search_ms": 9.5281999965664,
+          "generation_ms": 1415.6281000177842,
+          "response": {
+            "parts": [
+              {
+                "text": "Editing the recurring series in the desktop calendar and setting its time zone to Europe/Warsaw resolved the issue of recurring calendar invitations arriving one hour early after a daylight-saving change.",
+                "ticket_id": 201
+              },
+              {
+                "text": "Turning off the mobile calendar's fixed time-zone override and enabling the device's automatic time zone resolved the issue of recurring meeting invitations appearing one hour early after a clock change.",
+                "ticket_id": 202
+              }
+            ],
+            "message": null
+          },
+          "total_ms": 1431.4460999739822,
+          "recall": 1.0,
+          "reciprocal_rank": 1.0
+        },
+        {
+          "case": "T02",
+          "previous_turns": [
+            {
+              "question": "What worked when recurring calendar invitations showed up an hour early after a clock change?",
+              "parts": [
+                {
+                  "text": "Editing the recurring series in the desktop calendar and setting its time zone to Europe/Warsaw resolved the issue of recurring calendar invitations arriving one hour early after a daylight-saving change.",
+                  "ticket_id": 201
+                },
+                {
+                  "text": "Turning off the mobile calendar's fixed time-zone override and enabling the device's automatic time zone resolved the issue of recurring meeting invitations appearing one hour early after a clock change.",
+                  "ticket_id": 202
+                }
+              ]
+            }
+          ],
+          "source_ids": [
+            201,
+            202
+          ],
+          "model_status": "answered",
+          "source_mode": "history",
+          "generation_ms": 884.722300019348,
+          "response": {
+            "parts": [
+              {
+                "text": "They turned off the mobile calendar's fixed time-zone override.",
+                "ticket_id": 202
+              }
+            ],
+            "message": null
+          },
+          "total_ms": 891.7344000074081
+        },
+        {
+          "case": "T03",
+          "previous_turns": [],
+          "source_ids": [
+            204,
+            205,
+            212,
+            210,
+            222
+          ],
+          "model_status": "answered",
+          "source_mode": "search",
+          "embedding_ms": 0.0,
+          "search_ms": 1.645599986659363,
+          "generation_ms": 950.7140999776311,
+          "response": {
+            "parts": [
+              {
+                "text": "Staff got an editable personal copy by being directed to download the workbook template from its download URL instead of opening it directly from the department wiki.",
+                "ticket_id": 204
+              }
+            ],
+            "message": null
+          },
+          "total_ms": 959.5621000044048,
+          "recall": 1.0,
+          "reciprocal_rank": 1.0
+        },
+        {
+          "case": "T04",
+          "previous_turns": [],
+          "source_ids": [
+            206,
+            207,
+            201,
+            202,
+            209
+          ],
+          "model_status": "answered",
+          "source_mode": "search",
+          "embedding_ms": 0.0,
+          "search_ms": 2.373899973463267,
+          "generation_ms": 1116.7064000037499,
+          "response": {
+            "parts": [
+              {
+                "text": "The one-way audio issue was fixed by selecting the new headset's microphone in the softphone input settings.",
+                "ticket_id": 206
+              }
+            ],
+            "message": null
+          },
+          "total_ms": 1124.8645999876317,
+          "recall": 1.0,
+          "reciprocal_rank": 1.0
+        },
+        {
+          "case": "T05",
+          "previous_turns": [],
+          "source_ids": [
+            208,
+            228,
+            202,
+            203,
+            209
+          ],
+          "model_status": "answered",
+          "source_mode": "search",
+          "embedding_ms": 0.0,
+          "search_ms": 2.7823999989777803,
+          "generation_ms": 1104.1521999868564,
+          "response": {
+            "parts": [
+              {
+                "text": "No, we did not confirm that a battery replacement fixed the meeting-room touchscreen shutting down in the afternoon. The issue is reported but no testing has been done on the battery replacement proposal.",
+                "ticket_id": 208
+              }
+            ],
+            "message": null
+          },
+          "total_ms": 1112.8739999840036
+        },
+        {
+          "case": "T06",
+          "previous_turns": [],
+          "source_ids": [
+            210,
+            211,
+            219,
+            214,
+            222
+          ],
+          "model_status": "answered",
+          "source_mode": "search",
+          "embedding_ms": 0.0,
+          "search_ms": 1.5839000116102397,
+          "generation_ms": 851.6620000009425,
+          "response": {
+            "parts": [
+              {
+                "text": "Enabled font embedding in the reporting application's PDF export settings.",
+                "ticket_id": 210
+              }
+            ],
+            "message": null
+          },
+          "total_ms": 864.0459000016563,
+          "recall": 1.0,
+          "reciprocal_rank": 1.0
+        },
+        {
+          "case": "T07",
+          "previous_turns": [],
+          "source_ids": [
+            212,
+            205
+          ],
+          "model_status": "answered",
+          "source_mode": "search",
+          "embedding_ms": 0.0,
+          "search_ms": 1.1737000022549182,
+          "generation_ms": 833.8138999824878,
+          "response": {
+            "parts": [
+              {
+                "text": "Removed the obsolete Finder favorite and added the shared artwork folder from the new SMB address.",
+                "ticket_id": 212
+              }
+            ],
+            "message": null
+          },
+          "total_ms": 840.5570999893826,
+          "recall": 1.0,
+          "reciprocal_rank": 1.0
+        },
+        {
+          "case": "T08",
+          "previous_turns": [],
+          "source_ids": [
+            213,
+            210
+          ],
+          "model_status": "answered",
+          "source_mode": "search",
+          "embedding_ms": 0.0,
+          "search_ms": 1.049399987095967,
+          "generation_ms": 1010.5767000059132,
+          "response": {
+            "parts": [
+              {
+                "text": "Moving the cordless keyboard's USB receiver away from the dock using a short USB extension cable resolved the issue of missing keystrokes when the receiver was directly plugged into the back of a USB 3 docking station.",
+                "ticket_id": 213
+              }
+            ],
+            "message": null
+          },
+          "total_ms": 1017.0123999996576,
+          "recall": 1.0,
+          "reciprocal_rank": 1.0
+        },
+        {
+          "case": "T09",
+          "previous_turns": [],
+          "source_ids": [
+            205,
+            214,
+            215,
+            216
+          ],
+          "model_status": "no_context",
+          "source_mode": "search",
+          "embedding_ms": 0.0,
+          "search_ms": 1.172600022982806,
+          "generation_ms": 665.6332999991719,
+          "response": {
+            "parts": [],
+            "message": "No documented answer was found in the available tickets."
+          },
+          "total_ms": 670.9551000094507
+        },
+        {
+          "case": "T10",
+          "previous_turns": [],
+          "source_ids": [
+            214,
+            215,
+            216,
+            212,
+            228
+          ],
+          "model_status": "answered",
+          "source_mode": "search",
+          "embedding_ms": 0.0,
+          "search_ms": 1.1128000041935593,
+          "generation_ms": 1074.0236999990884,
+          "response": {
+            "parts": [
+              {
+                "text": "Replaced the worn separation pad.",
+                "ticket_id": 214
+              },
+              {
+                "text": "Recalibrated the document scanner's ultrasonic double-feed sensor.",
+                "ticket_id": 215
+              }
+            ],
+            "message": null
+          },
+          "total_ms": 1080.763800011482,
+          "recall": 1.0,
+          "reciprocal_rank": 1.0
+        },
+        {
+          "case": "T11",
+          "previous_turns": [
+            {
+              "question": "What fixes worked when the warehouse document scanner fed two sheets at once?",
+              "parts": [
+                {
+                  "text": "Replaced the worn separation pad.",
+                  "ticket_id": 214
+                },
+                {
+                  "text": "Recalibrated the document scanner's ultrasonic double-feed sensor.",
+                  "ticket_id": 215
+                }
+              ]
+            }
+          ],
+          "source_ids": [
+            214,
+            215
+          ],
+          "model_status": "answered",
+          "source_mode": "history",
+          "generation_ms": 831.5926999785006,
+          "response": {
+            "parts": [
+              {
+                "text": "They recalibrated the document scanner's ultrasonic double-feed sensor using the vendor maintenance utility.",
+                "ticket_id": 215
+              }
+            ],
+            "message": null
+          },
+          "total_ms": 837.3487000062596
+        },
+        {
+          "case": "T12",
+          "previous_turns": [],
+          "source_ids": [
+            217,
+            210,
+            215
+          ],
+          "model_status": "answered",
+          "source_mode": "search",
+          "embedding_ms": 0.0,
+          "search_ms": 0.9433999948669225,
+          "generation_ms": 872.3538999911398,
+          "response": {
+            "parts": [
+              {
+                "text": "Removed the duplicate import batch and enabled the importer option to skip rows with an existing assignment ID.",
+                "ticket_id": 217
+              }
+            ],
+            "message": null
+          },
+          "total_ms": 898.7033999874257,
+          "recall": 1.0,
+          "reciprocal_rank": 1.0
+        },
+        {
+          "case": "T13",
+          "previous_turns": [],
+          "source_ids": [
+            201,
+            202,
+            203,
+            205,
+            214
+          ],
+          "model_status": "no_context",
+          "source_mode": "search",
+          "embedding_ms": 0.0,
+          "search_ms": 1.5156999870669097,
+          "generation_ms": 1915.0999000121374,
+          "response": {
+            "parts": [],
+            "message": "No documented answer was found in the available tickets."
+          },
+          "total_ms": 1921.1808000109158
+        },
+        {
+          "case": "T14",
+          "previous_turns": [],
+          "source_ids": [
+            220,
+            201,
+            204,
+            206,
+            213
+          ],
+          "model_status": "answered",
+          "source_mode": "search",
+          "embedding_ms": 0.0,
+          "search_ms": 1.254200004041195,
+          "generation_ms": 1147.9418000089936,
+          "response": {
+            "parts": [
+              {
+                "text": "Supply-order notifications were restored by changing the supply form's notification recipient from the former coordinator's individual address to the team mailbox. A test order was submitted to verify the change.",
+                "ticket_id": 220
+              }
+            ],
+            "message": null
+          },
+          "total_ms": 1154.7245999972802,
+          "recall": 1.0,
+          "reciprocal_rank": 1.0
+        },
+        {
+          "case": "T15",
+          "previous_turns": [],
+          "source_ids": [
+            221,
+            206,
+            212,
+            219,
+            220
+          ],
+          "model_status": "answered",
+          "source_mode": "search",
+          "embedding_ms": 0.0,
+          "search_ms": 1.2562999909278005,
+          "generation_ms": 1000.8108000038192,
+          "response": {
+            "parts": [
+              {
+                "text": "Selected the matching 62 mm label template in the badge app and recalibrated the badge printer's media sensor.",
+                "ticket_id": 221
+              }
+            ],
+            "message": null
+          },
+          "total_ms": 1007.5304999772925,
+          "recall": 1.0,
+          "reciprocal_rank": 1.0
+        },
+        {
+          "case": "T16",
+          "previous_turns": [],
+          "source_ids": [
+            222,
+            212,
+            205,
+            204,
+            210
+          ],
+          "model_status": "no_context",
+          "source_mode": "search",
+          "embedding_ms": 0.0,
+          "search_ms": 1.5708999999333173,
+          "generation_ms": 1020.806199987419,
+          "response": {
+            "parts": [],
+            "message": "No documented answer was found in the available tickets."
+          },
+          "total_ms": 1026.9064999883994
+        },
+        {
+          "case": "T17",
+          "previous_turns": [],
+          "source_ids": [
+            223,
+            202,
+            203,
+            210,
+            211
+          ],
+          "model_status": "answered",
+          "source_mode": "search",
+          "embedding_ms": 0.0,
+          "search_ms": 1.1577999975997955,
+          "generation_ms": 997.6839000009932,
+          "response": {
+            "parts": [
+              {
+                "text": "Reset the calendar application's saved window position and reopened the reminder on the primary display.",
+                "ticket_id": 223
+              }
+            ],
+            "message": null
+          },
+          "total_ms": 1004.7979000082705,
+          "recall": 1.0,
+          "reciprocal_rank": 1.0
+        },
+        {
+          "case": "T18",
+          "previous_turns": [],
+          "source_ids": [
+            224,
+            201,
+            205,
+            206,
+            211
+          ],
+          "model_status": "answered",
+          "source_mode": "search",
+          "embedding_ms": 0.0,
+          "search_ms": 1.326500001596287,
+          "generation_ms": 1071.5652000217233,
+          "response": {
+            "parts": [
+              {
+                "text": "Cleared the kiosk browser's cached site data and replaced its bookmark with the current checklist URL.",
+                "ticket_id": 224
+              }
+            ],
+            "message": null
+          },
+          "total_ms": 1078.4317000070587,
+          "recall": 1.0,
+          "reciprocal_rank": 1.0
+        },
+        {
+          "case": "T19",
+          "previous_turns": [],
+          "source_ids": [
+            225,
+            211,
+            209,
+            223,
+            226
+          ],
+          "model_status": "answered",
+          "source_mode": "search",
+          "embedding_ms": 0.0,
+          "search_ms": 1.2098000152036548,
+          "generation_ms": 1145.756399986567,
+          "response": {
+            "parts": [
+              {
+                "text": "No root cause was confirmed for the cafeteria payment terminal's blank receipt screen. The issue was resolved by restarting the payment application, but the underlying cause was not identified.",
+                "ticket_id": 225
+              }
+            ],
+            "message": null
+          },
+          "total_ms": 1152.261399984127
+        },
+        {
+          "case": "T20",
+          "previous_turns": [],
+          "source_ids": [
+            226,
+            201,
+            203,
+            205,
+            212
+          ],
+          "model_status": "answered",
+          "source_mode": "search",
+          "embedding_ms": 0.0,
+          "search_ms": 1.0805999918375164,
+          "generation_ms": 1012.7406999818049,
+          "response": {
+            "parts": [
+              {
+                "text": "Exported the receipt photos as JPEGs below the expense app's 5 MB upload limit and submitted them again.",
+                "ticket_id": 226
+              }
+            ],
+            "message": null
+          },
+          "total_ms": 1019.456900015939,
+          "recall": 1.0,
+          "reciprocal_rank": 1.0
+        },
+        {
+          "case": "T21",
+          "previous_turns": [],
+          "source_ids": [
+            227,
+            201,
+            202,
+            203,
+            209
+          ],
+          "model_status": "answered",
+          "source_mode": "search",
+          "embedding_ms": 0.0,
+          "search_ms": 1.0810000239871442,
+          "generation_ms": 1098.4272000205237,
+          "response": {
+            "parts": [
+              {
+                "text": "We fixed the time clock kiosk registering a touch on the row below the button by running the touchscreen calibration from Windows Tablet PC Settings and checking all four corners of the display.",
+                "ticket_id": 227
+              }
+            ],
+            "message": null
+          },
+          "total_ms": 1104.8324000148568,
+          "recall": 1.0,
+          "reciprocal_rank": 1.0
+        },
+        {
+          "case": "T22",
+          "previous_turns": [],
+          "source_ids": [
+            228,
+            207,
+            211,
+            215
+          ],
+          "model_status": "no_context",
+          "source_mode": "search",
+          "embedding_ms": 0.0,
+          "search_ms": 1.0652000200934708,
+          "generation_ms": 829.6786999853794,
+          "response": {
+            "parts": [],
+            "message": "No documented answer was found in the available tickets."
+          },
+          "total_ms": 835.2570999995805
+        }
+      ]
+    }
+  }
+}

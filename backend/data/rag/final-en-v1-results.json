@@ -1,0 +1,2645 @@
+{
+  "dataset": "final-en-v1.json",
+  "dataset_sha256": "6650d438a7ddab3bfb1baa3034d767f7e4f515a082afc90191363c339b4927fb",
+  "run_at_utc": "2026-11-19T18:24:54.525537+00:00",
+  "application_revision": "e42cd042cc36fb2fe639c8d8ebd9e74bb3dfb4e9",
+  "k": 5,
+  "semantic_min_similarity": 0.35,
+  "embedding_model": "all-MiniLM-L6-v2",
+  "embedding_revision": "c9745ed1d9f207416be6d2e6f8de32d1f16199bf",
+  "ollama_model": "qwen3:4b-instruct",
+  "ollama_model_digest": "0edcdef34593eac1aa2be9c7d06c432dcf81945adca5eca2f27662c18f168ba0",
+  "prompt_version": "rag-en-v2",
+  "prompt_sha256": "3d5d1e0b8b22ea4d3e6dfe15da0243aff8e06a0840fee84b866512711b58b052",
+  "results": {
+    "semantic": {
+      "recall_at_k": 1.0,
+      "mrr_at_k": 1.0,
+      "cases": [
+        {
+          "case": "F01",
+          "previous_turns": [],
+          "source_ids": [
+            301,
+            302,
+            326,
+            308,
+            318
+          ],
+          "model_status": "answered",
+          "source_mode": "search",
+          "embedding_ms": 11.055899958591908,
+          "search_ms": 5.15760004054755,
+          "generation_ms": 11930.691500019748,
+          "response": {
+            "parts": [
+              {
+                "text": "Turned off the handheld reader's option to skip the first character. It transmitted 00417 in full on a test scan.",
+                "ticket_id": 301
+              },
+              {
+                "text": "Changed the tag field on the asset entry form from a number to text. The next scan preserved both leading zeroes.",
+                "ticket_id": 302
+              }
+            ],
+            "message": null
+          },
+          "total_ms": 11957.142500032205,
+          "recall": 1.0,
+          "reciprocal_rank": 1.0
+        },
+        {
+          "case": "F02",
+          "previous_turns": [
+            {
+              "question": "Our equipment stickers start with zeroes, but a scan at the stores counter loses them. What fixes have worked on the reader and on the entry form?",
+              "parts": [
+                {
+                  "text": "Turned off the handheld reader's option to skip the first character. It transmitted 00417 in full on a test scan.",
+                  "ticket_id": 301
+                },
+                {
+                  "text": "Changed the tag field on the asset entry form from a number to text. The next scan preserved both leading zeroes.",
+                  "ticket_id": 302
+                }
+              ]
+            }
+          ],
+          "source_ids": [
+            301,
+            302
+          ],
+          "model_status": "answered",
+          "source_mode": "history",
+          "generation_ms": 998.8489000243135,
+          "response": {
+            "parts": [
+              {
+                "text": "They changed the tag field on the asset entry form from a number to text, which preserved both leading zeroes during scanning.",
+                "ticket_id": 302
+              }
+            ],
+            "message": null
+          },
+          "total_ms": 1007.1162999956869
+        },
+        {
+          "case": "F03",
+          "previous_turns": [],
+          "source_ids": [
+            303
+          ],
+          "model_status": "answered",
+          "source_mode": "search",
+          "embedding_ms": 22.695799998473376,
+          "search_ms": 2.1034000092186034,
+          "generation_ms": 922.3609000327997,
+          "response": {
+            "parts": [
+              {
+                "text": "Support fixed the issue by setting the distance unit in the employee's travel profile to kilometres and recalculating the affected draft claims.",
+                "ticket_id": 303
+              }
+            ],
+            "message": null
+          },
+          "total_ms": 954.6354000340216,
+          "recall": 1.0,
+          "reciprocal_rank": 1.0
+        },
+        {
+          "case": "F04",
+          "previous_turns": [],
+          "source_ids": [
+            304,
+            330,
+            323
+          ],
+          "model_status": "answered",
+          "source_mode": "search",
+          "embedding_ms": 10.039200016763061,
+          "search_ms": 2.5337000261060894,
+          "generation_ms": 891.4781999774277,
+          "response": {
+            "parts": [
+              {
+                "text": "Enabled Play Narrations in the slide show settings.",
+                "ticket_id": 304
+              }
+            ],
+            "message": null
+          },
+          "total_ms": 910.3509000269696,
+          "recall": 1.0,
+          "reciprocal_rank": 1.0
+        },
+        {
+          "case": "F05",
+          "previous_turns": [],
+          "source_ids": [
+            305,
+            306,
+            342,
+            301
+          ],
+          "model_status": "answered",
+          "source_mode": "search",
+          "embedding_ms": 9.437000029720366,
+          "search_ms": 4.053300013765693,
+          "generation_ms": 1243.5381999821402,
+          "response": {
+            "parts": [
+              {
+                "text": "No, there is no confirmed fix for visitor signatures disappearing just after Accept on the reception tablet. The issue is reported but not resolved, and no resolution note exists for ticket ID 305.",
+                "ticket_id": 305
+              }
+            ],
+            "message": null
+          },
+          "total_ms": 1264.8688000044785
+        },
+        {
+          "case": "F06",
+          "previous_turns": [],
+          "source_ids": [
+            306,
+            348
+          ],
+          "model_status": "answered",
+          "source_mode": "search",
+          "embedding_ms": 16.389900003559887,
+          "search_ms": 2.5887999800033867,
+          "generation_ms": 854.5519000035711,
+          "response": {
+            "parts": [
+              {
+                "text": "Turned off the pad driver's Mirror horizontal axis option.",
+                "ticket_id": 306
+              }
+            ],
+            "message": null
+          },
+          "total_ms": 880.1127000479028,
+          "recall": 1.0,
+          "reciprocal_rank": 1.0
+        },
+        {
+          "case": "F07",
+          "previous_turns": [],
+          "source_ids": [
+            307
+          ],
+          "model_status": "answered",
+          "source_mode": "search",
+          "embedding_ms": 13.700700015760958,
+          "search_ms": 2.3237999994307756,
+          "generation_ms": 821.1482999613509,
+          "response": {
+            "parts": [
+              {
+                "text": "The comma was selected as the decimal separator in the budget importer.",
+                "ticket_id": 307
+              }
+            ],
+            "message": null
+          },
+          "total_ms": 843.2771000079811,
+          "recall": 1.0,
+          "reciprocal_rank": 1.0
+        },
+        {
+          "case": "F08",
+          "previous_turns": [],
+          "source_ids": [
+            340
+          ],
+          "model_status": "no_context",
+          "source_mode": "search",
+          "embedding_ms": 12.573099986184388,
+          "search_ms": 3.581399971153587,
+          "generation_ms": 565.9281000262126,
+          "response": {
+            "parts": [],
+            "message": "No documented answer was found in the available tickets."
+          },
+          "total_ms": 586.9602999882773
+        },
+        {
+          "case": "F09",
+          "previous_turns": [],
+          "source_ids": [
+            308,
+            340,
+            344,
+            339,
+            318
+          ],
+          "model_status": "answered",
+          "source_mode": "search",
+          "embedding_ms": 10.514600027818233,
+          "search_ms": 1.9407999934628606,
+          "generation_ms": 1131.4749000011943,
+          "response": {
+            "parts": [
+              {
+                "text": "The library desk switch to the right session was achieved by closing the previous lending session and opening a new session for the current shift on the returns terminal.",
+                "ticket_id": 308
+              }
+            ],
+            "message": null
+          },
+          "total_ms": 1150.5301999859512,
+          "recall": 1.0,
+          "reciprocal_rank": 1.0
+        },
+        {
+          "case": "F10",
+          "previous_turns": [],
+          "source_ids": [
+            309,
+            308,
+            318,
+            339,
+            340
+          ],
+          "model_status": "no_context",
+          "source_mode": "search",
+          "embedding_ms": 12.232900015078485,
+          "search_ms": 9.067200007848442,
+          "generation_ms": 1082.0872000185773,
+          "response": {
+            "parts": [],
+            "message": "No documented answer was found in the available tickets."
+          },
+          "total_ms": 1108.699499978684
+        },
+        {
+          "case": "F11",
+          "previous_turns": [],
+          "source_ids": [
+            310,
+            311
+          ],
+          "model_status": "answered",
+          "source_mode": "search",
+          "embedding_ms": 8.061699976678938,
+          "search_ms": 1.8681000219658017,
+          "generation_ms": 1225.320300029125,
+          "response": {
+            "parts": [
+              {
+                "text": "Widened the layout frame to enclose the entire legend before exporting the wall map again.",
+                "ticket_id": 310
+              },
+              {
+                "text": "Set the PDF export paper size to A3 to match the project layout. The legend then fit on the page.",
+                "ticket_id": 311
+              }
+            ],
+            "message": null
+          },
+          "total_ms": 1242.3188000102527,
+          "recall": 1.0,
+          "reciprocal_rank": 1.0
+        },
+        {
+          "case": "F12",
+          "previous_turns": [
+            {
+              "question": "Our wall map loses the right end of its legend in the PDF. Which fixes worked in the two map projects?",
+              "parts": [
+                {
+                  "text": "Widened the layout frame to enclose the entire legend before exporting the wall map again.",
+                  "ticket_id": 310
+                },
+                {
+                  "text": "Set the PDF export paper size to A3 to match the project layout. The legend then fit on the page.",
+                  "ticket_id": 311
+                }
+              ]
+            }
+          ],
+          "source_ids": [
+            310,
+            311
+          ],
+          "model_status": "answered",
+          "source_mode": "history",
+          "generation_ms": 1015.8250000094995,
+          "response": {
+            "parts": [
+              {
+                "text": "The export paper size in the project where the whole legend already fitted in the frame was set to A3 to match the project layout.",
+                "ticket_id": 311
+              }
+            ],
+            "message": null
+          },
+          "total_ms": 1021.6171000502072
+        },
+        {
+          "case": "F13",
+          "previous_turns": [],
+          "source_ids": [
+            312
+          ],
+          "model_status": "answered",
+          "source_mode": "search",
+          "embedding_ms": 21.565600007306784,
+          "search_ms": 2.175500034354627,
+          "generation_ms": 863.7557000038214,
+          "response": {
+            "parts": [
+              {
+                "text": "The Windows inspection PC needed HEIF Image Extensions to open the .heic files.",
+                "ticket_id": 312
+              }
+            ],
+            "message": null
+          },
+          "total_ms": 898.63080001669,
+          "recall": 1.0,
+          "reciprocal_rank": 1.0
+        },
+        {
+          "case": "F14",
+          "previous_turns": [],
+          "source_ids": [
+            313
+          ],
+          "model_status": "answered",
+          "source_mode": "search",
+          "embedding_ms": 7.5827999971807,
+          "search_ms": 2.0941999973729253,
+          "generation_ms": 850.3497000201605,
+          "response": {
+            "parts": [
+              {
+                "text": "The minute taker changed the speech recognition language in the dictation profile to English (United Kingdom).",
+                "ticket_id": 313
+              }
+            ],
+            "message": null
+          },
+          "total_ms": 866.1140000331216,
+          "recall": 1.0,
+          "reciprocal_rank": 1.0
+        },
+        {
+          "case": "F15",
+          "previous_turns": [],
+          "source_ids": [
+            314
+          ],
+          "model_status": "answered",
+          "source_mode": "search",
+          "embedding_ms": 12.263800017535686,
+          "search_ms": 1.9063000218011439,
+          "generation_ms": 852.0405999734066,
+          "response": {
+            "parts": [
+              {
+                "text": "No hardware fault was confirmed. The resolution note states that diagnostics did not establish a hardware fault or a cause.",
+                "ticket_id": 314
+              }
+            ],
+            "message": null
+          },
+          "total_ms": 872.9356999974698
+        },
+        {
+          "case": "F16",
+          "previous_turns": [],
+          "source_ids": [
+            315
+          ],
+          "model_status": "answered",
+          "source_mode": "search",
+          "embedding_ms": 9.575199976097792,
+          "search_ms": 3.402200003620237,
+          "generation_ms": 920.1335999532603,
+          "response": {
+            "parts": [
+              {
+                "text": "The earlier team enforced the order by modifying the minutes template to require sequential signing, with the chair signing first and the secretary signing second.",
+                "ticket_id": 315
+              }
+            ],
+            "message": null
+          },
+          "total_ms": 939.4841999746859,
+          "recall": 1.0,
+          "reciprocal_rank": 1.0
+        },
+        {
+          "case": "F17",
+          "previous_turns": [],
+          "source_ids": [
+            316,
+            318,
+            335
+          ],
+          "model_status": "answered",
+          "source_mode": "search",
+          "embedding_ms": 7.4612999451346695,
+          "search_ms": 1.9552999874576926,
+          "generation_ms": 1059.9827999831177,
+          "response": {
+            "parts": [
+              {
+                "text": "The driver's booking profile was updated to save Central as the default pickup depot, which sets it as the starting location for future bookings.",
+                "ticket_id": 316
+              }
+            ],
+            "message": null
+          },
+          "total_ms": 1076.1352999834344,
+          "recall": 1.0,
+          "reciprocal_rank": 1.0
+        },
+        {
+          "case": "F18",
+          "previous_turns": [],
+          "source_ids": [
+            316
+          ],
+          "model_status": "no_context",
+          "source_mode": "search",
+          "embedding_ms": 8.300399989821017,
+          "search_ms": 2.045899978838861,
+          "generation_ms": 602.423699980136,
+          "response": {
+            "parts": [],
+            "message": "No documented answer was found in the available tickets."
+          },
+          "total_ms": 617.5688999937847
+        },
+        {
+          "case": "F19",
+          "previous_turns": [],
+          "source_ids": [
+            318,
+            349,
+            319,
+            335,
+            340
+          ],
+          "model_status": "answered",
+          "source_mode": "search",
+          "embedding_ms": 16.169200011063367,
+          "search_ms": 1.7849000287242234,
+          "generation_ms": 1184.8933000001125,
+          "response": {
+            "parts": [
+              {
+                "text": "The print option that caused the timetable to begin at the last stop is 'reverse page order' in the timetable booklet print preset. Disabling this option ensures the pages follow the PDF order.",
+                "ticket_id": 318
+              }
+            ],
+            "message": null
+          },
+          "total_ms": 1208.9053000090644,
+          "recall": 1.0,
+          "reciprocal_rank": 1.0
+        },
+        {
+          "case": "F20",
+          "previous_turns": [],
+          "source_ids": [
+            319
+          ],
+          "model_status": "no_context",
+          "source_mode": "search",
+          "embedding_ms": 14.19959997292608,
+          "search_ms": 2.1083999890834093,
+          "generation_ms": 611.3301999866962,
+          "response": {
+            "parts": [],
+            "message": "No documented answer was found in the available tickets."
+          },
+          "total_ms": 632.1329000056721
+        },
+        {
+          "case": "F21",
+          "previous_turns": [],
+          "source_ids": [
+            321,
+            320,
+            345,
+            337
+          ],
+          "model_status": "answered",
+          "source_mode": "search",
+          "embedding_ms": 13.149700011126697,
+          "search_ms": 7.88059999467805,
+          "generation_ms": 1466.0189999849536,
+          "response": {
+            "parts": [
+              {
+                "text": "For the group with only one subscription, the issue was fixed by disabling the old email reminder rule alongside the calendar alert, ensuring only one reminder is sent.",
+                "ticket_id": 321
+              },
+              {
+                "text": "For the group with two subscriptions, the issue was fixed by removing the retired practice feed and keeping only the Ensemble feed, which ensures only one reminder is sent.",
+                "ticket_id": 320
+              }
+            ],
+            "message": null
+          },
+          "total_ms": 1492.9851000197232,
+          "recall": 1.0,
+          "reciprocal_rank": 1.0
+        },
+        {
+          "case": "F22",
+          "previous_turns": [
+            {
+              "question": "Our players get two reminders for every rehearsal. What fixed it for the group with two subscriptions and for the group with only one?",
+              "parts": [
+                {
+                  "text": "For the group with only one subscription, the issue was fixed by disabling the old email reminder rule alongside the calendar alert, ensuring only one reminder is sent.",
+                  "ticket_id": 321
+                },
+                {
+                  "text": "For the group with two subscriptions, the issue was fixed by removing the retired practice feed and keeping only the Ensemble feed, which ensures only one reminder is sent.",
+                  "ticket_id": 320
+                }
+              ]
+            }
+          ],
+          "source_ids": [
+            321,
+            320
+          ],
+          "model_status": "answered",
+          "source_mode": "history",
+          "generation_ms": 771.7802999541163,
+          "response": {
+            "parts": [
+              {
+                "text": "The players kept the Ensemble feed.",
+                "ticket_id": 320
+              }
+            ],
+            "message": null
+          },
+          "total_ms": 777.8691999847069
+        },
+        {
+          "case": "F23",
+          "previous_turns": [],
+          "source_ids": [
+            322,
+            343,
+            352,
+            313,
+            330
+          ],
+          "model_status": "answered",
+          "source_mode": "search",
+          "embedding_ms": 7.555800024420023,
+          "search_ms": 2.107099979184568,
+          "generation_ms": 935.8808000106364,
+          "response": {
+            "parts": [
+              {
+                "text": "Support delayed the captions by 2.5 seconds.",
+                "ticket_id": 322
+              }
+            ],
+            "message": null
+          },
+          "total_ms": 951.574000006076,
+          "recall": 1.0,
+          "reciprocal_rank": 1.0
+        },
+        {
+          "case": "F24",
+          "previous_turns": [],
+          "source_ids": [
+            323,
+            330,
+            304,
+            320
+          ],
+          "model_status": "answered",
+          "source_mode": "search",
+          "embedding_ms": 18.707800016272813,
+          "search_ms": 1.893000036943704,
+          "generation_ms": 1009.7253000130877,
+          "response": {
+            "parts": [
+              {
+                "text": "The correct recording was assigned to stop 14 in the guide editor and then published in the revised guide.",
+                "ticket_id": 323
+              }
+            ],
+            "message": null
+          },
+          "total_ms": 1036.2184999976307,
+          "recall": 1.0,
+          "reciprocal_rank": 1.0
+        },
+        {
+          "case": "F25",
+          "previous_turns": [],
+          "source_ids": [
+            324
+          ],
+          "model_status": "no_context",
+          "source_mode": "search",
+          "embedding_ms": 25.00510000390932,
+          "search_ms": 2.2628000006079674,
+          "generation_ms": 598.2096000225283,
+          "response": {
+            "parts": [],
+            "message": "No documented answer was found in the available tickets."
+          },
+          "total_ms": 635.5584000120871
+        },
+        {
+          "case": "F26",
+          "previous_turns": [],
+          "source_ids": [
+            325,
+            308
+          ],
+          "model_status": "answered",
+          "source_mode": "search",
+          "embedding_ms": 12.251099979039282,
+          "search_ms": 2.08020000718534,
+          "generation_ms": 877.3074999917299,
+          "response": {
+            "parts": [
+              {
+                "text": "The 24-bit colour scanning preset was selected and successfully retained the original colours in the scans.",
+                "ticket_id": 325
+              }
+            ],
+            "message": null
+          },
+          "total_ms": 897.6655000005849,
+          "recall": 1.0,
+          "reciprocal_rank": 1.0
+        },
+        {
+          "case": "F27",
+          "previous_turns": [],
+          "source_ids": [
+            326,
+            302,
+            339,
+            340,
+            350
+          ],
+          "model_status": "answered",
+          "source_mode": "search",
+          "embedding_ms": 10.51350001944229,
+          "search_ms": 3.5533999907784164,
+          "generation_ms": 1235.5415999772958,
+          "response": {
+            "parts": [
+              {
+                "text": "The automatic Enter suffix on the loan counter reader was disabled. This prevented the reader from sending an additional Enter signal after scanning the tag, ensuring the form submitted only once when the clerk pressed Enter.",
+                "ticket_id": 326
+              }
+            ],
+            "message": null
+          },
+          "total_ms": 1255.3879999904893,
+          "recall": 1.0,
+          "reciprocal_rank": 1.0
+        },
+        {
+          "case": "F28",
+          "previous_turns": [],
+          "source_ids": [
+            327
+          ],
+          "model_status": "answered",
+          "source_mode": "search",
+          "embedding_ms": 6.7069000215269625,
+          "search_ms": 2.1824000286869705,
+          "generation_ms": 835.308299981989,
+          "response": {
+            "parts": [
+              {
+                "text": "The cause of the vanishing review comments was not determined.",
+                "ticket_id": 327
+              }
+            ],
+            "message": null
+          },
+          "total_ms": 850.038000033237
+        },
+        {
+          "case": "F29",
+          "previous_turns": [],
+          "source_ids": [
+            328,
+            353,
+            344
+          ],
+          "model_status": "answered",
+          "source_mode": "search",
+          "embedding_ms": 7.9975000116974115,
+          "search_ms": 1.969599979929626,
+          "generation_ms": 927.3497000103816,
+          "response": {
+            "parts": [
+              {
+                "text": "Facilities published the directory entry under the new wing name and kept the former name as a searchable alias.",
+                "ticket_id": 328
+              }
+            ],
+            "message": null
+          },
+          "total_ms": 943.2479999959469,
+          "recall": 1.0,
+          "reciprocal_rank": 1.0
+        },
+        {
+          "case": "F30",
+          "previous_turns": [],
+          "source_ids": [
+            329,
+            348,
+            308,
+            349,
+            306
+          ],
+          "model_status": "answered",
+          "source_mode": "search",
+          "embedding_ms": 16.05750003363937,
+          "search_ms": 2.0666999625973403,
+          "generation_ms": 1068.5283999773674,
+          "response": {
+            "parts": [
+              {
+                "text": "The lettering should appear as correct shapes, not as boxes, and the corrected artwork was sent in SVG format.",
+                "ticket_id": 329
+              }
+            ],
+            "message": null
+          },
+          "total_ms": 1093.079999962356,
+          "recall": 1.0,
+          "reciprocal_rank": 1.0
+        },
+        {
+          "case": "F31",
+          "previous_turns": [],
+          "source_ids": [
+            331,
+            330
+          ],
+          "model_status": "answered",
+          "source_mode": "search",
+          "embedding_ms": 7.813800009898841,
+          "search_ms": 1.9293000223115087,
+          "generation_ms": 1581.5182000515051,
+          "response": {
+            "parts": [],
+            "message": "No documented answer was found in the available tickets."
+          },
+          "total_ms": 1595.926599984523,
+          "recall": 1.0,
+          "reciprocal_rank": 1.0
+        },
+        {
+          "case": "F32",
+          "previous_turns": [
+            {
+              "question": "Recorded talks sound too fast. What worked when the player speed was wrong, and what worked when the file itself had the wrong rate?",
+              "parts": []
+            }
+          ],
+          "source_ids": [],
+          "model_status": null,
+          "source_mode": "history",
+          "response": {
+            "parts": [],
+            "message": "No documented answer was found in the available tickets."
+          },
+          "total_ms": 1.9604999688453972
+        },
+        {
+          "case": "F33",
+          "previous_turns": [],
+          "source_ids": [
+            332,
+            344,
+            328
+          ],
+          "model_status": "answered",
+          "source_mode": "search",
+          "embedding_ms": 7.976100023370236,
+          "search_ms": 1.999800035264343,
+          "generation_ms": 926.0310000390746,
+          "response": {
+            "parts": [
+              {
+                "text": "Enabled Publish tutor name on the class record.",
+                "ticket_id": 332
+              }
+            ],
+            "message": null
+          },
+          "total_ms": 943.2875000056811,
+          "recall": 1.0,
+          "reciprocal_rank": 1.0
+        },
+        {
+          "case": "F34",
+          "previous_turns": [],
+          "source_ids": [
+            333
+          ],
+          "model_status": "answered",
+          "source_mode": "search",
+          "embedding_ms": 9.332299989182502,
+          "search_ms": 1.9564999965950847,
+          "generation_ms": 935.0874000228941,
+          "response": {
+            "parts": [
+              {
+                "text": "The operator likely reset the cutter's origin to the registration cross on the replacement mat.",
+                "ticket_id": 333
+              }
+            ],
+            "message": null
+          },
+          "total_ms": 952.6602000114508,
+          "recall": 1.0,
+          "reciprocal_rank": 1.0
+        },
+        {
+          "case": "F35",
+          "previous_turns": [],
+          "source_ids": [
+            334,
+            333
+          ],
+          "model_status": "no_context",
+          "source_mode": "search",
+          "embedding_ms": 11.290199996437877,
+          "search_ms": 4.912499978672713,
+          "generation_ms": 654.2804999626242,
+          "response": {
+            "parts": [],
+            "message": "No documented answer was found in the available tickets."
+          },
+          "total_ms": 676.0866999975406
+        },
+        {
+          "case": "F36",
+          "previous_turns": [],
+          "source_ids": [
+            335,
+            306,
+            349
+          ],
+          "model_status": "answered",
+          "source_mode": "search",
+          "embedding_ms": 15.255199978128076,
+          "search_ms": 2.5800999719649553,
+          "generation_ms": 855.5122000398114,
+          "response": {
+            "parts": [
+              {
+                "text": "The station should attach the image when the shutter is pressed.",
+                "ticket_id": 335
+              }
+            ],
+            "message": null
+          },
+          "total_ms": 879.4696999830194,
+          "recall": 1.0,
+          "reciprocal_rank": 1.0
+        },
+        {
+          "case": "F37",
+          "previous_turns": [],
+          "source_ids": [
+            336
+          ],
+          "model_status": "answered",
+          "source_mode": "search",
+          "embedding_ms": 16.82349998736754,
+          "search_ms": 2.004200010560453,
+          "generation_ms": 852.3472999804653,
+          "response": {
+            "parts": [
+              {
+                "text": "Tutors kept fractions usable in sums by applying the Fraction number format to the cells before entering the values.",
+                "ticket_id": 336
+              }
+            ],
+            "message": null
+          },
+          "total_ms": 877.2429999662563,
+          "recall": 1.0,
+          "reciprocal_rank": 1.0
+        },
+        {
+          "case": "F38",
+          "previous_turns": [],
+          "source_ids": [
+            304,
+            352,
+            322,
+            337
+          ],
+          "model_status": "answered",
+          "source_mode": "search",
+          "embedding_ms": 8.679299964569509,
+          "search_ms": 2.1456999820657074,
+          "generation_ms": 880.6819000164978,
+          "response": {
+            "parts": [
+              {
+                "text": "Enabled Play Narrations in the slide show settings.",
+                "ticket_id": 304
+              }
+            ],
+            "message": null
+          },
+          "total_ms": 897.6515000103973
+        },
+        {
+          "case": "F39",
+          "previous_turns": [],
+          "source_ids": [
+            337,
+            318,
+            349,
+            306,
+            301
+          ],
+          "model_status": "answered",
+          "source_mode": "search",
+          "embedding_ms": 10.199800017289817,
+          "search_ms": 2.1795000066049397,
+          "generation_ms": 954.2634999961592,
+          "response": {
+            "parts": [
+              {
+                "text": "The two-sided original setting fixed the copier.",
+                "ticket_id": 337
+              }
+            ],
+            "message": null
+          },
+          "total_ms": 973.6363000120036,
+          "recall": 1.0,
+          "reciprocal_rank": 1.0
+        },
+        {
+          "case": "F40",
+          "previous_turns": [],
+          "source_ids": [
+            338,
+            350,
+            318,
+            335
+          ],
+          "model_status": "no_context",
+          "source_mode": "search",
+          "embedding_ms": 7.358999981079251,
+          "search_ms": 1.8984000198543072,
+          "generation_ms": 688.8107999693602,
+          "response": {
+            "parts": [],
+            "message": "No documented answer was found in the available tickets."
+          },
+          "total_ms": 703.032199991867
+        },
+        {
+          "case": "F41",
+          "previous_turns": [],
+          "source_ids": [
+            340,
+            339,
+            308,
+            318,
+            319
+          ],
+          "model_status": "answered",
+          "source_mode": "search",
+          "embedding_ms": 13.493200007360429,
+          "search_ms": 2.4612999986857176,
+          "generation_ms": 1538.4169000317343,
+          "response": {
+            "parts": [
+              {
+                "text": "For the clock-related case (ticket ID 339), enabling automatic date and time on the e-reader and syncing its clock fixed the issue.",
+                "ticket_id": 339
+              },
+              {
+                "text": "For the storage-related case (ticket ID 340), moving the downloaded loan from the SD card to the e-reader's internal storage fixed the issue.",
+                "ticket_id": 340
+              }
+            ],
+            "message": null
+          },
+          "total_ms": 1560.541499988176,
+          "recall": 1.0,
+          "reciprocal_rank": 1.0
+        },
+        {
+          "case": "F42",
+          "previous_turns": [
+            {
+              "question": "On our library e-readers a borrowed book flashes open and lands back on the shelf. What fixed the clock-related case and the storage-related case?",
+              "parts": [
+                {
+                  "text": "For the clock-related case (ticket ID 339), enabling automatic date and time on the e-reader and syncing its clock fixed the issue.",
+                  "ticket_id": 339
+                },
+                {
+                  "text": "For the storage-related case (ticket ID 340), moving the downloaded loan from the SD card to the e-reader's internal storage fixed the issue.",
+                  "ticket_id": 340
+                }
+              ]
+            }
+          ],
+          "source_ids": [
+            339,
+            340
+          ],
+          "model_status": "answered",
+          "source_mode": "history",
+          "generation_ms": 916.1351000075229,
+          "response": {
+            "parts": [
+              {
+                "text": "They moved the downloaded loan from the SD card to the e-reader's internal storage.",
+                "ticket_id": 340
+              }
+            ],
+            "message": null
+          },
+          "total_ms": 922.1450999611989
+        },
+        {
+          "case": "F43",
+          "previous_turns": [],
+          "source_ids": [
+            341
+          ],
+          "model_status": "answered",
+          "source_mode": "search",
+          "embedding_ms": 10.436600015964359,
+          "search_ms": 1.8087999778799713,
+          "generation_ms": 847.9703000048175,
+          "response": {
+            "parts": [
+              {
+                "text": "The Ungroup command in the seating plan editor made the chairs independent after importing the SVG drawing.",
+                "ticket_id": 341
+              }
+            ],
+            "message": null
+          },
+          "total_ms": 866.6696999571286,
+          "recall": 1.0,
+          "reciprocal_rank": 1.0
+        },
+        {
+          "case": "F44",
+          "previous_turns": [],
+          "source_ids": [
+            342,
+            350
+          ],
+          "model_status": "answered",
+          "source_mode": "search",
+          "embedding_ms": 8.261199982371181,
+          "search_ms": 1.8945999909192324,
+          "generation_ms": 1084.3972999718972,
+          "response": {
+            "parts": [
+              {
+                "text": "The ticket counter did not recover the split payment interrupted by a power cut because there is no resolution note for ticket counter issue #342, and the problem remains reported without a recovery process documented.",
+                "ticket_id": 342
+              }
+            ],
+            "message": null
+          },
+          "total_ms": 1102.3193000000902
+        },
+        {
+          "case": "F45",
+          "previous_turns": [],
+          "source_ids": [
+            343,
+            322,
+            352,
+            318,
+            313
+          ],
+          "model_status": "answered",
+          "source_mode": "search",
+          "embedding_ms": 11.391200008802116,
+          "search_ms": 2.147399995010346,
+          "generation_ms": 1062.288000015542,
+          "response": {
+            "parts": [
+              {
+                "text": "Staff corrected the captions by enabling automatic punctuation in the transcription profile and then regenerating the captions for the affected lectures.",
+                "ticket_id": 343
+              }
+            ],
+            "message": null
+          },
+          "total_ms": 1082.062900008168,
+          "recall": 1.0,
+          "reciprocal_rank": 1.0
+        },
+        {
+          "case": "F46",
+          "previous_turns": [],
+          "source_ids": [
+            344,
+            351,
+            308,
+            339,
+            332
+          ],
+          "model_status": "answered",
+          "source_mode": "search",
+          "embedding_ms": 7.938799972180277,
+          "search_ms": 1.9698000396601856,
+          "generation_ms": 1087.378100026399,
+          "response": {
+            "parts": [
+              {
+                "text": "Staff previously told the two patrons with the same surname apart by selecting the first matching surname.",
+                "ticket_id": 344
+              }
+            ],
+            "message": null
+          },
+          "total_ms": 1102.925699960906,
+          "recall": 1.0,
+          "reciprocal_rank": 1.0
+        },
+        {
+          "case": "F47",
+          "previous_turns": [],
+          "source_ids": [
+            345,
+            320
+          ],
+          "model_status": "answered",
+          "source_mode": "search",
+          "embedding_ms": 7.306799991056323,
+          "search_ms": 1.8130000098608434,
+          "generation_ms": 869.109200022649,
+          "response": {
+            "parts": [
+              {
+                "text": "The team changed the roster's week start to Monday and saved that view as the team default.",
+                "ticket_id": 345
+              }
+            ],
+            "message": null
+          },
+          "total_ms": 902.964900014922,
+          "recall": 1.0,
+          "reciprocal_rank": 1.0
+        },
+        {
+          "case": "F48",
+          "previous_turns": [],
+          "source_ids": [],
+          "model_status": null,
+          "source_mode": "search",
+          "embedding_ms": 11.10320002771914,
+          "search_ms": 1.833299989812076,
+          "response": {
+            "parts": [],
+            "message": "No documented answer was found in the available tickets."
+          },
+          "total_ms": 13.81599996238947
+        },
+        {
+          "case": "F49",
+          "previous_turns": [],
+          "source_ids": [
+            346,
+            339,
+            308,
+            340
+          ],
+          "model_status": "answered",
+          "source_mode": "search",
+          "embedding_ms": 8.061199972871691,
+          "search_ms": 1.9125000108033419,
+          "generation_ms": 1047.7895000367425,
+          "response": {
+            "parts": [
+              {
+                "text": "The library changed the loan category of the affected children's items to Junior and recalculated their outstanding fines to address the adult late fees.",
+                "ticket_id": 346
+              }
+            ],
+            "message": null
+          },
+          "total_ms": 1063.4232999873348,
+          "recall": 1.0,
+          "reciprocal_rank": 1.0
+        },
+        {
+          "case": "F50",
+          "previous_turns": [],
+          "source_ids": [
+            347
+          ],
+          "model_status": "no_context",
+          "source_mode": "search",
+          "embedding_ms": 10.05119999172166,
+          "search_ms": 1.9001999753527343,
+          "generation_ms": 569.9399000150152,
+          "response": {
+            "parts": [],
+            "message": "No documented answer was found in the available tickets."
+          },
+          "total_ms": 586.0281999921426
+        }
+      ]
+    },
+    "full_text": {
+      "recall_at_k": 1.0,
+      "mrr_at_k": 1.0,
+      "cases": [
+        {
+          "case": "F01",
+          "previous_turns": [],
+          "source_ids": [
+            302,
+            301,
+            326,
+            339,
+            308
+          ],
+          "model_status": "answered",
+          "source_mode": "search",
+          "embedding_ms": 0.0,
+          "search_ms": 7.364500022958964,
+          "generation_ms": 1633.6683999979869,
+          "response": {
+            "parts": [
+              {
+                "text": "Changed the tag field on the asset entry form from a number to text. This preserves leading zeroes during scanning.",
+                "ticket_id": 302
+              },
+              {
+                "text": "Turned off the handheld reader's option to skip the first character. This ensures the full string including leading zeroes is transmitted.",
+                "ticket_id": 301
+              }
+            ],
+            "message": null
+          },
+          "total_ms": 1646.4894999517128,
+          "recall": 1.0,
+          "reciprocal_rank": 1.0
+        },
+        {
+          "case": "F02",
+          "previous_turns": [
+            {
+              "question": "Our equipment stickers start with zeroes, but a scan at the stores counter loses them. What fixes have worked on the reader and on the entry form?",
+              "parts": [
+                {
+                  "text": "Changed the tag field on the asset entry form from a number to text. This preserves leading zeroes during scanning.",
+                  "ticket_id": 302
+                },
+                {
+                  "text": "Turned off the handheld reader's option to skip the first character. This ensures the full string including leading zeroes is transmitted.",
+                  "ticket_id": 301
+                }
+              ]
+            }
+          ],
+          "source_ids": [
+            302,
+            301
+          ],
+          "model_status": "answered",
+          "source_mode": "history",
+          "generation_ms": 925.0948000117205,
+          "response": {
+            "parts": [
+              {
+                "text": "They changed the tag field on the asset entry form from a number to text to preserve leading zeroes during scanning.",
+                "ticket_id": 302
+              }
+            ],
+            "message": null
+          },
+          "total_ms": 930.7594000129029
+        },
+        {
+          "case": "F03",
+          "previous_turns": [],
+          "source_ids": [
+            303,
+            326,
+            319,
+            346
+          ],
+          "model_status": "answered",
+          "source_mode": "search",
+          "embedding_ms": 0.0,
+          "search_ms": 1.7665000050328672,
+          "generation_ms": 986.9308000197634,
+          "response": {
+            "parts": [
+              {
+                "text": "Support fixed the issue by setting the distance unit in the employee's travel profile to kilometres and recalculating the affected draft claims.",
+                "ticket_id": 303
+              }
+            ],
+            "message": null
+          },
+          "total_ms": 994.3551999749616,
+          "recall": 1.0,
+          "reciprocal_rank": 1.0
+        },
+        {
+          "case": "F04",
+          "previous_turns": [],
+          "source_ids": [
+            304,
+            331,
+            323,
+            325,
+            330
+          ],
+          "model_status": "answered",
+          "source_mode": "search",
+          "embedding_ms": 0.0,
+          "search_ms": 1.271700020879507,
+          "generation_ms": 915.6333000282757,
+          "response": {
+            "parts": [
+              {
+                "text": "Enabled Play Narrations in the slide show settings.",
+                "ticket_id": 304
+              }
+            ],
+            "message": null
+          },
+          "total_ms": 922.1698000328615,
+          "recall": 1.0,
+          "reciprocal_rank": 1.0
+        },
+        {
+          "case": "F05",
+          "previous_turns": [],
+          "source_ids": [
+            305,
+            306,
+            314,
+            315,
+            329
+          ],
+          "model_status": "answered",
+          "source_mode": "search",
+          "embedding_ms": 0.0,
+          "search_ms": 3.0619000317528844,
+          "generation_ms": 1059.7194000147283,
+          "response": {
+            "parts": [
+              {
+                "text": "No, there is no confirmed fix for visitor signatures disappearing just after Accept on the reception tablet. The issue is reported but not resolved in the available sources.",
+                "ticket_id": 305
+              }
+            ],
+            "message": null
+          },
+          "total_ms": 1075.730399985332
+        },
+        {
+          "case": "F06",
+          "previous_turns": [],
+          "source_ids": [
+            306,
+            318,
+            308,
+            332,
+            333
+          ],
+          "model_status": "answered",
+          "source_mode": "search",
+          "embedding_ms": 0.0,
+          "search_ms": 1.6160000232048333,
+          "generation_ms": 883.947399968747,
+          "response": {
+            "parts": [
+              {
+                "text": "Turned off the pad driver's Mirror horizontal axis option.",
+                "ticket_id": 306
+              }
+            ],
+            "message": null
+          },
+          "total_ms": 891.493100032676,
+          "recall": 1.0,
+          "reciprocal_rank": 1.0
+        },
+        {
+          "case": "F07",
+          "previous_turns": [],
+          "source_ids": [
+            307,
+            325,
+            313,
+            329,
+            331
+          ],
+          "model_status": "answered",
+          "source_mode": "search",
+          "embedding_ms": 0.0,
+          "search_ms": 1.4558000257238746,
+          "generation_ms": 1006.2447999953292,
+          "response": {
+            "parts": [
+              {
+                "text": "The import setting that was changed was selecting the comma as the decimal separator in the budget importer.",
+                "ticket_id": 307
+              }
+            ],
+            "message": null
+          },
+          "total_ms": 1012.8018000395969,
+          "recall": 1.0,
+          "reciprocal_rank": 1.0
+        },
+        {
+          "case": "F08",
+          "previous_turns": [],
+          "source_ids": [
+            312
+          ],
+          "model_status": "no_context",
+          "source_mode": "search",
+          "embedding_ms": 0.0,
+          "search_ms": 1.0461000492796302,
+          "generation_ms": 587.3845999594778,
+          "response": {
+            "parts": [],
+            "message": "No documented answer was found in the available tickets."
+          },
+          "total_ms": 592.504900007043
+        },
+        {
+          "case": "F09",
+          "previous_turns": [],
+          "source_ids": [
+            308,
+            339,
+            344,
+            306,
+            310
+          ],
+          "model_status": "answered",
+          "source_mode": "search",
+          "embedding_ms": 0.0,
+          "search_ms": 1.8445999594405293,
+          "generation_ms": 1088.9473999850452,
+          "response": {
+            "parts": [
+              {
+                "text": "The library desk switch to the right session was achieved by closing the previous lending session and opening a new session for the current shift on the returns terminal.",
+                "ticket_id": 308
+              }
+            ],
+            "message": null
+          },
+          "total_ms": 1096.7951999627985,
+          "recall": 1.0,
+          "reciprocal_rank": 1.0
+        },
+        {
+          "case": "F10",
+          "previous_turns": [],
+          "source_ids": [
+            309,
+            308,
+            339,
+            316,
+            340
+          ],
+          "model_status": "no_context",
+          "source_mode": "search",
+          "embedding_ms": 0.0,
+          "search_ms": 1.273699977900833,
+          "generation_ms": 955.8554000104778,
+          "response": {
+            "parts": [],
+            "message": "No documented answer was found in the available tickets."
+          },
+          "total_ms": 964.4395000068471
+        },
+        {
+          "case": "F11",
+          "previous_turns": [],
+          "source_ids": [
+            310,
+            311,
+            301,
+            306,
+            318
+          ],
+          "model_status": "answered",
+          "source_mode": "search",
+          "embedding_ms": 0.0,
+          "search_ms": 1.7927999724633992,
+          "generation_ms": 1350.7398000219837,
+          "response": {
+            "parts": [
+              {
+                "text": "Widened the layout frame to enclose the entire legend before exporting the wall map again.",
+                "ticket_id": 310
+              },
+              {
+                "text": "Set the PDF export paper size to A3 to match the project layout. The legend then fit on the page.",
+                "ticket_id": 311
+              }
+            ],
+            "message": null
+          },
+          "total_ms": 1359.8293000250123,
+          "recall": 1.0,
+          "reciprocal_rank": 1.0
+        },
+        {
+          "case": "F12",
+          "previous_turns": [
+            {
+              "question": "Our wall map loses the right end of its legend in the PDF. Which fixes worked in the two map projects?",
+              "parts": [
+                {
+                  "text": "Widened the layout frame to enclose the entire legend before exporting the wall map again.",
+                  "ticket_id": 310
+                },
+                {
+                  "text": "Set the PDF export paper size to A3 to match the project layout. The legend then fit on the page.",
+                  "ticket_id": 311
+                }
+              ]
+            }
+          ],
+          "source_ids": [
+            310,
+            311
+          ],
+          "model_status": "answered",
+          "source_mode": "history",
+          "generation_ms": 983.4019999834709,
+          "response": {
+            "parts": [
+              {
+                "text": "The export paper size in the project where the whole legend already fitted in the frame was set to A3 to match the project layout.",
+                "ticket_id": 311
+              }
+            ],
+            "message": null
+          },
+          "total_ms": 990.3205999871716
+        },
+        {
+          "case": "F13",
+          "previous_turns": [],
+          "source_ids": [
+            312,
+            307,
+            316,
+            328,
+            335
+          ],
+          "model_status": "answered",
+          "source_mode": "search",
+          "embedding_ms": 0.0,
+          "search_ms": 2.1560000022873282,
+          "generation_ms": 1061.3537000026554,
+          "response": {
+            "parts": [
+              {
+                "text": "The Windows inspection PC needed the HEIF Image Extensions installed to open .heic files.",
+                "ticket_id": 312
+              }
+            ],
+            "message": null
+          },
+          "total_ms": 1069.741100014653,
+          "recall": 1.0,
+          "reciprocal_rank": 1.0
+        },
+        {
+          "case": "F14",
+          "previous_turns": [],
+          "source_ids": [
+            313,
+            301,
+            315,
+            318,
+            319
+          ],
+          "model_status": "answered",
+          "source_mode": "search",
+          "embedding_ms": 0.0,
+          "search_ms": 1.7426999984309077,
+          "generation_ms": 1081.6920000361279,
+          "response": {
+            "parts": [
+              {
+                "text": "The minute taker changed the speech recognition language in the dictation profile to English (United Kingdom).",
+                "ticket_id": 313
+              }
+            ],
+            "message": null
+          },
+          "total_ms": 1090.3284000232816,
+          "recall": 1.0,
+          "reciprocal_rank": 1.0
+        },
+        {
+          "case": "F15",
+          "previous_turns": [],
+          "source_ids": [
+            314,
+            318,
+            319,
+            323,
+            343
+          ],
+          "model_status": "answered",
+          "source_mode": "search",
+          "embedding_ms": 0.0,
+          "search_ms": 1.1551000061444938,
+          "generation_ms": 989.0160000068136,
+          "response": {
+            "parts": [
+              {
+                "text": "No hardware fault was confirmed in the interview transcription pedal issue.",
+                "ticket_id": 314
+              }
+            ],
+            "message": null
+          },
+          "total_ms": 996.7230999609455
+        },
+        {
+          "case": "F16",
+          "previous_turns": [],
+          "source_ids": [
+            315,
+            306,
+            310,
+            313,
+            318
+          ],
+          "model_status": "answered",
+          "source_mode": "search",
+          "embedding_ms": 0.0,
+          "search_ms": 1.3774000108242035,
+          "generation_ms": 1054.29900001036,
+          "response": {
+            "parts": [
+              {
+                "text": "The earlier team enforced the order by changing the minutes template to sequential signing, with the chair first and the secretary second.",
+                "ticket_id": 315
+              }
+            ],
+            "message": null
+          },
+          "total_ms": 1061.2808999721892,
+          "recall": 1.0,
+          "reciprocal_rank": 1.0
+        },
+        {
+          "case": "F17",
+          "previous_turns": [],
+          "source_ids": [
+            316,
+            308,
+            311,
+            318,
+            326
+          ],
+          "model_status": "answered",
+          "source_mode": "search",
+          "embedding_ms": 0.0,
+          "search_ms": 1.1928000021725893,
+          "generation_ms": 1009.0832999558188,
+          "response": {
+            "parts": [
+              {
+                "text": "Saved Central as the default pickup depot in the driver's booking profile.",
+                "ticket_id": 316
+              }
+            ],
+            "message": null
+          },
+          "total_ms": 1015.8869000151753,
+          "recall": 1.0,
+          "reciprocal_rank": 1.0
+        },
+        {
+          "case": "F18",
+          "previous_turns": [],
+          "source_ids": [
+            316,
+            328,
+            311,
+            327,
+            337
+          ],
+          "model_status": "no_context",
+          "source_mode": "search",
+          "embedding_ms": 0.0,
+          "search_ms": 1.3509999844245613,
+          "generation_ms": 770.2163999783807,
+          "response": {
+            "parts": [],
+            "message": "No documented answer was found in the available tickets."
+          },
+          "total_ms": 776.088599988725
+        },
+        {
+          "case": "F19",
+          "previous_turns": [],
+          "source_ids": [
+            318,
+            349,
+            319,
+            310,
+            311
+          ],
+          "model_status": "answered",
+          "source_mode": "search",
+          "embedding_ms": 0.0,
+          "search_ms": 1.422200002707541,
+          "generation_ms": 1187.8357999958098,
+          "response": {
+            "parts": [
+              {
+                "text": "The print option that caused the printed timetable to begin at the last stop is 'reverse page order' in the timetable booklet print preset. This was identified in ticket 318, where disabling reverse page order resolved the issue of pages coming out in reverse order while the PDF showed the correct sequence.",
+                "ticket_id": 318
+              }
+            ],
+            "message": null
+          },
+          "total_ms": 1196.1470000096597,
+          "recall": 1.0,
+          "reciprocal_rank": 1.0
+        },
+        {
+          "case": "F20",
+          "previous_turns": [],
+          "source_ids": [
+            319,
+            310,
+            314,
+            318,
+            323
+          ],
+          "model_status": "no_context",
+          "source_mode": "search",
+          "embedding_ms": 0.0,
+          "search_ms": 1.7265000496990979,
+          "generation_ms": 1190.018900029827,
+          "response": {
+            "parts": [],
+            "message": "No documented answer was found in the available tickets."
+          },
+          "total_ms": 1196.1860000155866
+        },
+        {
+          "case": "F21",
+          "previous_turns": [],
+          "source_ids": [
+            321,
+            320,
+            337,
+            326,
+            330
+          ],
+          "model_status": "answered",
+          "source_mode": "search",
+          "embedding_ms": 0.0,
+          "search_ms": 1.1295000440441072,
+          "generation_ms": 1549.8894000193104,
+          "response": {
+            "parts": [
+              {
+                "text": "For the group with only one subscription, disabling the old email reminder rule fixed the issue of receiving two reminders, as the calendar alert was already active but the email rule was causing duplication.",
+                "ticket_id": 321
+              },
+              {
+                "text": "For the group with two subscriptions, removing the retired practice feed fixed the issue, as both the retired and current Ensemble feed were subscribed, and only the Ensemble feed was needed.",
+                "ticket_id": 320
+              }
+            ],
+            "message": null
+          },
+          "total_ms": 1556.2892999732867,
+          "recall": 1.0,
+          "reciprocal_rank": 1.0
+        },
+        {
+          "case": "F22",
+          "previous_turns": [
+            {
+              "question": "Our players get two reminders for every rehearsal. What fixed it for the group with two subscriptions and for the group with only one?",
+              "parts": [
+                {
+                  "text": "For the group with only one subscription, disabling the old email reminder rule fixed the issue of receiving two reminders, as the calendar alert was already active but the email rule was causing duplication.",
+                  "ticket_id": 321
+                },
+                {
+                  "text": "For the group with two subscriptions, removing the retired practice feed fixed the issue, as both the retired and current Ensemble feed were subscribed, and only the Ensemble feed was needed.",
+                  "ticket_id": 320
+                }
+              ]
+            }
+          ],
+          "source_ids": [
+            321,
+            320
+          ],
+          "model_status": "answered",
+          "source_mode": "history",
+          "generation_ms": 989.2986000049859,
+          "response": {
+            "parts": [
+              {
+                "text": "The players kept the Ensemble feed.",
+                "ticket_id": 320
+              },
+              {
+                "text": "The players kept the calendar alert.",
+                "ticket_id": 321
+              }
+            ],
+            "message": null
+          },
+          "total_ms": 995.0183999608271
+        },
+        {
+          "case": "F23",
+          "previous_turns": [],
+          "source_ids": [
+            322,
+            343,
+            352,
+            308,
+            313
+          ],
+          "model_status": "answered",
+          "source_mode": "search",
+          "embedding_ms": 0.0,
+          "search_ms": 1.4337999746203423,
+          "generation_ms": 878.9189999806695,
+          "response": {
+            "parts": [
+              {
+                "text": "Support delayed the captions by 2.5 seconds.",
+                "ticket_id": 322
+              }
+            ],
+            "message": null
+          },
+          "total_ms": 885.9371999860741,
+          "recall": 1.0,
+          "reciprocal_rank": 1.0
+        },
+        {
+          "case": "F24",
+          "previous_turns": [],
+          "source_ids": [
+            323,
+            331,
+            319,
+            321,
+            330
+          ],
+          "model_status": "answered",
+          "source_mode": "search",
+          "embedding_ms": 0.0,
+          "search_ms": 1.828499953262508,
+          "generation_ms": 1123.2746000168845,
+          "response": {
+            "parts": [
+              {
+                "text": "The correct recording for stop 14 was assigned in the guide editor and published, ensuring that the otter recording is now played instead of the old exhibit's narration.",
+                "ticket_id": 323
+              }
+            ],
+            "message": null
+          },
+          "total_ms": 1140.1635999791324,
+          "recall": 1.0,
+          "reciprocal_rank": 1.0
+        },
+        {
+          "case": "F25",
+          "previous_turns": [],
+          "source_ids": [
+            324,
+            323,
+            319,
+            331
+          ],
+          "model_status": "no_context",
+          "source_mode": "search",
+          "embedding_ms": 0.0,
+          "search_ms": 1.4841000083833933,
+          "generation_ms": 1028.4307000110857,
+          "response": {
+            "parts": [],
+            "message": "No documented answer was found in the available tickets."
+          },
+          "total_ms": 1035.250700020697
+        },
+        {
+          "case": "F26",
+          "previous_turns": [],
+          "source_ids": [
+            325,
+            304,
+            307,
+            326,
+            301
+          ],
+          "model_status": "answered",
+          "source_mode": "search",
+          "embedding_ms": 0.0,
+          "search_ms": 1.3686000020243227,
+          "generation_ms": 946.9361000228673,
+          "response": {
+            "parts": [
+              {
+                "text": "The 24-bit colour scanning preset was selected and successfully retained the original colours in the scans.",
+                "ticket_id": 325
+              }
+            ],
+            "message": null
+          },
+          "total_ms": 953.819399990607,
+          "recall": 1.0,
+          "reciprocal_rank": 1.0
+        },
+        {
+          "case": "F27",
+          "previous_turns": [],
+          "source_ids": [
+            326,
+            302,
+            331,
+            308,
+            314
+          ],
+          "model_status": "answered",
+          "source_mode": "search",
+          "embedding_ms": 0.0,
+          "search_ms": 1.5746999997645617,
+          "generation_ms": 1042.7219000412151,
+          "response": {
+            "parts": [
+              {
+                "text": "The automatic Enter suffix on the loan counter reader was disabled. This prevented the reader from sending an additional Enter signal after scanning the tag, ensuring the form submitted only once when the clerk pressed Enter.",
+                "ticket_id": 326
+              }
+            ],
+            "message": null
+          },
+          "total_ms": 1049.3004999589175,
+          "recall": 1.0,
+          "reciprocal_rank": 1.0
+        },
+        {
+          "case": "F28",
+          "previous_turns": [],
+          "source_ids": [
+            327,
+            308,
+            330
+          ],
+          "model_status": "answered",
+          "source_mode": "search",
+          "embedding_ms": 0.0,
+          "search_ms": 1.1666000355035067,
+          "generation_ms": 878.376400039997,
+          "response": {
+            "parts": [
+              {
+                "text": "The cause of the missing annotations when reopening a proof remained undetermined.",
+                "ticket_id": 327
+              }
+            ],
+            "message": null
+          },
+          "total_ms": 884.9631999619305
+        },
+        {
+          "case": "F29",
+          "previous_turns": [],
+          "source_ids": [
+            328,
+            353,
+            332,
+            301,
+            308
+          ],
+          "model_status": "answered",
+          "source_mode": "search",
+          "embedding_ms": 0.0,
+          "search_ms": 1.213699986692518,
+          "generation_ms": 1040.2484000078402,
+          "response": {
+            "parts": [
+              {
+                "text": "Facilities published the directory entry under the new wing name and kept the former name as a searchable alias, so searches using either the old or new name find the correct room entry.",
+                "ticket_id": 328
+              }
+            ],
+            "message": null
+          },
+          "total_ms": 1048.2986000133678,
+          "recall": 1.0,
+          "reciprocal_rank": 1.0
+        },
+        {
+          "case": "F30",
+          "previous_turns": [],
+          "source_ids": [
+            329,
+            348,
+            307,
+            308,
+            318
+          ],
+          "model_status": "answered",
+          "source_mode": "search",
+          "embedding_ms": 0.0,
+          "search_ms": 1.3702000142075121,
+          "generation_ms": 959.4193000230007,
+          "response": {
+            "parts": [
+              {
+                "text": "The lettering should appear as correct shapes, not as boxes. The corrected artwork was sent in SVG format.",
+                "ticket_id": 329
+              }
+            ],
+            "message": null
+          },
+          "total_ms": 967.2610000125133,
+          "recall": 1.0,
+          "reciprocal_rank": 1.0
+        },
+        {
+          "case": "F31",
+          "previous_turns": [],
+          "source_ids": [
+            331,
+            330,
+            307,
+            301,
+            304
+          ],
+          "model_status": "answered",
+          "source_mode": "search",
+          "embedding_ms": 0.0,
+          "search_ms": 2.180499956011772,
+          "generation_ms": 1521.4053000090644,
+          "response": {
+            "parts": [
+              {
+                "text": "When the player speed was wrong (e.g., 1.5x playback), returning the media player to normal speed (1x) resolved the issue.",
+                "ticket_id": 330
+              },
+              {
+                "text": "When the file itself had the wrong rate (e.g., file marked 48 kHz but recorded at 32 kHz), setting the audio editor to interpret the recording at its original 32 kHz and exporting a corrected copy resolved the issue.",
+                "ticket_id": 331
+              }
+            ],
+            "message": null
+          },
+          "total_ms": 1529.6668999944814,
+          "recall": 1.0,
+          "reciprocal_rank": 1.0
+        },
+        {
+          "case": "F32",
+          "previous_turns": [
+            {
+              "question": "Recorded talks sound too fast. What worked when the player speed was wrong, and what worked when the file itself had the wrong rate?",
+              "parts": [
+                {
+                  "text": "When the player speed was wrong (e.g., 1.5x playback), returning the media player to normal speed (1x) resolved the issue.",
+                  "ticket_id": 330
+                },
+                {
+                  "text": "When the file itself had the wrong rate (e.g., file marked 48 kHz but recorded at 32 kHz), setting the audio editor to interpret the recording at its original 32 kHz and exporting a corrected copy resolved the issue.",
+                  "ticket_id": 331
+                }
+              ]
+            }
+          ],
+          "source_ids": [
+            330,
+            331
+          ],
+          "model_status": "answered",
+          "source_mode": "history",
+          "generation_ms": 880.3514000028372,
+          "response": {
+            "parts": [
+              {
+                "text": "The original sample rate in the second recording was 32 kHz.",
+                "ticket_id": 331
+              }
+            ],
+            "message": null
+          },
+          "total_ms": 891.1999000119977
+        },
+        {
+          "case": "F33",
+          "previous_turns": [],
+          "source_ids": [
+            332,
+            328,
+            344,
+            303,
+            318
+          ],
+          "model_status": "answered",
+          "source_mode": "search",
+          "embedding_ms": 0.0,
+          "search_ms": 1.4307000092230737,
+          "generation_ms": 898.3608999988064,
+          "response": {
+            "parts": [
+              {
+                "text": "Enabled Publish tutor name on the class record.",
+                "ticket_id": 332
+              }
+            ],
+            "message": null
+          },
+          "total_ms": 906.2567999935709,
+          "recall": 1.0,
+          "reciprocal_rank": 1.0
+        },
+        {
+          "case": "F34",
+          "previous_turns": [],
+          "source_ids": [
+            333,
+            329,
+            337,
+            307,
+            310
+          ],
+          "model_status": "answered",
+          "source_mode": "search",
+          "embedding_ms": 0.0,
+          "search_ms": 1.6121999942697585,
+          "generation_ms": 983.4797000512481,
+          "response": {
+            "parts": [
+              {
+                "text": "The operator reset the cutter's origin to the registration cross on the replacement mat.",
+                "ticket_id": 333
+              }
+            ],
+            "message": null
+          },
+          "total_ms": 991.3645999622531,
+          "recall": 1.0,
+          "reciprocal_rank": 1.0
+        },
+        {
+          "case": "F35",
+          "previous_turns": [],
+          "source_ids": [
+            334,
+            333
+          ],
+          "model_status": "no_context",
+          "source_mode": "search",
+          "embedding_ms": 0.0,
+          "search_ms": 1.2063999893143773,
+          "generation_ms": 561.667200003285,
+          "response": {
+            "parts": [],
+            "message": "No documented answer was found in the available tickets."
+          },
+          "total_ms": 586.8783000041731
+        },
+        {
+          "case": "F36",
+          "previous_turns": [],
+          "source_ids": [
+            335,
+            331,
+            304,
+            306,
+            321
+          ],
+          "model_status": "answered",
+          "source_mode": "search",
+          "embedding_ms": 0.0,
+          "search_ms": 1.2380999978631735,
+          "generation_ms": 934.8560000071302,
+          "response": {
+            "parts": [
+              {
+                "text": "The camera station should attach the image when the shutter is pressed.",
+                "ticket_id": 335
+              }
+            ],
+            "message": null
+          },
+          "total_ms": 941.7795999906957,
+          "recall": 1.0,
+          "reciprocal_rank": 1.0
+        },
+        {
+          "case": "F37",
+          "previous_turns": [],
+          "source_ids": [
+            336,
+            301,
+            339
+          ],
+          "model_status": "answered",
+          "source_mode": "search",
+          "embedding_ms": 0.0,
+          "search_ms": 1.3890000409446657,
+          "generation_ms": 941.4202999905683,
+          "response": {
+            "parts": [
+              {
+                "text": "Tutors kept fractions usable in sums by applying the Fraction number format to the cells before entering the values.",
+                "ticket_id": 336
+              }
+            ],
+            "message": null
+          },
+          "total_ms": 948.4987000469118,
+          "recall": 1.0,
+          "reciprocal_rank": 1.0
+        },
+        {
+          "case": "F38",
+          "previous_turns": [],
+          "source_ids": [
+            304,
+            322,
+            306,
+            313,
+            315
+          ],
+          "model_status": "answered",
+          "source_mode": "search",
+          "embedding_ms": 0.0,
+          "search_ms": 1.2787000159732997,
+          "generation_ms": 909.8983000149019,
+          "response": {
+            "parts": [
+              {
+                "text": "Enabled Play Narrations in the slide show settings.",
+                "ticket_id": 304
+              }
+            ],
+            "message": null
+          },
+          "total_ms": 916.8150000041351
+        },
+        {
+          "case": "F39",
+          "previous_turns": [],
+          "source_ids": [
+            337,
+            303,
+            310,
+            311,
+            318
+          ],
+          "model_status": "answered",
+          "source_mode": "search",
+          "embedding_ms": 0.0,
+          "search_ms": 2.2045999648980796,
+          "generation_ms": 997.5139999878593,
+          "response": {
+            "parts": [
+              {
+                "text": "The two-sided original setting on the copier's input settings fixed the copier.",
+                "ticket_id": 337
+              }
+            ],
+            "message": null
+          },
+          "total_ms": 1005.4323999793269,
+          "recall": 1.0,
+          "reciprocal_rank": 1.0
+        },
+        {
+          "case": "F40",
+          "previous_turns": [],
+          "source_ids": [
+            338,
+            301,
+            318,
+            326,
+            328
+          ],
+          "model_status": "no_context",
+          "source_mode": "search",
+          "embedding_ms": 0.0,
+          "search_ms": 1.258100033737719,
+          "generation_ms": 773.224400007166,
+          "response": {
+            "parts": [],
+            "message": "No documented answer was found in the available tickets."
+          },
+          "total_ms": 779.0091999922879
+        },
+        {
+          "case": "F41",
+          "previous_turns": [],
+          "source_ids": [
+            339,
+            340,
+            308,
+            316,
+            351
+          ],
+          "model_status": "answered",
+          "source_mode": "search",
+          "embedding_ms": 0.0,
+          "search_ms": 3.6803000257350504,
+          "generation_ms": 1300.014199980069,
+          "response": {
+            "parts": [
+              {
+                "text": "Enabled automatic date and time on the e-reader and synced its clock. The existing loan then opened.",
+                "ticket_id": 339
+              },
+              {
+                "text": "Moved the downloaded loan from the SD card to the e-reader's internal storage. The book opened from the shelf.",
+                "ticket_id": 340
+              }
+            ],
+            "message": null
+          },
+          "total_ms": 1308.8279000367038,
+          "recall": 1.0,
+          "reciprocal_rank": 1.0
+        },
+        {
+          "case": "F42",
+          "previous_turns": [
+            {
+              "question": "On our library e-readers a borrowed book flashes open and lands back on the shelf. What fixed the clock-related case and the storage-related case?",
+              "parts": [
+                {
+                  "text": "Enabled automatic date and time on the e-reader and synced its clock. The existing loan then opened.",
+                  "ticket_id": 339
+                },
+                {
+                  "text": "Moved the downloaded loan from the SD card to the e-reader's internal storage. The book opened from the shelf.",
+                  "ticket_id": 340
+                }
+              ]
+            }
+          ],
+          "source_ids": [
+            339,
+            340
+          ],
+          "model_status": "answered",
+          "source_mode": "history",
+          "generation_ms": 890.6610999838449,
+          "response": {
+            "parts": [
+              {
+                "text": "They moved the downloaded loan from the SD card to the e-reader's internal storage.",
+                "ticket_id": 340
+              }
+            ],
+            "message": null
+          },
+          "total_ms": 896.2936999741942
+        },
+        {
+          "case": "F43",
+          "previous_turns": [],
+          "source_ids": [
+            341,
+            302,
+            304,
+            307,
+            315
+          ],
+          "model_status": "answered",
+          "source_mode": "search",
+          "embedding_ms": 0.0,
+          "search_ms": 1.8354000058025122,
+          "generation_ms": 921.5570000233129,
+          "response": {
+            "parts": [
+              {
+                "text": "The editor command that made the chairs independent was Ungroup.",
+                "ticket_id": 341
+              }
+            ],
+            "message": null
+          },
+          "total_ms": 928.7062999792397,
+          "recall": 1.0,
+          "reciprocal_rank": 1.0
+        },
+        {
+          "case": "F44",
+          "previous_turns": [],
+          "source_ids": [
+            350,
+            342,
+            301,
+            334,
+            310
+          ],
+          "model_status": "no_context",
+          "source_mode": "search",
+          "embedding_ms": 0.0,
+          "search_ms": 1.1858000070787966,
+          "generation_ms": 1232.3257999960333,
+          "response": {
+            "parts": [],
+            "message": "No documented answer was found in the available tickets."
+          },
+          "total_ms": 1237.5179000082426
+        },
+        {
+          "case": "F45",
+          "previous_turns": [],
+          "source_ids": [
+            343,
+            318,
+            319,
+            332,
+            346
+          ],
+          "model_status": "answered",
+          "source_mode": "search",
+          "embedding_ms": 0.0,
+          "search_ms": 1.5336000360548496,
+          "generation_ms": 1038.2407999713905,
+          "response": {
+            "parts": [
+              {
+                "text": "Staff corrected the captions by enabling automatic punctuation in the transcription profile and then regenerating the captions for the affected lectures.",
+                "ticket_id": 343
+              }
+            ],
+            "message": null
+          },
+          "total_ms": 1044.6772999712266,
+          "recall": 1.0,
+          "reciprocal_rank": 1.0
+        },
+        {
+          "case": "F46",
+          "previous_turns": [],
+          "source_ids": [
+            344,
+            351,
+            308,
+            303,
+            318
+          ],
+          "model_status": "answered",
+          "source_mode": "search",
+          "embedding_ms": 0.0,
+          "search_ms": 1.4927000156603754,
+          "generation_ms": 903.3741999883205,
+          "response": {
+            "parts": [
+              {
+                "text": "Staff told the two patrons with the same surname apart by using their unique borrower number before printing a reservation slip.",
+                "ticket_id": 344
+              }
+            ],
+            "message": null
+          },
+          "total_ms": 910.5159000027925,
+          "recall": 1.0,
+          "reciprocal_rank": 1.0
+        },
+        {
+          "case": "F47",
+          "previous_turns": [],
+          "source_ids": [
+            345,
+            316,
+            310,
+            312,
+            335
+          ],
+          "model_status": "answered",
+          "source_mode": "search",
+          "embedding_ms": 0.0,
+          "search_ms": 1.1946000158786774,
+          "generation_ms": 1021.5478999889456,
+          "response": {
+            "parts": [
+              {
+                "text": "The team changed the roster's week start to Monday and saved that view as the team default.",
+                "ticket_id": 345
+              }
+            ],
+            "message": null
+          },
+          "total_ms": 1028.1488999607973,
+          "recall": 1.0,
+          "reciprocal_rank": 1.0
+        },
+        {
+          "case": "F48",
+          "previous_turns": [],
+          "source_ids": [
+            301,
+            326,
+            350
+          ],
+          "model_status": "no_context",
+          "source_mode": "search",
+          "embedding_ms": 0.0,
+          "search_ms": 1.3747999910265207,
+          "generation_ms": 666.6256000171416,
+          "response": {
+            "parts": [],
+            "message": "No documented answer was found in the available tickets."
+          },
+          "total_ms": 691.6932000312954
+        },
+        {
+          "case": "F49",
+          "previous_turns": [],
+          "source_ids": [
+            346,
+            308,
+            313,
+            316,
+            319
+          ],
+          "model_status": "answered",
+          "source_mode": "search",
+          "embedding_ms": 0.0,
+          "search_ms": 1.5293000033125281,
+          "generation_ms": 1077.4509999901056,
+          "response": {
+            "parts": [
+              {
+                "text": "The library changed the loan category of the affected children's items to 'Junior' and recalculated their outstanding fines to ensure correct late fee application.",
+                "ticket_id": 346
+              }
+            ],
+            "message": null
+          },
+          "total_ms": 1084.0891999541782,
+          "recall": 1.0,
+          "reciprocal_rank": 1.0
+        },
+        {
+          "case": "F50",
+          "previous_turns": [],
+          "source_ids": [
+            347,
+            313,
+            315,
+            321,
+            328
+          ],
+          "model_status": "no_context",
+          "source_mode": "search",
+          "embedding_ms": 0.0,
+          "search_ms": 1.3959999778307974,
+          "generation_ms": 740.5117999878712,
+          "response": {
+            "parts": [],
+            "message": "No documented answer was found in the available tickets."
+          },
+          "total_ms": 747.4213999812491
+        }
+      ]
+    }
+  }
+}

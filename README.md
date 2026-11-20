@@ -869,3 +869,14 @@ pytań z oczekiwanymi źródłami. Dla pozostałych raportuje puste wyniki. Czas
 rozgrzaniu obejmują embedding zapytania w wariancie semantycznym oraz zapytanie
 do bazy w obu wariantach. Ten pilotaż mierzy ranking źródeł. Pliki wejściowe
 i raport są w [backend/data/rag](backend/data/rag/).
+
+Pierwsza walidacja odpowiedzi obejmuje osiem pytań EN, w tym dopytanie i dwa
+przypadki bez udokumentowanej odpowiedzi. Przebieg obu metod z lokalnym Qwenem
+oraz instrukcję odtworzenia zapisano w [raporcie walidacji RAG](backend/data/rag/validation-en-v1-report.md).
+W pierwszej serii przygotowano 30 pytań. Pozostałe 22 tworzą osobny zbiór z własnymi
+zgłoszeniami i oczekiwanymi odpowiedziami. [Raport osobnego testu](backend/data/rag/test-en-v1-report.md).
+
+W końcowej ocenie na **50 nowych pytaniach EN** asystent z wyszukiwaniem semantycznym
+zaliczył **41/50 (82%)**, a z pełnotekstowym **46/50 (92%)**. Oba warianty odnalazły
+wszystkie wymagane źródła dla 31 samodzielnych pytań z odpowiedzią. Codex ocenił treść
+odpowiedzi według dotychczasowej rubryki. [Oceny wszystkich pytań i uzasadnienie miar](backend/data/rag/final-en-v1-report.md).

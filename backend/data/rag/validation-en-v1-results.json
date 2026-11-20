@@ -1,0 +1,443 @@
+{
+  "dataset": "validation-en-v1.json",
+  "dataset_sha256": "9454c5f38f81ddaa80252f6ea6c58b33cd2a85f86308af3b2dc0a6841390ac9c",
+  "run_at_utc": "2026-11-16T15:25:53.203185+00:00",
+  "application_revision": "e42cd042cc36fb2fe639c8d8ebd9e74bb3dfb4e9",
+  "k": 5,
+  "semantic_min_similarity": 0.35,
+  "embedding_model": "all-MiniLM-L6-v2",
+  "embedding_revision": "c9745ed1d9f207416be6d2e6f8de32d1f16199bf",
+  "ollama_model": "qwen3:4b-instruct",
+  "ollama_model_digest": "0edcdef34593eac1aa2be9c7d06c432dcf81945adca5eca2f27662c18f168ba0",
+  "prompt_version": "rag-en-v2",
+  "prompt_sha256": "3d5d1e0b8b22ea4d3e6dfe15da0243aff8e06a0840fee84b866512711b58b052",
+  "results": {
+    "semantic": {
+      "recall_at_k": 1.0,
+      "mrr_at_k": 1.0,
+      "cases": [
+        {
+          "case": "V01",
+          "previous_turns": [],
+          "source_ids": [
+            101,
+            102,
+            103
+          ],
+          "model_status": "answered",
+          "source_mode": "search",
+          "embedding_ms": 9.209400013787672,
+          "search_ms": 4.163800011156127,
+          "generation_ms": 11388.32800000091,
+          "response": {
+            "parts": [
+              {
+                "text": "Installing the vendor's USB-C dock firmware update resolved the issue in a ThinkPad case where two external monitors went black after waking from sleep.",
+                "ticket_id": 101
+              },
+              {
+                "text": "Disabling PCI Express Link State Power Management in the Windows power plan resolved the issue in a case where both displays lost signal after a laptop resumed from standby.",
+                "ticket_id": 102
+              }
+            ],
+            "message": null
+          },
+          "total_ms": 11412.777099991217,
+          "recall": 1.0,
+          "reciprocal_rank": 1.0
+        },
+        {
+          "case": "V02",
+          "previous_turns": [
+            {
+              "question": "What worked before when two monitors on a USB-C dock went black as a laptop woke up?",
+              "parts": [
+                {
+                  "text": "Installing the vendor's USB-C dock firmware update resolved the issue in a ThinkPad case where two external monitors went black after waking from sleep.",
+                  "ticket_id": 101
+                },
+                {
+                  "text": "Disabling PCI Express Link State Power Management in the Windows power plan resolved the issue in a case where both displays lost signal after a laptop resumed from standby.",
+                  "ticket_id": 102
+                }
+              ]
+            }
+          ],
+          "source_ids": [
+            101,
+            102
+          ],
+          "model_status": "answered",
+          "source_mode": "history",
+          "generation_ms": 819.6985000104178,
+          "response": {
+            "parts": [
+              {
+                "text": "They disabled PCI Express Link State Power Management in the Windows power plan.",
+                "ticket_id": 102
+              }
+            ],
+            "message": null
+          },
+          "total_ms": 825.8031999866944
+        },
+        {
+          "case": "V03",
+          "previous_turns": [],
+          "source_ids": [
+            104,
+            105
+          ],
+          "model_status": "answered",
+          "source_mode": "search",
+          "embedding_ms": 14.923899987479672,
+          "search_ms": 1.7175999819301069,
+          "generation_ms": 964.3539999960922,
+          "response": {
+            "parts": [
+              {
+                "text": "The hardware-token login option (FIDO2 security key) was restored by enabling the FIDO2 security-key sign-in policy on the replacement device and syncing management policies.",
+                "ticket_id": 104
+              }
+            ],
+            "message": null
+          },
+          "total_ms": 988.8651999935973,
+          "recall": 1.0,
+          "reciprocal_rank": 1.0
+        },
+        {
+          "case": "V04",
+          "previous_turns": [],
+          "source_ids": [
+            106,
+            107,
+            111
+          ],
+          "model_status": "answered",
+          "source_mode": "search",
+          "embedding_ms": 8.93999999971129,
+          "search_ms": 1.6352999955415726,
+          "generation_ms": 951.2011999904644,
+          "response": {
+            "parts": [
+              {
+                "text": "We fixed the inventory desktop app freezing at barcode import for a standard user by granting the inventory app's user group write access to its barcode import cache directory.",
+                "ticket_id": 106
+              }
+            ],
+            "message": null
+          },
+          "total_ms": 967.2657999908552,
+          "recall": 1.0,
+          "reciprocal_rank": 1.0
+        },
+        {
+          "case": "V05",
+          "previous_turns": [],
+          "source_ids": [
+            108,
+            109
+          ],
+          "model_status": "no_context",
+          "source_mode": "search",
+          "embedding_ms": 7.291499990969896,
+          "search_ms": 2.834999992046505,
+          "generation_ms": 853.0268000031356,
+          "response": {
+            "parts": [],
+            "message": "No documented answer was found in the available tickets."
+          },
+          "total_ms": 867.563700012397
+        },
+        {
+          "case": "V06",
+          "previous_turns": [],
+          "source_ids": [],
+          "model_status": null,
+          "source_mode": "search",
+          "embedding_ms": 9.897599986288697,
+          "search_ms": 1.879699993878603,
+          "response": {
+            "parts": [],
+            "message": "No documented answer was found in the available tickets."
+          },
+          "total_ms": 12.758700002450496
+        },
+        {
+          "case": "V07",
+          "previous_turns": [],
+          "source_ids": [
+            110,
+            111
+          ],
+          "model_status": "answered",
+          "source_mode": "search",
+          "embedding_ms": 10.016200016252697,
+          "search_ms": 1.8063999887090176,
+          "generation_ms": 803.4292999946047,
+          "response": {
+            "parts": [
+              {
+                "text": "Changed the Windows printer's TCP/IP port to the new address and restarted the Print Spooler.",
+                "ticket_id": 110
+              }
+            ],
+            "message": null
+          },
+          "total_ms": 820.5888000084087,
+          "recall": 1.0,
+          "reciprocal_rank": 1.0
+        },
+        {
+          "case": "V08",
+          "previous_turns": [],
+          "source_ids": [
+            112,
+            113,
+            105
+          ],
+          "model_status": "answered",
+          "source_mode": "search",
+          "embedding_ms": 12.18469999730587,
+          "search_ms": 1.6647999873384833,
+          "generation_ms": 840.8878000045661,
+          "response": {
+            "parts": [
+              {
+                "text": "Updated the expense app account's sign-in identifier to the new corporate email address.",
+                "ticket_id": 112
+              }
+            ],
+            "message": null
+          },
+          "total_ms": 860.3529000247363,
+          "recall": 1.0,
+          "reciprocal_rank": 1.0
+        }
+      ]
+    },
+    "full_text": {
+      "recall_at_k": 0.8,
+      "mrr_at_k": 0.8,
+      "cases": [
+        {
+          "case": "V01",
+          "previous_turns": [],
+          "source_ids": [
+            101,
+            102,
+            103,
+            104,
+            105
+          ],
+          "model_status": "answered",
+          "source_mode": "search",
+          "embedding_ms": 0.0,
+          "search_ms": 4.215400025714189,
+          "generation_ms": 1179.9313999945298,
+          "response": {
+            "parts": [
+              {
+                "text": "Installing the USB-C dock firmware update resolved the issue of two monitors going black after a laptop woke up from sleep.",
+                "ticket_id": 101
+              },
+              {
+                "text": "Disabling PCI Express Link State Power Management in the Windows power plan resolved the issue of monitors losing signal after a laptop resumed from standby.",
+                "ticket_id": 102
+              }
+            ],
+            "message": null
+          },
+          "total_ms": 1190.0597999920137,
+          "recall": 1.0,
+          "reciprocal_rank": 1.0
+        },
+        {
+          "case": "V02",
+          "previous_turns": [
+            {
+              "question": "What worked before when two monitors on a USB-C dock went black as a laptop woke up?",
+              "parts": [
+                {
+                  "text": "Installing the USB-C dock firmware update resolved the issue of two monitors going black after a laptop woke up from sleep.",
+                  "ticket_id": 101
+                },
+                {
+                  "text": "Disabling PCI Express Link State Power Management in the Windows power plan resolved the issue of monitors losing signal after a laptop resumed from standby.",
+                  "ticket_id": 102
+                }
+              ]
+            }
+          ],
+          "source_ids": [
+            101,
+            102
+          ],
+          "model_status": "answered",
+          "source_mode": "history",
+          "generation_ms": 818.4085999964736,
+          "response": {
+            "parts": [
+              {
+                "text": "They disabled PCI Express Link State Power Management in the Windows power plan.",
+                "ticket_id": 102
+              }
+            ],
+            "message": null
+          },
+          "total_ms": 824.2764000024181
+        },
+        {
+          "case": "V03",
+          "previous_turns": [],
+          "source_ids": [
+            101
+          ],
+          "model_status": "no_context",
+          "source_mode": "search",
+          "embedding_ms": 0.0,
+          "search_ms": 1.18530000327155,
+          "generation_ms": 561.6696999932174,
+          "response": {
+            "parts": [],
+            "message": "No documented answer was found in the available tickets."
+          },
+          "total_ms": 567.3753000155557,
+          "recall": 0.0,
+          "reciprocal_rank": 0
+        },
+        {
+          "case": "V04",
+          "previous_turns": [],
+          "source_ids": [
+            106,
+            107,
+            104,
+            111,
+            112
+          ],
+          "model_status": "answered",
+          "source_mode": "search",
+          "embedding_ms": 0.0,
+          "search_ms": 1.1836999910883605,
+          "generation_ms": 878.2332999981008,
+          "response": {
+            "parts": [
+              {
+                "text": "Granted the inventory app's user group write access to its barcode import cache directory.",
+                "ticket_id": 106
+              }
+            ],
+            "message": null
+          },
+          "total_ms": 886.0312999750022,
+          "recall": 1.0,
+          "reciprocal_rank": 1.0
+        },
+        {
+          "case": "V05",
+          "previous_turns": [],
+          "source_ids": [
+            108,
+            109,
+            102,
+            115
+          ],
+          "model_status": "no_context",
+          "source_mode": "search",
+          "embedding_ms": 0.0,
+          "search_ms": 2.7335000049788505,
+          "generation_ms": 758.6706000147387,
+          "response": {
+            "parts": [],
+            "message": "No documented answer was found in the available tickets."
+          },
+          "total_ms": 765.8351999998558
+        },
+        {
+          "case": "V06",
+          "previous_turns": [],
+          "source_ids": [
+            101,
+            102,
+            103,
+            104,
+            114
+          ],
+          "model_status": "answered",
+          "source_mode": "search",
+          "embedding_ms": 0.0,
+          "search_ms": 1.7078999953810126,
+          "generation_ms": 901.5993000066373,
+          "response": {
+            "parts": [
+              {
+                "text": "Disabled PCI Express Link State Power Management in the Windows power plan.",
+                "ticket_id": 102
+              }
+            ],
+            "message": null
+          },
+          "total_ms": 908.4090999967884
+        },
+        {
+          "case": "V07",
+          "previous_turns": [],
+          "source_ids": [
+            110,
+            111,
+            105,
+            106,
+            112
+          ],
+          "model_status": "answered",
+          "source_mode": "search",
+          "embedding_ms": 0.0,
+          "search_ms": 1.1163000017404556,
+          "generation_ms": 869.0939999942202,
+          "response": {
+            "parts": [
+              {
+                "text": "Changed the Windows printer's TCP/IP port to the new address and restarted the Print Spooler.",
+                "ticket_id": 110
+              }
+            ],
+            "message": null
+          },
+          "total_ms": 875.1342999748886,
+          "recall": 1.0,
+          "reciprocal_rank": 1.0
+        },
+        {
+          "case": "V08",
+          "previous_turns": [],
+          "source_ids": [
+            112,
+            113,
+            104,
+            105,
+            106
+          ],
+          "model_status": "answered",
+          "source_mode": "search",
+          "embedding_ms": 0.0,
+          "search_ms": 1.2325000134296715,
+          "generation_ms": 830.366000009235,
+          "response": {
+            "parts": [
+              {
+                "text": "Updated the expense app account's sign-in identifier to the new corporate email address.",
+                "ticket_id": 112
+              }
+            ],
+            "message": null
+          },
+          "total_ms": 836.5353999834042,
+          "recall": 1.0,
+          "reciprocal_rank": 1.0
+        }
+      ]
+    }
+  }
+}

@@ -7,9 +7,19 @@ Raport pomiaru etapu 4: [Pilotaż MiniLM — 2026-10-28](03-raport-pilotazu-mini
 `data/`, `scripts/` i `tests/` poniżej odnoszą się teraz do `backend/`.
 Aktualne polecenia uruchamiania znajdują się w głównym README.
 
-Plan zaktualizowany na dzień: **2026-11-14**.
+Plan zaktualizowany na dzień: **2026-11-19**.
 
 Temat pracy: **System klasyfikacji zgłoszeń z wykorzystaniem embeddingów tekstowych, bazy wektorowej i asystenta konwersacyjnego opartego na RAG**.
+
+**Zamknięcie rozwoju funkcji aplikacji — 2026-11-19.** Wersją przyjętą do opisu w pracy jest `e42cd042cc36`. Obejmuje obsługę zgłoszeń, klasyfikację, wyszukiwanie w pgvector i asystenta RAG. Dostępne są [wyniki klasyfikacji na 100 zgłoszeniach](../backend/data/final-evaluation/en-v1/results/report.md) i [ocena RAG na 50 pytaniach](../backend/data/rag/final-en-v1-report.md).
+
+**Porównanie z kartą pracy przekazaną 2026-11-19.** Do uzgodnienia pozostają następujące zapisy.
+
+- Aspekt inżynierski wymienia indeks wektorowy. Schemat aplikacji obsługuje dokładne wyszukiwanie kosinusowe w pgvector. Zdefiniowany indeks GIN służy wyszukiwaniu pełnotekstowemu.
+- Punkt 2 obejmuje przetwarzanie asynchroniczne, a aspekt inżynierski dodatkowo wymienia kolejki. FastAPI wykonuje zadania przez `BackgroundTasks` w procesie API i zapisuje ich stan w PostgreSQL.
+- W punkcie 8 mowa o konteneryzacji całego systemu. Compose uruchamia PostgreSQL, API i frontend, a API łączy się z Ollamą działającą na hoście.
+- Cel i punkt 4 wymagają precyzyjnego opisu klasyfikacji. Kategorię przewiduje KNN na embeddingach MiniLM, a priorytet bazowy wyznacza TF-IDF z regresją logistyczną. Porównanie metod priorytetu opisano w [raporcie](../backend/data/pilot/priority-methods/report.md).
+- W zakresie strojenia progów dostępne są wyniki walidacyjne klasyfikacji. Próg podobieństwa eskalacji 0,85 sprawdzono na kontrolowanych scenariuszach (E5.6).
 
 Plan opisuje kolejność wykonania, konkretne zadania i kryteria ukończenia. Punktem wyjścia jest [stan projektu i zakres prac](01-stan-projektu-i-zakres-prac.md). W etapie 2 Celery zastąpiono przez FastAPI `BackgroundTasks`; Redis i Flower usunięto. Zależności od późniejszych etapów są oznaczone jako blockery przy zadaniach.
 
@@ -58,9 +68,9 @@ Przegląd porównuje wymagania z aktualnym kodem, artefaktami danych i zapisanym
 | 7 | 7/8 | Wyszukiwanie wektorowe i pełnotekstowe oraz pilotaż; otwarty indeks wektorowy |
 | 8 | 8/13 | Lokalny asystent i czat; otwarte pełne scenariusze, budżet tokenów, zbiór, rubryka i zapis generowania |
 | 9 | 3/9 | Panel i instrukcja gotowe; pełne uruchomienie z LLM otwarte |
-| 10 | 1/10 | Końcowa ocena klasyfikacji E10.3 gotowa; reszta ewaluacji pozostaje osobna |
+| 10 | 4/10 | Ukończono ocenę klasyfikacji E10.3 oraz porównanie wyszukiwania i odpowiedzi RAG w E10.5–E10.7 |
 
-**Najbliższe otwarte prace:** rozbudowa niezależnego zbioru pytań EN, rubryka i końcowa ewaluacja RAG. [Wyniki klasyfikacji i notatka do pracy](../backend/data/final-evaluation/en-v1/README.md).
+Po ocenie 50 pytań RAG pozostają m.in. przegląd ocen przez autora do pracy i powtarzane pomiary czasu. [Raport RAG](../backend/data/rag/final-en-v1-report.md) · [Wyniki klasyfikacji i notatka do pracy](../backend/data/final-evaluation/en-v1/README.md).
 
 ## Ustalenia i otwarte decyzje
 
@@ -652,11 +662,11 @@ Przygotować prosty widok listy, szczegółów i formularza na podstawie ustalon
 - [ ] **E8.11** Sprawdzić pytania z odpowiedzią, bez odpowiedzi, pytania uzupełniające, niedostępne źródła, instrukcje umieszczone w treści zgłoszenia oraz niedostępność LLM. Sprawdzić streszczenie wcześniejszych rozwiązań dla opisu bieżącego problemu, przypisanie każdego sposobu rozwiązania do właściwego źródła i brak wymyślonych rozwiązań przy samych aktywnych lub odrzuconych zgłoszeniach. Zweryfikować odpowiedzi na obsługiwane pytania statystyczne i prośby o miary poza zakresem. Prompt i parametry dopracowywać na pytaniach walidacyjnych.
 - [ ] **E8.12** Przygotować wstępnie 30 pytań do RAG, rozdzielonych na część walidacyjną i testową, z oczekiwanymi źródłami, kluczowymi faktami oraz przypadkami bez odpowiedzi i bez dostępu do źródeł. Uwzględnić opis nowego problemu wymagający wyszukania podobnych rozwiązanych spraw i streszczenia ich rozwiązań; w zbiorze kontekstu zapewnić ręcznie sprawdzone opisy rozwiązań. Dodać przypadki kilku odmiennych sposobów rozwiązania oraz braku rozwiązanych spraw mimo istnienia podobnych aktywnych zgłoszeń. Dla pytań o pełne zestawienia i liczby oczekiwać informacji o zakresie asystenta, a nie liczby wywnioskowanej z ograniczonego kontekstu. Te same pytania i oczekiwane źródła wykorzystać w porównaniu wyszukiwania wektorowego i pełnotekstowego.
 
-  **edit:** Przygotowano 12 angielskich pytań pilotażowych. Docelowy zbiór i podział walidacja/test pozostają otwarte.
+  **edit (2026-11-16):** Przygotowano 30 pytań EN z oczekiwanymi źródłami, faktami i warunkami zaliczenia. Podział obejmuje [8 pytań walidacyjnych](../backend/data/rag/validation-en-v1.json) i [22 pytania testowe](../backend/data/rag/test-en-v1.json) na osobnym korpusie. Próba testowa obejmuje dopytania i przypadki bez udokumentowanej odpowiedzi. Scenariusze uprawnień i zestawień liczbowych wymagają osobnej weryfikacji.
 
 - [ ] **E8.13** Przed strojeniem zdefiniować rubrykę odpowiedzi RAG: poprawność, kompletność, oparcie twierdzeń na źródłach, poprawność odnośników oraz zachowanie przy braku danych i dostępu. Ustalić skalę, przykłady ocen, oceniających i sposób dokumentowania niejednoznaczności. Oddzielić tę ocenę od trafności wyszukiwania z E7.8; końcowy pomiar wykonać w E10.6–E10.7.
 
-  **edit:** Przeniesiona niewykonana część RAG z E4.9. Samo zdefiniowanie rubryki nie oznacza wykonania oceny odpowiedzi.
+  **edit (2026-11-16):** [Robocza rubryka](../backend/data/rag/validation-rubric.md) ustala skalę 0–2, warunki zaliczenia i osobną ocenę przy braku rozwiązania. Zastosowano ją w [próbie walidacyjnej](../backend/data/rag/validation-en-v1-report.md) i [osobnym teście 22 pytań](../backend/data/rag/test-en-v1-report.md). Ocena Codexa wymaga przeglądu autora przed użyciem jako wynik końcowy.
 
 ### Kryteria ukończenia
 
@@ -748,9 +758,12 @@ Przed końcowym uruchomieniem sprawdzić, czy podziały danych, rubryka oceny, o
 
   **edit:** Częściowo: checkbox i eskalację sprawdzono kontrolowanymi scenariuszami, a duplikaty mają precision/recall/F1 na parach znanego pilotażu. Nowy test 100 EN ocenia wyłącznie kategorię i priorytet bazowy; nie zastępuje niezależnego zbioru par duplikatów i awarii wielu autorów. Takie końcowe rozszerzenie oceny pozostaje otwarte. W teście klasyfikacji nie dodano przewidywań do referencji.
 
-- [ ] **E10.5** Porównać trafność wyszukiwania wektorowego i pełnotekstowego, np. przez Recall@k i MRR, dla tych samych pytań i dostępnych źródeł.
-- [ ] **E10.6** Porównać odpowiedzi RAG przy identycznym modelu, prompcie, budżecie kontekstu i ustawieniach generowania. Parametry specyficzne dla wyszukiwania dobrać wcześniej na walidacji i ujawnić w opisie eksperymentu.
-- [ ] **E10.7** Ocenić poprawność, kompletność, oparcie na źródłach, poprawność odnośników i zachowanie przy braku danych według wcześniej ustalonej rubryki. Zapisać sposób oceny, oceniających i ograniczenia subiektywności.
+- [x] **E10.5** Porównać trafność wyszukiwania wektorowego i pełnotekstowego, np. przez Recall@k i MRR, dla tych samych pytań i dostępnych źródeł.
+- [x] **E10.6** Porównać odpowiedzi RAG przy identycznym modelu, prompcie, budżecie kontekstu i ustawieniach generowania. Parametry specyficzne dla wyszukiwania dobrać wcześniej na walidacji i ujawnić w opisie eksperymentu.
+- [x] **E10.7** Ocenić poprawność, kompletność, oparcie na źródłach, poprawność odnośników i zachowanie przy braku danych według wcześniej ustalonej rubryki. Zapisać sposób oceny, oceniających i ograniczenia subiektywności.
+
+  **2026-11-19.** Codex ocenił odpowiedzi obu wariantów na 50 nowych pytaniach. Asystent zaliczył 41/50 z wyszukiwaniem semantycznym i 46/50 z pełnotekstowym. Wzorce i oceny wymagają przeglądu autora przed wykorzystaniem w pracy. [Wyniki, uzasadnienie doboru miar i oceny poszczególnych odpowiedzi](../backend/data/rag/final-en-v1-report.md).
+
 - [ ] **E10.8** Zmierzyć osobno czas embeddingu, wyszukiwania, generowania i całej odpowiedzi. Oddzielić pierwsze uruchomienie modelu od kolejnych wywołań; powtórzyć pomiary, aby pokazać zmienność.
 
   **edit:** Częściowo: pilotaż zapisuje jednorazowe czasy ładowania i obliczania embeddingów. Brakuje powtarzanych pomiarów wyszukiwania, generowania i całej odpowiedzi oraz rozdzielenia zimnego / rozgrzanego potoku RAG.

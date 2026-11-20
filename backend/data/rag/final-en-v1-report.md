@@ -1,0 +1,104 @@
+# Final RAG evaluation on 50 questions
+
+The IssueTracker assistant passed **41 of 50 questions (82%)** with semantic search and **46 of 50 (92%)** with PostgreSQL full-text search. On all 31 standalone questions with a documented answer, both methods put a relevant ticket first and supplied every required ticket. The remaining tickets and their order could differ. Several replies omitted a required step or applied a documented repair to the wrong fault.
+
+| Retrieval method | All questions | Documented answer | No documented answer | Follow-ups (included in 36) | Recall@5 | MRR@5 |
+|---|---:|---:|---:|---:|---:|---:|
+| Semantic | **41/50 (82%)** | 29/36 | 12/14 | 4/5 | 1.00 | 1.00 |
+| Full text | **46/50 (92%)** | 33/36 | 13/14 | 4/5 | 1.00 | 1.00 |
+
+Three questions failed in both variants. In F07 they named the decimal separator but left out repeating the import. In F30 they named the SVG format but left out converting the lettering to paths. In F38 both used a ticket about a slide show's missing narration to suggest a fix for offline sign-language videos. Its ID was valid, but the ticket concerned a different fault.
+
+F31 shows how an error can affect the next question. Semantic search retrieved both relevant tickets (#331 and #330). Qwen reported `answered`, but the chat returned its no-answer message. With that recorded status and nonempty context, the application's citation check produces this message when the set of cited IDs is empty or contains an ID outside the retrieved set. The log contains the user-visible reply and model status, so the exact rejected ID set is unknown. That left F32 with no citations to reload. The full-text variant cited both tickets in F31 and answered the follow-up correctly. [Chat handler](../../app/api/assistant.py) · [Run log](final-en-v1-results.json)
+
+## Why these measures
+
+| Measure | Why it matters for this assistant |
+|---|---|
+| Recall@5 | A question can require two different fixes. For each question, count how many of its expected tickets reached the five places available to the model, divided by the number expected. This shows whether it received enough evidence to give the whole answer. |
+| MRR@5 | The first relevant ticket can appear first or fifth. Score its position as 1, ½, ⅓, ¼ or ⅕, and a miss as 0. The mean shows how early relevant evidence appeared. A first-place hit can coexist with a missing second ticket. |
+| Correctness | Did the reply answer the actual question truthfully? A repair that works on a different device or for a different symptom can mislead the user. |
+| Completeness | Did the user get every required fact? Naming a setting can be accurate while omitting a second step needed to correct existing records. |
+| Grounding | Does the cited ticket support each material claim? A plausible fix or diagnosis requires evidence in the available record. |
+| Citations | Does each part identify the correct source record? This lets the user check which incident a claim refers to. F46 shows that a reply can point to the right record and still misread it. |
+| Handling missing evidence | A clear acknowledgment earns full credit when the tickets contain no confirmed answer. This tests whether the assistant distinguishes an open suggestion or a temporary recovery from a confirmed fix or cause. |
+| Pass rate | A pass requires full marks on all applicable criteria and the question's stated condition. Each question counts once, so strong scores elsewhere cannot hide a consequential error in that answer. |
+
+Both ranking measures are averages over the 31 standalone questions with expected sources. Five follow-ups use the previous reply's citations. The other 14 questions have no expected answer source. The cutoff of five is the application's actual limit on source tickets. The ranking definitions follow Mitra and Craswell. ARES also distinguishes context relevance from answer faithfulness. The grading scales and pass rule were established for this project. [Mitra and Craswell, §2.4](https://www.microsoft.com/en-us/research/wp-content/uploads/2017/06/INR-061-Mitra-neuralir-intro.pdf#page=18) · [Saad-Falcon et al., ARES](https://aclanthology.org/2024.naacl-long.20/) · [Project rubric](validation-rubric.md)
+
+## How the answers were scored
+
+On 19 November 2026, both variants ran once on the same 50 new English questions against a new corpus of 53 synthetic help-desk tickets (45 resolved, 8 open). The questions, expected ticket IDs, required facts and pass conditions were fixed before either run. Five questions asked for two distinct fixes, each followed by a question about the actual preceding reply in that variant. Seven questions allowed open tickets into the search. The previous 8 validation and 22 test questions contributed no cases to these totals. [Questions, tickets and answer key](final-en-v1.json)
+
+Qwen3 4B Instruct produced the model replies. Codex prepared the cases and graded each user-visible chat response against its question, the expected facts and the cited records. The two replies were displayed to the grader in shuffled order for each question with the retrieval method hidden. Paraphrases received credit. A second reviewer has not assessed these judgments. The project rubric calls for the author's review of the cases and grades before using the figures as final results in the thesis. The percentages describe this single run on synthetic English data.
+
+The table gives four scores from 0 to 2 in the order **correctness / completeness / grounding / citations**. A documented-answer question passes with **2/2/2/2** when the reply also meets its stated condition. If the chat gives only its no-answer message, correctness and completeness score 0 and the other two criteria are inapplicable (–). On a question without an answer, **2** means clear acknowledgment of missing evidence, **1** means an ambiguous reply without an invented fix, and **0** means speculation or an unrelated fix presented as documented. An execution error counts as a failed case. All 100 chat requests completed.
+
+Similar tickets reached the model on **13/14** questions without an answer in the semantic run and **14/14** in the full-text run. The empty context on semantic F48 produced the correct no-answer message directly. The relevant follow-up ticket was available from history on **4/5** semantic and **5/5** full-text follow-ups. The per-question notes show the reloaded IDs or the number of retrieved tickets where applicable. The run log preserves the exact order, citations and wording of both replies. [Run log](final-en-v1-results.json)
+
+## Scores for all 50 questions
+
+Bold scores mark a failed case. Each row compares the two replies to the same question.
+
+| ID | Question | Semantic | Full text | Reason for the scores |
+|---|---|---|---|---|
+| F01 | Our equipment stickers start with zeroes, but a scan at the stores counter loses them. What fixes have worked on the reader and on the entry form? | 2/2/2/2 | 2/2/2/2 | Both cited the reader setting that skipped the first character (#301) and the form field changed to text (#302). |
+| F02 | What exactly did they change on the form side? | 2/2/2/2 | 2/2/2/2 | Both identified the change from a numeric tag field to text in #302. Semantic history reloaded #301 and #302. Full-text history reloaded #302 and #301. |
+| F03 | I have already entered my journeys in kilometres, but those draft expenses pay out as if I drove miles. What did support do to fix the existing claims? | 2/2/2/2 | 2/2/2/2 | Both cited #303 for setting kilometres in the travel profile and recalculating the drafts. |
+| F04 | I can hear the soundtrack of the induction slides, just not the recorded presenter. Which setting restored the voice? | 2/2/2/2 | 2/2/2/2 | Both named the Play Narrations setting in #304. |
+| F05 | Is there a confirmed fix for visitor signatures disappearing just after Accept on the reception tablet? | 2 | 2 | Both used the open case #305 to explain that no repair had been confirmed. (4 semantic hits, 5 full-text hits.) |
+| F06 | People can save their autograph at reception, but the strokes look as if they were drawn in a mirror. What corrected that? | 2/2/2/2 | 2/2/2/2 | Both identified horizontal mirroring in the signing pad driver (#306). |
+| F07 | The budget upload turned 12,50 into 1250. Which import setting was changed and what did finance do with the original file? | **2/1/2/2** | **2/1/2/2** | Both named the comma decimal separator but omitted reimporting the original file, the second action recorded in #307. |
+| F08 | What fixed the cafeteria turnstile refusing a digital wallet pass while a phone was locked? | 2 | 2 | Both told the user that there was no documented answer for the turnstile. (1 semantic hit, 1 full-text hit.) |
+| F09 | My morning book returns keep landing against yesterday's shift. How did the library desk switch to the right session? | 2/2/2/2 | 2/2/2/2 | Both closed the old lending session and opened the current shift's session, as recorded in #308. |
+| F10 | Has anyone established why the library book sorter belt halts after the seventh return? | 2 | 2 | Both reported insufficient evidence. Neither promoted the suspected inlet sensor to a confirmed cause. (5 semantic hits, 5 full-text hits.) |
+| F11 | Our wall map loses the right end of its legend in the PDF. Which fixes worked in the two map projects? | 2/2/2/2 | 2/2/2/2 | Both attributed the wider layout frame to #310 and the change to A3 export paper to #311. |
+| F12 | What exactly was the export paper size in the project where the whole legend already fitted in the frame? | 2/2/2/2 | 2/2/2/2 | Both gave the A3 export size from #311. Both histories contained #310 and #311. |
+| F13 | Field staff can see their new phone pictures on the handset. What did the Windows inspection PC need so it could open those .heic files too? | 2/2/2/2 | 2/2/2/2 | Both identified HEIF Image Extensions on the inspection PC (#312). |
+| F14 | My keyboard already types in English, but spoken committee minutes come out as French words. What did the minute taker change? | 2/2/2/2 | 2/2/2/2 | Both identified UK English in the speech recognition profile (#313). |
+| F15 | Which hardware fault was confirmed when the interview transcription pedal twice stopped responding? | 2 | 2 | Both cited #314 and correctly said that diagnostics had established no hardware fault. (1 semantic hit, 5 full-text hits.) |
+| F16 | The secretary can sign the committee minutes before the chair has even seen them. How did the earlier team enforce the order? | 2/2/2/2 | 2/2/2/2 | Both gave the sequential route with the chair first and the secretary second (#315). |
+| F17 | The car booking page always starts at the closed North depot. How did a driver get Central to stick for future bookings? | 2/2/2/2 | 2/2/2/2 | Both identified Central as the saved default pickup depot in the driver's profile (#316). |
+| F18 | Did support find a fix for the missing pickup QR code on pool car passes in the mobile wallet? | 2 | 2 | Both reported that the available tickets contained no fix for the missing wallet code. (1 semantic hit, 5 full-text hits.) |
+| F19 | The PDF shows the route in the right order, but the printed timetable begins at the last stop. Which print option caused that? | 2/2/2/2 | 2/2/2/2 | Both identified reverse page order in the booklet preset and described disabling it (#318). |
+| F20 | How did the transport team fix the outdoor bus stop screen going completely blank whenever it rained? | 2 | 2 | Both reported that no repair for the blank screen in rain was documented. (1 semantic hit, 5 full-text hits.) |
+| F21 | Our players get two reminders for every rehearsal. What fixed it for the group with two subscriptions and for the group with only one? | **2/1/2/2** | 2/2/2/2 | Both gave the fixes from #320 and #321. The semantic variant said the email rule was disabled “alongside the calendar alert”, leaving it unclear which alert to keep. The full-text variant distinguished the active calendar alert from the disabled rule. |
+| F22 | Which of those calendar feeds did the players keep? | 2/2/2/2 | **1/2/2/2** | Both named the Ensemble feed (#320). The full-text variant also listed the calendar alert from #321 as an answer about feeds. The alert is documented, but it belongs to the other group in the previous question. Both histories contained #321 and #320. |
+| F23 | The words on screen appear before they are spoken throughout our training film. Which way did support shift the captions, and by how much? | 2/2/2/2 | 2/2/2/2 | Both gave the documented direction and amount, a 2.5-second delay (#322). |
+| F24 | Stop 14 on our audio tour still talks about the old exhibit. How was the right recording put into the guide people actually hear? | **2/1/2/2** | 2/2/2/2 | Both described editing stop 14 and publishing the guide. Only the full-text variant identified the otter recording required by #323. |
+| F25 | What repair has been verified for crackling headphones on outdoor museum audio tours? | 2 | 2 | Both reported the absence of a verified repair for outdoor crackling. (1 semantic hit, 4 full-text hits.) |
+| F26 | An archivist scans colour slides but gets monochrome files. Which scan preset actually kept the colours? | 2/2/2/2 | 2/2/2/2 | Both named the 24-bit colour preset (#325). |
+| F27 | A clerk scans a tag and presses Return once, yet the loan form submits a second, empty record. What stopped the extra submission? | 2/2/2/2 | 2/2/2/2 | Both identified disabling the scanner's automatic Enter suffix (#326). |
+| F28 | What was the confirmed cause of yesterday's review comments vanishing when a proof was reopened? | 2 | 2 | Both cited #327 and said the cause remained undetermined. (1 semantic hit, 3 full-text hits.) |
+| F29 | After a wing was renamed, people started searching the room directory under either name. How did facilities make both searches work? | 2/2/2/2 | 2/2/2/2 | Both gave the published new wing name and the searchable alias for the former name (#328). |
+| F30 | The engraving desk sees boxes instead of the letters in our artwork. What should happen to the lettering, and in what file format was the corrected artwork sent? | **2/1/2/2** | **2/1/2/2** | Both gave SVG as the export format. Saying that letters should look correct omitted the actual operation, converting the lettering to paths (#329). |
+| F31 | Recorded talks sound too fast. What worked when the player speed was wrong, and what worked when the file itself had the wrong rate? | **0/0/–/–** | 2/2/2/2 | Both expected tickets reached Qwen. The full-text variant gave the 1x player speed (#330) and the 32 kHz reinterpretation and export (#331). The semantic variant returned its no-answer message after citation validation. |
+| F32 | What exactly was the original sample rate in that second recording? | **0/0/–/–** | 2/2/2/2 | The full-text variant gave 32 kHz from #331. The semantic variant returned the no-answer message because the preceding reply had no citations to reload. Semantic history was empty. Full-text history reloaded #330 and #331. |
+| F33 | The class catalogue says 'Staff' even though the tutor is assigned. Which option put the tutor's actual name on the public listing? | 2/2/2/2 | 2/2/2/2 | Both named the Publish tutor name option on the class record (#332). |
+| F34 | Our cutter follows the shape but puts the whole design to one side on the replacement mat. Where did the operator reset the origin? | 2/2/2/2 | 2/2/2/2 | Both located the new cutter origin at the replacement mat's registration cross (#333). |
+| F35 | Which firmware version is confirmed to fix the mat cutter stalling halfway round a circle? | 2 | 2 | Both reported that no firmware fix was documented. (2 semantic hits, 2 full-text hits.) |
+| F36 | At the packing bench, a clear photo of one shipment ends up on the next shipment's record. When should the station attach the image? | 2/2/2/2 | 2/2/2/2 | Both named the shutter press as the event that should attach the picture (#335). |
+| F37 | I type 3/4 into a blank worksheet and it becomes a date. How did tutors keep fractions usable in sums? | 2/2/2/2 | 2/2/2/2 | Both named the Fraction format and specified applying it before entering the values (#336). |
+| F38 | What fixed downloaded sign-language videos no longer playing offline in the induction app? | **0** | **0** | Both recommended Play Narrations from #304. That ticket restores a slide show's voice-over and provides no evidence about offline sign-language video playback. (4 semantic hits, 5 full-text hits.) |
+| F39 | The handout copies have pages 1, 3 and 5, but the two-sided master has all six. Which side setting fixed the copier? | 2/2/2/2 | 2/2/2/2 | Both identified the two-sided originals setting (#337), which selects what the copier reads. |
+| F40 | Did the service visit establish why the print room copier counter rises overnight while the room is empty? | 2 | 2 | Both reported that no cause had been established for the overnight counter increase. (4 semantic hits, 5 full-text hits.) |
+| F41 | On our library e-readers a borrowed book flashes open and lands back on the shelf. What fixed the clock-related case and the storage-related case? | 2/2/2/2 | 2/2/2/2 | Both gave automatic time and clock sync (#339), then the move from SD card to internal storage (#340). |
+| F42 | What exactly did they move off the card and where did they put it? | 2/2/2/2 | 2/2/2/2 | Both identified the downloaded loan and its destination in internal storage (#340). Both histories contained #339 and #340. |
+| F43 | I drag one chair on the imported seating plan and its neighbour comes along. Which editor command made them independent? | 2/2/2/2 | 2/2/2/2 | Both identified the Ungroup command for the imported chairs (#341). |
+| F44 | How did the ticket counter recover the split payment interrupted by a power cut? | **1** | 2 | The semantic variant acknowledged the missing recovery note in #342 and then asserted that the payment had not been recovered. The record leaves the outcome open. The full-text variant clearly reported the lack of a documented answer. (2 semantic hits, 5 full-text hits.) |
+| F45 | Our new lecture transcripts never insert a comma or a full stop. How did staff correct captions they had already made? | 2/2/2/2 | 2/2/2/2 | Both gave the automatic punctuation setting and regeneration of the affected captions (#343). |
+| F46 | At the library desk, two patrons have the same surname. How did staff tell them apart before printing a reservation slip? | **0/0/0/2** | 2/2/2/2 | The semantic variant cited the correct incident (#344) but described selecting the first matching surname as the fix. The ticket records that action as the mistake. The full-text variant gave the documented fix of selecting by unique borrower number. |
+| F47 | The shared volunteer roster always opens on Sunday. How did the team make Monday the first day for everyone? | 2/2/2/2 | 2/2/2/2 | Both gave Monday as the week start and saved the view as the team default (#345). |
+| F48 | Which repair restored the hearing loop for hearing aids at the south information counter? | 2 | 2 | Both reported that no repair to the hearing loop was documented. (0 semantic hits, 3 full-text hits.) |
+| F49 | Our children's books are accruing adult late fees. What did the library change for those items and for fines already posted? | 2/2/2/2 | 2/2/2/2 | Both changed the loan category to Junior and recalculated the posted fines (#346). |
+| F50 | Has anyone confirmed which component makes the campus bell ring one minute late every afternoon? | 2 | 2 | Both reported the lack of a confirmed cause for the late bell. (1 semantic hit, 5 full-text hits.) |
+
+## Reproducing the run
+
+The runner used the application chat handler as Staff on an isolated PostgreSQL 16.13 database with pgvector 0.8.2 and Ollama 0.40.16. Semantic search used the existing cosine threshold of 0.35. Full-text search used the PostgreSQL English configuration and `ts_rank_cd`. Both passed up to five sources to `qwen3:4b-instruct` with prompt `rag-en-v2`, temperature 0, an 8,192-token context and a 600-token generation limit. No settings were tuned on these cases. The run log records the application revision, prompt hash, Qwen digest and MiniLM revision. The SHA-256 of the test set is `6650d438a7ddab3bfb1baa3034d767f7e4f515a082afc90191363c339b4927fb`. [Run log and model versions](final-en-v1-results.json)
+
+Start and migrate the empty test database and set the local environment as described in the validation instructions. With the database and Ollama running, use the command below from the repository root to save a replay. [Validation run instructions](validation-en-v1-report.md#odtworzenie)
+
+```powershell
+.venv/Scripts/python.exe backend/scripts/evaluate_rag_validation.py --dataset backend/data/rag/final-en-v1.json --output final-en-v1-repeat.json
+```

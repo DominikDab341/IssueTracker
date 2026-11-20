@@ -1,0 +1,87 @@
+{
+  "tickets": [
+    {"id": 101, "problem": "Two external monitors stay black after a ThinkPad wakes from sleep on its USB-C dock. Disconnecting the dock restores video until the next resume.", "resolution": "Installed the vendor's USB-C dock firmware update and verified that both monitors came back after three suspend and resume cycles."},
+    {"id": 102, "problem": "Both displays connected to a USB-C docking station lose their signal when a laptop resumes from standby.", "resolution": "Disabled PCI Express Link State Power Management in the Windows power plan and verified that both displays recovered after standby."},
+    {"id": 103, "problem": "An external monitor connected directly over HDMI goes black while a video is playing. The laptop has no dock and has not been asleep.", "resolution": "Replaced a faulty HDMI cable and checked that video played normally."},
+    {"id": 104, "problem": "The Windows sign-in credential tile for the security key disappeared after a user moved to a replacement laptop.", "resolution": "Enabled the FIDO2 security-key sign-in policy on the replacement device, synced its management policies and verified sign-in."},
+    {"id": 105, "problem": "A lost FIDO2 security key was still listed on an employee's account. Sign-in using the spare key worked normally.", "resolution": "Removed the lost key from the employee's account and registered a replacement spare key."},
+    {"id": 106, "problem": "The inventory desktop app freezes at the barcode import dialog when opened by a standard user. It works for an administrator.", "resolution": "Granted the inventory app's user group write access to its barcode import cache directory. A standard user then imported a test file successfully."},
+    {"id": 107, "problem": "The inventory desktop app rejects a barcode CSV export with a missing column error. The import dialog opens normally.", "resolution": "Added the required SKU column to the CSV and retried the import."},
+    {"id": 108, "problem": "During wireless screen sharing in the boardroom, the projector loses the picture every few minutes. Some users suspect the receiver's sleep setting, but the cause and fix are still under investigation."},
+    {"id": 109, "problem": "The training-room projector turns off after ten minutes while connected with a VGA cable. This is a different room and there is no wireless receiver.", "resolution": "Disabled the training-room projector's built-in auto power-off timer."},
+    {"id": 110, "problem": "Print jobs stay in the queue after the help desk changed the address of the shipping label printer.", "resolution": "Changed the Windows printer's TCP/IP port to the new address and restarted the Print Spooler. A label printed successfully."},
+    {"id": 111, "problem": "Shipping labels print with smudged barcodes even though the jobs leave the queue immediately.", "resolution": "Cleaned the thermal print head and reduced the printer darkness setting."},
+    {"id": 112, "problem": "An employee can sign in to other company applications but gets a sign-in loop in the expense app after a surname change.", "resolution": "Updated the expense app account's sign-in identifier to the new corporate email address. The employee then signed in using the new address."},
+    {"id": 113, "problem": "An employee's expense app approval emails still show their previous surname. The employee can sign in without difficulty.", "resolution": "Updated the display name in the expense app's notification profile."},
+    {"id": 114, "problem": "The office VPN keeps reconnecting when a laptop moves between Wi-Fi access points.", "resolution": "Installed the corrected wireless driver and verified roaming while connected to the office VPN."},
+    {"id": 115, "problem": "An engineer could not mount the shared drive after a file server reboot, although the drive was visible in Explorer.", "resolution": "Restored the SMB share service and verified that the existing drive mapping worked."}
+  ],
+  "cases": [
+    {
+      "id": "V01",
+      "question": "What worked before when two monitors on a USB-C dock went black as a laptop woke up?",
+      "expected": "answered",
+      "relevant_ids": [101, 102],
+      "required_facts": ["Ticket 101 documents installing the USB-C dock firmware update.", "Ticket 102 documents disabling PCI Express Link State Power Management in the Windows power plan."],
+      "pass_condition": "Report both historical fixes with their respective ticket IDs. Do not present the HDMI cable from ticket 103 as a fix for this case."
+    },
+    {
+      "id": "V02",
+      "question": "What exactly did they change in the Windows power plan?",
+      "follows": "V01",
+      "expected": "answered",
+      "relevant_ids": [102],
+      "required_facts": ["PCI Express Link State Power Management was disabled in ticket 102."],
+      "pass_condition": "Name the specific setting and action, cite 102, and stay on the power-plan option from the earlier answer."
+    },
+    {
+      "id": "V03",
+      "question": "Has anyone restored the hardware-token login option when it vanished on a newly issued notebook?",
+      "expected": "answered",
+      "relevant_ids": [104],
+      "required_facts": ["Ticket 104 documents enabling the FIDO2 security-key sign-in policy on the replacement device.", "The device's management policies were synced."],
+      "pass_condition": "Give both steps and cite 104. The lost-key procedure in 105 does not resolve the missing sign-in option."
+    },
+    {
+      "id": "V04",
+      "question": "How did we fix the inventory desktop app freezing at barcode import for a standard user?",
+      "expected": "answered",
+      "relevant_ids": [106],
+      "required_facts": ["Ticket 106 documents granting write access to the barcode import cache directory to the inventory app's user group."],
+      "pass_condition": "State the permission change and its scope with a citation to 106. Do not substitute a CSV edit or recommend administrator access as the documented fix."
+    },
+    {
+      "id": "V05",
+      "question": "What fix was confirmed for the boardroom projector losing its picture during wireless screen sharing?",
+      "resolved_only": false,
+      "expected": "no_context",
+      "relevant_ids": [],
+      "required_facts": [],
+      "pass_condition": "Communicate that the available tickets document no confirmed fix for the boardroom. Neither the unverified suspicion in 108 nor the VGA projector fix in 109 is evidence of a solution."
+    },
+    {
+      "id": "V06",
+      "question": "What documented fix restored laptop audio after a BIOS update?",
+      "expected": "no_context",
+      "relevant_ids": [],
+      "required_facts": [],
+      "pass_condition": "Say no documented answer was found in the available tickets. Do not infer a fix from unrelated tickets."
+    },
+    {
+      "id": "V07",
+      "question": "Which changes got the shipping label printer working after its IP address changed?",
+      "expected": "answered",
+      "relevant_ids": [110],
+      "required_facts": ["Ticket 110 documents changing the Windows printer's TCP/IP port to the new address.", "The Print Spooler was restarted."],
+      "pass_condition": "Include both steps and cite 110. A remedy for smudged barcodes is irrelevant."
+    },
+    {
+      "id": "V08",
+      "question": "How did we resolve the expense app sign-in loop after an employee changed their surname?",
+      "expected": "answered",
+      "relevant_ids": [112],
+      "required_facts": ["Ticket 112 documents updating the expense app account's sign-in identifier to the new corporate email address."],
+      "pass_condition": "Identify the sign-in-identifier change and cite 112. Changing the display name in 113 does not address sign-in."
+    }
+  ]
+}
